@@ -1,7 +1,13 @@
-[#header_concurrent_node_set_fwd]
-== `<boost/unordered/concurrent_node_set_fwd.hpp>` Synopsis
+[[header]]
 
-:idprefix: header_concurrent_node_set_fwd_
+[[content]]
+[[header_concurrent_node_set_fwd]]
+== `<boost/unordered/concurrent_node_set_fwd.hpp>` 概要
 
-Forward declares all the definitions in
-xref:reference/header_concurrent_node_set.adoc[`<boost/unordered/concurrent_node_set.hpp>`].
+前向声明
+link:reference/header_concurrent_node_set.html[`<boost/unordered/concurrent_node_set.hpp>`]
+中的所有定义。
+
+[[footer]]
+[[footer-text]]
+最后更新于 2025-10-31 21:36:37 UTC

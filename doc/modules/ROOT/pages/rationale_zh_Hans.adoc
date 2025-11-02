@@ -1,143 +1,89 @@
-[#rationale]
+[[header]]
+== 实现原理
 
-:idprefix: rationale_
+[[content]]
+[[rationale_closed_addressing_containers]]
+== 闭地址容器
 
-= Implementation Rationale
+`boost::unordered_[multi]set` 和 `boost::unordered_[multi]map`
+遵循无序关联容器的标准要求，因此接口是固定的。但仍需做出若干实现决策，优先考虑标准符合性和可移植性。
 
-== Closed-addressing Containers
+http://en.wikipedia.org/wiki/Hash_table[维基百科哈希表条目]对哈希表的通用实现问题进行了全面总结。
 
-`boost::unordered_[multi]set` and `boost::unordered_[multi]map`
-adhere to the standard requirements for unordered associative
-containers, so the interface was fixed. But there are
-still some implementation decisions to make. The priorities are
-conformance to the standard and portability.
+[[rationale_data_structure]]
+=== 数据结构
 
-The http://en.wikipedia.org/wiki/Hash_table[Wikipedia article on hash tables^]
-has a good summary of the implementation issues for hash tables in general.
+通过规定访问容器桶的接口，标准实质上要求哈希表采用闭地址法。
 
-=== Data Structure
+理论上可设计使用其他方法的哈希表。例如采用开地址法，利用查找链模拟桶行为，但存在严重问题：
 
-By specifying an interface for accessing the buckets of the container the
-standard pretty much requires that the hash table uses closed addressing.
+* 标准要求元素指针不失效，因此元素不能存储在单一数组中，而需间接寻址层——这将丧失开地址法的主要优势：高效性和内存节省。
+* 局部迭代器将极度低效，且可能无法满足复杂度要求。
+* 迭代器失效的条件限制也构成问题。当冲突率高时开地址法性能急剧下降，而限制条件可能阻碍必要的重新哈希操作。可将最大负载因子设为较低值规避此问题——但标准要求初始值必须为1.0。
+* 鉴于标准基于闭地址法设计，若性能表现不符预期将令用户困惑。
 
-It would be conceivable to write a hash table that uses another method. For
-example, it could use open addressing, and use the lookup chain to act as a
-bucket but there are some serious problems with this:
+因此采用闭地址法。
 
-* The standard requires that pointers to elements aren't invalidated, so
-  the elements can't be stored in one array, but will need a layer of
-  indirection instead - losing the efficiency and most of the memory gain,
-  the main advantages of open addressing.
-* Local iterators would be very inefficient and may not be able to
-  meet the complexity requirements.
-* There are also the restrictions on when iterators can be invalidated. Since
-  open addressing degrades badly when there are a high number of collisions the
-  restrictions could prevent a rehash when it's really needed. The maximum load
-  factor could be set to a fairly low value to work around this - but the
-  standard requires that it is initially set to 1.0.
-* And since the standard is written with a eye towards closed
-  addressing, users will be surprised if the performance doesn't reflect that.
+[[rationale_number_of_buckets]]
+=== 桶数量
 
-So closed addressing is used.
+选择哈希表桶数量有两种主流方法：使用质数数量或2的幂次方数量。
 
-=== Number of Buckets
+采用质数桶量并对哈希结果取模通常效果良好，缺点是取模运算开销较大。此乃容器既往主要采用的方式。
 
-There are two popular methods for choosing the number of buckets in a hash
-table. One is to have a prime number of buckets, another is to use a power
-of 2.
+使用2的幂次方可加速桶选择，但牺牲了哈希值高位比特。对特殊设计的哈希函数仍可取得良好效果，但容器需处理任意哈希函数，故不可依赖此法。
 
-Using a prime number of buckets, and choosing a bucket by using the modulus
-of the hash function's result will usually give a good result. The downside
-is that the required modulus operation is fairly expensive. This is what the
-containers used to do in most cases.
+为避免此问题，可对哈希函数应用变换（例见http://web.archive.org/web/20121102023700/http://www.concentric.net/~Ttwang/tech/inthash.htm[Thomas
+Wang整数哈希函数文章]）。但此类变换需知晓哈希值比特数，故仅在`size_t`为64位时使用。
 
-Using a power of 2 allows for much quicker selection of the bucket to use,
-but at the expense of losing the upper bits of the hash value. For some
-specially designed hash functions it is possible to do this and still get a
-good result but as the containers can take arbitrary hash functions this can't
-be relied on.
+自1.79.0版起，改用https://en.wikipedia.org/wiki/Hash_function#Fibonacci_hashing[斐波那契哈希]。此实现通过公式`(h * m) >> (w - k)`确定桶编号：`h`为哈希值，`m`为`2^w`除以黄金分割率，`w`为字长（32或64位），`2^k`为桶数。此法在速度与分布间取得平衡。
 
-To avoid this a transformation could be applied to the hash function, for an
-example see
-http://web.archive.org/web/20121102023700/http://www.concentric.net/~Ttwang/tech/inthash.htm[Thomas Wang's article on integer hash functions^].
-Unfortunately, a transformation like Wang's requires knowledge of the number
-of bits in the hash value, so it was only used when `size_t` was 64 bit.
+自1.80.0版起，结合精密取模运算选用质数桶量，无需1.79.0版所用的用户哈希函数结果"混合"处理。
 
-Since release 1.79.0, https://en.wikipedia.org/wiki/Hash_function#Fibonacci_hashing[Fibonacci hashing]
-is used instead. With this implementation, the bucket number is determined
-by using `(h * m) >> (w - k)`, where `h` is the hash value, `m` is `2^w` divided
-by the golden ratio, `w` is the word size (32 or 64), and `2^k` is the
-number of buckets. This provides a good compromise between speed and
-distribution.
+[[rationale_open_addresing_containers]]
+== 开地址容器
 
-Since release 1.80.0, prime numbers are chosen for the number of buckets in
-tandem with sophisticated modulo arithmetic. This removes the need for "mixing"
-the result of the user's hash function as was used for release 1.79.0.
+C++标准对无序关联容器的规范严格限制了可行实现方案，最重要约束是隐式要求闭地址法。适度放宽此规范可提供充分利用开地址技术的容器变体。
 
-== Open-addresing Containers
+`boost::unordered_flat_set`/`unordered_node_set`及`boost::unordered_flat_map`/`unordered_node_map`的设计遵循Peter
+Dimov的https://pdimov.github.io/articles/unordered_dev_plan.html[Boost.Unordered开发计划]。下文讨论核心原则。
 
-The C++ standard specification of unordered associative containers impose
-severe limitations on permissible implementations, the most important being
-that closed addressing is implicitly assumed. Slightly relaxing this specification
-opens up the possibility of providing container variations taking full
-advantage of open-addressing techniques.
+[[rationale_hash_function]]
+=== 哈希函数
 
-The design of `boost::unordered_flat_set`/`unordered_node_set` and `boost::unordered_flat_map`/`unordered_node_map` has been
-guided by Peter Dimov's https://pdimov.github.io/articles/unordered_dev_plan.html[Development Plan for Boost.Unordered^].
-We discuss here the most relevant principles.
+基于丰富功能与跨平台互操作性，`boost::hash`仍是开地址容器的默认哈希函数。但`boost::hash`对整型等基础类型缺乏开地址法所需的统计特性，故实施后混合阶段：
 
-=== Hash Function
+     _a_ ← _h_ *mul* _C_, +
+_h_ ← *high*(_a_) *xor* *low*(_a_),
 
-Given its rich functionality and cross-platform interoperability,
-`boost::hash` remains the default hash function of open-addressing containers.
-As it happens, `boost::hash` for integral and other basic types does not possess
-the statistical properties required by open addressing; to cope with this,
-we implement a post-mixing stage:
+其中**mul**为扩展乘法（64位架构128位，32位环境64位），**high**和**low**分别为扩展字的高/低半部。64位架构中__C__为2^64^∕https://en.wikipedia.org/wiki/Golden_ratio[_φ_]的整数部分；32位中__C__
+= 0xE817FB2Du源自https://arxiv.org/abs/2001.05304[Steele与Vigna
+(2021)]。
 
-{nbsp}{nbsp}{nbsp}{nbsp} _a_ <- _h_ *mul* _C_, +
-{nbsp}{nbsp}{nbsp}{nbsp} _h_ <- *high*(_a_) *xor* *low*(_a_),
+若哈希函数直接适用于开地址法，可通过link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]特性禁用后混合。`boost::hash`对字符串类型的特化被标记为雪崩式。
 
-where *mul* is an _extended multiplication_ (128 bits in 64-bit architectures, 64 bits in 32-bit environments),
-and *high* and *low* are the upper and lower halves of an extended word, respectively.
-In 64-bit architectures, _C_ is the integer part of 2^64^&#8725;https://en.wikipedia.org/wiki/Golden_ratio[_&phi;_],
-whereas in 32 bits _C_ = 0xE817FB2Du has been obtained from https://arxiv.org/abs/2001.05304[Steele and Vigna (2021)^].
+[[rationale_platform_interoperability]]
+=== 平台互操作性
 
-When using a hash function directly suitable for open addressing, post-mixing can be opted out of via a dedicated 
-`link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[hash_is_avalanching]` trait.
-`boost::hash` specializations for string types are marked as avalanching.
+只要`std::size_t`长度相同且用户提供的哈希函数/相等谓词可互操作，`boost::unordered_flat_set`/`unordered_node_set`及`boost::unordered_flat_map`/`unordered_node_map`的观测行为在不同编译器间确定性一致——包括相同操作序列下元素的完全一致排序。
 
-=== Platform Interoperability
+尽管实现在可用时内部使用https://en.wikipedia.org/wiki/SSE2[SSE2]、https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(NEON)[Neon]等SIMD技术，但不影响互操作性。例如：带SSE2的x64模式Intel
+CPU上Visual Studio的行为，与无SIMD支持的IBM s390x上GCC的行为完全一致。
 
-The observable behavior of `boost::unordered_flat_set`/`unordered_node_set` and `boost::unordered_flat_map`/`unordered_node_map` is deterministically
-identical across different compilers as long as their ``std::size_t``s are the same size and the user-provided
-hash function and equality predicate are also interoperable
-&#8212;this includes elements being ordered in exactly the same way for the same sequence of
-operations.
+[[rationale_concurrent_containers]]
+== 并发容器
 
-Although the implementation internally uses SIMD technologies, such as https://en.wikipedia.org/wiki/SSE2[SSE2^]
-and https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(NEON)[Neon^], when available,
-this does not affect interoperatility. For instance, the behavior is the same
-for Visual Studio on an x64-mode Intel CPU with SSE2 and for GCC on an IBM s390x without any supported SIMD technology.
+Boost.Unordered开地址容器使用的数据结构亦被选作`boost::concurrent_flat_set`/`boost::concurrent_node_set`及`boost::concurrent_flat_map`/`boost::concurrent_node_map`的基础：
 
-== Concurrent Containers
+* 开地址法在非并发和并发场景下均优于闭地址方案。
+* 开地址布局极适合最小化锁定的并发访问与修改。特别是元数据数组可实现查找操作的免锁设计（直至最终元素比较步骤）。
+* 与Boost.Unordered扁平容器的布局兼容性支持link:concurrent.html#concurrent_interoperability_with_non_concurrent_containers[快速转移]所有元素至并发容器（或反向操作）。
 
-The same data structure used by Boost.Unordered open-addressing containers has been chosen
-also as the foundation of `boost::concurrent_flat_set`/`boost::concurrent_node_set` and
-`boost::concurrent_flat_map`/`boost::concurrent_node_map`:
+[[rationale_hash_function_and_platform_interoperability]]
+=== 哈希函数与平台互操作性
 
-* Open-addressing is faster than closed-addressing alternatives, both in non-concurrent and
-concurrent scenarios.
-* Open-addressing layouts are eminently suitable for concurrent access and modification
-with minimal locking. In particular, the metadata array can be used for implementations of
-lookup that are lock-free up to the last step of actual element comparison.
-* Layout compatibility with Boost.Unordered flat containers allows for
-xref:concurrent.adoc#concurrent_interoperability_with_non_concurrent_containers[fast transfer]
-of all elements between a concurrent container and its non-concurrent counterpart,
-and vice versa.
+在link:#rationale_hash_function[哈希函数默认设置]和link:#rationale_platform_interoperability[平台互操作性]方面，并发容器采用与Boost.Unordered开地址容器相同的决策并提供同等保证。
 
-=== Hash Function and Platform Interoperability
-
-Concurrent containers make the same decisions and provide the same guarantees
-as Boost.Unordered open-addressing containers with regards to
-xref:#rationale_hash_function[hash function defaults] and
-xref:#rationale_platform_interoperability[platform interoperability].
+[[footer]]
+[[footer-text]]
+最后更新于2025年10月31日 21:32:46 UTC

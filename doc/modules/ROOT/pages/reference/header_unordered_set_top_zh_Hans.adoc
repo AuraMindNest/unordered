@@ -1,9 +1,13 @@
-[#header_unordered_set_fwd_top]
-== `<boost/unordered_set.hpp>` Synopsis
+[[header]]
 
-:idprefix: header_unordered_set_top_
+[[content]]
+[[header_unordered_set_fwd_top]]
+== `<boost/unordered_set.hpp>` 概要
 
-[listing,subs="+macros,+quotes"]
------
-#include xref:reference/header_unordered_set.adoc[<boost/unordered/unordered_set.hpp>]
------
+....
+#include <boost/unordered/unordered_set.hpp>
+....
+
+[[footer]]
+[[footer-text]]
+最后更新 2025-10-31 21:40:21 UTC

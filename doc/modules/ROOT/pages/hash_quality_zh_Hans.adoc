@@ -1,39 +1,24 @@
-﻿[#hash_quality]
-= Hash Quality
+[[header]]
+== 哈希质量
 
-:idprefix: hash_quality_
+[[content]]
+[[preamble]]
+为了正常工作，哈希表要求提供的哈希函数具有__高质量__，大致意味着它应尽可能均匀地使用其`std::size_t`输出空间，就像随机数生成器那样——当然，不同之处在于哈希函数的值并非随机，而是由其输入参数严格决定。
 
-In order to work properly, hash tables require that the supplied hash function
-be of __good quality__, roughly meaning that it uses its `std::size_t` output
-space as uniformly as possible, much like a random number generator would do
-—except, of course, that the value of a hash function is not random but strictly determined
-by its input argument.
+Boost.Unordered中的闭寻址容器对质量欠佳的哈希函数具有较强鲁棒性，但开放寻址和并发容器对此因素更为敏感。若哈希函数选择不当，其性能可能急剧下降。通常，使用link:../../../../container_hash/index.html[Boost.Hash]提供或生成的函数可确保质量达标，但采用替代哈希算法时需格外谨慎。
 
-Closed-addressing containers in Boost.Unordered are fairly robust against
-hash functions with less-than-ideal quality, but open-addressing and concurrent
-containers are much more sensitive to this factor, and their performance can
-degrade dramatically if the hash function is not appropriate. In general, if
-you're using functions provided by or generated with link:../../../../container_hash/index.html[Boost.Hash^],
-the quality will be adequate, but you have to be careful when using alternative
-hash algorithms.
+本节余下内容仅适用于开放寻址和并发容器。
 
-The rest of this section applies only to open-addressing and concurrent containers.
+[[hash_quality_hash_post_mixing_and_the_avalanching_property]]
+== 哈希后混合处理与雪崩效应属性
 
-== Hash Post-mixing and the Avalanching Property
+即使提供的哈希函数不符合开放寻址所需的均匀行为，Boost.Unordered容器的性能通常仍可接受，因为库会执行内部__后混合处理__步骤以提升计算哈希值的统计特性。这会带来额外计算开销；若需禁用后混合处理，请按如下方式注解哈希函数：
 
-Even if your supplied hash function does not conform to the uniform behavior
-required by open addressing, chances are that
-the performance of Boost.Unordered containers will be acceptable, because the library
-executes an internal __post-mixing__ step that improves the statistical
-properties of the calculated hash values. This comes with an extra computational
-cost; if you'd like to opt out of post-mixing, annotate your hash function as
-follows:
-
-[source,c++]
+[source,highlight]
 ----
 struct my_string_hash_function
 {
-  using is_avalanching = std::true_type; // instruct Boost.Unordered to not use post-mixing
+  using is_avalanching = std::true_type; // 指示Boost.Unordered不使用后混合处理
 
   std::size_t operator()(const std::string& x) const
   {
@@ -42,20 +27,14 @@ struct my_string_hash_function
 };
 ----
 
-By setting the
-`link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[hash_is_avalanching]`
-trait, we inform Boost.Unordered
-that `my_string_hash_function` is of sufficient quality to be used directly without
-any post-mixing safety net. This comes at the risk of degraded performance in the
-cases where the hash function is not as well-behaved as we've declared.
+通过设置link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]特性，我们告知Boost.Unordered：`my_string_hash_function`具有足够质量，可直接使用而无需后混合处理的安全保障。但若哈希函数行为未达声明标准，将面临性能下降风险。
 
-== Container Statistics
+[[hash_quality_container_statistics]]
+== 容器统计信息
 
-If we globally define the macro `BOOST_UNORDERED_ENABLE_STATS`, open-addressing and
-concurrent containers will calculate some internal statistics directly correlated to the
-quality of the hash function:
+若全局定义宏`BOOST_UNORDERED_ENABLE_STATS`，开放寻址和并发容器将计算与哈希函数质量直接相关的内部统计信息：
 
-[source,c++]
+[source,highlight]
 ----
 #define BOOST_UNORDERED_ENABLE_STATS
 #include <boost/unordered/unordered_map.hpp>
@@ -65,82 +44,76 @@ quality of the hash function:
 int main()
 {
   boost::unordered_flat_map<std::string, int, my_string_hash> m;
-  ... // use m
+  ... // 使用m
 
   auto stats = m.get_stats();
-  ... // inspect stats
+  ... // 检查统计信息
 }
 ----
 
-The `stats` object provides the following information:
+`stats`对象提供以下信息：
 
-[source,subs=+quotes]
+[source,highlight]
 ----
 stats
-     .insertion                                     // *Insertion operations*
-               .count                               // Number of operations
-               .probe_length                        // Probe length per operation
+     .insertion                                     // 插入操作
+               .count                               // 操作次数
+               .probe_length                        // 每次操作的探测长度
                             .average
                             .variance
                             .deviation
-	 .successful_lookup                             // *Lookup operations (element found)*
-                       .count                       // Number of operations
-                       .probe_length                // Probe length per operation
+     .successful_lookup                             // 查找操作（找到元素）
+                       .count                       // 操作次数
+                       .probe_length                // 每次操作的探测长度
                                     .average
                                     .variance
                                     .deviation
-                       .num_comparisons             // Elements compared per operation
-			                           .average
+                       .num_comparisons             // 每次操作比较的元素数
+                                       .average
                                        .variance
                                        .deviation
-	 .unsuccessful_lookup                           // *Lookup operations (element not found)*
-                         .count                     // Number of operations
-                         .probe_length              // Probe length per operation
+     .unsuccessful_lookup                           // 查找操作（未找到元素）
+                         .count                     // 操作次数
+                         .probe_length              // 每次操作的探测长度
                                       .average
                                       .variance
                                       .deviation
-                         .num_comparisons           // Elements compared per operation
-			                             .average
+                         .num_comparisons           // 每次操作比较的元素数
+                                         .average
                                          .variance
                                          .deviation
 ----
 
-Statistics for three internal operations are maintained: insertions (without considering
-the previous lookup to determine that the key is not present yet), successful lookups,
-and unsuccessful lookups (including those issued internally when inserting elements).
-_Probe length_ is  the number of
-xref:structures.adoc#structures_open_addressing_containers[bucket groups] accessed per operation.
-If the hash function behaves properly:
+维护了三类内部操作的统计信息：插入操作（不考虑先前查找键是否存在的操作）、成功查找及失败查找（包括插入元素时内部的查找）。__探测长度__指每次操作访问的link:structures.html#structures_open_addressing_containers[桶组]数量。若哈希函数行为正确：
 
-* Average probe lengths should be close to 1.0.
-* The average number of comparisons per successful lookup should be close to 1.0 (that is,
-just the element found is checked).
-* The average number of comparisons per unsuccessful lookup should be close to 0.0.
+* 平均探测长度应接近1.0。
+* 每次成功查找的平均比较次数应接近1.0（即仅检查找到的元素）。
+* 每次失败查找的平均比较次数应接近0.0。
 
-An link:../../../benchmark/string_stats.cpp[example^] is provided that displays container
-statistics for `boost::hash<std::string>`, an implementation of the
-https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a hash^]
-and two ill-behaved custom hash functions that have been incorrectly marked as avalanching:
+提供link:../../../benchmark/string_stats.cpp[示例]展示`boost::hash<std::string>`、https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a哈希]实现及两个被错误标记为雪崩效应的不良自定义哈希函数的容器统计信息：
 
-[listing]
-----
+....
                    boost::unordered_flat_map:   319 ms
-                                   insertion: probe length 1.08771
-                           successful lookup: probe length 1.06206, num comparisons 1.02121
-                         unsuccessful lookup: probe length 1.12301, num comparisons 0.0388251
+                                   插入: 探测长度 1.08771
+                           成功查找: 探测长度 1.06206, 比较次数 1.02121
+                         失败查找: 探测长度 1.12301, 比较次数 0.0388251
 
            boost::unordered_flat_map, FNV-1a:   301 ms
-                                   insertion: probe length 1.09567
-                           successful lookup: probe length 1.06202, num comparisons 1.0227
-                         unsuccessful lookup: probe length 1.12195, num comparisons 0.040527
+                                   插入: 探测长度 1.09567
+                           成功查找: 探测长度 1.06202, 比较次数 1.0227
+                         失败查找: 探测长度 1.12195, 比较次数 0.040527
 
 boost::unordered_flat_map, slightly_bad_hash:   654 ms
-                                   insertion: probe length 1.03443
-                           successful lookup: probe length 1.04137, num comparisons 6.22152
-                         unsuccessful lookup: probe length 1.29334, num comparisons 11.0335
+                                   插入: 探测长度 1.03443
+                           成功查找: 探测长度 1.04137, 比较次数 6.22152
+                         失败查找: 探测长度 1.29334, 比较次数 11.0335
 
          boost::unordered_flat_map, bad_hash: 12216 ms
-                                   insertion: probe length 699.218
-                           successful lookup: probe length 590.183, num comparisons 43.4886
-                         unsuccessful lookup: probe length 1361.65, num comparisons 75.238
-----
+                                   插入: 探测长度 699.218
+                           成功查找: 探测长度 590.183, 比较次数 43.4886
+                         失败查找: 探测长度 1361.65, 比较次数 75.238
+....
+
+[[footer]]
+[[footer-text]]
+最后更新于2025-10-31 21:32:14 UTC

@@ -1,20 +1,23 @@
-[#copyright]
-= Copyright and License
+[[header]]
+== 版权与许可协议
 
-:idprefix: copyright_
+[[content]]
+*丹尼尔·詹姆斯*
 
-*Daniel James*
+版权所有 © 2003, 2004 杰里米·B·梅廷-谢泼德
 
-Copyright (C) 2003, 2004 Jeremy B. Maitin-Shepard
+版权所有 © 2005-2008 丹尼尔·詹姆斯
 
-Copyright (C) 2005-2008 Daniel James
+版权所有 © 2022-2025 克里斯蒂安·马扎卡斯
 
-Copyright (C) 2022-2025 Christian Mazakas
+版权所有 © 2022-2025 华金·M·洛佩斯·穆尼奥斯
 
-Copyright (C) 2022-2025 Joaqu&iacute;n M L&oacute;pez Mu&ntilde;oz
+版权所有 © 2022-2023 彼得·迪莫夫
 
-Copyright (C) 2022-2023 Peter Dimov
+版权所有 © 2024 布雷登·加涅茨基
 
-Copyright (C) 2024 Braden Ganetsky
+根据Boost软件许可证1.0版分发。（请参阅随附的LICENSE_1_0.txt文件或复制自http://www.boost.org/LICENSE_1_0.txt）
 
-Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+[[footer]]
+[[footer-text]]
+最后更新于2025-10-31 21:31:27 UTC

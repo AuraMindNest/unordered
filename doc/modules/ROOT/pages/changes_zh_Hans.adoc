@@ -1,471 +1,459 @@
-[#changes]
-= Change Log
-
-:idprefix: changes_
-:svn-ticket-url: https://svn.boost.org/trac/boost/ticket
-:github-pr-url: https://github.com/boostorg/unordered/pull
-:cpp: C++
-
-== Release 1.89.0
-
-* Deprecated `boost::unordered::hash_is_avalanching` is now a using-declaration of
-`boost::hash_is_avalanching` in `<boost/container_hash/hash_is_avalanching.hpp>`.
-Use that header directly instead. `<boost/unordered/hash_traits.hpp>` will be
-removed in the future.
-* Added `pull(const_iterator)` to open-addressing containers. This operation
-allows for efficient removal and retrieval of an element via move construction.
-
-== Release 1.88.0
-
-* Migrated the documentation to a multipage format using Antora.
-
-== Release 1.87.0 - Major update
-
-* Added concurrent, node-based containers `boost::concurrent_node_map` and `boost::concurrent_node_set`.
-* Added `insert_and_visit(x, f1, f2)` and similar operations to concurrent containers, which
-allow for visitation of an element right after insertion (by contrast, `insert_or_visit(x, f)` only
-visits the element if insertion did _not_ take place).
-* Made visitation exclusive-locked within certain
-`boost::concurrent_flat_set` operations to allow for safe mutable modification of elements
-({github-pr-url}/265[PR#265^]).
-* In Visual Studio Natvis, supported any container with an allocator that uses fancy pointers. This applies to any fancy pointer type, as long as the proper Natvis customization point "Intrinsic" functions are written for the fancy pointer type.
-* Added GDB pretty-printers for all containers and iterators. For a container with an allocator that uses fancy pointers, these only work if the proper pretty-printer is written for the fancy pointer type itself.
-* Fixed `std::initializer_list` assignment issues for open-addressing containers
-({github-pr-url}/277[PR#277^]).
-* Allowed non-copyable callables to be passed to the `std::initializer_list` overloads of `insert_{and|or}_[c]visit` for concurrent containers, by internally passing a `std::reference_wrapper` of the callable to the iterator-pair overloads.
-
-
-== Release 1.86.0
-
-* Added container `pmr` aliases when header `<memory_resource>` is available. The alias `boost::unordered::pmr::[container]` refers to `boost::unordered::[container]` with a `std::pmr::polymorphic_allocator` allocator type.
-* Equipped open-addressing and concurrent containers to internally calculate and provide statistical metrics affected by the quality of the hash function. This functionality is enabled by the global macro `BOOST_UNORDERED_ENABLE_STATS`.
-* Avalanching hash functions must now be marked via an `is_avalanching` typedef with an embedded `value` constant set to `true` (typically, defining `is_avalanching` as `std::true_type`). `using is_avalanching = void` is deprecated but allowed for backwards compatibility.
-* Added Visual Studio Natvis framework custom visualizations for containers and iterators. This works for all containers with an allocator using raw pointers. In this release, containers and iterators are not supported if their allocator uses fancy pointers. This may be addressed in later releases.
-
-== Release 1.85.0
-
-* Optimized `emplace()` for a `value_type` or `init_type` (if applicable) argument to bypass creating an intermediate object. The argument is already the same type as the would-be intermediate object.
-* Optimized `emplace()` for `k,v` arguments on map containers to delay constructing the object until it is certain that an element should be inserted. This optimization happens when the map's `key_type` is move constructible or when the `k` argument is a `key_type`.
-* Fixed support for allocators with `explicit` copy constructors ({github-pr-url}/234[PR#234^]).
-* Fixed bug in the `const` version of `unordered_multimap::find(k, hash, eq)` ({github-pr-url}/238[PR#238^]).
-
-== Release 1.84.0 - Major update
-
-* Added `boost::concurrent_flat_set`.
-* Added `[c]visit_while` operations to concurrent containers,
-with serial and parallel variants.
-* Added efficient move construction of `boost::unordered_flat_(map|set)` from
-`boost::concurrent_flat_(map|set)` and vice versa.
-* Added bulk visitation to concurrent containers for increased lookup performance.
-* Added debug-mode mechanisms for detecting illegal reentrancies into
-a concurrent container from user code.
-* Added Boost.Serialization support to all containers and their (non-local) iterator types.
-* Added support for fancy pointers to open-addressing and concurrent containers.
-  This enables scenarios like the use of Boost.Interprocess allocators to construct containers in shared memory.
-* Fixed bug in member of pointer operator for local iterators of closed-addressing
-  containers ({github-pr-url}/221[PR#221^], credit goes to GitHub user vslashg for finding
-  and fixing this issue).
-* Starting with this release, `boost::unordered_[multi]set` and `boost::unordered_[multi]map`
-  only work with C++11 onwards.
-
-== Release 1.83.0 - Major update
-
-* Added `boost::concurrent_flat_map`, a fast, thread-safe hashmap based on open addressing.
-* Sped up iteration of open-addressing containers.
-* In open-addressing containers, `erase(iterator)`, which previously returned nothing, now
-returns a proxy object convertible to an iterator to the next element.
-This enables the typical `it = c.erase(it)` idiom without incurring any performance penalty
-when the returned proxy is not used.
-
-== Release 1.82.0 - Major update
-
-* {cpp}03 support is planned for deprecation. Boost 1.84.0 will no longer support
-  {cpp}03 mode and {cpp}11 will become the new minimum for using the library.
-* Added node-based, open-addressing containers
-  `boost::unordered_node_map` and `boost::unordered_node_set`.
-* Extended heterogeneous lookup to more member functions as specified in
-  https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363].
-* Replaced the previous post-mixing process for open-addressing containers with
-  a new algorithm based on extended multiplication by a constant.
-* Fixed bug in internal emplace() impl where stack-local types were not properly
-  constructed using the Allocator of the container which breaks uses-allocator
-  construction.
-
-== Release 1.81.0 - Major update
-
-* Added fast containers `boost::unordered_flat_map` and `boost::unordered_flat_set`
-  based on open addressing.
-* Added CTAD deduction guides for all containers.
-* Added missing constructors as specified in https://cplusplus.github.io/LWG/issue2713[LWG issue 2713].
-
-== Release 1.80.0 - Major update
-
-* Refactor internal implementation to be dramatically faster
-* Allow `final` Hasher and KeyEqual objects
-* Update documentation, adding benchmark graphs and notes on the new internal
-  data structures
-
-== Release 1.79.0
-
-* Improved {cpp}20 support:
-  ** All containers have been updated to support
-    heterogeneous `count`, `equal_range` and `find`.
-  ** All containers now implement the member function `contains`.
-  ** `erase_if` has been implemented for all containers.
-* Improved {cpp}23 support:
-  ** All containers have been updated to support
-    heterogeneous `erase` and `extract`.
-* Changed behavior of `reserve` to eagerly
-  allocate ({github-pr-url}/59[PR#59^]).
-* Various warning fixes in the test suite.
-* Update code to internally use `boost::allocator_traits`.
-* Switch to Fibonacci hashing.
-* Update documentation to be written in AsciiDoc instead of QuickBook.
-
-== Release 1.67.0
-
-* Improved {cpp}17 support:
-  ** Add template deduction guides from the standard.
-  ** Use a simple implementation of `optional` in node handles, so
-    that they're closer to the standard.
-  ** Add missing `noexcept` specifications to `swap`, `operator=`
-    and node handles, and change the implementation to match.
-    Using `std::allocator_traits::is_always_equal`, or our own
-    implementation when not available, and
-    `boost::is_nothrow_swappable` in the implementation.
-* Improved {cpp}20 support:
-  ** Use `boost::to_address`, which has the proposed {cpp}20 semantics,
-    rather than the old custom implementation.
-* Add `element_type` to iterators, so that `std::pointer_traits`
-  will work.
-* Use `std::piecewise_construct` on recent versions of Visual {cpp},
-  and other uses of the Dinkumware standard library,
-  now using Boost.Predef to check compiler and library versions.
-* Use `std::iterator_traits` rather than the boost iterator traits
-  in order to remove dependency on Boost.Iterator.
-* Remove iterators' inheritance from `std::iterator`, which is
-  deprecated in {cpp}17, thanks to Daniela Engert
-  ({github-pr-url}/7[PR#7^]).
-* Stop using `BOOST_DEDUCED_TYPENAME`.
-* Update some Boost include paths.
-* Rename some internal methods, and variables.
-* Various testing improvements.
-* Miscellaneous internal changes.
-
-== Release 1.66.0
-
-* Simpler move construction implementation.
-* Documentation fixes ({github-pr-url}/6[GitHub #6^]).
-
-== Release 1.65.0
-
-* Add deprecated attributes to `quick_erase` and `erase_return_void`.
-  I really will remove them in a future version this time.
-* Small standards compliance fixes:
-  ** `noexpect` specs for `swap` free functions.
-  ** Add missing `insert(P&&)` methods.
-
-== Release 1.64.0
-
-* Initial support for new {cpp}17 member functions:
-  `insert_or_assign` and `try_emplace` in `unordered_map`,
-* Initial support for `merge` and `extract`.
-  Does not include transferring nodes between
-  `unordered_map` and `unordered_multimap` or between `unordered_set` and
-  `unordered_multiset` yet. That will hopefully be in the next version of
-  Boost.
-
-== Release 1.63.0
-
-* Check hint iterator in `insert`/`emplace_hint`.
-* Fix some warnings, mostly in the tests.
-* Manually write out `emplace_args` for small numbers of arguments -
-  should make template error messages a little more bearable.
-* Remove superfluous use of `boost::forward` in emplace arguments,
-  which fixes emplacing string literals in old versions of Visual {cpp}.
-* Fix an exception safety issue in assignment. If bucket allocation
-  throws an exception, it can overwrite the hash and equality functions while
-  leaving the existing elements in place. This would mean that the function
-  objects wouldn't match the container elements, so elements might be in the
-  wrong bucket and equivalent elements would be incorrectly handled.
-* Various reference documentation improvements.
-* Better allocator support ({svn-ticket-url}/12459[#12459^]).
-* Make the no argument constructors implicit.
-* Implement missing allocator aware constructors.
-* Fix assigning the hash/key equality functions for empty containers.
-* Remove unary/binary_function from the examples in the documentation.
-  They are removed in {cpp}17.
-* Support 10 constructor arguments in emplace. It was meant to support up to 10
-  arguments, but an off by one error in the preprocessor code meant it only
-  supported up to 9.
-
-== Release 1.62.0
-
-* Remove use of deprecated `boost::iterator`.
-* Remove `BOOST_NO_STD_DISTANCE` workaround.
-* Remove `BOOST_UNORDERED_DEPRECATED_EQUALITY` warning.
-* Simpler implementation of assignment, fixes an exception safety issue
-  for `unordered_multiset` and `unordered_multimap`. Might be a little slower.
-* Stop using return value SFINAE which some older compilers have issues
-  with.
-
-== Release 1.58.0
-
-* Remove unnecessary template parameter from const iterators.
-* Rename private `iterator` typedef in some iterator classes, as it
-  confuses some traits classes.
-* Fix move assignment with stateful, propagate_on_container_move_assign
-  allocators ({svn-ticket-url}/10777[#10777^]).
-* Fix rare exception safety issue in move assignment.
-* Fix potential overflow when calculating number of buckets to allocate
-  ({github-pr-url}/4[GitHub #4^]).
-
-== Release 1.57.0
-
-* Fix the `pointer` typedef in iterators ({svn-ticket-url}/10672[#10672^]).
-* Fix Coverity warning
-  ({github-pr-url}/2[GitHub #2^]).
-
-== Release 1.56.0
-
-* Fix some shadowed variable warnings ({svn-ticket-url}/9377[#9377^]).
-* Fix allocator use in documentation ({svn-ticket-url}/9719[#9719^]).
-* Always use prime number of buckets for integers. Fixes performance
-  regression when inserting consecutive integers, although makes other
-  uses slower ({svn-ticket-url}/9282[#9282^]).
-* Only construct elements using allocators, as specified in {cpp}11 standard.
-
-== Release 1.55.0
-
-* Avoid some warnings ({svn-ticket-url}/8851[#8851^], {svn-ticket-url}/8874[#8874^]).
-* Avoid exposing some detail functions via. ADL on the iterators.
-* Follow the standard by only using the allocators' construct and destroy
-  methods to construct and destroy stored elements. Don't use them for internal
-  data like pointers.
-
-== Release 1.54.0
-
-* Mark methods specified in standard as `noexpect`. More to come in the next
-  release.
-* If the hash function and equality predicate are known to both have nothrow
-  move assignment or construction then use them.
-
-== Release 1.53.0
-
-* Remove support for the old pre-standard variadic pair constructors, and
-  equality implementation. Both have been deprecated since Boost 1.48.
-* Remove use of deprecated config macros.
-* More internal implementation changes, including a much simpler
-  implementation of `erase`.
-
-== Release 1.52.0
-
-* Faster assign, which assigns to existing nodes where possible, rather than
-  creating entirely new nodes and copy constructing.
-* Fixed bug in `erase_range` ({svn-ticket-url}/7471[#7471^]).
-* Reverted some of the internal changes to how nodes are created, especially
-  for {cpp}11 compilers. 'construct' and 'destroy' should work a little better
-  for {cpp}11 allocators.
-* Simplified the implementation a bit. Hopefully more robust.
-
-== Release 1.51.0
-
-* Fix construction/destruction issue when using a {cpp}11 compiler with a
-  {cpp}03 allocator ({svn-ticket-url}/7100[#7100^]).
-* Remove a `try..catch` to support compiling without exceptions.
-* Adjust SFINAE use to try to support g++ 3.4 ({svn-ticket-url}/7175[#7175^]).
-* Updated to use the new config macros.
-
-== Release 1.50.0
-
-* Fix equality for `unordered_multiset` and `unordered_multimap`.
-* {svn-ticket-url}/6857[Ticket 6857^]:
-  Implement `reserve`.
-* {svn-ticket-url}/6771[Ticket 6771^]:
-  Avoid gcc's `-Wfloat-equal` warning.
-* {svn-ticket-url}/6784[Ticket 6784^]:
-  Fix some Sun specific code.
-* {svn-ticket-url}/6190[Ticket 6190^]:
-  Avoid gcc's `-Wshadow` warning.
-* {svn-ticket-url}/6905[Ticket 6905^]:
-  Make namespaces in macros compatible with `bcp` custom namespaces.
-  Fixed by Luke Elliott.
-* Remove some of the smaller prime number of buckets, as they may make
-  collisions quite probable (e.g. multiples of 5 are very common because
-  we used base 10).
-* On old versions of Visual {cpp}, use the container library's implementation
-  of `allocator_traits`, as it's more likely to work.
-* On machines with 64 bit std::size_t, use power of 2 buckets, with Thomas
-  Wang's hash function to pick which one to use. As modulus is very slow
-  for 64 bit values.
-* Some internal changes.
-
-== Release 1.49.0
-
-* Fix warning due to accidental odd assignment.
-* Slightly better error messages.
-
-== Release 1.48.0 - Major update
-
-This is major change which has been converted to use Boost.Move's move
-emulation, and be more compliant with the {cpp}11 standard. See the
-xref:compliance.adoc[compliance section] for details.
-
-The container now meets {cpp}11's complexity requirements, but to do so
-uses a little more memory. This means that `quick_erase` and
-`erase_return_void` are no longer required, they'll be removed in a
-future version.
-
-{cpp}11 support has resulted in some breaking changes:
-
-* Equality comparison has been changed to the {cpp}11 specification.
-  In a container with equivalent keys, elements in a group with equal
-  keys used to have to be in the same order to be considered equal,
-  now they can be a permutation of each other. To use the old
-  behavior define the macro `BOOST_UNORDERED_DEPRECATED_EQUALITY`.
-
-* The behaviour of swap is different when the two containers to be
-  swapped has unequal allocators. It used to allocate new nodes using
-  the appropriate allocators, it now swaps the allocators if
-  the allocator has a member structure `propagate_on_container_swap`,
-  such that `propagate_on_container_swap::value` is true.
-
-* Allocator's `construct` and `destroy` functions are called with raw
-  pointers, rather than the allocator's `pointer` type.
-
-* `emplace` used to emulate the variadic pair constructors that
-  appeared in early {cpp}0x drafts. Since they were removed it no
-  longer does so. It does emulate the new `piecewise_construct`
-  pair constructors - only you need to use
-  `boost::piecewise_construct`. To use the old emulation of
-  the variadic constructors define
-  `BOOST_UNORDERED_DEPRECATED_PAIR_CONSTRUCT`.
-
-== Release 1.45.0
-
-* Fix a bug when inserting into an `unordered_map` or `unordered_set` using
-  iterators which returns `value_type` by copy.
-
-== Release 1.43.0
-
-* {svn-ticket-url}/3966[Ticket 3966^]:
-  `erase_return_void` is now `quick_erase`, which is the
-  http://home.roadrunner.com/~hinnant/issue_review/lwg-active.html#579[
-  current forerunner for resolving the slow erase by iterator^], although
-  there's a strong possibility that this may change in the future. The old
-  method name remains for backwards compatibility but is considered deprecated
-  and will be removed in a future release.
-* Use Boost.Exception.
-* Stop using deprecated `BOOST_HAS_*` macros.
-
-== Release 1.42.0
-
-* Support instantiating the containers with incomplete value types.
-* Reduced the number of warnings (mostly in tests).
-* Improved codegear compatibility.
-* {svn-ticket-url}/3693[Ticket 3693^]:
-  Add `erase_return_void` as a temporary workaround for the current
-  `erase` which can be inefficient because it has to find the next
-  element to return an iterator.
-* Add templated find overload for compatible keys.
-* {svn-ticket-url}/3773[Ticket 3773^]:
-  Add missing `std` qualifier to `ptrdiff_t`.
-* Some code formatting changes to fit almost all lines into 80 characters.
-
-== Release 1.41.0 - Major update
-
-* The original version made heavy use of macros to sidestep some of the older
-  compilers' poor template support. But since I no longer support those
-  compilers and the macro use was starting to become a maintenance burden it
-  has been rewritten to use templates instead of macros for the implementation
-  classes.
-
-* The container object is now smaller thanks to using `boost::compressed_pair`
-  for EBO and a slightly different function buffer - now using a bool instead
-  of a member pointer.
-
-* Buckets are allocated lazily which means that constructing an empty container
-  will not allocate any memory.
-
-== Release 1.40.0
-
-* {svn-ticket-url}/2975[Ticket 2975^]:
-  Store the prime list as a preprocessor sequence - so that it will always get
-  the length right if it changes again in the future.
-* {svn-ticket-url}/1978[Ticket 1978^]:
-  Implement `emplace` for all compilers.
-* {svn-ticket-url}/2908[Ticket 2908^],
-  {svn-ticket-url}/3096[Ticket 3096^]:
-  Some workarounds for old versions of borland, including adding explicit
-  destructors to all containers.
-* {svn-ticket-url}/3082[Ticket 3082^]:
-  Disable incorrect Visual {cpp} warnings.
-* Better configuration for {cpp}0x features when the headers aren't available.
-* Create less buckets by default.
-
-== Release 1.39.0
-
-* {svn-ticket-url}/2756[Ticket 2756^]: Avoid a warning
-  on Visual {cpp} 2009.
-* Some other minor internal changes to the implementation, tests and
-  documentation.
-* Avoid an unnecessary copy in `operator[]`.
-* {svn-ticket-url}/2975[Ticket 2975^]: Fix length of
-  prime number list.
-
-== Release 1.38.0
-
-* Use link:../../../../core/swap.html[`boost::swap`^].
-* {svn-ticket-url}/2237[Ticket 2237^]:
-  Document that the equality and inequality operators are undefined for two
-  objects if their equality predicates aren't equivalent. Thanks to Daniel
-  Krügler.
-* {svn-ticket-url}/1710[Ticket 1710^]:
-  Use a larger prime number list. Thanks to Thorsten Ottosen and Hervé
-  Brönnimann.
-* Use
-  link:../../../../type_traits/index.html[aligned storage^] to store the types.
-  This changes the way the allocator is used to construct nodes. It used to
-  construct the node with two calls to the allocator's `construct`
-  method - once for the pointers and once for the value. It now constructs
-  the node with a single call to construct and then constructs the value using
-  in place construction.
-* Add support for {cpp}0x initializer lists where they're available (currently
-  only g++ 4.4 in {cpp}0x mode).
-
-== Release 1.37.0
-
-* Rename overload of `emplace` with hint, to `emplace_hint` as specified in
-  http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2008/n2691.pdf[n2691^].
-* Provide forwarding headers at `<boost/unordered/unordered_map_fwd.hpp>` and
-  `<boost/unordered/unordered_set_fwd.hpp>`.
-* Move all the implementation inside `boost/unordered`, to assist
-  modularization and hopefully make it easier to track Release subversion.
-
-== Release 1.36.0
-
-First official release.
-
-* Rearrange the internals.
-* Move semantics - full support when rvalue references are available, emulated
-  using a cut down version of the Adobe move library when they are not.
-* Emplace support when rvalue references and variadic template are available.
-* More efficient node allocation when rvalue references and variadic template
-  are available.
-* Added equality operators.
-
-== Boost 1.35.0 Add-on - 31st March 2008
-
-Unofficial release uploaded to vault, to be used with Boost 1.35.0. Incorporated
-many of the suggestions from the review.
-
-* Improved portability thanks to Boost regression testing.
-* Fix lots of typos, and clearer text in the documentation.
-* Fix floating point to `std::size_t` conversion when calculating sizes from
-  the max load factor, and use `double` in the calculation for greater accuracy.
-* Fix some errors in the examples.
-
-== Review Version
-
-Initial review version, for the review conducted from 7th December 2007 to
-16th December 2007.
+[[header]]
+== 变更日志
+
+[[content]]
+[[changes_release_1_89_0]]
+== 版本 1.89.0
+
+* 已弃用的 `boost::unordered::hash_is_avalanching` 现为
+`<boost/container_hash/hash_is_avalanching.hpp>` 中
+`boost::hash_is_avalanching` 的 using
+声明。请直接使用该头文件。`<boost/unordered/hash_traits.hpp>`
+将在未来版本中移除。
+* 为开放寻址容器新增 `pull(const_iterator)`
+操作，支持通过移动构造高效移除并检索元素。
+
+[[changes_release_1_88_0]]
+== 版本 1.88.0
+
+* 使用 Antora 将文档迁移为多页面格式。
+
+[[changes_release_1_87_0_major_update]]
+== 版本 1.87.0 - 重大更新
+
+* 新增基于节点的并发容器 `boost::concurrent_node_map` 和
+`boost::concurrent_node_set`。
+* 为并发容器新增 `insert_and_visit(x, f1, f2)`
+及类似操作，支持在插入后立即访问元素（而 `insert_or_visit(x, f)`
+仅在未插入时访问元素）。
+* 在特定 `boost::concurrent_flat_set`
+操作中实现访问独占锁定，支持元素的安全可变修改（https://github.com/boostorg/unordered/pull/265[PR#265]）。
+* 在 Visual Studio Natvis
+中支持使用花式指针分配器的任意容器。只要为花式指针类型编写了正确的
+Natvis 定制点"Intrinsic"函数，即可适用于所有花式指针类型。
+* 为所有容器和迭代器添加 GDB
+美化打印器。对于使用花式指针分配器的容器，需为花式指针类型编写专用美化打印器方可生效。
+* 修复开放寻址容器的 `std::initializer_list`
+赋值问题（https://github.com/boostorg/unordered/pull/277[PR#277]）。
+* 允许向并发容器的 `insert_{and|or}_[c]visit` 的 `std::initializer_list`
+重载传递不可复制的可调用对象，方法是在内部向迭代器对重载传递可调用对象的
+`std::reference_wrapper`。
+
+[[changes_release_1_86_0]]
+== 版本 1.86.0
+
+* 当 `<memory_resource>` 头文件可用时，新增容器 `pmr`
+别名。`boost::unordered::pmr::[container]` 别名指向使用
+`std::pmr::polymorphic_allocator` 分配器类型的
+`boost::unordered::[container]`。
+* 为开放寻址和并发容器添加内部计算和提供受哈希函数质量影响的统计指标功能，通过全局宏
+`BOOST_UNORDERED_ENABLE_STATS` 启用。
+* 雪崩哈希函数现在必须通过 `is_avalanching` 类型定义标记（通常将
+`is_avalanching` 定义为 `std::true_type`），其内嵌的 `value` 常量设为
+`true`。`using is_avalanching = void` 已弃用，但为向后兼容仍允许使用。
+* 为容器和迭代器添加 Visual Studio Natvis
+框架定制可视化。适用于所有使用原始指针分配器的容器。此版本中，若分配器使用花式指针则容器和迭代器不受支持，后续版本可能解决此问题。
+
+[[changes_release_1_85_0]]
+== 版本 1.85.0
+
+* 优化 `emplace()` 对 `value_type` 或
+`init_type`（如适用）参数的实现，避免创建中间对象（该参数类型与目标对象相同）。
+* 优化 map 容器的 `emplace()` 对 `k,v`
+参数的处理：延迟构造对象直至确认需要插入元素。当 map 的 `key_type`
+可移动构造或 `k` 参数为 `key_type` 时触发此优化。
+* 修复对含 `explicit`
+复制构造函数的分配器的支持（https://github.com/boostorg/unordered/pull/234[PR#234]）。
+* 修复 `unordered_multimap::find(k, hash, eq)` 的 `const`
+版本错误（https://github.com/boostorg/unordered/pull/238[PR#238]）。
+
+[[changes_release_1_84_0_major_update]]
+== 版本 1.84.0 - 重大更新
+
+* 新增 `boost::concurrent_flat_set`。
+* 为并发容器新增带串行和并行变体的 `[c]visit_while` 操作。
+* 实现 `boost::unordered_flat_(map|set)` 与
+`boost::concurrent_flat_(map|set)` 之间的高效移动构造。
+* 为并发容器新增批量访问功能以提升查找性能。
+* 新增调试模式机制，用于检测用户代码对并发容器的非法重入。
+* 为所有容器及其（非本地）迭代器类型添加 Boost.Serialization 支持。
+* 为开放寻址和并发容器添加花式指针支持，支持如使用 Boost.Interprocess
+分配器在共享内存中构建容器等场景。
+* 修复闭散列容器本地迭代器的指针成员运算符错误（https://github.com/boostorg/unordered/pull/221[PR#221]，致谢
+GitHub 用户 vslashg 发现并修复）。
+* 从此版本起，`boost::unordered_[multi]set` 和
+`boost::unordered_[multi]map` 仅支持 C++11 及以上版本。
+
+[[changes_release_1_83_0_major_update]]
+== 版本 1.83.0 - 重大更新
+
+* 新增基于开放寻址的快速线程安全哈希映射 `boost::concurrent_flat_map`。
+* 加速开放寻址容器的迭代。
+* 在开放寻址容器中，原无返回值的 `erase(iterator)`
+现返回可转换为下一元素迭代器的代理对象。支持常规的 `it = c.erase(it)`
+模式，且未使用返回代理时不产生性能损失。
+
+[[changes_release_1_82_0_major_update]]
+== 版本 1.82.0 - 重大更新
+
+* 计划弃用 C++03 支持。Boost 1.84.0 将不再支持 C++03 模式，C++11
+将成为使用该库的最低要求。
+* 新增基于节点的开放寻址容器 `boost::unordered_node_map` 和
+`boost::unordered_node_set`。
+* 将异构查找扩展至更多成员函数，符合
+https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363]
+规范。
+* 用基于常数扩展乘法的新算法替代开放寻址容器原有的后混合处理过程。
+* 修复内部 emplace()
+实现中栈局部类型未使用容器分配器正确构造的问题（该问题破坏了分配器感知构造）。
+
+[[changes_release_1_81_0_major_update]]
+== 版本 1.81.0 - 重大更新
+
+* 新增基于开放寻址的快速容器 `boost::unordered_flat_map` 和
+`boost::unordered_flat_set`。
+* 为所有容器添加 CTAD 推导指引。
+* 添加 https://cplusplus.github.io/LWG/issue2713[LWG 问题 2713]
+缺失的构造函数。
+
+[[changes_release_1_80_0_major_update]]
+== 版本 1.80.0 - 重大更新
+
+* 重构内部实现以显著提升性能
+* 允许 `final` 修饰的 Hasher 和 KeyEqual 对象
+* 更新文档，新增基准测试图表及新内部数据结构说明
+
+[[changes_release_1_79_0]]
+== 版本 1.79.0
+
+* 改进 C++20 支持：
++
+** 所有容器现支持异构 `count`、`equal_range` 和 `find` 操作。
+** 所有容器现实现成员函数 `contains`。
+** 为所有容器实现 `erase_if`。
+* 改进 C++23 支持：
++
+** 所有容器现支持异构 `erase` 和 `extract` 操作。
+* 更改 `reserve`
+行为为预先分配（https://github.com/boostorg/unordered/pull/59[PR#59]）。
+* 测试套件中的多项警告修复。
+* 内部改用 `boost::allocator_traits`。
+* 切换为斐波那契哈希。
+* 文档改用 AsciiDoc 替代 QuickBook。
+
+[[changes_release_1_67_0]]
+== 版本 1.67.0
+
+* 改进 C++17 支持：
++
+** 添加标准的模板推导指引。
+** 在节点句柄中使用简化的 `optional` 实现以更接近标准。
+** 向 `swap`、`operator=` 和节点句柄添加缺失的 `noexcept`
+限定，并调整实现以匹配。使用
+`std::allocator_traits::is_always_equal`（不可用时使用自有实现）及
+`boost::is_nothrow_swappable`。
+* 改进 C++20 支持：
++
+** 使用具有 C++20 提议语义的 `boost::to_address` 替代旧的自定义实现。
+* 向迭代器添加 `element_type` 以使 `std::pointer_traits` 生效。
+* 在最新 Visual C++ 及其他使用 Dinkumware 标准库的版本中使用
+`std::piecewise_construct`（通过 Boost.Predef 检查编译器和库版本）。
+* 使用 `std::iterator_traits` 替代 boost 迭代器特征以消除对
+Boost.Iterator 的依赖。
+* 移除迭代器对 `std::iterator` 的继承（C++17 中已弃用），感谢 Daniela
+Engert（https://github.com/boostorg/unordered/pull/7[PR#7]）。
+* 停止使用 `BOOST_DEDUCED_TYPENAME`。
+* 更新部分 Boost 包含路径。
+* 重命名部分内部方法和变量。
+* 多项测试改进。
+* 杂项内部变更。
+
+[[changes_release_1_66_0]]
+== 版本 1.66.0
+
+* 简化移动构造实现。
+* 文档修正（https://github.com/boostorg/unordered/pull/6[GitHub #6]）。
+
+[[changes_release_1_65_0]]
+== 版本 1.65.0
+
+* 向 `quick_erase` 和 `erase_return_void`
+添加弃用属性（未来版本将移除）。
+* 小型标准合规性修复：
++
+** `swap` 自由函数的 `noexcept` 规范。
+** 添加缺失的 `insert(P&&)` 方法。
+
+[[changes_release_1_64_0]]
+== 版本 1.64.0
+
+* 初步支持 C++17 新成员函数：`unordered_map` 中的 `insert_or_assign` 和
+`try_emplace`，
+* 初步支持 `merge` 和 `extract`。暂不支持在 `unordered_map` 与
+`unordered_multimap` 间或 `unordered_set` 与 `unordered_multiset`
+间转移节点（预计下个 Boost 版本实现）。
+
+[[changes_release_1_63_0]]
+== 版本 1.63.0
+
+* 检查 `insert`/`emplace_hint` 的提示迭代器。
+* 修复部分警告（主要出现在测试中）。
+* 手动编写少量参数的 `emplace_args`，以减轻模板错误消息的负担。
+* 移除 emplace 参数中多余的 `boost::forward` 使用，修复旧版 Visual C++
+中字面量字符串的就地构造问题。
+* 修复赋值操作中的异常安全问题：若桶分配抛出异常，可能覆盖哈希和相等函数而保留现有元素，导致函数对象与容器元素不匹配，进而引发元素错置或等效元素处理错误。
+* 多项参考文档改进。
+* 优化分配器支持（https://svn.boost.org/trac/boost/ticket/12459[#12459]）。
+* 使无参构造函数隐式化。
+* 实现缺失的分配器感知构造函数。
+* 修复空容器设置哈希/键相等函数的问题。
+* 从文档示例中移除 unary/binary_function（C++17 中已移除）。
+* 支持 emplace 的 10 个构造函数参数（原预处理器代码存在差一错误，仅支持
+9 个参数）。
+
+[[changes_release_1_62_0]]
+== 版本 1.62.0
+
+* 移除对已弃用 `boost::iterator` 的使用。
+* 移除 `BOOST_NO_STD_DISTANCE` 变通方案。
+* 移除 `BOOST_UNORDERED_DEPRECATED_EQUALITY` 警告。
+* 简化赋值实现，修复 `unordered_multiset` 和 `unordered_multimap`
+的异常安全问题（性能可能略有下降）。
+* 停止使用返回值 SFINAE（某些旧编译器存在兼容问题）。
+
+[[changes_release_1_58_0]]
+== 版本 1.58.0
+
+* 从常量迭代器中移除不必要的模板参数。
+* 重命名部分迭代器类中的私有 `iterator` 类型定义（某些特征类会混淆）。
+* 修复含状态且 propagate_on_container_move_assign
+分配器的移动赋值问题（https://svn.boost.org/trac/boost/ticket/10777[#10777]）。
+* 修复移动赋值中罕见的异常安全问题。
+* 修复计算待分配桶数量时的潜在溢出问题（https://github.com/boostorg/unordered/pull/4[GitHub
+#4]）。
+
+[[changes_release_1_57_0]]
+== 版本 1.57.0
+
+* 修复迭代器的 `pointer`
+类型定义（https://svn.boost.org/trac/boost/ticket/10672[#10672]）。
+* 修复 Coverity
+警告（https://github.com/boostorg/unordered/pull/2[GitHub #2]）。
+
+[[changes_release_1_56_0]]
+== 版本 1.56.0
+
+* 修复部分变量遮蔽警告（https://svn.boost.org/trac/boost/ticket/9377[#9377]）。
+* 修正文档中的分配器用法（https://svn.boost.org/trac/boost/ticket/9719[#9719]）。
+* 整数类型始终使用质数桶数量。修复连续整数插入的性能回归（但可能降低其他场景速度）（https://svn.boost.org/trac/boost/ticket/9282[#9282]）。
+* 严格遵循 C++11 标准，仅使用分配器构造元素。
+
+[[changes_release_1_55_0]]
+== 版本 1.55.0
+
+* 避免部分警告（https://svn.boost.org/trac/boost/ticket/8851[#8851]、https://svn.boost.org/trac/boost/ticket/8874[#8874]）。
+* 避免通过迭代器上的 ADL 暴露部分细节函数。
+* 遵循标准，仅使用分配器的 construct 和 destroy
+方法处理存储元素（不用于指针等内部数据）。
+
+[[changes_release_1_54_0]]
+== 版本 1.54.0
+
+* 为标准规定的方法标记 `noexcept`（更多将在下个版本添加）。
+* 若哈希函数和相等谓词均已知不抛出移动赋值或构造，则使用它们。
+
+[[changes_release_1_53_0]]
+== 版本 1.53.0
+
+* 移除对旧式变参 pair 构造函数和相等性实现的支持（自 Boost 1.48
+起已弃用）。
+* 移除对已弃用配置宏的使用。
+* 更多内部实现变更（包括更简化的 `erase` 实现）。
+
+[[changes_release_1_52_0]]
+== 版本 1.52.0
+
+* 加速 assign 操作：尽可能复用现有节点，而非创建全新节点并复制构造。
+* 修复 `erase_range`
+错误（https://svn.boost.org/trac/boost/ticket/7471[#7471]）。
+* 回退部分节点创建逻辑（尤其针对 C++11 编译器），使 'construct' 和
+'destroy' 对 C++11 分配器更有效。
+* 简化实现以提高健壮性。
+
+[[changes_release_1_51_0]]
+== 版本 1.51.0
+
+* 修复 C++11 编译器使用 C++03
+分配器时的构造/析构问题（https://svn.boost.org/trac/boost/ticket/7100[#7100]）。
+* 移除 `try..catch` 以支持无异常编译。
+* 调整 SFINAE 用法以支持 g++
+3.4（https://svn.boost.org/trac/boost/ticket/7175[#7175]）。
+* 更新至使用新配置宏。
+
+[[changes_release_1_50_0]]
+== 版本 1.50.0
+
+* 修复 `unordered_multiset` 和 `unordered_multimap` 的相等性判断。
+* https://svn.boost.org/trac/boost/ticket/6857[问题 6857]：实现
+`reserve`。
+* https://svn.boost.org/trac/boost/ticket/6771[问题 6771]：避免 gcc 的
+`-Wfloat-equal` 警告。
+* https://svn.boost.org/trac/boost/ticket/6784[问题 6784]：修复部分 Sun
+平台专用代码。
+* https://svn.boost.org/trac/boost/ticket/6190[问题 6190]：避免 gcc 的
+`-Wshadow` 警告。
+* https://svn.boost.org/trac/boost/ticket/6905[问题
+6905]：使宏中的命名空间兼容 `bcp` 自定义命名空间（由 Luke Elliott
+修复）。
+* 移除部分较小的质数桶数量（因其易导致冲突，例如使用十进制时 5
+的倍数极常见）。
+* 旧版 Visual C++ 中使用容器库的 `allocator_traits` 实现（兼容性更佳）。
+* 64 位 std::size_t 机器上使用 2 的幂次桶数量，通过 Thomas Wang
+哈希函数选择桶（因取模运算在 64 位值上极慢）。
+* 部分内部变更。
+
+[[changes_release_1_49_0]]
+== 版本 1.49.0
+
+* 修复因意外赋值导致的警告。
+* 轻微优化错误消息。
+
+[[changes_release_1_48_0_major_update]]
+== 版本 1.48.0 - 重大更新
+
+本次重大变更采用 Boost.Move 的移动模拟，并更符合 C++11
+标准。详见link:compliance.html[合规性章节]。
+
+容器现满足 C++11 复杂度要求，但内存占用略有增加。`quick_erase` 和
+`erase_return_void` 因此不再必需，将在未来版本移除。
+
+C++11 支持导致部分破坏性变更：
+
+* 相等性比较改为 C++11
+规范：含等效键的容器中，原要求等键元素顺序相同才视为相等，现允许互为排列。定义宏
+`BOOST_UNORDERED_DEPRECATED_EQUALITY` 可启用旧行为。
+* 交换操作在容器分配器不等时的行为变更：原使用对应分配器分配新节点，现若分配器含
+`propagate_on_container_swap` 结构且
+`propagate_on_container_swap::value` 为 true，则交换分配器。
+* 分配器的 `construct` 和 `destroy` 函数现使用原始指针（而非分配器的
+`pointer` 类型）调用。
+* `emplace` 原模拟早期 C++0x 草案的变参 pair
+构造函数，因草案移除而停止模拟。现模拟新的 `piecewise_construct` pair
+构造函数（需使用 `boost::piecewise_construct`）。定义
+`BOOST_UNORDERED_DEPRECATED_PAIR_CONSTRUCT` 可启用旧变参构造模拟。
+
+[[changes_release_1_45_0]]
+== 版本 1.45.0
+
+* 修复通过返回 `value_type` 副本的迭代器向 `unordered_map` 或
+`unordered_set` 插入时的错误。
+
+[[changes_release_1_43_0]]
+== 版本 1.43.0
+
+* https://svn.boost.org/trac/boost/ticket/3966[问题
+3966]：`erase_return_void` 更名为
+`quick_erase`（符合http://home.roadrunner.com/~hinnant/issue_review/lwg-active.html#579[当前迭代器擦除缓慢的解决方案]）。旧方法名保留但已弃用，将在未来版本移除。
+* 使用 Boost.Exception。
+* 停止使用已弃用的 `BOOST_HAS_*` 宏。
+
+[[changes_release_1_42_0]]
+== 版本 1.42.0
+
+* 支持用不完整值类型实例化容器。
+* 减少警告数量（主要出现在测试中）。
+* 提升 Codegear 兼容性。
+* https://svn.boost.org/trac/boost/ticket/3693[问题 3693]：临时添加
+`erase_return_void` 作为当前低效 `erase`
+的解决方案（因需查找下一元素返回迭代器）。
+* 为兼容键添加模板化 find 重载。
+* https://svn.boost.org/trac/boost/ticket/3773[问题 3773]：为
+`ptrdiff_t` 添加缺失的 `std` 限定符。
+* 调整代码格式使多数行不超过 80 字符。
+
+[[changes_release_1_41_0_major_update]]
+== 版本 1.41.0 - 重大更新
+
+* 原版大量使用宏规避旧编译器模板支持不足的问题。因不再支持这些编译器且宏维护负担加重，现改用模板重写实现类。
+* 通过 `boost::compressed_pair` 实现 EBO 及微调函数缓冲区（现使用 bool
+替代成员指针），容器对象体积减小。
+* 延迟分配桶，空容器构造时不分配内存。
+
+[[changes_release_1_40_0]]
+== 版本 1.40.0
+
+* https://svn.boost.org/trac/boost/ticket/2975[问题
+2975]：将质数列表存储为预处理器序列，确保未来变更时长度始终正确。
+* https://svn.boost.org/trac/boost/ticket/1978[问题
+1978]：为所有编译器实现 `emplace`。
+* https://svn.boost.org/trac/boost/ticket/2908[问题
+2908]、https://svn.boost.org/trac/boost/ticket/3096[问题 3096]：针对旧版
+borland 的变通方案（包括为所有容器添加显式析构函数）。
+* https://svn.boost.org/trac/boost/ticket/3082[问题 3082]：禁用错误的
+Visual C++ 警告。
+* 头文件不可用时优化 C++0x 特性配置。
+* 默认创建更少的桶。
+
+[[changes_release_1_39_0]]
+== 版本 1.39.0
+
+* https://svn.boost.org/trac/boost/ticket/2756[问题 2756]：避免 Visual
+C++ 2009 的警告。
+* 实现、测试及文档的其他微小内部变更。
+* 避免 `operator[]` 中不必要的复制。
+* https://svn.boost.org/trac/boost/ticket/2975[问题
+2975]：修正质数列表长度。
+
+[[changes_release_1_38_0]]
+== 版本 1.38.0
+
+* 使用link:../../../../core/swap.html[`boost::swap`]。
+* https://svn.boost.org/trac/boost/ticket/2237[问题
+2237]：文档注明若两对象的相等谓词不等价，则相等和不等运算符未定义（感谢
+Daniel Krügler）。
+* https://svn.boost.org/trac/boost/ticket/1710[问题
+1710]：使用更大的质数列表（感谢 Thorsten Ottosen 和 Hervé Brönnimann）。
+* 使用link:../../../../type_traits/index.html[对齐存储]存储类型。变更分配器构造节点的方式：原调用分配器的
+`construct`
+方法两次（分别处理指针和值），现单次调用构造节点后原位构造值。
+* 在可用时支持 C++0x 初始化列表（当前仅 g++ 4.4 的 C++0x 模式）。
+
+[[changes_release_1_37_0]]
+== 版本 1.37.0
+
+* 将带提示的 `emplace` 重载更名为
+`emplace_hint`（符合http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2008/n2691.pdf[n2691]规范）。
+* 提供转发头文件 `<boost/unordered/unordered_map_fwd.hpp>` 和
+`<boost/unordered/unordered_set_fwd.hpp>`。
+* 将所有实现移至 `boost/unordered` 内，以支持模块化并便于跟踪发布版本。
+
+[[changes_release_1_36_0]]
+== 版本 1.36.0
+
+首次正式发布。
+
+* 调整内部结构。
+* 移动语义：支持右值引用时完整支持；否则使用精简版 Adobe move 库模拟。
+* 支持右值引用和变参模板时提供就地构造支持。
+* 支持右值引用和变参模板时实现更高效的节点分配。
+* 添加相等运算符。
+
+[[changes_boost_1_35_0_add_on_31st_march_2008]]
+== Boost 1.35.0 附加版本 - 2008年3月31日
+
+非官方版本上传至仓库，与 Boost 1.35.0 配合使用。整合了评审中的多项建议。
+
+* 通过 Boost 回归测试提升可移植性。
+* 修复文档中多处笔误并优化文本清晰度。
+* 修复根据最大负载因子计算大小时浮点数到 `std::size_t`
+的转换问题，并使用 `double` 计算以提高精度。
+* 修正示例中的部分错误。
+
+[[changes_review_version]]
+== 评审版本
+
+初始评审版本（评审时间：2007年12月7日至16日）。
+
+[[footer]]
+[[footer-text]]
+最后更新于 2025-10-31 21:30:35 UTC

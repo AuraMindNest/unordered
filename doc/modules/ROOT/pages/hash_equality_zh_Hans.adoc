@@ -1,37 +1,36 @@
-[#hash_equality]
+[[header]]
+== 相等谓词与哈希函数
 
-:idprefix: hash_equality_
+[[content]]
+[[preamble]]
+虽然关联容器使用排序关系指定元素的存储方式，但无序关联容器使用相等谓词和哈希函数。例如，link:reference/unordered_map.html[`boost::unordered_map`]
+的声明如下：
 
-= Equality Predicates and Hash Functions
-
-While the associative containers use an ordering relation to specify how the
-elements are stored, the unordered associative containers use an equality
-predicate and a hash function. For example, `xref:reference/unordered_map.adoc[boost::unordered_map]`
-is declared as:
-
-```cpp
+[source,highlight]
+----
 template <
     class Key, class Mapped,
     class Hash = boost::hash<Key>,
     class Pred = std::equal_to<Key>,
     class Alloc = std::allocator<std::pair<Key const, Mapped> > >
 class unordered_map;
-```
+----
 
-The hash function comes first as you might want to change the hash function
-but not the equality predicate. For example, if you wanted to use the
-https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a hash^] you could write:
+哈希函数排在首位，因为您可能希望更改哈希函数而不改变相等谓词。例如，若要使用
+https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a哈希]，可编写：
 
-```cpp
+[source,highlight]
+----
 boost::unordered_map<std::string, int, hash::fnv_1a>
     dictionary;
-```
+----
 
-There is an link:../../../examples/fnv1.hpp[implementation of FNV-1a^] in the examples directory.
+示例目录中提供了 link:../../../examples/fnv1.hpp[FNV-1a的实现]。
 
-If you wish to use a different equality function, you will also need to use a matching hash function. For example, to implement a case insensitive dictionary you need to define a case insensitive equality predicate and hash function:
+若需使用不同的相等函数，则必须同时使用匹配的哈希函数。例如，要实现不区分大小写的字典，需定义不区分大小写的相等谓词和哈希函数：
 
-```cpp
+[source,highlight]
+----
 struct iequal_to
 {
     bool operator()(std::string const& x,
@@ -57,30 +56,36 @@ struct ihash
         return seed;
     }
 };
-```
+----
 
-Which you can then use in a case insensitive dictionary:
-```cpp
+随后可在不区分大小写的字典中使用：
+
+[source,highlight]
+----
 boost::unordered_map<std::string, int, ihash, iequal_to>
     idictionary;
-```
+----
 
-This is a simplified version of the example at
-link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp^] which supports other locales and string types.
+此代码是
+link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp]
+示例的简化版本，支持其他区域设置和字符串类型。
 
-CAUTION: Be careful when using the equality (`==`) operator with custom equality
-predicates, especially if you're using a function pointer. If you compare two
-containers with different equality predicates then the result is undefined.
-For most stateless function objects this is impossible - since you can only
-compare objects with the same equality predicate you know the equality
-predicates must be equal. But if you're using function pointers or a stateful
-equality predicate (e.g. `boost::function`) then you can get into trouble.
+[width="100%",cols="50%,50%",]
+|===
+a|
+注意
 
-== Custom Types
+|使用相等运算符（`==`）与自定义相等谓词时需格外谨慎，尤其在使用函数指针时。若比较两个具有不同相等谓词的容器，结果将未定义。对于多数无状态函数对象，此情况不可能发生——因只能使用相同相等谓词比较对象，故可知谓词必然相同。但若使用函数指针或有状态相等谓词（如
+`boost::function`），则可能引发问题。
+|===
 
-Similarly, a custom hash function can be used for custom types:
+[[hash_equality_custom_types]]
+== 自定义类型
 
-```cpp
+类似地，自定义类型可使用自定义哈希函数：
+
+[source,highlight]
+----
 struct point {
     int x;
     int y;
@@ -103,12 +108,13 @@ struct point_hash
 };
 
 boost::unordered_multiset<point, point_hash> points;
-```
+----
 
-Since the default hash function is link:../../../../container_hash/index.html[Boost.Hash^],
-we can extend it to support the type so that the hash function doesn't need to be explicitly given:
+由于默认哈希函数是
+link:../../../../container_hash/index.html[Boost.Hash]，可扩展其以支持该类型，从而无需显式指定哈希函数：
 
-```cpp
+[source,highlight]
+----
 struct point {
     int x;
     int y;
@@ -126,24 +132,21 @@ std::size_t hash_value(point const& p) {
     return seed;
 }
 
-// Now the default function objects work.
+// 现在默认函数对象可正常工作
 boost::unordered_multiset<point> points;
-```
+----
 
-See the link:../../../../container_hash/index.html[Boost.Hash documentation^] for more detail on how to
-do this. Remember that it relies on extensions to the standard - so it
-won't work for other implementations of the unordered associative containers,
-you'll need to explicitly use Boost.Hash.
+更多扩展方法详见
+link:../../../../container_hash/index.html[Boost.Hash文档]。请注意此功能依赖于标准扩展——故不适用于其他无序关联容器实现，需显式使用Boost.Hash。
 
-[caption=, title='Table {counter:table-counter} Methods for accessing the hash and equality functions']
-[cols="1,.^1", frame=all, grid=rows]
+.表1：访问哈希函数与相等函数的方法
+[width="100%",cols="50%,50%",options="header",]
 |===
-|Method |Description
-
-|`hasher hash_function() const`
-|Returns the container's hash function.
-
-|`key_equal key_eq() const`
-|Returns the container's key equality function..
-
+|方法 |描述
+|`hasher hash_function() const` |返回容器的哈希函数。
+|`key_equal key_eq() const` |返回容器的键相等函数。
 |===
+
+[[footer]]
+[[footer-text]]
+最后更新于2025-10-31 21:31:58 UTC

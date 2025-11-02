@@ -1,9 +1,13 @@
-[#header_unordered_map_fwd_top]
-== `<boost/unordered_map.hpp>` Synopsis
+[[header]]
 
-:idprefix: header_unordered_map_top_
+[[content]]
+[[header_unordered_map_fwd_top]]
+== `<boost/unordered_map.hpp>` 概要
 
-[listing,subs="+macros,+quotes"]
------
-#include xref:reference/header_unordered_map.adoc[<boost/unordered/unordered_map.hpp>]
------
+....
+#include <boost/unordered/unordered_map.hpp>
+....
+
+[[footer]]
+[[footer-text]]
+最后更新 2025-10-31 21:38:30 UTC

@@ -1,12 +1,13 @@
-[#hash_traits]
-== Hash Traits
+[[header]]
 
-:idprefix: hash_traits_
+[[content]]
+[[hash_traits]]
+== 哈希特性
 
-=== `<boost/unordered/hash_traits.hpp>` Synopsis
+[[hash_traits_boostunorderedhash_traits_hpp_synopsis]]
+=== `<boost/unordered/hash_traits.hpp>` 概要
 
-[listing,subs="+macros,+quotes"]
------
+....
 #include <boost/container_hash/hash_is_avalanching.hpp>
 
 namespace boost {
@@ -16,17 +17,22 @@ using boost::hash_is_avalanching;
 
 } // namespace unordered
 } // namespace boost
------
+....
 
-[horizontal]
-Note:;; This header is deprecated. Use instead
-`link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[boost::hash_is_avalanching]`
-defined in
-`link:../../../../../container_hash/doc/html/hash.html#ref_boostcontainer_hashhash_is_avalanching_hpp[<boost/container_hash/hash_is_avalanching.hpp>]`.
+[cols=",",]
+|===
+|注意： |此头文件已弃用。请改用定义于
+link:../../../../../container_hash/doc/html/hash.html#ref_boostcontainer_hashhash_is_avalanching_hpp[`<boost/container_hash/hash_is_avalanching.hpp>`]
+中的
+link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`boost::hash_is_avalanching`]。
+|===
 
-Open-addressing and concurrent containers
-use the provided hash function `Hash` as-is if `hash_is_avalanching<Hash>::value` is `true`; otherwise, they
-implement a bit-mixing post-processing stage to increase the quality of hashing at the expense of
-extra computational cost.
+当 `hash_is_avalanching<Hash>::value` 为 `true`
+时，开放寻址和并发容器会直接使用提供的哈希函数
+`Hash`；否则它们将实施位混合后处理阶段，以牺牲额外计算成本为代价提升哈希质量。
 
----
+'''''
+
+[[footer]]
+[[footer-text]]
+最后更新于2025年10月31日 21:34:30 UTC

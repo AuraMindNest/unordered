@@ -5,7 +5,8 @@
 [[benchmarks_boostunordered_multiset]]
 == boost::unordered_[multi]set
 
-所有基准测试均使用`unordered_set<unsigned int>`（非重复元素）和`unordered_multiset<unsigned int>`（重复元素）创建。源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_set[在此处查看]。
+所有基准测试均使用`unordered_set<unsigned int>`(非重复元素）
+和`unordered_multiset<unsigned int>`（重复元素）创建。源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_set[在此处查看]。
 
 插入基准测试插入`n`个随机值，其中`n`范围在10,000至300万之间。对于重复元素测试，相同随机值平均重复5次。
 

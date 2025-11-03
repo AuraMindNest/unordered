@@ -3,7 +3,7 @@
 
 [[content]]
 [[rationale_closed_addressing_containers]]
-== 闭地址容器
+== 闭寻址容器
 
 `boost::unordered_[multi]set` 和 `boost::unordered_[multi]map`
 遵循无序关联容器的标准要求，因此接口是固定的。但仍需做出若干实现决策，优先考虑标准符合性和可移植性。

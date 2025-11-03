@@ -3,11 +3,11 @@
 
 [[content]]
 [[compliance_closed_addressing_containers]]
-== 闭地址容器
+== 闭寻址容器
 
 `boost::unordered_[multi]set` 和 `boost::unordered_[multi]map` 为
 C++11（或更高版本）编译器提供了符合最新 C++
-标准修订版的无序关联容器实现，仅存在文档所述的极微小偏差。这些容器完全符合
+标准修订版的无序关联容器实现，仅存在文档所述的极微小偏差。这些容器完全满足
 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
 要求，并支持
 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]。

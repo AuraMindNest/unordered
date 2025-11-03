@@ -348,94 +348,96 @@ C++11 支持导致部分破坏性变更：
 true，则会交换分配器本身。
 * 现在当调用分配器的 `construct` 与 `destroy`
 时，直接传入原始指针，而非分配器定义的 `pointer` 类型。
-* `emplace` 原模拟早期 C++0x 草案的变参 pair
-构造函数，因草案移除而停止模拟。现模拟新的 `piecewise_construct` pair
-构造函数（需使用 `boost::piecewise_construct`）。定义
-`BOOST_UNORDERED_DEPRECATED_PAIR_CONSTRUCT` 可启用旧变参构造模拟。
+* `emplace` 方法原先模拟了早期 C++0x 草案中的变参 pair
+构造函数。由于该特性已被移除，现不再提供此模拟实现。当前仅模拟新的
+`piecewise_construct` pair 构造函数，但需使用
+`boost::piecewise_construct`作为参数。若需启用旧版变参构造函数的模拟行为，请定义宏`BOOST_UNORDERED_DEPRECATED_PAIR_CONSTRUCT`
+。
 
 [[changes_release_1_45_0]]
 == 版本 1.45.0
 
 * 修复通过返回 `value_type` 副本的迭代器向 `unordered_map` 或
-`unordered_set` 插入时的错误。
+`unordered_set` 插入元素时出现的缺陷。
 
 [[changes_release_1_43_0]]
 == 版本 1.43.0
 
-* https://svn.boost.org/trac/boost/ticket/3966[问题
+* https://svn.boost.org/trac/boost/ticket/3966[问题单
 3966]：`erase_return_void` 更名为
-`quick_erase`（符合http://home.roadrunner.com/~hinnant/issue_review/lwg-active.html#579[当前迭代器擦除缓慢的解决方案]）。旧方法名保留但已弃用，将在未来版本移除。
+`quick_erase`（符合http://home.roadrunner.com/~hinnant/issue_review/lwg-active.html#579[当前迭代器擦除缓慢的解决方案]）。旧方法名出于向后兼容性予以保留，但已被视为弃用接口，将在未来版本中移除。
 * 使用 Boost.Exception。
-* 停止使用已弃用的 `BOOST_HAS_*` 宏。
+* 停止使用已弃用的 `BOOST_HAS_*` 系列宏。
 
 [[changes_release_1_42_0]]
 == 版本 1.42.0
 
-* 支持用不完整值类型实例化容器。
-* 减少警告数量（主要出现在测试中）。
+* 支持使用不完整值类型来实例化容器。
+* 减少编译警告数量（主要出现在测试中）。
 * 提升 Codegear 兼容性。
-* https://svn.boost.org/trac/boost/ticket/3693[问题 3693]：临时添加
-`erase_return_void` 作为当前低效 `erase`
-的解决方案（因需查找下一元素返回迭代器）。
-* 为兼容键添加模板化 find 重载。
-* https://svn.boost.org/trac/boost/ticket/3773[问题 3773]：为
+* https://svn.boost.org/trac/boost/ticket/3693[问题单 3693]：新增
+`erase_return_void` 作为临时解决方案，以应对当前 `erase`
+方法因需查找下一元素返回迭代器而可能产生的效率问题。
+* 新增针对兼容键的模板化 find 重载。
+* https://svn.boost.org/trac/boost/ticket/3773[问题单 3773]：为
 `ptrdiff_t` 添加缺失的 `std` 限定符。
-* 调整代码格式使多数行不超过 80 字符。
+* 调整代码格式，使大多数代码行不超过 80 字符。
 
 [[changes_release_1_41_0_major_update]]
 == 版本 1.41.0 - 重大更新
 
-* 原版大量使用宏规避旧编译器模板支持不足的问题。因不再支持这些编译器且宏维护负担加重，现改用模板重写实现类。
+* 初始版本曾大量使用宏来规避旧式编译器薄弱的模板支持能力。鉴于现已不再支持这些编译器，且宏的使用逐渐成为维护负担，现将实现类重构为使用模板替代宏。
 * 通过 `boost::compressed_pair` 实现 EBO 及微调函数缓冲区（现使用 bool
-替代成员指针），容器对象体积减小。
-* 延迟分配桶，空容器构造时不分配内存。
+替代成员指针），容器对象的内存占用得以减小。
+* 桶采用延迟分配机制，这意味着构造空容器时不会分配任何内存。
 
 [[changes_release_1_40_0]]
 == 版本 1.40.0
 
-* https://svn.boost.org/trac/boost/ticket/2975[问题
-2975]：将质数列表存储为预处理器序列，确保未来变更时长度始终正确。
-* https://svn.boost.org/trac/boost/ticket/1978[问题
+* https://svn.boost.org/trac/boost/ticket/2975[问题单
+2975]：将质数列表存储为预处理序列，确保未来再次调整列表长度时能自动保持正确。
+* https://svn.boost.org/trac/boost/ticket/1978[问题单
 1978]：为所有编译器实现 `emplace`。
-* https://svn.boost.org/trac/boost/ticket/2908[问题
-2908]、https://svn.boost.org/trac/boost/ticket/3096[问题 3096]：针对旧版
-borland 的变通方案（包括为所有容器添加显式析构函数）。
-* https://svn.boost.org/trac/boost/ticket/3082[问题 3082]：禁用错误的
-Visual C++ 警告。
-* 头文件不可用时优化 C++0x 特性配置。
+* https://svn.boost.org/trac/boost/ticket/2908[问题单
+2908]、https://svn.boost.org/trac/boost/ticket/3096[问题单
+3096]：针对旧版 borland 的变通方案（包括为所有容器添加显式析构函数）。
+* https://svn.boost.org/trac/boost/ticket/3082[问题单 3082]：禁用 Visual
+C++ 编译器的错误警告。
+* 对 C++0x 特性提供优化方案，以应对头文件不可用的情况。
 * 默认创建更少的桶。
 
 [[changes_release_1_39_0]]
 == 版本 1.39.0
 
-* https://svn.boost.org/trac/boost/ticket/2756[问题 2756]：避免 Visual
-C++ 2009 的警告。
-* 实现、测试及文档的其他微小内部变更。
+* https://svn.boost.org/trac/boost/ticket/2756[问题单 2756]：规避 Visual
+C++ 2009 的编译警告。
+* 对实现、测试及文档进行其他少量内部调整。
 * 避免 `operator[]` 中不必要的复制。
-* https://svn.boost.org/trac/boost/ticket/2975[问题
+* https://svn.boost.org/trac/boost/ticket/2975[问题单
 2975]：修正质数列表长度。
 
 [[changes_release_1_38_0]]
 == 版本 1.38.0
 
 * 使用link:../../../../core/swap.html[`boost::swap`]。
-* https://svn.boost.org/trac/boost/ticket/2237[问题
-2237]：文档注明若两对象的相等谓词不等价，则相等和不等运算符未定义（感谢
-Daniel Krügler）。
-* https://svn.boost.org/trac/boost/ticket/1710[问题
-1710]：使用更大的质数列表（感谢 Thorsten Ottosen 和 Hervé Brönnimann）。
-* 使用link:../../../../type_traits/index.html[对齐存储]存储类型。变更分配器构造节点的方式：原调用分配器的
+* https://svn.boost.org/trac/boost/ticket/2237[问题单
+2237]：明确说明当两个对象的相等性判断谓词不等价时，其 == 与 !=
+运算符的行为是未定义的。感谢 Daniel Krügler 的贡献。
+* https://svn.boost.org/trac/boost/ticket/1710[问题单
+1710]：采用更长的质数列表。感谢 Thorsten Ottosen 与 Hervé Brönnimann
+的贡献。
+* 使用link:../../../../type_traits/index.html[对齐存储]来存储类型。这改变了利用分配器构造节点的方式：原先通过两次调用分配器的
 `construct`
-方法两次（分别处理指针和值），现单次调用构造节点后原位构造值。
+方法分别构造指针和值，现在仅通过单次调用构造节点，随后采用就地构造方式构建值对象。
 * 在可用时支持 C++0x 初始化列表（当前仅 g++ 4.4 的 C++0x 模式）。
 
 [[changes_release_1_37_0]]
 == 版本 1.37.0
 
-* 将带提示的 `emplace` 重载更名为
-`emplace_hint`（符合http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2008/n2691.pdf[n2691]规范）。
-* 提供转发头文件 `<boost/unordered/unordered_map_fwd.hpp>` 和
-`<boost/unordered/unordered_set_fwd.hpp>`。
+* 根据http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2008/n2691.pdf[n2691]规范，将带提示的
+`emplace` 重载更名为 `emplace_hint`。
+* 在 `<boost/unordered/unordered_map_fwd.hpp>` 与
+`<boost/unordered/unordered_set_fwd.hpp>`路径下提供前向声明头文件。
 * 将所有实现移至 `boost/unordered` 内，以支持模块化并便于跟踪发布版本。
 
 [[changes_release_1_36_0]]
@@ -444,27 +446,29 @@ Daniel Krügler）。
 首次正式发布。
 
 * 调整内部结构。
-* 移动语义：支持右值引用时完整支持；否则使用精简版 Adobe move 库模拟。
+* 移动语义：在支持右值引用的环境中提供完整支持，否则使用精简版 Adobe
+移动库进行模拟实现。
 * 支持右值引用和变参模板时提供就地构造支持。
-* 支持右值引用和变参模板时实现更高效的节点分配。
-* 添加相等运算符。
+* 在支持右值引用与变参模板的环境中实现更高效的节点分配。
+* 新增相等性判断运算符。
 
 [[changes_boost_1_35_0_add_on_31st_march_2008]]
 == Boost 1.35.0 附加版本 - 2008年3月31日
 
-非官方版本上传至仓库，与 Boost 1.35.0 配合使用。整合了评审中的多项建议。
+非官方版本已上传至资源库，适用于 Boost
+1.35.0。该版本已采纳评审阶段的多项改进建议。
 
-* 通过 Boost 回归测试提升可移植性。
-* 修复文档中多处笔误并优化文本清晰度。
-* 修复根据最大负载因子计算大小时浮点数到 `std::size_t`
-的转换问题，并使用 `double` 计算以提高精度。
+* 通过 Boost 回归测试，代码可移植性得到显著提升。
+* 修正文档中的多处笔误，并优化文本表述以提升可读性。
+* 修复根据最大负载因子计算容器大小时，浮点数到 `std::size_t`
+的转换问题，并在计算过程中使用 `double` 类型来提高精度。
 * 修正示例中的部分错误。
 
 [[changes_review_version]]
 == 评审版本
 
-初始评审版本（评审时间：2007年12月7日至16日）。
+初始评审版本（评审时间：2007年12月7日至12月16日）。
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:30:35 UTC
+最后更新于 2025年10月31日 21:30:35 【UTC】

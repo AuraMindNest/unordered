@@ -2121,7 +2121,7 @@ equivalent equality predicates.
 '''''
 
 [[unordered_multimap_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----

@@ -2229,7 +2229,7 @@ size_type bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |The number of buckets.
+|Returns: |桶的数量。
 |===
 
 '''''
@@ -2244,7 +2244,7 @@ size_type max_bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |An upper bound on the number of buckets.
+|Returns: |桶数量的上限值。
 |===
 
 '''''
@@ -2260,7 +2260,7 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |Requires: |`n < bucket_count()`
-|Returns: |The number of elements in bucket `n`.
+|Returns: |编号为`n`的桶中的元素数量。
 |===
 
 '''''
@@ -2378,7 +2378,7 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |The average number of elements per bucket.
+|Returns: |每个桶的平均元素数量。
 |===
 
 '''''
@@ -2393,7 +2393,7 @@ float max_load_factor() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |Returns the current maximum load factor.
+|Returns: |返回当前最大负载因子。
 |===
 
 '''''
@@ -2466,7 +2466,7 @@ it is thrown by the container’s hash function or comparison function.
 |===
 
 [[unordered_map_deduction_guides]]
-=== Deduction Guides
+=== 推导指南
 
 A deduction guide will not participate in overload resolution if any of
 the following are true:

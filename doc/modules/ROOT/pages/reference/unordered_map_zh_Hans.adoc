@@ -2568,7 +2568,7 @@ equivalent equality predicates.
 |===
 
 [[unordered_map_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----

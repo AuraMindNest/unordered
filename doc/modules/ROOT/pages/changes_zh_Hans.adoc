@@ -236,15 +236,15 @@ Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
 类型别名，以避免某些特征类产生混淆。
 * 修复当使用具有状态且设置了propagate_on_container_move_assign
 的分配器时，移动赋值操作存在的缺陷（https://svn.boost.org/trac/boost/ticket/10777[#10777]）。
-* 修复移动赋值中罕见的异常安全问题。
-* 修复计算待分配桶数量时的潜在溢出问题（https://github.com/boostorg/unordered/pull/4[GitHub
+* 修复移动赋值操作中一处罕见的异常安全问题。
+* 修复计算待分配桶数量时可能出现的溢出问题（https://github.com/boostorg/unordered/pull/4[GitHub
 #4]）。
 
 [[changes_release_1_57_0]]
 == 版本 1.57.0
 
-* 修复迭代器的 `pointer`
-类型定义（https://svn.boost.org/trac/boost/ticket/10672[#10672]）。
+* 修复迭代器中 `pointer`
+类型定义的问题（https://svn.boost.org/trac/boost/ticket/10672[#10672]）。
 * 修复 Coverity
 警告（https://github.com/boostorg/unordered/pull/2[GitHub #2]）。
 
@@ -253,69 +253,69 @@ Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
 
 * 修复部分变量遮蔽警告（https://svn.boost.org/trac/boost/ticket/9377[#9377]）。
 * 修正文档中的分配器用法（https://svn.boost.org/trac/boost/ticket/9719[#9719]）。
-* 整数类型始终使用质数桶数量。修复连续整数插入的性能回归（但可能降低其他场景速度）（https://svn.boost.org/trac/boost/ticket/9282[#9282]）。
-* 严格遵循 C++11 标准，仅使用分配器构造元素。
+* 对整数键始终采用质数桶数量。此修复解决了插入连续整数时的性能回归问题，但可能会降低其他使用场景的速度（https://svn.boost.org/trac/boost/ticket/9282[#9282]）。
+* 严格遵循 C++11 标准规定，仅使用分配器构造元素。
 
 [[changes_release_1_55_0]]
 == 版本 1.55.0
 
 * 避免部分警告（https://svn.boost.org/trac/boost/ticket/8851[#8851]、https://svn.boost.org/trac/boost/ticket/8874[#8874]）。
 * 避免通过迭代器上的 ADL 暴露部分细节函数。
-* 遵循标准，仅使用分配器的 construct 和 destroy
-方法处理存储元素（不用于指针等内部数据）。
+* 遵循标准规范，仅使用分配器的 construct 和 destroy
+方法来构造和析构存储的元素，不将其用于指针等内部数据的操作。
 
 [[changes_release_1_54_0]]
 == 版本 1.54.0
 
-* 为标准规定的方法标记 `noexcept`（更多将在下个版本添加）。
-* 若哈希函数和相等谓词均已知不抛出移动赋值或构造，则使用它们。
+* 为标准中指定的方法标注 `noexcept`。更多方法将在下一版本中更新。
+* 若已知哈希函数与相等性谓词均具备无抛出移动赋值或移动构造特性，则使用它们。
 
 [[changes_release_1_53_0]]
 == 版本 1.53.0
 
-* 移除对旧式变参 pair 构造函数和相等性实现的支持（自 Boost 1.48
-起已弃用）。
-* 移除对已弃用配置宏的使用。
-* 更多内部实现变更（包括更简化的 `erase` 实现）。
+* 移除对旧式变参 pair 构造函数和相等性实现的支持，这两项功能自 Boost
+1.48 起已被弃用。
+* 停止使用已弃用的配置宏。
+* 更多内部实现变更，包括采用更简化的 `erase`方法 实现。
 
 [[changes_release_1_52_0]]
 == 版本 1.52.0
 
-* 加速 assign 操作：尽可能复用现有节点，而非创建全新节点并复制构造。
+* 加速赋值操作：尽可能复用现有节点进行赋值，而非创建全新节点并执行复制构造。
 * 修复 `erase_range`
-错误（https://svn.boost.org/trac/boost/ticket/7471[#7471]）。
-* 回退部分节点创建逻辑（尤其针对 C++11 编译器），使 'construct' 和
-'destroy' 对 C++11 分配器更有效。
-* 简化实现以提高健壮性。
+方法中的缺陷（https://svn.boost.org/trac/boost/ticket/7471[#7471]）。
+* 回退部分关于节点创建机制的内部变更（尤其针对 C++11 编译器），使
+'construct' 和 'destroy' 对 C++11 分配器更有效。
+* 简化实现，以提高健壮性。
 
 [[changes_release_1_51_0]]
 == 版本 1.51.0
 
-* 修复 C++11 编译器使用 C++03
-分配器时的构造/析构问题（https://svn.boost.org/trac/boost/ticket/7100[#7100]）。
-* 移除 `try..catch` 以支持无异常编译。
-* 调整 SFINAE 用法以支持 g++
+* 修复当使用 C++11 编译器搭配 C++03
+分配器时出现的构造/析构问题（https://svn.boost.org/trac/boost/ticket/7100[#7100]）。
+* 移除一段 `try..catch` 代码块以支持无异常编译模式。
+* 调整 SFINAE 的实现方式以兼容 g++
 3.4（https://svn.boost.org/trac/boost/ticket/7175[#7175]）。
-* 更新至使用新配置宏。
+* 更新为使用新的配置宏。
 
 [[changes_release_1_50_0]]
 == 版本 1.50.0
 
-* 修复 `unordered_multiset` 和 `unordered_multimap` 的相等性判断。
-* https://svn.boost.org/trac/boost/ticket/6857[问题 6857]：实现
+* 修复 `unordered_multiset` 与 `unordered_multimap` 的相等性判断逻辑。
+* https://svn.boost.org/trac/boost/ticket/6857[问题单 6857]：实现
 `reserve`。
-* https://svn.boost.org/trac/boost/ticket/6771[问题 6771]：避免 gcc 的
-`-Wfloat-equal` 警告。
-* https://svn.boost.org/trac/boost/ticket/6784[问题 6784]：修复部分 Sun
-平台专用代码。
-* https://svn.boost.org/trac/boost/ticket/6190[问题 6190]：避免 gcc 的
-`-Wshadow` 警告。
-* https://svn.boost.org/trac/boost/ticket/6905[问题
-6905]：使宏中的命名空间兼容 `bcp` 自定义命名空间（由 Luke Elliott
+* https://svn.boost.org/trac/boost/ticket/6771[问题 6771]：规避 gcc 的
+`-Wfloat-equal` 编译警告。
+* https://svn.boost.org/trac/boost/ticket/6784[问题单 6784]：修复部分
+Sun 编译器专用代码。
+* https://svn.boost.org/trac/boost/ticket/6190[问题单 6190]：规避 gcc 的
+`-Wshadow` 编译警告。
+* https://svn.boost.org/trac/boost/ticket/6905[问题单
+6905]：使宏中的命名空间与 `bcp` 自定义命名空间兼容（由 Luke Elliott
 修复）。
-* 移除部分较小的质数桶数量（因其易导致冲突，例如使用十进制时 5
-的倍数极常见）。
-* 旧版 Visual C++ 中使用容器库的 `allocator_traits` 实现（兼容性更佳）。
+* 移除部分较小的质数桶数量，因为这些数值可能显著增加冲突概率（例如，由于我们使用十进制，5的倍数出现频率很高）。
+* 对于旧版本 Visual C++，优先使用容器库自带的 `allocator_traits`
+实现，因其兼容性更佳。
 * 64 位 std::size_t 机器上使用 2 的幂次桶数量，通过 Thomas Wang
 哈希函数选择桶（因取模运算在 64 位值上极慢）。
 * 部分内部变更。
@@ -323,28 +323,31 @@ Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
 [[changes_release_1_49_0]]
 == 版本 1.49.0
 
-* 修复因意外赋值导致的警告。
+* 修复因意外出现的异常赋值操作而产生的编译警告。
 * 轻微优化错误消息。
 
 [[changes_release_1_48_0_major_update]]
 == 版本 1.48.0 - 重大更新
 
-本次重大变更采用 Boost.Move 的移动模拟，并更符合 C++11
-标准。详见link:compliance.html[合规性章节]。
+本本次为重大更新：容器已改用 Boost.Move
+的移动操作模拟实现，并显著提升了对 C++11
+标准的符合性。详见link:compliance.html[标准合规性章节]。
 
-容器现满足 C++11 复杂度要求，但内存占用略有增加。`quick_erase` 和
-`erase_return_void` 因此不再必需，将在未来版本移除。
+该容器现满足 C++11
+的复杂度要求，但为此会占用稍多内存。这意味着`quick_erase` 与
+`erase_return_void` 接口已不再必需，将在未来版本中移除。
 
 C++11 支持导致部分破坏性变更：
 
-* 相等性比较改为 C++11
-规范：含等效键的容器中，原要求等键元素顺序相同才视为相等，现允许互为排列。定义宏
-`BOOST_UNORDERED_DEPRECATED_EQUALITY` 可启用旧行为。
-* 交换操作在容器分配器不等时的行为变更：原使用对应分配器分配新节点，现若分配器含
-`propagate_on_container_swap` 结构且
-`propagate_on_container_swap::value` 为 true，则交换分配器。
-* 分配器的 `construct` 和 `destroy` 函数现使用原始指针（而非分配器的
-`pointer` 类型）调用。
+* 相等性比较已改为遵循 C++11
+规范。在包含等价键的容器中，原先要求同一组等价键内的元素必须顺序一致才被视为相等，现在则允许它们互为排列。如需使用旧行为，请定义宏
+`BOOST_UNORDERED_DEPRECATED_EQUALITY` 。
+* 当两个待交换容器的分配器不相等时，swap
+操作的行为发生变更。旧版本会通过相应的分配器分配新节点，现在则改为：若分配器包含`propagate_on_container_swap`
+成员结构体且其`propagate_on_container_swap::value` 为
+true，则会交换分配器本身。
+* 现在当调用分配器的 `construct` 与 `destroy`
+时，直接传入原始指针，而非分配器定义的 `pointer` 类型。
 * `emplace` 原模拟早期 C++0x 草案的变参 pair
 构造函数，因草案移除而停止模拟。现模拟新的 `piecewise_construct` pair
 构造函数（需使用 `boost::piecewise_construct`）。定义

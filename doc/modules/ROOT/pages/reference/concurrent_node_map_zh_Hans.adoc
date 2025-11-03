@@ -2561,7 +2561,7 @@ link:#concurrent_node_map_boost_unordered_enable_stats[enabled].
 '''''
 
 [[concurrent_node_map_deduction_guides]]
-=== Deduction Guides
+=== 推导指南
 
 A deduction guide will not participate in overload resolution if any of
 the following are true:

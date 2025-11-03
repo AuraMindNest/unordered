@@ -1895,7 +1895,7 @@ link:#unordered_node_set_boost_unordered_enable_stats[enabled].
 '''''
 
 [[unordered_node_set_deduction_guides]]
-=== Deduction Guides
+=== 推导指南
 
 A deduction guide will not participate in overload resolution if any of
 the following are true:

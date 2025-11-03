@@ -2236,7 +2236,7 @@ equality predicates.
 '''''
 
 [[concurrent_flat_set_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----

@@ -2669,7 +2669,7 @@ equality predicates.
 '''''
 
 [[concurrent_node_map_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----

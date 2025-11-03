@@ -6,80 +6,81 @@
 == 版本 1.89.0
 
 * 已弃用的 `boost::unordered::hash_is_avalanching` 现为
-`<boost/container_hash/hash_is_avalanching.hpp>` 中
-`boost::hash_is_avalanching` 的 using
-声明。请直接使用该头文件。`<boost/unordered/hash_traits.hpp>`
+`<boost/container_hash/hash_is_avalanching.hpp>` 头文件中
+`boost::hash_is_avalanching` 的
+别名声明。请直接使用该头文件，`<boost/unordered/hash_traits.hpp>`
 将在未来版本中移除。
 * 为开放寻址容器新增 `pull(const_iterator)`
-操作，支持通过移动构造高效移除并检索元素。
+操作，该操作支持通过移动构造机制高效移除并检索指定元素。
 
 [[changes_release_1_88_0]]
 == 版本 1.88.0
 
-* 使用 Antora 将文档迁移为多页面格式。
+* 使用 Antora 将文档重构为多页面格式。
 
 [[changes_release_1_87_0_major_update]]
 == 版本 1.87.0 - 重大更新
 
-* 新增基于节点的并发容器 `boost::concurrent_node_map` 和
-`boost::concurrent_node_set`。
+* 新增基于节点的并发容器 `boost::concurrent_node_map`
+与`boost::concurrent_node_set`。
 * 为并发容器新增 `insert_and_visit(x, f1, f2)`
-及类似操作，支持在插入后立即访问元素（而 `insert_or_visit(x, f)`
-仅在未插入时访问元素）。
+及类似操作，这些操作支持在插入元素后立即对其进行访问（而
+`insert_or_visit(x, f)` 仅在未执行插入时才访问元素）。
 * 在特定 `boost::concurrent_flat_set`
-操作中实现访问独占锁定，支持元素的安全可变修改（https://github.com/boostorg/unordered/pull/265[PR#265]）。
+操作中启用独占锁访问机制，以支持对元素进行安全的可变修改（https://github.com/boostorg/unordered/pull/265[PR#265]）。
 * 在 Visual Studio Natvis
-中支持使用花式指针分配器的任意容器。只要为花式指针类型编写了正确的
-Natvis 定制点"Intrinsic"函数，即可适用于所有花式指针类型。
+中，现支持使用带花式指针分配器的任意容器。只要为花式指针类型编写了相应的
+Natvis 自定义“Intrinsic”函数，即可适用于所有花式指针类型。
 * 为所有容器和迭代器添加 GDB
-美化打印器。对于使用花式指针分配器的容器，需为花式指针类型编写专用美化打印器方可生效。
-* 修复开放寻址容器的 `std::initializer_list`
+美化打印器。对于使用花式指针分配器的容器，需先为花式指针类型编写对应的美化打印器方可正常使用。
+* 修复开放寻址容器中 `std::initializer_list`的
 赋值问题（https://github.com/boostorg/unordered/pull/277[PR#277]）。
-* 允许向并发容器的 `insert_{and|or}_[c]visit` 的 `std::initializer_list`
-重载传递不可复制的可调用对象，方法是在内部向迭代器对重载传递可调用对象的
-`std::reference_wrapper`。
+* 通过内部将可调用对象的
+`std::reference_wrapper`传递给迭代器对重载，现允许向并发容器的`insert_{and|or}_[c]visit`
+的 `std::initializer_list` 重载传递不可复制的可调用对象。
 
 [[changes_release_1_86_0]]
 == 版本 1.86.0
 
-* 当 `<memory_resource>` 头文件可用时，新增容器 `pmr`
+* 当头文件 `<memory_resource>` 可用时，新增容器 `pmr`
 别名。`boost::unordered::pmr::[container]` 别名指向使用
 `std::pmr::polymorphic_allocator` 分配器类型的
 `boost::unordered::[container]`。
-* 为开放寻址和并发容器添加内部计算和提供受哈希函数质量影响的统计指标功能，通过全局宏
+* 为开放寻址容器与并发容器增设内部统计功能，可计算并提供受哈希函数质量影响的统计指标。通过全局宏
 `BOOST_UNORDERED_ENABLE_STATS` 启用。
-* 雪崩哈希函数现在必须通过 `is_avalanching` 类型定义标记（通常将
-`is_avalanching` 定义为 `std::true_type`），其内嵌的 `value` 常量设为
-`true`。`using is_avalanching = void` 已弃用，但为向后兼容仍允许使用。
+* 雪崩哈希函数现在必须通过包含 `value` 常量且其值为`true`的
+`is_avalanching` 类型别名进行标记（通常将 `is_avalanching` 定义为
+`std::true_type`）。虽然出于向后兼容性考虑仍允许使用
+`using is_avalanching = void` ，但该用法已被弃用。
 * 为容器和迭代器添加 Visual Studio Natvis
-框架定制可视化。适用于所有使用原始指针分配器的容器。此版本中，若分配器使用花式指针则容器和迭代器不受支持，后续版本可能解决此问题。
+框架的自定义可视化功能。此功能适用于所有使用原始指针分配器的容器。在此版本中，若容器或迭代器的分配器使用花式指针，则暂不支持该功能，此问题可能在后续版本中解决。
 
 [[changes_release_1_85_0]]
 == 版本 1.85.0
 
 * 优化 `emplace()` 对 `value_type` 或
-`init_type`（如适用）参数的实现，避免创建中间对象（该参数类型与目标对象相同）。
+`init_type`（如适用）参数的实现，使其无需创建中间对象即可直接处理参数，因为该参数类型与待构造的中间对象类型完全相同。
 * 优化 map 容器的 `emplace()` 对 `k,v`
-参数的处理：延迟构造对象直至确认需要插入元素。当 map 的 `key_type`
-可移动构造或 `k` 参数为 `key_type` 时触发此优化。
+参数的处理：将对象构造延迟到确认需要插入元素时执行。此优化在映射的`key_type`
+可移动构造或`k` 参数为 `key_type`类型时生效。
 * 修复对含 `explicit`
 复制构造函数的分配器的支持（https://github.com/boostorg/unordered/pull/234[PR#234]）。
 * 修复 `unordered_multimap::find(k, hash, eq)` 的 `const`
-版本错误（https://github.com/boostorg/unordered/pull/238[PR#238]）。
+版本中的缺陷（https://github.com/boostorg/unordered/pull/238[PR#238]）。
 
 [[changes_release_1_84_0_major_update]]
 == 版本 1.84.0 - 重大更新
 
 * 新增 `boost::concurrent_flat_set`。
-* 为并发容器新增带串行和并行变体的 `[c]visit_while` 操作。
+* 为并发容器新增`[c]visit_while` 操作，提供串行与并行两种执行模式。
 * 实现 `boost::unordered_flat_(map|set)` 与
-`boost::concurrent_flat_(map|set)` 之间的高效移动构造。
+`boost::concurrent_flat_(map|set)` 之间的高效双向移动构造。
 * 为并发容器新增批量访问功能以提升查找性能。
-* 新增调试模式机制，用于检测用户代码对并发容器的非法重入。
+* 新增调试模式机制，用于检测用户代码对并发容器的非法重入操作。
 * 为所有容器及其（非本地）迭代器类型添加 Boost.Serialization 支持。
-* 为开放寻址和并发容器添加花式指针支持，支持如使用 Boost.Interprocess
-分配器在共享内存中构建容器等场景。
-* 修复闭散列容器本地迭代器的指针成员运算符错误（https://github.com/boostorg/unordered/pull/221[PR#221]，致谢
+* 为开放寻址容器与并发容器新增对花式指针的支持，此特性支持诸如使用
+Boost.Interprocess 分配器在共享内存中构建容器等应用场景。
+* 修复闭寻址容器局部迭代器的成员指针运算符缺陷（https://github.com/boostorg/unordered/pull/221[PR#221]，致谢
 GitHub 用户 vslashg 发现并修复）。
 * 从此版本起，`boost::unordered_[multi]set` 和
 `boost::unordered_[multi]map` 仅支持 C++11 及以上版本。
@@ -87,147 +88,154 @@ GitHub 用户 vslashg 发现并修复）。
 [[changes_release_1_83_0_major_update]]
 == 版本 1.83.0 - 重大更新
 
-* 新增基于开放寻址的快速线程安全哈希映射 `boost::concurrent_flat_map`。
-* 加速开放寻址容器的迭代。
+* 新增基于开放寻址的快速线程安全哈希映射容器
+`boost::concurrent_flat_map`。
+* 提升开放寻址容器的迭代性能。
 * 在开放寻址容器中，原无返回值的 `erase(iterator)`
-现返回可转换为下一元素迭代器的代理对象。支持常规的 `it = c.erase(it)`
-模式，且未使用返回代理时不产生性能损失。
+方法现返回一个可转换为下一元素迭代器的代理对象。此改进支持典型的
+`it = c.erase(it)`
+编程范式，且当未使用返回的代理对象时不会产生任何性能开销。
 
 [[changes_release_1_82_0_major_update]]
 == 版本 1.82.0 - 重大更新
 
 * 计划弃用 C++03 支持。Boost 1.84.0 将不再支持 C++03 模式，C++11
 将成为使用该库的最低要求。
-* 新增基于节点的开放寻址容器 `boost::unordered_node_map` 和
-`boost::unordered_node_set`。
-* 将异构查找扩展至更多成员函数，符合
+* 新增基于节点的开放寻址容器 `boost::unordered_node_map`
+与`boost::unordered_node_set`。
+* 根据
 https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363]
-规范。
-* 用基于常数扩展乘法的新算法替代开放寻址容器原有的后混合处理过程。
+规范，将异构查找功能扩展至更多成员函数。
+* 采用基于常量扩展乘法的新算法，取代开放寻址容器原有的后混合处理流程。
 * 修复内部 emplace()
-实现中栈局部类型未使用容器分配器正确构造的问题（该问题破坏了分配器感知构造）。
+实现中存在的缺陷：该缺陷曾导致栈局部类型未能使用容器的分配器进行正确构造，从而违反分配器感知构造规范。
 
 [[changes_release_1_81_0_major_update]]
 == 版本 1.81.0 - 重大更新
 
-* 新增基于开放寻址的快速容器 `boost::unordered_flat_map` 和
+* 新增基于开放寻址的快速容器 `boost::unordered_flat_map` 与
 `boost::unordered_flat_set`。
 * 为所有容器添加 CTAD 推导指引。
-* 添加 https://cplusplus.github.io/LWG/issue2713[LWG 问题 2713]
-缺失的构造函数。
+* 补充 https://cplusplus.github.io/LWG/issue2713[LWG 问题 2713]
+中要求的缺失构造函数。
 
 [[changes_release_1_80_0_major_update]]
 == 版本 1.80.0 - 重大更新
 
 * 重构内部实现以显著提升性能
-* 允许 `final` 修饰的 Hasher 和 KeyEqual 对象
-* 更新文档，新增基准测试图表及新内部数据结构说明
+* 允许 使用`final` 修饰的 Hasher 和 KeyEqual 对象
+* 更新文档，新增性能基准对比图及关于新内部数据结构的说明
 
 [[changes_release_1_79_0]]
 == 版本 1.79.0
 
-* 改进 C++20 支持：
+* 增强 C++20 标准兼容性：
 +
-** 所有容器现支持异构 `count`、`equal_range` 和 `find` 操作。
-** 所有容器现实现成员函数 `contains`。
-** 为所有容器实现 `erase_if`。
-* 改进 C++23 支持：
+** 所有容器均已完成升级，支持异构查找操作 `count`、`equal_range` 及
+`find` 。
+** 所有容器现均已实现成员函数 `contains`。
+** 所有容器均已实现 `erase_if`功能。
+* 增强 C++23 标准兼容性：
 +
-** 所有容器现支持异构 `erase` 和 `extract` 操作。
+** 所有容器均已完成升级，支持异构版本的 `erase` 与 `extract` 操作。
 * 更改 `reserve`
-行为为预先分配（https://github.com/boostorg/unordered/pull/59[PR#59]）。
+的行为，使其立即分配桶数组空间（https://github.com/boostorg/unordered/pull/59[PR#59]）。
 * 测试套件中的多项警告修复。
-* 内部改用 `boost::allocator_traits`。
-* 切换为斐波那契哈希。
-* 文档改用 AsciiDoc 替代 QuickBook。
+* 将内部代码更新为使用 `boost::allocator_traits`。
+* 切换至斐波那契哈希算法。
+* 将文档编写格式从 QuickBook 切换为 AsciiDoc。
 
 [[changes_release_1_67_0]]
 == 版本 1.67.0
 
-* 改进 C++17 支持：
+* 增强 C++17 标准兼容性：
 +
-** 添加标准的模板推导指引。
-** 在节点句柄中使用简化的 `optional` 实现以更接近标准。
-** 向 `swap`、`operator=` 和节点句柄添加缺失的 `noexcept`
-限定，并调整实现以匹配。使用
-`std::allocator_traits::is_always_equal`（不可用时使用自有实现）及
-`boost::is_nothrow_swappable`。
-* 改进 C++20 支持：
+** 新增标准的模板推导指南。
+** 在节点句柄中采用简化的 `optional` 实现，以使其更符合标准规范。
+** 为 `swap`、`operator=` 及节点句柄补充缺失的 `noexcept`
+规范，调整实现以符合规范要求。在实现中使用
+`std::allocator_traits::is_always_equal`（若该特性不可用则采用自有实现）及`boost::is_nothrow_swappable`。
+* 增强 C++20 标准兼容性：
 +
-** 使用具有 C++20 提议语义的 `boost::to_address` 替代旧的自定义实现。
-* 向迭代器添加 `element_type` 以使 `std::pointer_traits` 生效。
-* 在最新 Visual C++ 及其他使用 Dinkumware 标准库的版本中使用
-`std::piecewise_construct`（通过 Boost.Predef 检查编译器和库版本）。
-* 使用 `std::iterator_traits` 替代 boost 迭代器特征以消除对
+** 使用具有 C++20 提案语义的 `boost::to_address`
+来替代原有的自定义实现。
+* 向迭代器添加 `element_type` 类型定义，以支持
+`std::pointer_traits`的正常工作。
+* 在新版 Visual C++ 及其他使用 Dinkumware 标准库的环境中使用
+`std::piecewise_construct`（通过 Boost.Predef 检查编译器和标准库版本）。
+* 使用 `std::iterator_traits` 替代 boost 迭代器特征库，以消除对
 Boost.Iterator 的依赖。
-* 移除迭代器对 `std::iterator` 的继承（C++17 中已弃用），感谢 Daniela
-Engert（https://github.com/boostorg/unordered/pull/7[PR#7]）。
+* 移除迭代器对 `std::iterator` 的继承（该基类在 C++17 中已弃用），感谢
+Daniela
+Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
 * 停止使用 `BOOST_DEDUCED_TYPENAME`。
-* 更新部分 Boost 包含路径。
+* 更新部分 Boost 头文件包含路径。
 * 重命名部分内部方法和变量。
 * 多项测试改进。
-* 杂项内部变更。
+* 多项内部变更。
 
 [[changes_release_1_66_0]]
 == 版本 1.66.0
 
-* 简化移动构造实现。
+* 更简化的移动构造实现。
 * 文档修正（https://github.com/boostorg/unordered/pull/6[GitHub #6]）。
 
 [[changes_release_1_65_0]]
 == 版本 1.65.0
 
 * 向 `quick_erase` 和 `erase_return_void`
-添加弃用属性（未来版本将移除）。
-* 小型标准合规性修复：
+添加弃用属性。本次确认将在未来版本中移除这两个接口。
+* 局部标准符合性修正：
 +
-** `swap` 自由函数的 `noexcept` 规范。
-** 添加缺失的 `insert(P&&)` 方法。
+** 为`swap` 自由函数添加 `noexcept` 规范。
+** 补充缺失的 `insert(P&&)` 方法。
 
 [[changes_release_1_64_0]]
 == 版本 1.64.0
 
 * 初步支持 C++17 新成员函数：`unordered_map` 中的 `insert_or_assign` 和
 `try_emplace`，
-* 初步支持 `merge` 和 `extract`。暂不支持在 `unordered_map` 与
-`unordered_multimap` 间或 `unordered_set` 与 `unordered_multiset`
-间转移节点（预计下个 Boost 版本实现）。
+* 初步支持 `merge` 与`extract`操作。当前版本尚未实现`unordered_map` 与
+`unordered_multimap` 之间或 `unordered_set` 与 `unordered_multiset`
+之间的节点转移功能，该特性预计将在下一版 Boost 中提供。
 
 [[changes_release_1_63_0]]
 == 版本 1.63.0
 
-* 检查 `insert`/`emplace_hint` 的提示迭代器。
+* 检查 `insert`与`emplace_hint` 操作中提示迭代器的有效性。
 * 修复部分警告（主要出现在测试中）。
-* 手动编写少量参数的 `emplace_args`，以减轻模板错误消息的负担。
-* 移除 emplace 参数中多余的 `boost::forward` 使用，修复旧版 Visual C++
+* 为参数数量较少的情况手动编写
+`emplace_args`代码，以减轻模板错误消息的负担。
+* 移除 emplace 参数中多余的 `boost::forward` 调用，以修复旧版 Visual C++
 中字面量字符串的就地构造问题。
-* 修复赋值操作中的异常安全问题：若桶分配抛出异常，可能覆盖哈希和相等函数而保留现有元素，导致函数对象与容器元素不匹配，进而引发元素错置或等效元素处理错误。
+* 修复赋值操作中的异常安全问题。若桶分配过程抛出异常，可能导致哈希函数与相等性判断函数被覆盖，而现有元素仍保留在容器中。这将造成函数对象与容器元素不匹配，进而引发元素错置桶位及等价元素处理错误的问题。
 * 多项参考文档改进。
-* 优化分配器支持（https://svn.boost.org/trac/boost/ticket/12459[#12459]）。
-* 使无参构造函数隐式化。
+* 增强的分配器支持（https://svn.boost.org/trac/boost/ticket/12459[#12459]）。
+* 将无参构造函数改为隐式声明。
 * 实现缺失的分配器感知构造函数。
-* 修复空容器设置哈希/键相等函数的问题。
-* 从文档示例中移除 unary/binary_function（C++17 中已移除）。
-* 支持 emplace 的 10 个构造函数参数（原预处理器代码存在差一错误，仅支持
-9 个参数）。
+* 修复空容器在设置哈希函数与键值相等性判断函数时存在的问题。
+* 从文档示例中移除 unary/binary_function。这两者在 C++17 中已被移除。。
+* emplace 方法现支持 10 个构造参数。其设计本应支持最多 10
+个参数，但由于预处理代码中存在差一错误，仅支持 9 个参数。
 
 [[changes_release_1_62_0]]
 == 版本 1.62.0
 
-* 移除对已弃用 `boost::iterator` 的使用。
-* 移除 `BOOST_NO_STD_DISTANCE` 变通方案。
+* 停止使用已弃用的 `boost::iterator`组件 。
+* 移除 `BOOST_NO_STD_DISTANCE` 的兼容性代码。
 * 移除 `BOOST_UNORDERED_DEPRECATED_EQUALITY` 警告。
-* 简化赋值实现，修复 `unordered_multiset` 和 `unordered_multimap`
-的异常安全问题（性能可能略有下降）。
-* 停止使用返回值 SFINAE（某些旧编译器存在兼容问题）。
+* 采用更简化的赋值操作实现，修复了 `unordered_multiset` 与
+`unordered_multimap` 的异常安全问题，但性能可能略有下降。
+* 停止使用返回值SFINAE技术，以避免部分旧版本编译器的兼容性问题。
 
 [[changes_release_1_58_0]]
 == 版本 1.58.0
 
-* 从常量迭代器中移除不必要的模板参数。
-* 重命名部分迭代器类中的私有 `iterator` 类型定义（某些特征类会混淆）。
-* 修复含状态且 propagate_on_container_move_assign
-分配器的移动赋值问题（https://svn.boost.org/trac/boost/ticket/10777[#10777]）。
+* 移除常量迭代器中不必要的模板参数。
+* 重命名部分迭代器类中私有的 `iterator`
+类型别名，以避免某些特征类产生混淆。
+* 修复当使用具有状态且设置了propagate_on_container_move_assign
+的分配器时，移动赋值操作存在的缺陷（https://svn.boost.org/trac/boost/ticket/10777[#10777]）。
 * 修复移动赋值中罕见的异常安全问题。
 * 修复计算待分配桶数量时的潜在溢出问题（https://github.com/boostorg/unordered/pull/4[GitHub
 #4]）。

@@ -1611,7 +1611,7 @@ size_type max_bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回： |桶数量的上限。
+|返回： |桶数量的上限值。
 |===
 
 '''''
@@ -1627,7 +1627,7 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n < bucket_count()`
-|返回： |桶 `n` 中的元素数量。
+|返回： |编号为`n`的桶中的元素数量。
 |===
 
 '''''
@@ -1734,7 +1734,7 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回： |每个桶的平均元素数。
+|返回： |每个桶的平均元素数量。
 |===
 
 '''''
@@ -1749,7 +1749,7 @@ float max_load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回： |当前最大负载因子。
+|返回： |返回当前最大负载因子。
 |===
 
 '''''
@@ -1816,7 +1816,7 @@ void reserve(size_type n);
 '''''
 
 [[unordered_multiset_deduction_guides]]
-=== 推导指引
+=== 推导指南
 
 推导指引在以下任一情况时不参与重载决议：
 

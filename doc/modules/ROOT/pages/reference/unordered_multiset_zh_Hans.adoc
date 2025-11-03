@@ -1884,7 +1884,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 '''''
 
 [[unordered_multiset_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----

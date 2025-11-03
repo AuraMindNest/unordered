@@ -3,7 +3,7 @@
 
 [[content]]
 [[structures_closed_addressing_containers]]
-== 闭地址法容器
+== 闭寻址容器
 
 Boost.Unordered
 实现了最快的闭地址法（通常称为https://en.wikipedia.org/wiki/Hash_table#Separate_chaining[分离链接法]）数据结构之一。下图展示了该数据结构的示例：

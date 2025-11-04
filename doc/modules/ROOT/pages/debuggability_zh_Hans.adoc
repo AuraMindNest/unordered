@@ -26,8 +26,8 @@ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[
 
 默认情况下，封闭寻址容器将显示 `[hash_function]`、`[key_eq]`、适用的
 `[spare_hash_function]` 与 `[spare_key_eq]`、`[allocator]`
-及元素。使用"detailed"视图将额外显示 `[bucket_count]` 和
-`[max_load_factor]`；使用"simple"视图则仅显示元素。
+及元素列表。若启用用"detailed"视图将额外显示 `[bucket_count]` 和
+`[max_load_factor]`信息；若启用"simple"视图，则仅显示元素列表而不包含其他条目。
 
 默认情况下，开放寻址容器显示
 `[hash_function]`、`[key_eq]`、`[allocator]`

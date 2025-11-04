@@ -8,10 +8,10 @@
 * 并发.html
 * 哈希质量.html
 * 合规性.html
-* 数据结构.html
+* 结构.html
 * 可调试性.html
 * 基准测试.html
-* 设计原理.html
+* 设计依据.html
 * 参考.html
 +
 ** link:reference/header_unordered_map_fwd.html[`<boost/unordered/unordered_map_fwd.hpp>`]
@@ -24,7 +24,7 @@
 ** link:reference/header_unordered_set.html[`<boost/unordered/unordered_set.hpp>`]
 ** link:reference/unordered_set.html[`无序集合`]
 ** link:reference/unordered_multiset.html[`无序多重集合`]
-** link:reference/hash_traits.html[哈希特性]
+** link:reference/hash_traits.html[哈希特征]
 ** link:reference/stats.html[统计信息]
 ** link:reference/header_unordered_flat_map_fwd.html[`<boost/unordered/unordered_flat_map_fwd.hpp>`]
 ** link:reference/header_unordered_flat_map.html[`<boost/unordered/unordered_flat_map.hpp>`]
@@ -56,4 +56,4 @@
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:29:17 UTC
+最后更新于2025年 10月 31日 21:29:17 UTC

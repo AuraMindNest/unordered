@@ -61,7 +61,7 @@ image:fca.png[fca]
 Boost.Unordered闭地址法实现的详细说明见https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。实现原理请参阅link:rationale.html#rationale_closed_addressing_containers[对应章节]。
 
 [[structures_open_addressing_containers]]
-== 开地址法容器
+== 开放寻址容器
 
 下图展示`boost::unordered_flat_set`/`unordered_node_set`及`boost:unordered_flat_map`/`unordered_node_map`的基础内部布局：
 

@@ -2025,7 +2025,7 @@ it is thrown by the container’s hash function or comparison function.
 '''''
 
 [[unordered_flat_map_statistics]]
-=== Statistics
+=== 统计信息
 
 [[unordered_flat_map_get_stats]]
 ==== get_stats

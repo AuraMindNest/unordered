@@ -16,8 +16,8 @@ As a result of its using open addressing, the interface of
 `boost::unordered_node_map` deviates in a number of aspects from that of
 `boost::unordered_map`/`std::unordered_map`:
 
-* `begin()` is not constant-time.
-* There is no API for bucket handling (except `bucket_count`).
+* `begin()` 不具备常数时间复杂度。
+* 不提供桶处理 API（`bucket_count` 除外）。
 * The maximum load factor of the container is managed internally and
 can’t be set by the user.
 
@@ -2319,7 +2319,7 @@ equivalent equality predicates.
 |===
 
 [[unordered_node_map_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----

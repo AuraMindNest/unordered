@@ -26,13 +26,13 @@ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[
 
 默认情况下，封闭寻址容器将显示 `[hash_function]`、`[key_eq]`、适用的
 `[spare_hash_function]` 与 `[spare_key_eq]`、`[allocator]`
-及元素列表。若启用用"detailed"视图将额外显示 `[bucket_count]` 和
+以及元素列表。若启用"detailed"视图将额外显示 `[bucket_count]` 和
 `[max_load_factor]`信息；若启用"simple"视图，则仅显示元素列表而不包含其他条目。
 
 默认情况下，开放寻址容器显示
-`[hash_function]`、`[key_eq]`、`[allocator]`
-及元素。使用"simple"视图仅显示元素。无论 SIMD 还是非 SIMD 实现，均可通过
-Natvis 框架查看。
+`[hash_function]`、`[key_eq]`、`[allocator]` 以及元素列表。若启用
+"simple" 视图，则仅显示元素列表而不包含其他条目。无论采用 SIMD 还是非
+SIMD 实现，均可通过 Natvis 框架进行可视化调试。
 
 迭代器显示方式与标准迭代器类似：指向元素的迭代器显示为元素值；结束迭代器显示为
 `{ 结束迭代器 }`。
@@ -40,53 +40,56 @@ Natvis 框架查看。
 [[debuggability_fancy_pointers]]
 === 花式指针
 
-容器可视化支持分配器中使用花式指针（如
-`boost::interprocess::offset_ptr`）。Boost.Unordered 通过 Natvis
-定制点支持各类花式指针。`boost::interprocess::offset_ptr` 已在
+分配器中使用花式指针（如
+`boost::interprocess::offset_ptr`）时，容器可视化功能仍可正常运作。Boost.Unordered
+通过 Natvis
+定制点支持所有类型的花式指针。`boost::interprocess::offset_ptr` 已在
 Boost.Interprocess 库中预定义支持，自定义类型支持方法请参阅文件
 https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[/extra/boost_unordered.natvis]
 末尾注释。
 
 [[debuggability_gdb_pretty_printers]]
-== GDB 美观打印器
+== GDB 美化打印器
 
-所有容器和迭代器均配备自定义 GDB 美观打印器。
+所有容器和迭代器均配备自定义 GDB 美化打印器。
 
 [[debuggability_using_in_your_project_2]]
 === 在项目中使用
 
-使用美观打印器前需启用格式化输出（通常为一次性设置）：
+使用美化打印器时，必须始终按以下方式启用美化打印功能。此项配置通常只需执行一次。
 
 [source,highlight]
 ----
 (gdb) set print pretty on
 ----
 
-默认情况下，ELF 格式二进制文件将嵌入 Boost.Unordered
-美观打印器。启用自动加载需执行以下命令（每次启动 GDB 时执行或添加到
-".gdbinit" 文件）：
+默认情况下，若编译目标为 ELF 二进制格式，生成的文件将内置
+Boost.Unordered
+美化打印器。要使用内嵌的美化打印器，请确保按以下方式启用自动加载功能（此操作需在每次启动
+GDB 时执行，或将其添加到 ".gdbinit" 配置文件中）。
 
 [source,highlight]
 ----
-(gdb) add-auto-load-safe-path [/可执行文件路径]
+(gdb) add-auto-load-safe-path [/path/to/executable]
 ----
 
-定义 `BOOST_ALL_NO_EMBEDDED_GDB_SCRIPTS` 可禁用所有 Boost
-库的内嵌美观打印器。
+用户可通过定义`BOOST_ALL_NO_EMBEDDED_GDB_SCRIPTS`
+宏，来选择在编译二进制文件时__不__嵌入美化打印器。该宏将禁用所有具备此功能的
+Boost 库中内嵌的 GDB 美化打印器。
 
-可通过外部 Python 脚本加载非嵌入版美观打印器：使用 `source` 命令添加脚本
-https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost_unordered_printers.py]：
+用户可通过外部非嵌入的 Python 脚本加载美化打印器：使用 `source` 命令添加
+https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost_unordered_printers.py]脚本即可。
 
 [source,highlight]
 ----
-(gdb) source [/boost路径]/libs/unordered/extra/boost_unordered_printers.py
+(gdb) source [/path/to/boost]/libs/unordered/extra/boost_unordered_printers.py
 ----
 
 [[debuggability_visualization_structure_2]]
 === 可视化结构
 
-可视化方案与标准无序容器一致：映射容器显示键到映射值的关联；集合容器显示索引到值的关联；迭代器显示为元素值或结束迭代器。示例如下（`boost::unordered_map`、`boost::unordered_set`
-及其迭代器）：
+可视化方案与标准无序容器保持一致：映射容器显示键到映射值的关联；集合容器显示从索引到值的关联关系。迭代器可显示为指向的元素内容，或标记为结束迭代器。下图展示了示例`boost::unordered_map`、示例`boost::unordered_set`
+及其迭代器：
 
 [source,highlight]
 ----

@@ -112,10 +112,10 @@ $6 = 迭代器 = { 结束迭代器 }
 
 无论采用 SIMD 还是非 SIMD 实现，均可通过 GDB 美化打印器查看。
 
-对启用link:hash_quality.html#hash_quality_container_statistics[容器统计]的开放寻址容器，可在
-GDB 中调用 `get_stats()` 获取统计信息。此方法通过
+对于启用link:hash_quality.html#hash_quality_container_statistics[容器统计]的开放寻址容器，可在
+GDB 中调用 `get_stats()` 方法来获取统计信息。该方法在GDB中被重写为
 https://sourceware.org/gdb/current/onlinedocs/gdb.html/Xmethod-API.html[xmethod]
-实现，不会触发 C++ 同步代码。输出格式示例如下：
+实现，因此不会执行任何C++同步代码。输出格式示例如下：
 
 [source,highlight]
 ----
@@ -130,12 +130,12 @@ $1 = [统计] = {[插入] = {[计数] = 5, [探测长度] = {平均值 = 1.0, �
 [[debuggability_fancy_pointers_2]]
 === 花式指针
 
-美观打印器支持分配器中使用花式指针（如
-`boost::interprocess::offset_ptr`）。Boost.Unordered 通过 GDB
-美观打印器定制点支持各类花式指针。`boost::interprocess::offset_ptr` 已在
-Boost.Interprocess 库中预定义支持，自定义类型支持方法请参阅文件
+当用户在分配器中使用花式指针（例如
+`boost::interprocess::offset_ptr`）时，GDB
+的美化打印器仍可正常工作。虽然这种情况不常见，但 Boost.Unordered
+为美化打印器提供了定制点，以支持任何类型的花式指针。`boost::interprocess::offset_ptr`的支持已在Boost.Interprocess库中预先定义，自定义类型支持方法请参阅文件
 https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost_unordered_printers.py]
-末尾注释。
+的末尾注释。
 
 [[footer]]
 [[footer-text]]

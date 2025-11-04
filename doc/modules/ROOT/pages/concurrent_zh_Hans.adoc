@@ -33,52 +33,53 @@ for (int i = 0; i < num_threads; ++i) {
 }
 ----
 
-上例中，线程访问 `m`
-时无需同步，如同单线程场景。理想情况下，若工作负载分配到 _N_
-个线程，执行速度将比单线程快 _N_
-倍——由于同步开销和__争用__（线程等待其他线程离开映射的锁定区域），实践中无法达到此极限。但
+在上例中，线程无需同步即可访问 `m`
+，这与单线程场景中的操作方式一致。在理想情况下，若将给定工作负载分配给
+_N_ 个线程，其执行速度相较单线程提升 _N_
+倍——由于同步开销与__争用__的存在（某线程等待其他线程离开容器的锁定区域），实践中无法达到此理论极限。但
 Boost.Unordered
-并发容器设计为极低开销，通常实现__线性扩展__（即性能与线程数成正比，最高至
-CPU 逻辑核心数）。
+并发容器设计为以极低开销运行，通常可实现__线性扩展__（即性能提升与线程数量成正比，直至达到
+CPU 的逻辑核心数）。
 
 [[concurrent_visitation_based_api]]
 == 基于访问的 API
 
 Boost.Unordered
-并发容器的新用户首先会注意到：这些类__不提供迭代器__（技术上不符合 C++
-标准中的https://en.cppreference.com/w/cpp/named_req/Container[容器]定义）。因为迭代器本质上是线程不安全的。考虑以下假设代码：
+并发容器的新用户首先会注意到：这些类__不提供迭代器__（它们在技术层面上不符合
+C++
+标准中的https://en.cppreference.com/w/cpp/named_req/Container[容器]定义）。因为迭代器本质上是线程不安全的。请参考以下假设代码：
 
 [source,highlight]
 ----
-auto it = m.find(k);  // A: 获取指向键 k 元素的迭代器
+auto it = m.find(k);  // A: 获取指向键为 k 的元素的迭代器
 if (it != m.end() ) {
-  some_function(*it); // B: 使用元素值
+  some_function(*it); // B: 使用该元素的值
 }
 ----
 
-多线程场景中，若其他线程在 A 和 B 之间执行 `m.erase(k)`，迭代器 `it`
+多线程场景中，若其他线程在 A 和 B 之间执行 `m.erase(k)`操作，迭代器 `it`
 可能在 B
-点失效。虽有方案可通过锁定元素解决此问题，但易引发高争用和死锁。`operator[]`
-存在类似并发问题，因此
+点失效。虽然存在通过锁定指向元素来修复此问题的设计方案，但这种方法容易引发高竞争并可能导致程序死锁。`operator[]`
+也存在类似并发问题，因此
 `boost::concurrent_flat_map`/`boost::concurrent_node_map`
 也未提供该操作。替代方案是通过__访问函数__操作元素：
 
 [source,highlight]
 ----
-m.visit(k, [](const auto& x) { // x 为键 k 的元素（若存在）
+m.visit(k, [](const auto& x) { // x 为键为 k 的元素（若存在）
   some_function(x);            // 使用该元素
 });
 ----
 
 用户传递的访问函数（此处为 lambda 函数）由 Boost.Unordered
-以线程安全方式内部执行，因此可安全访问元素，无需担心其他线程干扰。
+在内部以线程安全的方式执行，因此该函数可以安全访问目标元素，无需担心其他线程在此过程中造成干扰。
 
-但访问函数__不可__访问容器本身：
+另一方面，访问函数__无法__访问容器本身：
 
 [source,highlight]
 ----
 m.visit(k, [&](const auto& x) {
-  some_function(x, m.size()); // 禁止：访问函数内不能操作 m
+  some_function(x, m.size()); // 禁止：无法在访问过程中操作 m
 });
 ----
 
@@ -93,7 +94,7 @@ m.visit(k, [&](const auto& x) {
 });
 ----
 
-通常，访问函数应尽可能轻量以减少争用并提升并行性。某些情况下，将繁重操作移出访问函数可能更优：
+但通常而言，访问函数应尽可能轻量以减少争用并提升并行性。在某些情况下，将繁重操作移出访问函数可能更优：
 
 [source,highlight]
 ----
@@ -106,7 +107,8 @@ if (found) {
 }
 ----
 
-访问机制在并发容器 API 中占核心地位，许多经典操作都有其访问式变体：
+访问机制在并发容器 API
+中占据核心地位，许多经典操作都提供了支持访问机制的变体：
 
 [source,highlight]
 ----
@@ -117,11 +119,13 @@ m.insert_or_visit(x, [](auto& y) {
 });
 ----
 
-注意此例中访问函数可__修改__元素：通常，并发映射 `m` 的操作会根据其
-const/非 const 属性授予访问函数对应权限。使用 `cvisit` 重载（如
-`insert_or_cvisit`）可显式请求常量访问，可能提升并行性。而并发集合的访问始终为常量访问。
+注意此例中访问函数可__修改__元素：作为通用规则，对并发映射 `m`
+的操作将根据
+`m`是否为常量类型，授予访问函数对元素的常量/非常量访问权限。 通过使用
+`cvisit` 重载（如
+`insert_or_cvisit`）可始终显式请求常量访问，这可能提升并行性。而并发集合的访问始终为常量访问。
 
-虽然使用频率较低，但并发容器也提供在元素创建后立即访问的插入操作（除等价元素已存在时的常规访问外）：
+尽管预期使用频率较低，并发容器还提供在元素创建后立即进行访问的插入操作（除在已存在等价元素时执行常规访问之外）：
 
 [source,highlight]
 ----
@@ -134,7 +138,7 @@ const/非 const 属性授予访问函数对应权限。使用 `cvisit` 重载（
     });
 ----
 
-完整访问式操作列表请参阅
+支持访问功能的完整操作列表请参阅
 link:reference/concurrent_node_set.html#concurrent_node_set[`boost::concurrent_node_set`]、link:reference/concurrent_node_map.html#concurrent_node_map[`boost::concurrent_node_map`]、link:reference/concurrent_flat_set.html#concurrent_flat_set[`boost::concurrent_flat_set`]
 和
 link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent_flat_map`]
@@ -143,7 +147,7 @@ link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent_f
 [[concurrent_whole_table_visitation]]
 == 全表访问
 
-在无迭代器的情况下，`visit_all` 提供处理容器内全部元素的替代方案：
+在缺乏迭代器的情况下，`visit_all` 提供处理容器内全部元素的替代方案：
 
 [source,highlight]
 ----
@@ -152,7 +156,7 @@ m.visit_all([](auto& x) {
 });
 ----
 
-在支持标准并行算法的 C++17 编译器中，全表访问可并行化：
+在支持标准并行算法的 C++17 编译器中，全表遍历访问可进行并行化处理：
 
 [source,highlight]
 ----
@@ -161,7 +165,7 @@ m.visit_all(std::execution::par, [](auto& x) { // 并行执行
 });
 ----
 
-遍历可中途中断：
+遍历过程可中途中断：
 
 [source,highlight]
 ----
@@ -191,13 +195,13 @@ m.erase_if([](auto& x) {
 });
 ----
 
-`visit_while` 和 `erase_if`
-也可并行化。注意：为提升效率，全表访问操作不阻塞容器，这意味着其他线程可能在访问期间插入、修改或删除元素。建议勿对并发容器的全局状态做过多假设。
+`visit_while` 与 `erase_if`
+同样支持并行化。需要注意的是，为提升执行效率，全表遍历操作在运行期间不会锁定整个容器：这意味着在遍历过程中，其他线程可能同时执行元素的插入、修改或删除操作。建议在程序中避免对并发容器在任意时间点的全局状态做过强的假设。
 
 [[concurrent_bulk_visitation]]
 == 批量访问
 
-假设有需在并发映射中查找的 `std::array` 键数组：
+假设有一个 `std::array` 存储了需要在并发映射中查找的键：
 
 [source,highlight]
 ----
@@ -208,14 +212,14 @@ for(const auto& key: keys) {
 }
 ----
 
-__批量访问__支持单次操作传递所有键：
+__批量访问__允许用户通过单次操作传入所有键：
 
 [source,highlight]
 ----
 m.visit(keys.begin(), keys.end(), [](auto& x) { ++x.second; });
 ----
 
-此功能不仅为语法便利：通过一次性处理所有键，可应用内部优化提升性能（参见link:benchmarks.html#benchmarks_boostconcurrent_flatnode_map[基准测试]）。实际上，缓冲传入键值以分块批量访问可能更优：
+提供此功能并非仅出于语法便利性考量：通过一次性处理所有键，可应用内部优化提升性能（详见link:benchmarks.html#benchmarks_boostconcurrent_flatnode_map[基准测试]）。实际上，用户可通过缓冲输入键值以实现分块批量访问，从而进一步提升效率：
 
 [source,highlight]
 ----

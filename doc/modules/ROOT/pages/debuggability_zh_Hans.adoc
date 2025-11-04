@@ -10,18 +10,19 @@
 [[debuggability_using_in_your_project]]
 === 在项目中使用
 
-若要在项目中通过 Natvis 框架可视化 Boost.Unordered 容器，只需将文件
+若要在项目中通过 Natvis 框架实现 Boost.Unordered
+容器的可视化调试，只需将文件
 https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[/extra/boost_unordered.natvis]
-作为"现有项"添加到 Visual Studio 项目中。
+作为"现有项"添加到 Visual Studio 项目中即可。
 
 [[debuggability_visualization_structure]]
 === 可视化结构
 
 可视化方案与标准无序容器保持一致。容器单次最多显示 100
-个元素。集合元素的项目名称显示为 `[i]`（`i` 为显示索引，从 `0`
-开始）。映射元素默认显示为 `[{键值显示}]`，例如元素 `("abc", 1)`
-将显示为
-`["abc"]`。可通过"ShowElementsByIndex"视图覆盖此行为，该视图将映射元素按索引命名（与标准无序容器视图命名一致）。
+个元素。集合类容器中每个元素的项名称显示为 `[i]`（其中`i` 为从 `0`
+开始的显示索引）。映射元素默认显示为
+`[{键值显示}]`，例如当首元素为键值对 `("abc", 1)` 时，其项名称将显示为
+`["abc"]`。用户可通过启用"ShowElementsByIndex"视图模式切换为按索引命名元素，此视图命名规则与标准无序容器保持一致。
 
 默认情况下，封闭寻址容器将显示 `[hash_function]`、`[key_eq]`、适用的
 `[spare_hash_function]` 与 `[spare_key_eq]`、`[allocator]`

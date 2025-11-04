@@ -3,7 +3,7 @@
 [[content]]
 * 介绍.html
 * 桶.html
-* 哈希等价性.html
+* 哈希相等性.html
 * 常规类型.html
 * 并发.html
 * 哈希质量.html

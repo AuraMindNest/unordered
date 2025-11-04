@@ -1853,7 +1853,7 @@ it is thrown by the container’s hash function or comparison function.
 '''''
 
 [[unordered_node_set_statistics]]
-=== Statistics
+=== 统计信息
 
 [[unordered_node_set_get_stats]]
 ==== get_stats

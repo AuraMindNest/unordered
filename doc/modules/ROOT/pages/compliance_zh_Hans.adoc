@@ -89,24 +89,25 @@ https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指�
 == 并发容器
 
 C++
-标准当前未规定此类或其他并发数据结构的规范。`boost::concurrent_flat_set`/`boost::concurrent_node_set`
-和 `boost::concurrent_flat_map`/`boost::concurrent_node_map` 的 API
+标准目前尚未针对此类或任何其他类型的并发数据结构制定规范。`boost::concurrent_flat_set`/`boost::concurrent_node_set`
+与 `boost::concurrent_flat_map`/`boost::concurrent_node_map` 的 API
 分别基于 `std::unordered_flat_set` 和 `std::unordered_flat_map`
-建模，关键区别在于：由于迭代器在并发场景中的固有缺陷（高竞争、易死锁），因此不提供迭代器。故
+建模，其关键区别在于：由于迭代器在并发场景中存在固有缺陷（高竞争、易死锁），因此不提供迭代器。故
 Boost.Unordered 并发容器技术上不符合
-https://en.cppreference.com/w/cpp/named_req/Container[容器] 模型，但满足
+https://en.cppreference.com/w/cpp/named_req/Container[容器]
+模型，但满足除涉及迭代器之外的所有
 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
-容器的所有要求（包括
+容器的要求（包括对
 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]
-支持），隐含迭代器的要求除外。
+的支持）。
 
-在非并发无序容器中，迭代器主要有两个用途：
+在非并发无序容器中，迭代器主要有两项核心功能：
 
 * 访问先前通过查找定位的元素。
 * 容器遍历。
 
-Boost.Unordered
-并发容器使用__内部访问__机制作为线程安全的替代方案。传统返回容器中元素迭代器的操作（例如）：
+为替代迭代器，Boost.Unordered
+并发容器使用__内部访问__机制作为线程安全的替代方案。传统操作会返回指向容器中既有元素的迭代器（例如下列）：
 
 [source,highlight]
 ----
@@ -122,8 +123,8 @@ template<class F> size_t visit(const key_type& k, F f);
 template<class F> bool insert_or_visit(const value_type& obj, F f);
 ----
 
-（第二种情况中，仅当表中存在与 `obj` 等价元素时调用
-`f`，插入成功时不调用）。容器遍历通过以下方式实现：
+（第二种情况中，仅当表中存在与 `obj` 等价元素时才会调用
+`f`，而非在插入成功时调用）。容器遍历通过以下方式实现：
 
 [source,highlight]
 ----
@@ -133,15 +134,15 @@ template<class F> size_t visit_all(F f);
 在支持并行算法的 C++17
 编译器中提供并行化版本。通常，并发容器的接口通过将迭代器替换为访问机制的过程从非并发版本派生。对于常规映射，`iterator`
 和 `const_iterator`
-分别提供对元素的非常量和常量访问；此处访问权限取决于所用成员函数的常量性（另有
+分别提供对元素的非常量和常量访问；此处访问权限取决于所用成员函数的常量性（同时提供
 `*cvisit` 重载用于显式常量访问）。对于
-`boost::concurrent_flat_set`，访问始终为常量。
+`boost::concurrent_flat_set`，访问操作始终为常量。
 
 `boost::concurrent_flat_map`/`boost::concurrent_node_map`
-未提供的重要操作是 `operator[]`/`at`，可通过
+未提供的一个关键操作是 `operator[]`/`at`，该功能可通过
 link:reference/concurrent_flat_map.html#concurrent_flat_map_try_emplace_or_cvisit[`try_emplace_or_visit`]
-以更复杂的方式替代。
+实现替代（该方式更为复杂）。
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:30:55 UTC
+最后更新于 2025年 10月 31日 21:30:55 UTC

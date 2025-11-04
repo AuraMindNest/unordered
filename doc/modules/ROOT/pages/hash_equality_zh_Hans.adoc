@@ -16,8 +16,8 @@ template <
 class unordered_map;
 ----
 
-哈希函数排在首位，因为您可能希望更改哈希函数而不改变相等谓词。例如，若要使用
-https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a哈希]，可编写：
+哈希函数之所以排在首位，是因为用户可能希望更改哈希函数而不改变相等性谓词。例如，若要使用
+https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a哈希]，可以这样编写：
 
 [source,highlight]
 ----

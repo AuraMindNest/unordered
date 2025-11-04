@@ -27,7 +27,7 @@ boost::unordered_map<std::string, int, hash::fnv_1a>
 
 示例目录中提供了 link:../../../examples/fnv1.hpp[FNV-1a的实现]。
 
-若需使用不同的相等函数，则必须同时使用匹配的哈希函数。例如，要实现不区分大小写的字典，需定义不区分大小写的相等谓词和哈希函数：
+若需使用不同的相等性函数，则必须配套使用对应的哈希函数。例如，要实现不区分大小写的字典，就需要定义不区分大小写的相等性函数和配套的哈希函数：
 
 [source,highlight]
 ----
@@ -58,7 +58,7 @@ struct ihash
 };
 ----
 
-随后可在不区分大小写的字典中使用：
+随后可在不区分大小写的字典中使用它：
 
 [source,highlight]
 ----
@@ -66,23 +66,22 @@ boost::unordered_map<std::string, int, ihash, iequal_to>
     idictionary;
 ----
 
-此代码是
+这是位于
 link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp]
-示例的简化版本，支持其他区域设置和字符串类型。
+示例的简化版本，该版本支持其他区域设置和字符串类型。
 
 [width="100%",cols="50%,50%",]
 |===
 a|
 注意
 
-|使用相等运算符（`==`）与自定义相等谓词时需格外谨慎，尤其在使用函数指针时。若比较两个具有不同相等谓词的容器，结果将未定义。对于多数无状态函数对象，此情况不可能发生——因只能使用相同相等谓词比较对象，故可知谓词必然相同。但若使用函数指针或有状态相等谓词（如
-`boost::function`），则可能引发问题。
+|使用相等运算符（`==`）配合自定义相等性函数时需特别注意，尤其是在使用函数指针的情况下。若比较两个使用不同相等性函数的容器，将导致未定义行为。对于大多数无状态的函数对象而言，不可能发生这种结果——因为只有当两个容器使用相同的相等性函数时才能进行比较，此时可确保相等性函数是一致的。但若使用函数指针或带状态的相等性函数（例如`boost::function`），则可能引发问题。
 |===
 
 [[hash_equality_custom_types]]
 == 自定义类型
 
-类似地，自定义类型可使用自定义哈希函数：
+类似地，自定义类型也可使用自定义哈希函数：
 
 [source,highlight]
 ----
@@ -110,8 +109,9 @@ struct point_hash
 boost::unordered_multiset<point, point_hash> points;
 ----
 
-由于默认哈希函数是
-link:../../../../container_hash/index.html[Boost.Hash]，可扩展其以支持该类型，从而无需显式指定哈希函数：
+鉴于 link:../../../../container_hash/index.html[Boost.Hash]
+是默认的哈希函数，我们只需让自定义类型兼容
+Boost.Hash，即可免于显式指定哈希函数。
 
 [source,highlight]
 ----
@@ -136,17 +136,18 @@ std::size_t hash_value(point const& p) {
 boost::unordered_multiset<point> points;
 ----
 
-更多扩展方法详见
-link:../../../../container_hash/index.html[Boost.Hash文档]。请注意此功能依赖于标准扩展——故不适用于其他无序关联容器实现，需显式使用Boost.Hash。
+详见 link:../../../../container_hash/index.html[Boost.Hash
+文档]了解具体实现方式。请注意该实现依赖于对标准的扩展功能，因此不适用于其他版本的无序关联容器实现——您需要显式使用
+Boost.Hash 才能获得此功能。
 
-.表1：访问哈希函数与相等函数的方法
+.表1：哈希函数与相等性函数的访问方法
 [width="100%",cols="50%,50%",options="header",]
 |===
 |方法 |描述
 |`hasher hash_function() const` |返回容器的哈希函数。
-|`key_equal key_eq() const` |返回容器的键相等函数。
+|`key_equal key_eq() const` |返回容器的键相等性函数。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于2025-10-31 21:31:58 UTC
+最后更新于2025年10月31日 21:31:58 UTC

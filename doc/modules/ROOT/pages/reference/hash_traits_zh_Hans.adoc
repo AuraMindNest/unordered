@@ -2,7 +2,7 @@
 
 [[content]]
 [[hash_traits]]
-== 哈希特性
+== 哈希特征
 
 [[hash_traits_boostunorderedhash_traits_hpp_synopsis]]
 === `<boost/unordered/hash_traits.hpp>` 概要

@@ -4,9 +4,8 @@
 [[concurrent_flat_map]]
 == Class Template concurrent_flat_map
 
-`boost::concurrent_flat_map` — A hash table that associates unique keys
-with another value and allows for concurrent element insertion, erasure,
-lookup and access without external synchronization mechanisms.
+`boost::concurrent_flat_map` —
+一种哈希表，用于建立唯一键与对应值的关联，支持并发的元素插入、删除、查找及访问操作，且无需外部同步机制。
 
 Even though it acts as a container, `boost::concurrent_flat_map` does
 not model the standard C++

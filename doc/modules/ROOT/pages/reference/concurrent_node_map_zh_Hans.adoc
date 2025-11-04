@@ -2519,7 +2519,7 @@ it is thrown by the table’s hash function or comparison function.
 '''''
 
 [[concurrent_node_map_statistics]]
-=== Statistics
+=== 统计信息
 
 [[concurrent_node_map_get_stats]]
 ==== get_stats

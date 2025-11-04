@@ -19,7 +19,7 @@
 * link:reference/unordered_set.html[类模板 `unordered_set`]
 * link:reference/unordered_multiset.html[类模板 `unordered_multiset`]
 * link:reference/hash_traits.html[哈希特征]
-* link:reference/stats.html[统计]
+* link:reference/stats.html[统计信息]
 * link:reference/header_unordered_flat_map_fwd.html[`<boost/unordered/unordered_flat_map_fwd.hpp>`
 概要]
 * link:reference/header_unordered_flat_map.html[`<boost/unordered/unordered_flat_map.hpp>`

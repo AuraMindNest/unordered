@@ -282,7 +282,7 @@ namespace unordered {
 '''''
 
 [[unordered_map_description]]
-=== Description
+=== 描述
 
 *Template Parameters*
 

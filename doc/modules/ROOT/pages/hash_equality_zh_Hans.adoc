@@ -1,9 +1,9 @@
 [[header]]
-== 相等谓词与哈希函数
+== 相等性谓词与哈希函数
 
 [[content]]
 [[preamble]]
-虽然关联容器使用排序关系指定元素的存储方式，但无序关联容器使用相等谓词和哈希函数。例如，link:reference/unordered_map.html[`boost::unordered_map`]
+关联容器使用排序关系来规定元素的存储方式，而无序关联容器则依赖相等性谓词与哈希函数。例如，link:reference/unordered_map.html[`boost::unordered_map`]
 的声明如下：
 
 [source,highlight]

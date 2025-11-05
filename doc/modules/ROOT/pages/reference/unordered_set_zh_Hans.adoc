@@ -421,8 +421,8 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，并将
-`[f, l)` 范围内的元素插入其中。
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将区间
+`[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -440,10 +440,10 @@ template<class InputIterator>
 unordered_set(const unordered_set& other);
 ----
 
-复制构造函数。复制包含的元素、哈希函数、谓词、最大负载因子和分配器。
+复制构造函数。复制容器内的元素、哈希函数、谓词、最大负载因子以及分配器。
 
 如果 `Allocator::select_on_container_copy_construction`
-存在且签名正确，分配器将根据其结果构造。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===
@@ -480,13 +480,13 @@ template<class InputIterator>
 ----
 
 使用 `a`
-作为分配器构造一个空容器，使用默认的哈希函数和键相等谓词，最大负载因子为
-`1.0`，并将 `[f, l)` 范围内的元素插入其中。
+作为分配器构造一个空容器，使用默认的哈希函数和键相等性谓词，并设置最大负载因子为
+`1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
 |要求： |`hasher`、`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -512,7 +512,7 @@ unordered_set(const unordered_set& other, const Allocator& a);
 ----
 
 构造一个容器，复制 `other`
-包含的元素、哈希函数、谓词、最大负载因子，但使用分配器 `a`。
+包含的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a`。
 
 '''''
 
@@ -525,7 +525,7 @@ unordered_set(unordered_set&& other, const Allocator& a);
 ----
 
 构造一个容器，移动 `other`
-包含的元素，并具有相同的哈希函数、谓词和最大负载因子，但使用分配器 `a`。
+包含的元素，并获取其哈希函数、谓词和最大负载因子，但使用分配器 `a`。
 
 [cols=",",]
 |===
@@ -618,7 +618,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher`、`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''

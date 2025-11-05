@@ -37,7 +37,7 @@
 为避免此问题，可对哈希函数施加转换操作（具体示例可参阅http://web.archive.org/web/20121102023700/http://www.concentric.net/~Ttwang/tech/inthash.htm[Thomas
 Wang整数哈希函数文章]）。但此类变换需知晓哈希值比特数，故仅在`size_t`为64位时才会启用。
 
-自1.79.0版起，改用https://en.wikipedia.org/wiki/Hash_function#Fibonacci_hashing[斐波那契哈希]。此实现通过公式`(h * m) >> (w - k)`确定桶编号：`h`为哈希值，`m`为`2^w`除以黄金分割率，`w`为字长（32或64位），`2^k`为桶数。此法在速度与分布间取得平衡。
+自1.79.0版起，改用https://en.wikipedia.org/wiki/Hash_function#Fibonacci_hashing[斐波那契哈希]。在此实现中，桶编号通过公式`(h * m) >> (w - k)`确定：其中`h`为哈希值，`m`为`2^w`除以黄金分割比的值，`w`为字长（32位或64位），`2^k`表示桶的数量。此方法在速度和分布均匀性之间实现了较好的平衡。
 
 自1.80.0版起，结合精密取模运算选用质数桶量，无需1.79.0版所用的用户哈希函数结果"混合"处理。
 

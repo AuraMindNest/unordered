@@ -16,7 +16,8 @@ As a result of its using open addressing, the interface of
 `boost::unordered_node_map` deviates in a number of aspects from that of
 `boost::unordered_map`/`std::unordered_map`:
 
-* 不提供桶处理 API（`bucket_count` 除外）。
+* The maximum load factor of the container is managed internally and
+can’t be set by the user.
 * The maximum load factor of the container is managed internally and
 can’t be set by the user.
 * The maximum load factor of the container is managed internally and
@@ -311,9 +312,9 @@ container.
 `Key`. It takes a single argument of type `Key` and returns a value of
 type `std::size_t`.
 
-|_Pred_ |A binary function object that induces an equivalence relation
-on values of type `Key`. It takes two arguments of type `Key` and
-returns a value of type `bool`.
+|_相等性谓词_ |A binary function object that induces an equivalence
+relation on values of type `Key`. It takes two arguments of type `Key`
+and returns a value of type `bool`.
 
 |_Allocator_ |An allocator whose value type is the same as the
 container’s value type. Allocators using
@@ -1938,8 +1939,7 @@ template<class K>
 
 [cols=",",]
 |===
-|Returns: |If an exception is thrown by an operation other than a call
-to `hasher` the function has no effect.
+|Returns: |`value_type` is constructible from `args`.
 
 |Returns: |The `template<class K>` overloads only participate in
 overload resolution if `Hash::is_transparent` and `Pred::is_transparent`

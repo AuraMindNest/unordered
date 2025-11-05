@@ -319,7 +319,7 @@ typedef 由实现定义 const_local_iterator;
 一个常量迭代器，其值类型、差类型、指针和引用类型均与 const_iterator
 相同。
 
-const_local_iterator 对象可用于遍历单个桶。
+const_local_iterator 对象，可用于遍历单个桶内的元素。
 
 '''''
 
@@ -343,9 +343,9 @@ typedef 由实现定义 node_type;
 unordered_multiset();
 ----
 
-使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键等价谓词、`allocator_type()` 作为分配器以及最大负载因子 `1.0`
-构造空容器。
+构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
+作为键相等性谓词，`allocator_type()` 作为分配器，并设置最大负载因子为
+`1.0`。
 
 [cols=",",]
 |===
@@ -368,8 +368,8 @@ explicit unordered_multiset(size_type n,
                             const allocator_type& a = allocator_type());
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键等价谓词、`a` 作为分配器以及最大负载因子 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`。
 
 [cols=",",]
 |===
@@ -394,9 +394,9 @@ template<class InputIterator>
                      const allocator_type& a = allocator_type());
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键等价谓词、`a` 作为分配器以及最大负载因子 `1.0`，并将 `[f, l)`
-的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，并将
+`[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===

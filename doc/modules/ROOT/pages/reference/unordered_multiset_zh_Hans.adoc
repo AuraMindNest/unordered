@@ -316,7 +316,8 @@ typedef 由实现定义 local_iterator;
 typedef 由实现定义 const_local_iterator;
 ----
 
-常量迭代器，其值类型、差值类型、指针和引用类型与 const_iterator 相同。
+一个常量迭代器，其值类型、差类型、指针和引用类型均与 const_iterator
+相同。
 
 const_local_iterator 对象可用于遍历单个桶。
 

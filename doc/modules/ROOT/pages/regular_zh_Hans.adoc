@@ -96,10 +96,11 @@ x.rehash(std::ceil(n / x.max_load_factor()))
 |通过排序关系 `Compare`进行 参数化 |通过函数对象 `Hash` 和等价关系
 `Pred` 进行参数化
 
-|可通过成员函数 `key_comp()` 访问键比较器 `key_compare`，通过
-`value_comp()` 访问值比较器 `value_compare`。 |可通过成员函数
-`hash_function()` 访问哈希函数 `hasher`，通过 `key_eq()`
-访问键等价判断器 `key_equal`。无用于值比较或哈希的函数对象。
+|可通过成员函数 `key_comp()` 获取用于比较键的
+`key_compare`类型对象，通过成员函数 `value_comp()` 获取用于比较值的
+`value_compare`类型对象。 |可通过成员函数 `hash_function()` 访问哈希函数
+`hasher`，通过 `key_eq()` 访问键等价判断器
+`key_equal`。无用于值比较或哈希的函数对象。
 
 |构造函数包含可选的比较对象参数。
 |构造函数包含可选的初始最小桶数、哈希函数和等价对象参数。

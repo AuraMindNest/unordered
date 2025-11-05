@@ -395,8 +395,8 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，并将
-`[f, l)` 范围内的元素插入其中。
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将区间
+`[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -414,10 +414,10 @@ template<class InputIterator>
 unordered_multiset(const unordered_multiset& other);
 ----
 
-复制构造函数。复制包含的元素、哈希函数、谓词、最大负载因子和分配器。
+复制构造函数。复制容器内的元素、哈希函数、谓词、最大负载因子以及分配器。
 
-若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则分配器将从其结果构造。
+如果 `Allocator::select_on_container_copy_construction`
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===
@@ -453,8 +453,9 @@ template<class InputIterator>
   unordered_multiset(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-使用 `a` 作为分配器、默认哈希函数和键等价谓词以及最大负载因子 `1.0`
-构造空容器，并将 `[f, l)` 的元素插入其中。
+使用 `a`
+作为分配器构造一个空容器，使用默认的哈希函数和键相等性谓词，并设置最大负载因子为
+`1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -472,7 +473,7 @@ template<class InputIterator>
 explicit unordered_multiset(const Allocator& a);
 ----
 
-使用分配器 `a` 构造空容器。
+使用分配器 `a` 构造一个空容器。
 
 '''''
 
@@ -484,8 +485,8 @@ explicit unordered_multiset(const Allocator& a);
 unordered_multiset(const unordered_multiset& other, const Allocator& a);
 ----
 
-构造容器，复制 `other`
-包含的元素、哈希函数、谓词和最大负载因子，但使用分配器 `a`。
+构造一个容器，复制 `other`
+包含的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a`。
 
 '''''
 
@@ -497,8 +498,8 @@ unordered_multiset(const unordered_multiset& other, const Allocator& a);
 unordered_multiset(unordered_multiset&& other, const Allocator& a);
 ----
 
-构造容器，移动 `other`
-包含的元素，并具有其哈希函数、谓词和最大负载因子，但使用分配器 `a`。
+构造一个容器，移动 `other`
+包含的元素，并获取其哈希函数、谓词和最大负载因子，但使用分配器 `a`。
 
 [cols=",",]
 |===

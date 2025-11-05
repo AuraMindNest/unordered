@@ -318,7 +318,7 @@ typedef 由实现定义 const_iterator;
 typedef 由实现定义 node_type;
 ----
 
-用于保存提取的容器元素的类，建模为
+一个用于保存提取的容器元素的类，建模
 https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
@@ -341,7 +341,7 @@ struct insert_return_type // 名称仅为说明
 };
 ----
 
-其中 `Iterator` = `iterator` 且 `NodeType` = `node_type`。
+其中 `Iterator` = `iterator`，`NodeType` = `node_type`。
 
 '''''
 
@@ -363,8 +363,8 @@ unordered_node_set();
 |===
 |后置条件： |`size() == 0`
 
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -387,8 +387,8 @@ explicit unordered_node_set(size_type n,
 |===
 |后置条件： |`size() == 0`
 
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -411,8 +411,8 @@ template<class InputIterator>
 
 [cols=",",]
 |===
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -552,8 +552,8 @@ unordered_node_set(std::initializer_list<value_type> il,
 
 [cols=",",]
 |===
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''

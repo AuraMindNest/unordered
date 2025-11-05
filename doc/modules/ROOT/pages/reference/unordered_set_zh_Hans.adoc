@@ -322,7 +322,7 @@ typedef 由实现定义 const_local_iterator;
 一个常量迭代器，其值类型、差类型、指针和引用类型均与 const_iterator
 相同。
 
-const_local_iterator 对象可用于遍历单个桶。
+const_local_iterator 对象，可用于遍历单个桶内的元素。
 
 '''''
 
@@ -369,16 +369,16 @@ struct insert_return_type // 名称仅为说明
 unordered_set();
 ----
 
-使用 `hasher()` 作为哈希函数，`key_equal()`
-作为键相等谓词，`allocator_type()` 作为分配器，以及最大负载因子 `1.0`
-构造一个空容器。
+构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
+作为键相等性谓词，`allocator_type()` 作为分配器，并设置最大负载因子为
+`1.0`。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -395,14 +395,14 @@ explicit unordered_set(size_type n,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等谓词，`a` 作为分配器，且最大负载因子为 `1.0`。
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -421,13 +421,13 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等谓词，`a` 作为分配器，且最大负载因子为 `1.0`，并将 `[f, l)`
-范围内的元素插入其中。
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，并将
+`[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -553,8 +553,8 @@ unordered_set(std::initializer_list<value_type> il,
 
 [cols=",",]
 |===
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''

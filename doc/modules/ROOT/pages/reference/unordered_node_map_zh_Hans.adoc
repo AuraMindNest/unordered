@@ -305,7 +305,7 @@ namespace unordered {
 的值上诱导等价关系。它接受两个类型为 `Key` 的参数，并返回一个类型为
 `bool` 的值。
 
-|_分配器_
+|_Allocator_
 |一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
@@ -365,7 +365,8 @@ typedef 由实现定义 const_iterator;
 typedef 由实现定义 node_type;
 ----
 
-用于保存提取的容器元素的类，建模为https://en.cppreference.com/w/cpp/container/node_handle[节点句柄]。
+一个用于保存提取的容器元素的类，建模
+https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
 

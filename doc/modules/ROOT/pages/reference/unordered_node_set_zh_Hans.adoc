@@ -248,14 +248,13 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key`
+|_Key_ |`Key`
 必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
 
-|_哈希函数_ |一种作为 `Key`
-哈希函数的一元函数对象类型。该函数对象接受单个 `Key` 类型的参数，并返回
-`std::size_t` 类型的值。
+|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
+的参数，并返回一个类型为 `std::size_t` 的值。
 
-|_Pred_ |二元函数对象，用于在类型为 `Key`
+|_相等性谓词_ |二元函数对象，用于在类型为 `Key`
 的值上诱导等价关系。它接受两个类型为 `Key` 的参数，并返回一个类型为
 `bool` 的值。
 

@@ -1943,7 +1943,7 @@ void reserve(size_type n);
 '''''
 
 [[concurrent_flat_set_statistics]]
-=== 统计
+=== 统计信息
 
 [[concurrent_flat_set_get_stats]]
 ==== get_stats

@@ -59,33 +59,42 @@ boost::hash 缺乏开放寻址所需的统计特性，我们额外增加了后�
      _a_ ← _h_ *mul* _C_, +
 _h_ ← *high*(_a_) *xor* *low*(_a_),
 
-其中**mul**为扩展乘法（64位架构128位，32位环境64位），**high**和**low**分别为扩展字的高/低半部。64位架构中__C__为2^64^∕https://en.wikipedia.org/wiki/Golden_ratio[_φ_]的整数部分；32位中__C__
+其中**mul**为__扩展乘法__（在 64 位架构中生成 128 位结果，在 32
+位环境中生成 64
+位结果），**high**和**low**分别表示扩展字的高位与低位部分。在 64
+位架构中，__C__取值为2^64^∕https://en.wikipedia.org/wiki/Golden_ratio[_φ_]的整数部分；而在32位中__C__
 = 0xE817FB2Du源自https://arxiv.org/abs/2001.05304[Steele与Vigna
 (2021)]。
 
-若哈希函数直接适用于开地址法，可通过link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]特性禁用后混合。`boost::hash`对字符串类型的特化被标记为雪崩式。
+当所使用的哈希函数本身已适用于开放寻址时，可通过专用的link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]
 
 [[rationale_platform_interoperability]]
 === 平台互操作性
 
-只要`std::size_t`长度相同且用户提供的哈希函数/相等谓词可互操作，`boost::unordered_flat_set`/`unordered_node_set`及`boost::unordered_flat_map`/`unordered_node_map`的观测行为在不同编译器间确定性一致——包括相同操作序列下元素的完全一致排序。
+只要不同编译器的`std::size_t`具有相同位宽，且用户提供的哈希函数与相等性谓词具备跨平台一致性，那么
+`boost::unordered_flat_set`/`unordered_node_set`及`boost::unordered_flat_map`/`unordered_node_map`的可观测行为在不同编译器间将保持确定性一致——这包括在相同的操作序列下，元素在迭代时的出现顺序完全相同。
 
-尽管实现在可用时内部使用https://en.wikipedia.org/wiki/SSE2[SSE2]、https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(NEON)[Neon]等SIMD技术，但不影响互操作性。例如：带SSE2的x64模式Intel
-CPU上Visual Studio的行为，与无SIMD支持的IBM s390x上GCC的行为完全一致。
+尽管实现在内部会适时运用 SIMD
+技术（如https://en.wikipedia.org/wiki/SSE2[SSE2]与https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(NEON)[Neon]等)，但这并不会影响其跨平台互操作性。例如，在支持
+SSE2 的 x64 架构 Intel CPU 上使用 Visual Studio 编译器，与在不支持任何
+SIMD 技术的 IBM s390x 架构上使用 GCC
+编译器，两者的容器行为表现完全一致。
 
 [[rationale_concurrent_containers]]
 == 并发容器
 
-Boost.Unordered开地址容器使用的数据结构亦被选作`boost::concurrent_flat_set`/`boost::concurrent_node_set`及`boost::concurrent_flat_map`/`boost::concurrent_node_map`的基础：
+Boost.Unordered开放寻址容器所采用的底层数据结构，同样被选作`boost::concurrent_flat_set`/`boost::concurrent_node_set`与`boost::concurrent_flat_map`/`boost::concurrent_node_map`的实现基础：
 
-* 开地址法在非并发和并发场景下均优于闭地址方案。
-* 开地址布局极适合最小化锁定的并发访问与修改。特别是元数据数组可实现查找操作的免锁设计（直至最终元素比较步骤）。
-* 与Boost.Unordered扁平容器的布局兼容性支持link:concurrent.html#concurrent_interoperability_with_non_concurrent_containers[快速转移]所有元素至并发容器（或反向操作）。
+* 无论在非并发还是并发场景下，开放寻址方案的性能均优于闭寻址方案。
+* 开放寻址的内存布局极其适合在最小化锁竞争的条件下进行并发访问与修改。具体而言，其元数据数组可实现无锁查找，直至最终执行实际元素比较的阶段。
+* 并发容器与 Boost.Unordered
+扁平容器具有内存布局兼容性，支持其与非并发对应容器之间link:concurrent.html#concurrent_interoperability_with_non_concurrent_containers[快速双向传输]所有元素。
 
 [[rationale_hash_function_and_platform_interoperability]]
 === 哈希函数与平台互操作性
 
-在link:#rationale_hash_function[哈希函数默认设置]和link:#rationale_platform_interoperability[平台互操作性]方面，并发容器采用与Boost.Unordered开地址容器相同的决策并提供同等保证。
+在link:#rationale_hash_function[哈希函数默认设置]和link:#rationale_platform_interoperability[平台互操作性]方面，并发容器遵循与
+Boost.Unordered 开放寻址容器相同的决策逻辑并提供同等保证。
 
 [[footer]]
 [[footer-text]]

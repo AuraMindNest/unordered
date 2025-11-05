@@ -258,13 +258,14 @@ namespace unordered {
 类型值的等价关系。该函数对象接受两个`Key`
 类型参数，并返回一个布尔类型的值。
 
-|_Allocator_
-|一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[高级指针]的分配器。
+|_分配器_
+|一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
-元素被组织到桶中。具有相同哈希码的键存储在同一个桶中。
+元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
-桶的数量可以通过调用 insert 自动增加，或作为调用 rehash 的结果而增加。
+桶的数量可通过调用 insert 操作自动增加，也可通过调用 rehash
+方法进行调整。
 
 [[unordered_set_configuration_macros]]
 === 配置宏
@@ -272,8 +273,8 @@ namespace unordered {
 [[unordered_set_boost_unordered_enable_serialization_compatibility_v0]]
 ==== `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
 
-全局定义此宏以支持加载在 Boost 1.84 之前版本中保存到 Boost.Serialization
-归档的 `unordered_set`。
+全局定义此宏可支持加载 Boost 1.84 之前版本保存至 Boost.Serialization
+归档文件的 `unordered_set`数据。
 
 [[unordered_set_typedefs]]
 === 类型定义
@@ -307,9 +308,9 @@ typedef 由实现定义 const_iterator;
 typedef 由实现定义 local_iterator;
 ----
 
-一个迭代器，其值类型、差类型、指针和引用类型与 iterator 相同。
+一个迭代器，其值类型、差类型、指针和引用类型均与 iterator 相同。
 
-`local_iterator` 对象可用于遍历单个桶。
+`local_iterator` 对象，可用于遍历单个桶内的元素。
 
 '''''
 
@@ -318,7 +319,8 @@ typedef 由实现定义 local_iterator;
 typedef 由实现定义 const_local_iterator;
 ----
 
-一个常量迭代器，其值类型、差类型、指针和引用类型与 const_iterator 相同。
+一个常量迭代器，其值类型、差类型、指针和引用类型均与 const_iterator
+相同。
 
 const_local_iterator 对象可用于遍历单个桶。
 

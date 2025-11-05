@@ -44,15 +44,17 @@ Wang整数哈希函数文章]）。但此类变换需知晓哈希值比特数，
 [[rationale_open_addresing_containers]]
 == 开地址容器
 
-C++标准对无序关联容器的规范严格限制了可行实现方案，最重要约束是隐式要求闭地址法。适度放宽此规范可提供充分利用开地址技术的容器变体。
+C++
+标准对无序关联容器的实现规范施加了严格限制。最重要约束是隐式假设必须采用闭寻址方案。若适当放宽此规范，则能充分利用开放寻址技术优势，提供多样化的容器实现变体。
 
 `boost::unordered_flat_set`/`unordered_node_set`及`boost::unordered_flat_map`/`unordered_node_map`的设计遵循Peter
-Dimov的https://pdimov.github.io/articles/unordered_dev_plan.html[Boost.Unordered开发计划]。下文讨论核心原则。
+Dimov的https://pdimov.github.io/articles/unordered_dev_plan.html[Boost.Unordered开发计划]中提出的指导原则。下文将探讨其中最核心的设计理念。
 
 [[rationale_hash_function]]
 === 哈希函数
 
-基于丰富功能与跨平台互操作性，`boost::hash`仍是开地址容器的默认哈希函数。但`boost::hash`对整型等基础类型缺乏开地址法所需的统计特性，故实施后混合阶段：
+基于其丰富功能与跨平台互操作性，`boost::hash`仍是开放寻址容器的默认哈希函数。但由于其对整型等基础类型实现的
+boost::hash 缺乏开放寻址所需的统计特性，我们额外增加了后混合处理阶段：
 
      _a_ ← _h_ *mul* _C_, +
 _h_ ← *high*(_a_) *xor* *low*(_a_),

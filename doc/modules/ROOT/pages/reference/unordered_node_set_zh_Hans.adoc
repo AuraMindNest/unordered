@@ -428,7 +428,7 @@ unordered_node_set(unordered_node_set const& other);
 复制构造函数。复制包含的元素、哈希函数、谓词和分配器。
 
 如果 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则分配器将根据其结果构造。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===

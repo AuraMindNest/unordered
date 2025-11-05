@@ -258,8 +258,8 @@ namespace unordered {
 的值上诱导等价关系。它接受两个类型为 `Key` 的参数，并返回一个类型为
 `bool` 的值。
 
-|_Allocator_
-|分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|_分配器_
+|一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 容器的元素节点保存在内部的__桶数组__中。节点根据其元素的哈希码插入到确定的桶中，但如果桶已被占用（_冲突_），则使用原始位置附近的可用桶。
@@ -287,7 +287,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 '''''
 
 [[unordered_node_set_typedefs]]
-=== 类型别名
+=== 类型定义
 
 [source,highlight]
 ----

@@ -473,10 +473,10 @@ template<class InputIterator>
 unordered_node_map(unordered_node_map const& other);
 ----
 
-复制构造函数。复制容器中的元素、哈希函数、谓词和分配器。
+复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
 
-如果 `Allocator::select_on_container_copy_construction`
-方法存在且签名正确，则将基于其返回结果构造分配器。
+若 `Allocator::select_on_container_copy_construction`
+存在且签名正确，则将基于其返回结果构造分配器。
 
 '''''
 

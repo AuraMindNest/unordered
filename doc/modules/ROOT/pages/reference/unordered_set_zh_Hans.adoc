@@ -1649,17 +1649,17 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 的模板化重载是非标准扩展，允许用户通过兼容的哈希函数和相等性谓词处理不同类型的键，从而避免昂贵的类型转换。通常不建议使用该扩展，而应优先使用基于
 `K` 类型的成员函数模板。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义时，`template<class K>`
+重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_set_count]]
-==== count
+==== 统计
 
 [source,highlight]
 ----
@@ -1670,18 +1670,18 @@ template<class K>
 
 [cols=",",]
 |===
-|返回值： |键等价于 `k` 的元素数量。
+|返回值： |返回键等价于 `k` 的元素数量。
 
-|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+|备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义时，`template<class K>`
+重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
 
 [[unordered_set_contains]]
-==== contains
+==== 存在性检查
 
 [source,highlight]
 ----
@@ -1692,12 +1692,12 @@ template<class K>
 
 [cols=",",]
 |===
-|返回值： |一个布尔值，指示容器中是否存在键等于 `key` 的元素。
+|返回值： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
-|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+|备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义时，`template<class K>`
+重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1717,14 +1717,14 @@ template<class K>
 
 [cols=",",]
 |===
-|返回值： |包含所有键等价于 `k`
+|返回值： |返回包含所有键等价于 `k`
 的元素的区间。如果容器不包含任何此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
-|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+|备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义时，`template<class K>`
+重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1757,7 +1757,7 @@ size_type max_bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回值： |桶数量的上限。
+|返回值： |桶数量的上限值。
 |===
 
 '''''
@@ -1773,7 +1773,7 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n < bucket_count()`
-|返回值： |桶 `n` 中的元素数量。
+|返回值： |返回桶 `n` 中的元素数量。
 |===
 
 '''''
@@ -1789,14 +1789,14 @@ template<class K> size_type bucket(const K& k) const;
 
 [cols=",",]
 |===
-|返回值： |将包含键为 `k` 的元素的桶的索引。
+|返回值： |返回键为 `k` 的元素的桶的索引。
 
 |后置条件： |返回值小于 `bucket_count()`。
 
-|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+|备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义时，`template<class K>`
+重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1812,7 +1812,7 @@ const_local_iterator begin(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
 |返回值： |指向索引为 `n` 的桶中第一个元素的局部迭代器。
 |===
 
@@ -1829,8 +1829,8 @@ const_local_iterator end(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回值： |指向索引为 `n` 的桶中“尾后”元素的局部迭代器。
+|要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
+|返回值： |返回指向索引为 `n` 的桶中“尾后”元素的局部迭代器。
 |===
 
 '''''
@@ -1845,8 +1845,8 @@ const_local_iterator cbegin(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回值： |指向索引为 `n` 的桶中第一个元素的常量局部迭代器。
+|要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
+|返回值： |返回指向索引为 `n` 的桶中第一个元素的常量局部迭代器。
 |===
 
 '''''
@@ -1861,8 +1861,8 @@ const_local_iterator cend(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回值： |指向索引为 `n` 的桶中“尾后”元素的常量局部迭代器。
+|要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
+|返回值： |返回指向索引为 `n` 的桶中“尾后”元素的常量局部迭代器。
 |===
 
 '''''
@@ -1910,24 +1910,24 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |更改容器的最大负载因子，使用 `z` 作为提示。
+|效果： |使用 `z` 作为提示值来更改容器的最大负载因子。
 |===
 
 '''''
 
 [[unordered_set_rehash]]
-==== rehash
+==== 重哈希操作
 
 [source,highlight]
 ----
 void rehash(size_type n);
 ----
 
-更改桶的数量，使得至少有 `n`
-个桶，且负载因子小于或等于最大负载因子。适用时，这将增加或减少与容器关联的
+调整桶的数量，使其至少为 `n`
+个，并确保负载因子小于或等于最大负载因子。该操作会根据实际情况扩容或缩容容器关联的
 `bucket_count()`。
 
-当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
+当 `size() == 0` 时，执行`rehash(0)` 将释放底层桶数组的内存。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 

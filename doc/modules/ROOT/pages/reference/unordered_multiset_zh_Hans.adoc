@@ -1072,8 +1072,9 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足从 `*first` 到 `X`
-的https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
+|要求： |`value_type` 必须满足从 `*first`
+参数https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
+`X`的要求。
 
 |抛出： |插入单个元素时，若异常由 `hasher`
 调用外的操作抛出，则函数无效果。
@@ -1100,7 +1101,7 @@ void insert(std::initializer_list<value_type> il);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]容器。
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
 
 |抛出： |插入单个元素时，若异常由 `hasher`
 调用外的操作抛出，则函数无效果。
@@ -1122,18 +1123,18 @@ void insert(std::initializer_list<value_type> il);
 node_type extract(const_iterator position);
 ----
 
-移除 `position` 指向的元素。
+移除由 `position` 指向的元素。
 
 [cols=",",]
 |===
-|返回： |拥有该元素的 `node_type`。
+|返回： |返回拥有该元素的 `node_type`节点对象。
 |备注： |通过此方法提取的节点可插入兼容的 `unordered_set`。
 |===
 
 '''''
 
 [[unordered_multiset_extract_by_value]]
-==== 通过值提取
+==== 通过键值提取元素
 
 [source,highlight]
 ----
@@ -1145,7 +1146,8 @@ template<class K> node_type extract(K&& k);
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |若找到则返回拥有该元素的 `node_type`，否则返回空 `node_type`。
+|返回： |如果找到，则返回拥有该元素的 `node_type`对象；否则返回空的
+`node_type`对象。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
 
@@ -1163,7 +1165,7 @@ template<class K> node_type extract(K&& k);
 '''''
 
 [[unordered_multiset_insert_with_node_handle]]
-==== 插入 `node_handle`
+==== 通过 `node_handle` 插入
 
 [source,highlight]
 ----
@@ -1195,7 +1197,7 @@ iterator insert(node_type&& nh);
 '''''
 
 [[unordered_multiset_insert_with_hint_and_node_handle]]
-==== 带提示插入 `node_handle`
+==== 带提示和 `node_handle` 的插入
 
 [source,highlight]
 ----

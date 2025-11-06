@@ -5,17 +5,18 @@
 == 类模板 concurrent_flat_set
 
 `boost::concurrent_flat_set` ——
-一种哈希表，存储唯一值并支持无外部同步机制的并发元素插入、擦除、查找和访问。
+一种存储唯一值的哈希表，它支持并发的元素插入、删除、查找及访问操作，且无需外部同步机制。
 
-尽管 `boost::concurrent_flat_set` 作为容器使用，但它并不符合标准 C++
-https://en.cppreference.com/w/cpp/named_req/Container[容器]概念。特别是，不提供迭代器及相关操作（`begin`、`end`
+尽管 `boost::concurrent_flat_set` 具备容器特性，但它并不符合 C++标准中的
+https://en.cppreference.com/w/cpp/named_req/Container[容器]概念。具体而言，该容器未提供迭代器及相关操作（如`begin`、`end`
 等）。元素访问通过用户提供的__访问函数__实现，这些函数被传递至
-`concurrent_flat_set` 操作并在内部以受控方式执行。这种基于访问的 API
-支持低竞争并发使用场景。
+`concurrent_flat_set`
+操作中，并在其内部以受控方式执行。这种基于访问机制的 API
+设计能够有效支持低争用的并发应用场景。
 
 `boost::concurrent_flat_set` 的内部数据结构类似于
-`boost::unordered_flat_set`。由于采用开放寻址技术，`value_type`
-必须支持移动构造，且在重哈希时不保证指针稳定性。
+`boost::unordered_flat_set`。由于其采用开放寻址技术，`value_type`
+必须满足可移动构造要求，且在重哈希过程中无法保持指针稳定性。
 
 [[concurrent_flat_set_synopsis]]
 === 概要

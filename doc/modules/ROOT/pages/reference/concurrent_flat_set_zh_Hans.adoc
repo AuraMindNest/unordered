@@ -2053,7 +2053,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 '''''
 
 [[concurrent_flat_set_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----
@@ -2101,9 +2101,9 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 
 [cols=",",]
 |===
-|要求： |`value_type` 可序列化（XML 可序列化），且支持
-Boost.Serialization `save_construct_data`/`load_construct_data`
-协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
+|要求： |`value_type` 必须支持序列化（XML 可序列化），且需兼容
+Boost.Serialization 的 `save_construct_data`/`load_construct_data`
+协议（该协议由https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
 
 |并发性： |阻塞于 `x`。
 |===

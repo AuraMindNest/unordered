@@ -2151,15 +2151,16 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_set_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使迭代器 `iterator`（`const_iterator`）`it` 指向保存到归档（XML
-归档）`ar` 所读存储中的原始迭代器（常量迭代器）的恢复位置。
+使迭代器 `iterator`（`const_iterator`）`it` 指向之前通过 XML 归档（XML
+归档）`ar`
+保存的原始迭代器（常量迭代器）的恢复位置（从存储数据中还原出来的位置）。
 
 [cols=",",]
 |===
-|要求： |如果 `x` 是 `it` 指向的 `unordered_set`，则在加载 `x` 和加载
-`it` 之间未对 `x` 执行修改操作。
+|要求： |如果 `x` 是 `it` 指向的 `unordered_set`，则在加载 `x` 与加载
+`it` 的时间间隔内，不得对 `x` 执行任何修改操作。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:42:55 UTC
+最后更新于 2025年10月 31日 21:42:55 UTC

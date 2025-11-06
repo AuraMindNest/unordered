@@ -2004,7 +2004,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|备注： |如果两个容器的相等谓词不等价，则行为未定义。
+|备注： |如果两个容器的相等性谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -2025,7 +2025,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|备注： |如果两个容器的相等谓词不等价，则行为未定义。
+|备注： |如果两个容器的相等性谓词不等价，则行为未定义。
 |===
 
 '''''

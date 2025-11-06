@@ -1240,7 +1240,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 '''''
 
 [[unordered_node_set_erase_by_position]]
-==== 按位置擦除
+==== 通过位置擦除
 
 [source,highlight]
 ----
@@ -1276,7 +1276,7 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回： |擦除的元素数量。
+|返回： |返回被移除的元素数量。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
 
@@ -1301,7 +1301,7 @@ iterator erase(const_iterator first, const_iterator last);
 
 [cols=",",]
 |===
-|返回： |擦除元素之后的迭代器——即 `last`。
+|返回： |返回被擦除元素之后的迭代器——即 `last`。
 |抛出： |此实现中无异常（既不调用 `hasher` 也不调用 `key_equal` 对象）。
 |===
 

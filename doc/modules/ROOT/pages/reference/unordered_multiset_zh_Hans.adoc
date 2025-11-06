@@ -1354,7 +1354,7 @@ void erase_return_void(const_iterator position);
 '''''
 
 [[unordered_multiset_swap]]
-==== swap
+==== 交换
 
 [source,highlight]
 ----
@@ -1382,25 +1382,25 @@ void swap(unordered_multiset&)
 '''''
 
 [[unordered_multiset_clear]]
-==== clear
+==== 清空
 
 [source,highlight]
 ----
 void clear() noexcept;
 ----
 
-擦除容器中所有元素。
+擦除容器中的所有元素。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-|抛出： |永不抛出异常。
+|抛出： |从不抛出异常。
 |===
 
 '''''
 
 [[unordered_multiset_merge]]
-==== merge
+==== 合并
 
 [source,highlight]
 ----
@@ -1417,21 +1417,24 @@ template<class H2, class P2>
 尝试通过迭代 `source` 并提取 `source` 中所有节点，将其插入 `*this`
 来“合并”两个容器。
 
-因 `source` 可能有不同的哈希函数和键等价谓词，`source`
-中每个节点的键使用 `this->hash_function()` 重新哈希，然后（若需要）使用
-`this->key_eq()` 比较。
+由于 `source`
+容器可能采用不同的哈希函数与键相等性谓词，因此会使用`this->hash_function()`对
+`source` 中每个节点的键进行重哈希，并在需要时通过 `this->key_eq()`
+进行键值比较。
 
-若 `this->get_allocator() != source.get_allocator()`，则行为未定义。
+如果
+`this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
 
-此函数不复制或移动任何元素，仅将节点从 `source` 重定位到 `*this`。
+此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新安置到
+`*this` 容器中。
 
 [width="100%",cols="50%,50%",]
 |===
 |备注： a|
-* 指向转移元素的指针和引用保持有效。
-* 使指向转移元素的迭代器失效。
+* 指向被转移元素的指针和引用保持有效。
+* 使指向被转移元素的迭代器失效。
 * 使属于 `*this` 的迭代器失效。
-* 指向 `source` 中未转移元素的迭代器保持有效。
+* 指向 `source` 中未被转移元素的迭代器保持有效。
 
 |===
 
@@ -1475,7 +1478,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |容器的键等价谓词
+|返回： |容器的键相等性谓词。
 |===
 
 '''''
@@ -1504,12 +1507,13 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |指向键等价于 `k` 的元素的迭代器，若不存在则返回 `b.end()`。
+|返回： |返回指向键等价于 `k`
+的元素的迭代器，如果不存在这样的元素，则返回 `b.end()`。
 
 |备注： a|
-包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate`
-的模板化重载是非标准扩展，允许使用不同类型的键的兼容哈希函数和等价谓词，以避免昂贵的类型转换。通常不鼓励使用，而应使用
-`K` 成员函数模板。 +
+包含 `CompatibleKey`、`CompatibleHash` 与 `CompatiblePredicate`
+的模板化重载是非标准扩展，允许用户通过兼容的哈希函数和相等性谓词处理不同类型的键，从而避免昂贵的类型转换。通常不建议使用该扩展，而应优先使用基于
+`K` 类型的成员函数模板。 +
 
 `template<class K>` 重载仅当 `Hash::is_transparent` 和
 `Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`

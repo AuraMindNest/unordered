@@ -1475,7 +1475,7 @@ value_type(std::piecewise_construct,
 '''''
 
 [[unordered_node_map_erase_by_position]]
-==== 按位置擦除
+==== 通过位置擦除
 
 [source,highlight]
 ----
@@ -1511,7 +1511,7 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回： |被擦除的元素数量。
+|返回： |返回被移除的元素数量。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才抛出异常。
 
@@ -1536,7 +1536,7 @@ iterator erase(const_iterator first, const_iterator last);
 
 [cols=",",]
 |===
-|返回： |被擦除元素之后的迭代器——即 `last`。
+|返回： |返回被擦除元素之后的迭代器——即 `last`。
 
 |抛出： |本实现中不抛出任何异常（既不调用 `hasher` 也不调用 `key_equal`
 对象）。

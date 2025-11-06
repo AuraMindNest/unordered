@@ -622,7 +622,7 @@ unordered_node_map(size_type n, allocator_type const& a);
 '''''
 
 [[unordered_node_map_bucket_count_constructor_with_hasher_and_allocator]]
-==== 带哈希函数和分配器的桶数量构造函数
+==== 带哈希函数与分配器的桶数量构造函数
 
 [source,highlight]
 ----
@@ -664,7 +664,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_node_map_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数量和哈希函数的迭代器范围构造函数
+==== 带桶数量和哈希器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -723,7 +723,7 @@ unordered_node_map(std::initializer_list<value_type> il, size_type n, const allo
 '''''
 
 [[unordered_node_map_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== 带桶数量、哈希函数和分配器的初始化列表构造函数
+==== 带桶数量、哈希函数与分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -752,13 +752,13 @@ unordered_node_map(std::initializer_list<value_type> il, size_type n, const hash
 
 [cols=",",]
 |===
-|注意： |析构函数会应用于每个元素，并释放所有内存。
+|注意： |析构函数会作用于每个元素，并释放所有内存。
 |===
 
 '''''
 
 [[unordered_node_map_assignment]]
-=== 赋值操作
+=== 赋值
 
 [[unordered_node_map_copy_assignment]]
 ==== 复制赋值

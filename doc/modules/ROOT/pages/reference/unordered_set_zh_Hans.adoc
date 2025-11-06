@@ -1348,9 +1348,9 @@ iterator insert(const_iterator hint, node_type&& nh);
 需与容器的分配器相等。
 
 |返回值： a|
-如果 `nh` 为空，返回 `end()`。 +
+如果 `nh` 为空节点，则返回 `end()`。 +
 
-如果容器中已存在等价键的元素，返回指向该元素的迭代器。 +
+如果容器中已存在等价键的元素，则返回指向该元素的迭代器。 +
 
 否则，返回指向新插入元素的迭代器。
 
@@ -1363,7 +1363,7 @@ C++标准对提示参数含义的规定相当笼统。在实际使用中唯一�
 
 指向元素的指针和引用永远不会失效。 +
 
-这可用于插入从兼容的 `unordered_multiset` 提取的节点。
+此操作用于插入从兼容的 `unordered_multiset` 中提取的节点。
 
 |===
 
@@ -1378,16 +1378,16 @@ iterator erase(iterator position);
 iterator erase(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [cols=",",]
 |===
-|返回值： |擦除前 `position` 的下一个迭代器。
+|返回值： |返回擦除操作前位于 `position` 之后的迭代器。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
 |备注：
-|在旧版本中，这可能效率低下，因为它必须搜索多个桶以找到返回迭代器的位置。数据结构已更改，不再如此，且替代的擦除方法已被弃用。
+|在旧版本中此操作可能效率较低，因为需要遍历多个桶来定位返回迭代器的位置。但是数据结构现已优化，该问题已得到解决，因此原有的替代擦除方法已被弃用。
 |===
 
 '''''
@@ -1405,7 +1405,7 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回值： |被擦除的元素数量。
+|返回值： |返回被移除的元素数量。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
@@ -1430,7 +1430,7 @@ iterator erase(const_iterator first, const_iterator last);
 
 [width="100%",cols="50%,50%",]
 |===
-|返回值： |被擦除元素之后的迭代器——即 `last`。
+|返回值： |返回被擦除元素之后的迭代器——即 `last`。
 
 |抛出： a|
 仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。 +
@@ -1449,7 +1449,7 @@ iterator erase(const_iterator first, const_iterator last);
 void quick_erase(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1472,7 +1472,7 @@ void quick_erase(const_iterator position);
 void erase_return_void(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [width="100%",cols="50%,50%",]
 |===

@@ -1459,7 +1459,7 @@ void quick_erase(const_iterator position);
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
 |备注：
-|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器已重新设计，不再如此。因此，此方法现已弃用。
+|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器经过重新设计后该问题已得到解决，因此该方法现已被弃用。
 |===
 
 '''''
@@ -1482,13 +1482,13 @@ void erase_return_void(const_iterator position);
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
 |备注：
-|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器已重新设计，不再如此。因此，此方法现已弃用。
+|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器经过重新设计后该问题已得到解决，因此该方法现已被弃用。
 |===
 
 '''''
 
 [[unordered_set_swap]]
-==== swap
+==== 交换
 
 [source,highlight]
 ----
@@ -1502,21 +1502,21 @@ void swap(unordered_set& other)
 
 如果声明了 `Allocator::propagate_on_container_swap` 且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不相等分配器交换会导致未定义行为。
+`true`，则交换容器的分配器。则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非由 `key_equal` 或 `hasher`
-的复制构造函数或复制赋值运算符抛出，否则不会抛出异常。
+|抛出： |除非异常由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
 
-|备注： |异常规范与 C++11
-标准不完全相同，因为相等谓词和哈希函数是使用其复制构造函数交换的。
+|备注： |此处的异常规范与 C++11
+标准不完全一致，因为相等性谓词和哈希函数是通过其复制构造函数完成交换的。
 |===
 
 '''''
 
 [[unordered_set_clear]]
-==== clear
+==== 清空
 
 [source,highlight]
 ----
@@ -1534,7 +1534,7 @@ void clear() noexcept;
 '''''
 
 [[unordered_set_merge]]
-==== merge
+==== 合并
 
 [source,highlight]
 ----
@@ -1548,18 +1548,19 @@ template<class H2, class P2>
   void merge(unordered_multiset<Key, H2, P2, Allocator>&& source);
 ----
 
-尝试通过迭代 `source` 并提取 `source` 中不包含在 `*this`
-中的任何节点，然后将其插入 `*this` 来“合并”两个容器。
+通过遍历 `source` 容器，提取其中不含在于 `*this`
+中的任何节点，并将其插入 `*this`容器，以尝试实现两个容器的“合并”。
 
-由于 `source` 可能有不同的哈希函数和键相等谓词，因此 `source`
-中每个节点的键会使用 `this->hash_function()`
-重新哈希，然后（如果需要）使用 `this->key_eq()` 进行比较。
+由于 `source`
+容器可能采用不同的哈希函数与键相等性谓词，因此会使用`this->hash_function()`对
+`source` 中每个节点的键进行重哈希，并在需要时通过 `this->key_eq()`
+进行键值比较。
 
 如果
 `this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
 
-此函数不复制或移动任何元素，而是简单地将节点从 `source` 重新定位到
-`*this` 中。
+此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新安置到
+`*this` 容器中。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1611,7 +1612,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回值： |容器的键相等谓词。
+|返回值： |容器的键相等性谓词。
 |===
 
 '''''
@@ -1640,13 +1641,13 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 
 [width="100%",cols="50%,50%",]
 |===
-|返回值： |指向键等价于 `k` 的元素的迭代器，如果不存在这样的元素，则返回
-`b.end()`。
+|返回值： |返回指向键等价于 `k`
+的元素的迭代器，如果不存在这样的元素，则返回 `b.end()`。
 
 |备注： a|
-包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate`
-的模板化重载是非标准扩展，允许您使用兼容的哈希函数和相等谓词来处理不同类型的键，以避免昂贵的类型转换。通常，不鼓励使用它，而应使用
-`K` 成员函数模板。 +
+包含 `CompatibleKey`、`CompatibleHash` 与 `CompatiblePredicate`
+的模板化重载是非标准扩展，允许用户通过兼容的哈希函数和相等性谓词处理不同类型的键，从而避免昂贵的类型转换。通常不建议使用该扩展，而应优先使用基于
+`K` 类型的成员函数模板。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
@@ -2044,17 +2045,17 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 如果声明了 `Allocator::propagate_on_container_swap` 且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不相等分配器交换会导致未定义行为。
+`true`，则交换容器的分配器。则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
 |效果： |`x.swap(y)`
 
-|抛出： |除非由 `key_equal` 或 `hasher`
-的复制构造函数或复制赋值运算符抛出，否则不会抛出异常。
+|抛出： |除非异常由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
 
-|备注： |异常规范与 C++11
-标准不完全相同，因为相等谓词和哈希函数是使用其复制构造函数交换的。
+|备注： |此处的异常规范与 C++11
+标准不完全一致，因为相等性谓词和哈希函数是通过其复制构造函数完成交换的。
 |===
 
 '''''

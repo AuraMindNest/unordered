@@ -285,25 +285,28 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_Key_ |`Key`
-必须可https://en.cppreference.com/w/cpp/named_req/MoveInsertable[移动插入]到容器中，且可https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
+|_键_ |`Key`
+必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
 
-|_Hash_ |一元函数对象类型，作为 `Key` 的哈希函数。接受单个 `Key`
-类型参数，返回 `std::size_t` 类型值。
+|_Hash_ |一种作为 ``Key``
+类型哈希函数的一元函数对象类型。该函数对象接受一个 ``Key``
+类型的参数，并返回 ``std::size_t`` 类型的值。
 
-|_Pred_ |二元函数对象，在 `Key` 类型值上诱导等价关系。接受两个 `Key`
-类型参数，返回 `bool` 类型值。
+|_Pred_ |一种用于建立 ``Key``
+类型值之间等价关系的二元函数对象。该函数对象接受两个 ``Key``
+类型的参数，并返回 ``bool`` 类型的值。
 
 |_Allocator_
-|分配器，其值类型与表的值类型相同。`std::allocator_traits<Allocator>::pointer`
+|一种值类型与容器的值类型相同的分配器。`std::allocator_traits<Allocator>::pointer`
 和 `std::allocator_traits<Allocator>::const_pointer` 必须可分别转换为
 `value_type*` 和 `const value_type*`。
 |===
 
-表的元素保存在内部__桶数组__中。元素根据其哈希码插入到确定的桶中，但如果桶已被占用（_冲突_），则使用原始位置附近的可用桶。
+表的元素存储在内部的__桶数组__中。元素根据其哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则使用原始位置附近的可用桶。
 
 桶数组的大小可通过调用 `insert`/`emplace` 自动增加，或通过调用
-`rehash`/`reserve` 调整。表的__负载因子__（元素数除以桶数）永远不会大于
+`rehash`/`reserve`
+进行调整。表的__负载因子__（元素数量与桶数量的比值）永远不会超过
 `max_load_factor()`，除非在小型表中实现可能允许更高的负载。
 
 若
@@ -317,9 +320,9 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 === 并发要求与保证
 
 要求在相同 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()`
-不会引入数据竞争。对于 `Alloc`（即 `Allocator` 或从 `Allocator`
+时不会引发数据竞争。对于 `Alloc`（即 `Allocator` 或从 `Allocator`
 重绑定的任何分配器类型），要求在相同实例 `al`
-上并发调用以下操作不会引入数据竞争：
+上并发调用以下操作时不会引发数据竞争：
 
 * 从 `al` 复制构造重绑定自 `Alloc` 的分配器
 * `std::allocator_traits<Alloc>::allocate`

@@ -722,7 +722,7 @@ unordered_multimap& operator=(const unordered_multimap& other);
 
 如果 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为
-`true`，则覆盖分配器；否则使用现有分配器创建复制的元素。
+`true`，则覆盖分配器；否则使用现有分配器创建所复制的元素。
 
 [cols=",",]
 |===
@@ -746,11 +746,11 @@ unordered_multimap& operator=(unordered_multimap&& other)
 
 如果 `Alloc::propagate_on_container_move_assignment` 存在且
 `Alloc::propagate_on_container_move_assignment::value` 为
-`true`，则覆盖分配器；否则使用现有分配器创建移动的元素。
+`true`，则覆盖分配器；否则使用现有分配器创建被移动的元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可移动构造。
+|要求： |`value_type` 需满足可移动构造要求。
 |===
 
 '''''
@@ -763,12 +763,12 @@ unordered_multimap& operator=(unordered_multimap&& other)
 unordered_multimap& operator=(std::initializer_list<value_type> il);
 ----
 
-从初始化列表中的值进行赋值。所有现有元素要么被新元素覆盖，要么被销毁。
+通过初始化列表中的值进行赋值操作。所有现有元素要么被新元素覆盖，要么被销毁。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中，且满足https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]。
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器以及https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]的要求。
 |===
 
 [[unordered_multimap_iterators]]
@@ -785,7 +785,8 @@ const_iterator begin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |一个指向容器首元素的迭代器；若容器为空，则返回容器的尾后值。
+|返回：
+|返回指向容器首元素的迭代器；若容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -801,7 +802,7 @@ const_iterator end() const noexcept;
 
 [cols=",",]
 |===
-|返回： |一个指向容器尾后值的迭代器。
+|返回： |返回指向容器结束位置的迭代器。
 |===
 
 '''''
@@ -816,8 +817,8 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |一个指向容器首元素的
-`const_iterator`；若容器为空，则返回容器的尾后值。
+|返回：
+|`const_iterator`为一种返回指向容器第一个元素的常量迭代器，如果容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -832,7 +833,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |一个指向容器尾后值的 `const_iterator`。
+|返回： |返回一个指向容器结束位置的 `const_iterator` 常量迭代器。
 |===
 
 '''''
@@ -856,7 +857,7 @@ const_iterator cend() const noexcept;
 '''''
 
 [[unordered_multimap_size]]
-==== size
+==== 大小
 
 [source,highlight]
 ----
@@ -880,7 +881,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |可能的最大容器的 `size()`。
+|返回： |容器最大可能的 `size()`值。
 |===
 
 '''''

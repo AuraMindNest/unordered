@@ -2127,8 +2127,8 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_node_map<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y`
-中均存在具有相同键且值相等的元素（使用 `operator==` 比较值类型），则返回
+如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
+中均存在相同键的元素，且其值相等（使用 `operator==` 比较值类型），则返回
 `false`。
 
 [cols=",",]
@@ -2137,7 +2137,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 |===
 
 [[unordered_node_map_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----
@@ -2173,13 +2173,13 @@ template<class K, class T, class H, class P, class A, class Predicate>
     erase_if(unordered_node_map<K, T, H, P, A>& c, Predicate pred);
 ----
 
-遍历容器 `c` 并移除所有满足谓词 `pred` 返回 `true` 的元素。
+遍历容器 `c` 并移除所有满足谓词条件（`pred` 返回 `true`） 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： |被擦除的元素数量。
 |注意： a|
-等效于： +
+等价于： +
 
 [source,highlight]
 ----
@@ -2240,8 +2240,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_node_map_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
-归档）`ar`。`it` 可以是 `end()` 迭代器。
+将迭代器 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
+归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===

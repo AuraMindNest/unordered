@@ -1222,7 +1222,7 @@ iterator erase(const_iterator first, const_iterator last);
 '''''
 
 [[unordered_flat_set_swap]]
-==== swap
+==== 交换
 
 [source,highlight]
 ----
@@ -1258,7 +1258,7 @@ init_type pull(const_iterator position);
 '''''
 
 [[unordered_flat_set_clear]]
-==== clear
+==== 清空
 
 [source,highlight]
 ----
@@ -1276,7 +1276,7 @@ void clear() noexcept;
 '''''
 
 [[unordered_flat_set_merge]]
-==== merge
+==== 合并
 
 [source,highlight]
 ----
@@ -1334,7 +1334,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |容器的键相等谓词。
+|返回： |容器的键相等性谓词。
 |===
 
 '''''

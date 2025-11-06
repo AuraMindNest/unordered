@@ -706,9 +706,9 @@ unordered_multiset& operator=(const unordered_multiset& other);
 
 赋值运算符。该操作会复制容器内的元素、哈希函数、谓词及最大负载因子，但不会复制分配器。
 
-若 `Alloc::propagate_on_container_copy_assignment` 存在且
+如果 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为
-`true`，则覆盖分配器；否则使用现有分配器创建复制元素。
+`true`，则覆盖分配器；否则使用现有分配器创建所复制的元素。
 
 [cols=",",]
 |===
@@ -730,13 +730,13 @@ unordered_multiset& operator=(unordered_multiset&& other)
 
 移动赋值运算符。
 
-若 `Alloc::propagate_on_container_move_assignment` 存在且
+如果 `Alloc::propagate_on_container_move_assignment` 存在且
 `Alloc::propagate_on_container_move_assignment::value` 为
-`true`，则覆盖分配器；否则使用现有分配器创建移动元素。
+`true`，则覆盖分配器；否则使用现有分配器创建被移动的元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可移动构造。
+|要求： |`value_type` 需满足可移动构造要求。
 |===
 
 '''''
@@ -749,12 +749,12 @@ unordered_multiset& operator=(unordered_multiset&& other)
 unordered_multiset& operator=(std::initializer_list<value_type> il);
 ----
 
-从初始化列表中的值赋值。所有现有元素或被新元素覆盖，或被销毁。
+通过初始化列表中的值进行赋值操作。所有现有元素要么被新元素覆盖，要么被销毁。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]容器且https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]。
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器以及https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]的要求。
 |===
 
 '''''
@@ -773,7 +773,8 @@ const_iterator begin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器首元素的迭代器；若容器为空则为容器的尾后值。
+|返回：
+|返回指向容器首元素的迭代器；若容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -789,7 +790,7 @@ const_iterator end() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器尾后值的迭代器。
+|返回： |返回指向容器结束位置的迭代器。
 |===
 
 '''''
@@ -804,7 +805,8 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器首元素的 `const_iterator`；若容器为空则为尾后值。
+|返回：
+|`const_iterator`为一种返回指向容器第一个元素的常量迭代器，如果容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -819,7 +821,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器尾后值的 `const_iterator`。
+|返回： |返回一个指向容器结束位置的 `const_iterator` 常量迭代器。
 |===
 
 '''''
@@ -843,7 +845,7 @@ const_iterator cend() const noexcept;
 '''''
 
 [[unordered_multiset_size]]
-==== size
+==== 大小
 
 [source,highlight]
 ----
@@ -867,7 +869,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |最大可能容器的 `size()`。
+|返回： |容器最大可能的 `size()`值。
 |===
 
 '''''

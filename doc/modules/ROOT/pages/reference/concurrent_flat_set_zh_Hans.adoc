@@ -324,40 +324,41 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 重绑定的任何分配器类型），要求在相同实例 `al`
 上并发调用以下操作时不会引发数据竞争：
 
-* 从 `al` 复制构造重绑定自 `Alloc` 的分配器
+* 从 `al` 复制构造一个由 `Alloc` 重绑定的分配器
 * `std::allocator_traits<Alloc>::allocate`
 * `std::allocator_traits<Alloc>::deallocate`
 * `std::allocator_traits<Alloc>::construct`
 * `std::allocator_traits<Alloc>::destroy`
 
 通常，若 `Hash`、`Pred` 和 `Allocator`
-无状态或操作仅涉及内部数据成员的常量访问，则满足这些要求。
+这些类型是无状态的，或者相关操作仅涉及对其内部数据成员的常量访问，则能满足这些要求。
 
-除析构外，对同一 `concurrent_flat_set`
-实例的任何操作的并发调用不会引入数据竞争——即它们是线程安全的。
+除析构操作外，对同一个 `concurrent_flat_set`
+实例并发调用任何操作都不会引发数据竞争——即这些操作是线程安全的。
 
-若操作 *op* 显式指定为__阻塞于__ `x`（其中 `x` 是
-`boost::concurrent_flat_set` 实例），则 `x` 上的先前阻塞操作与 *op*
-同步。因此，多线程场景中同一 `concurrent_flat_set`
-上的阻塞操作按顺序执行。
+若操作 *op* 显式指定为__阻塞于__ 容器`x`（其中 `x` 是
+`boost::concurrent_flat_set` 的实例），则先前对 `x` 的阻塞操作将与 *op*
+同步。因此，在多线程场景下，对同一 `concurrent_flat_set`
+的阻塞操作将按顺序执行。
 
-若操作仅在内部重哈希时阻塞于 _`x`_，则称其为__阻塞于 `x` 的重哈希__。
+若某个操作仅在触发内部重哈希时才会阻塞容器 _`x`_，则称其为__阻塞于 `x`
+的重哈希__。
 
 当由 `boost::concurrent_flat_set`
-内部执行时，用户提供的访问函数对传递的元素执行以下操作不会引入数据竞争：
+内部执行时，用户提供的访问函数对传入元素的以下操作不会引发数据竞争：
 
 * 对元素的读取访问。
-* 元素的非可变修改。
-* 元素的可变修改：
+* 对元素的非可变修改。
+* 对元素的可变修改：
 +
-** 在接收两个访问函数的容器函数中，始终针对第一个函数。
+** 在容器接受两个访问函数的操作中，此条件始终适用于第一个函数。
 ** 在名称不包含 `cvisit`
-的非常量容器函数中，针对最后一个（或唯一）访问函数。
+的非常量容器函数中，此条件适用于最后一个（或唯一一个）访问函数。
 
-任何插入或修改元素 `e` 的 `boost::concurrent_flat_set` 操作与在 `e`
-上内部调用的访问函数同步。
+任何插入或修改元素 `e` 的 `boost::concurrent_flat_set` 操作都会与在 `e`
+的内部调用的访问函数同步。
 
-由 `boost::concurrent_flat_set` `x` 执行的访问函数不得调用 `x`
+由 `boost::concurrent_flat_set` `x` 执行的访问函数不允许调用 `x`
 上的任何操作；若并发未完成操作不直接或间接访问 `x`，则允许调用不同
 `boost::concurrent_flat_set` 实例 `y` 上的操作。
 
@@ -378,7 +379,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 [[concurrent_flat_set_boost_unordered_enable_stats]]
 ==== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏以启用表的link:reference/stats.html#stats[统计计算]。注意此选项会降低许多操作的总体性能。
+全局定义此宏可为容器启用link:reference/stats.html#stats[统计计算]功能。请注意，此选项会降低多项操作的总体性能。
 
 '''''
 
@@ -390,7 +391,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 static constexpr size_type bulk_visit_size;
 ----
 
-link:#concurrent_flat_set_bulk_visit[批量访问]操作内部使用的块大小。
+在link:#concurrent_flat_set_bulk_visit[批量访问]操作中内部使用的块大小。
 
 [[concurrent_flat_set_constructors]]
 === 构造函数
@@ -403,21 +404,21 @@ link:#concurrent_flat_set_bulk_visit[批量访问]操作内部使用的块大小
 concurrent_flat_set();
 ----
 
-使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键相等谓词、`allocator_type()` 作为分配器构造空表。
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
+作为键相等性谓词、`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[concurrent_flat_set_bucket_count_constructor]]
-==== 桶数构造函数
+==== 桶数量构造函数
 
 [source,highlight]
 ----
@@ -427,15 +428,15 @@ explicit concurrent_flat_set(size_type n,
                              const allocator_type& a = allocator_type());
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf` 为哈希函数、`eql` 为键相等谓词、`a`
-为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -453,13 +454,13 @@ template<class InputIterator>
                       const allocator_type& a = allocator_type());
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf` 为哈希函数、`eql` 为键相等谓词、`a`
-为分配器，并将 `[f, l)` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，以 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 的元素插入其中。
 
 [cols=",",]
 |===
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -472,14 +473,14 @@ template<class InputIterator>
 concurrent_flat_set(concurrent_flat_set const& other);
 ----
 
-复制构造函数。复制所含元素、哈希函数、谓词和分配器。
+复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
 
 若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则分配器将从其结果构造。
+存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可复制构造
+|要求： |`value_type` 必须满足可复制构造要求。
 |并发性： |阻塞于 `other`。
 |===
 
@@ -614,7 +615,7 @@ concurrent_flat_set(std::initializer_list<value_type> il,
 [cols=",",]
 |===
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''

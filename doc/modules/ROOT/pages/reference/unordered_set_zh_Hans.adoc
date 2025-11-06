@@ -2020,8 +2020,8 @@ template<class Key, class Hash, class Pred, class Alloc>
 ----
 
 如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
-中都有一个具有相同键且值相等的元素（使用 `operator==`
-比较值类型），则返回 `false`。
+中均存在相同键的元素，且其值相等（使用 `operator==` 比较值类型），则返回
+`false`。
 
 [cols=",",]
 |===
@@ -2070,7 +2070,7 @@ template<class K, class H, class P, class A, class Predicate>
     erase_if(unordered_set<K, H, P, A>& c, Predicate pred);
 ----
 
-遍历容器 `c` 并移除所有满足谓词 `pred` 返回 `true` 的元素。
+遍历容器 `c` 并移除所有满足谓词条件（`pred` 返回 `true`） 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -2096,20 +2096,20 @@ return original_size - c.size();
 [[unordered_set_serialization]]
 === 序列化
 
-`unordered_set` 可通过
+`unordered_set` 可通过本库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
+实现序列化存档与读取功能。同时支持常规格式与 XML 格式的归档。
 
 [[unordered_set_saving_an_unordered_set_to_an_archive]]
 ==== 将 unordered_set 保存到归档
 
-将 `unordered_set` `x` 的所有元素保存到归档（XML 归档）`ar` 中。
+将 `unordered_set` 对象`x` 的所有元素保存到归档（XML 归档）`ar` 中。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可序列化（XML 可序列化），且支持
+|要求： |`value_type` 必须支持序列化（XML 可序列化），且需兼容
 Boost.Serialization 的 `save_construct_data`/`load_construct_data`
-协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
+协议（该协议由https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
 |===
 
 '''''
@@ -2117,20 +2117,19 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_set_loading_an_unordered_set_from_an_archive]]
 ==== 从归档加载 unordered_set
 
-删除 `unordered_set` `x` 的所有预先存在的元素，并从归档（XML 归档）`ar`
-中插入原始 `unordered_set` `other` 保存到 `ar`
-所读存储中的元素恢复副本。
+删除 `unordered_set` 对象`x` 的所有预先存在的元素，并从归档（XML
+归档）`ar` 中读取原始 `unordered_set`对象 `other`
+先前保存至存储的元素副本并插入到 `x` 中。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。`x.key_equal()`
-在功能上等价于 `other.key_equal()`。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求，且`x.key_equal()`
+在功能上需等价于 `other.key_equal()`。
 
-|备注： |如果归档是使用 Boost 1.84
-之前的版本保存的，则必须全局定义配置宏
+|备注： |如果归档是由 Boost 1.84 之前的版本保存的，则必须全局定义配置宏
 `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
-才能使此操作成功；否则，将抛出异常。
+才能成功执行此操作；否则，将抛出异常。
 |===
 
 '''''
@@ -2143,8 +2142,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 
 [cols=",",]
 |===
-|要求： |`it` 指向的 `unordered_set` `x` 先前已保存到 `ar`，且在保存 `x`
-和保存 `it` 之间未对 `x` 执行修改操作。
+|要求： |迭代器`it` 指向的 `unordered_set` `x` 必须已预先保存至归档
+`ar`，且在保存 `x` 和保存 `it` 的时间间隔内 `x` 执行任何修改操作。
 |===
 
 '''''

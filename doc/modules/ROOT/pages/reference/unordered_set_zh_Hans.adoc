@@ -1059,11 +1059,11 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]�
 
 指向元素的指针和引用永远不会失效。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，此重载才参与重载决议。库假定 `Hash` 可同时用 `K` 和 `Key`
-调用，且 `Pred` 是透明的。这实现了异构查找，避免了实例化 `Key`
-类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型，且 `iterator` 与 `const_iterator` 均不能从 `K`
+类型隐式转换时，此重载才参与重载决议。标准库假定`Hash` 可同时被 `K` 和
+`Key` 类型调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化
+`Key` 类型的开销。
 
 |===
 
@@ -1165,11 +1165,11 @@ C++标准对提示参数含义的规定相当笼统。在实际使用中唯一�
 
 指向元素的指针和引用永远不会失效。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，此重载才参与重载决议。库假定 `Hash` 可同时用 `K` 和 `Key`
-调用，且 `Pred` 是透明的。这实现了异构查找，避免了实例化 `Key`
-类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型，且 `iterator` 与 `const_iterator` 均不能从 `K`
+类型隐式转换时，此重载才参与重载决议。标准库假定`Hash` 可同时被 `K` 和
+`Key` 类型调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化
+`Key` 类型的开销。
 
 |===
 
@@ -1183,16 +1183,15 @@ C++标准对提示参数含义的规定相当笼统。在实际使用中唯一�
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 ----
 
-将元素范围插入容器中。仅当容器中不存在等价键的元素时，才插入元素。
+将元素范围插入容器中。仅当容器中不存在等价键的元素时，才会插入相应元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须可从 `*first`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到
-`X` 中。
+|要求： |`value_type` 必须满足从 `*first`
+参数https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
+`X`的要求。
 
-|抛出： |当插入单个元素时，如果调用 `hasher`
-以外的操作抛出异常，则函数无效果。
+|抛出： |若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
 
 |备注： a|
 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
@@ -1211,15 +1210,14 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]�
 void insert(std::initializer_list<value_type>);
 ----
 
-将元素范围插入容器中。仅当容器中不存在等价键的元素时，才插入元素。
+将元素范围插入容器中。仅当容器中不存在等价键的元素时，才会插入相应元素。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-必须https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中。
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
 
-|抛出： |当插入单个元素时，如果调用 `hasher`
-以外的操作抛出异常，则函数无效果。
+|抛出： |若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
 
 |备注： a|
 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
@@ -1238,20 +1236,20 @@ void insert(std::initializer_list<value_type>);
 node_type extract(const_iterator position);
 ----
 
-移除 `position` 指向的元素。
+移除由 `position` 指向的元素。
 
 [cols=",",]
 |===
-|返回值： |拥有该元素的 `node_type`。
+|返回值： |返回拥有该元素的 `node_type`节点对象。
 
-|备注： |在 C++17 中，使用此方法提取的节点可插入兼容的
-`unordered_multiset`，但当前尚未支持。
+|备注： |在 C++17 标准中，通过此方法提取的节点可被插入到兼容的
+`unordered_multiset` 中，但该特性暂未获得支持。
 |===
 
 '''''
 
 [[unordered_set_extract_by_value]]
-==== 通过值提取
+==== 通过键值提取元素
 
 [source,highlight]
 ----
@@ -1263,51 +1261,55 @@ template<class K> node_type extract(K&& k);
 
 [width="100%",cols="50%,50%",]
 |===
-|返回值： |如果找到，则返回拥有该元素的 `node_type`；否则返回空的
-`node_type`。
+|返回值： |如果找到，则返回拥有该元素的 `node_type`对象；否则返回空的
+`node_type`对象。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
 |备注： a|
-在 C++17 中，使用此方法提取的节点可插入兼容的
-`unordered_multiset`，但当前尚未支持。 +
+在 C++17 标准中，通过此方法提取的节点可被插入到兼容的
+`unordered_multiset` 中，但该特性暂未获得支持。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，`template<class K>` 重载才参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义，且 `iterator` 与 `const_iterator` 均不能从 `K`
+隐式转换时，此重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与
+`Key` 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化
+`Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_set_insert_with_node_handle]]
-==== 使用 `node_handle` 插入
+==== 通过 `node_handle` 插入
 
 [source,highlight]
 ----
 insert_return_type insert(node_type&& nh);
 ----
 
-如果 `nh` 为空，则无效果。
+若 `nh` 为空节点，则此操作不产生任何效果。
 
-否则，仅当容器中不存在等价键的元素时，才插入 `nh` 拥有的元素。
+否则，当且仅当容器中不存在等价键的元素时，才会插入 `nh` 所拥有的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`nh` 为空，或 `nh.get_allocator()` 等于容器的分配器。
+|要求： |`nh` 必须是空节点，或其分配器 `nh.get_allocator()`
+需与容器的分配器相等。
 
 |返回值： a|
-如果 `nh` 为空，则返回一个 `insert_return_type`，其中：`inserted` 为
-`false`，`position` 等于 `end()`，且 `node` 为空。 +
+若 `nh` 为空节点，则返回一个 `insert_return_type`
+对象，该类对象满足：`inserted` 为 `false`，`position` 等于 `end()`，且
+`node` 为空。 +
 
-否则，如果已存在等价键的元素，则返回一个
-`insert_return_type`，其中：`inserted` 为 `false`，`position`
-指向匹配的元素，且 `node` 包含来自 `nh` 的节点。 +
+否则，若容器中已存在等价键的元素，则返回一个
+`insert_return_type`对象，该类对象满足：`inserted` 为
+`false`，`position` 指向匹配的现有元素，且 `node` 包含来自 `nh`
+的节点。 +
 
-否则，如果插入成功，则返回一个 `insert_return_type`，其中：`inserted` 为
-`true`，`position` 指向新插入的元素，且 `node` 为空。
+否则，如果插入成功，则返回一个
+`insert_return_type`对象，该类对象满足：`inserted` 为 `true`，`position`
+指向新插入的元素，且 `node` 为空。
 
 |抛出： |若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
 
@@ -1316,8 +1318,8 @@ insert_return_type insert(node_type&& nh);
 
 指向元素的指针和引用永远不会失效。 +
 
-在 C++17 中，这可用于插入从兼容的 `unordered_multiset`
-提取的节点，但当前尚未支持。
+在 C++17 标准中，此方法可用于插入从兼容的 `unordered_multiset`
+中提取的节点，但该功能暂未获得支持。
 
 |===
 
@@ -1331,17 +1333,19 @@ insert_return_type insert(node_type&& nh);
 iterator insert(const_iterator hint, node_type&& nh);
 ----
 
-如果 `nh` 为空，则无效果。
+若 `nh` 为空节点，则此操作不产生任何效果。
 
-否则，仅当容器中不存在等价键的元素时，才插入 `nh` 拥有的元素。
+否则，当且仅当容器中不存在等价键的元素时，才会插入 `nh` 所拥有的元素。
 
-如果容器中已存在等价键的元素，则对 `nh` 无影响（即 `nh` 仍包含该节点）。
+如果容器中已存在等价键的元素，则对 `nh` 不产生任何影响（即 `nh`
+仍持有该节点）。
 
 `hint` 是插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`nh` 为空，或 `nh.get_allocator()` 等于容器的分配器。
+|要求： |`nh` 必须是空节点，或其分配器 `nh.get_allocator()`
+需与容器的分配器相等。
 
 |返回值： a|
 如果 `nh` 为空，返回 `end()`。 +
@@ -1380,7 +1384,7 @@ iterator erase(const_iterator position);
 |===
 |返回值： |擦除前 `position` 的下一个迭代器。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
 |备注：
 |在旧版本中，这可能效率低下，因为它必须搜索多个桶以找到返回迭代器的位置。数据结构已更改，不再如此，且替代的擦除方法已被弃用。
@@ -1403,13 +1407,13 @@ template<class K> size_type erase(K&& k);
 |===
 |返回值： |被擦除的元素数量。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
-|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，`template<class K>` 重载才参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这实现了异构查找，避免了实例化 `Key` 类型的开销。
+|备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型定义，且 `iterator` 与 `const_iterator` 均不能从 `K`
+隐式转换时，此重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与
+`Key` 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化
+`Key` 类型的开销。
 |===
 
 '''''
@@ -1429,7 +1433,7 @@ iterator erase(const_iterator first, const_iterator last);
 |返回值： |被擦除元素之后的迭代器——即 `last`。
 
 |抛出： a|
-仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出。 +
+仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。 +
 
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
@@ -1450,7 +1454,7 @@ void quick_erase(const_iterator position);
 [width="100%",cols="50%,50%",]
 |===
 |抛出： a|
-仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出。 +
+仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。 +
 
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
@@ -1473,7 +1477,7 @@ void erase_return_void(const_iterator position);
 [width="100%",cols="50%,50%",]
 |===
 |抛出： a|
-仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出。 +
+仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。 +
 
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 

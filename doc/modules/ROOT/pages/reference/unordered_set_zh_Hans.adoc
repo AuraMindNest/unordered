@@ -1999,7 +1999,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 ----
 
 如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
-中都有一个具有相同键且值相等的元素（使用 `operator==`
+中均存在一个具有相同键且值相等的元素（使用 `operator==`
 比较值类型），则返回 `true`。
 
 [cols=",",]

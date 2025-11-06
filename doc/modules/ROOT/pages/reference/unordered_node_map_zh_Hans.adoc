@@ -293,17 +293,18 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_Key_ |`std::pair<const Key, T>` 必须可从任何可转换为它的 `std::pair`
+|_键_ |`std::pair<const Key, T>` 必须可从任何可转换为它的 `std::pair`
 对象https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造]到容器中，并且必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
 
 |_T_ |
 
-|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
-的参数，并返回一个类型为 `std::size_t` 的值。
+|_Hash_ |一种作为 ``Key``
+类型哈希函数的一元函数对象类型。该函数对象接受一个 ``Key``
+类型的参数，并返回 ``std::size_t`` 类型的值。
 
-|_Pred_ |二元函数对象，用于在类型为 `Key`
-的值上诱导等价关系。它接受两个类型为 `Key` 的参数，并返回一个类型为
-`bool` 的值。
+|_Pred_ |一种用于建立 ``Key``
+类型值之间等价关系的二元函数对象。该函数对象接受两个 ``Key``
+类型的参数，并返回 ``bool`` 类型的值。
 
 |_Allocator_
 |一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
@@ -319,7 +320,7 @@ namespace unordered {
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
 为
-`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会带来额外的计算开销。
+`true`，则直接使用哈希函数；否则添加位混合后处理阶段以提高哈希质量，但会增加计算成本。
 
 '''''
 

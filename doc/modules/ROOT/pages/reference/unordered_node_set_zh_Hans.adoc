@@ -1502,7 +1502,7 @@ template<class K>
 '''''
 
 [[unordered_node_set_count]]
-==== count
+==== 统计
 
 [source,highlight]
 ----
@@ -1513,7 +1513,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |键等价于 `k` 的元素数量。
+|返回： |返回键等价于 `k` 的元素数量。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假设
@@ -1524,7 +1524,7 @@ template<class K>
 '''''
 
 [[unordered_node_set_contains]]
-==== contains
+==== 存在性检查
 
 [source,highlight]
 ----
@@ -1535,7 +1535,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |布尔值，指示容器中是否存在键等于 `key` 的元素
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假设
@@ -1560,8 +1560,8 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |包含所有键等价于 `k`
-的元素的范围。如果容器不包含任何此类元素，则返回
+|返回： |返回包含所有键等价于 `k`
+的元素的区间。如果容器不包含任何此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
@@ -1661,7 +1661,7 @@ size_type max_load() const noexcept;
 '''''
 
 [[unordered_node_set_rehash]]
-==== rehash
+==== 重哈希操作
 
 [source,highlight]
 ----

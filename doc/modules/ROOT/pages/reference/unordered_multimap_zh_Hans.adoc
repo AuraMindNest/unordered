@@ -1590,7 +1590,7 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 '''''
 
 [[unordered_multimap_count]]
-==== count
+==== 统计
 
 [source,highlight]
 ----
@@ -1601,7 +1601,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |键等价于 `k` 的元素数量。
+|返回： |返回键等价于 `k` 的元素数量。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
@@ -1612,7 +1612,7 @@ template<class K>
 '''''
 
 [[unordered_multimap_contains]]
-==== contains
+==== 存在性检查
 
 [source,highlight]
 ----
@@ -1623,7 +1623,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |一个布尔值，指示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
@@ -1648,7 +1648,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |包含所有键等价于 `k`
+|返回： |返回包含所有键等价于 `k`
 的元素的区间。如果容器不包含任何此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
@@ -1688,7 +1688,7 @@ size_type max_bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回： |桶数量的上限。
+|返回： |桶数量的上限值。
 |===
 
 '''''
@@ -1704,7 +1704,7 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n < bucket_count()`
-|返回： |桶 `n` 中的元素数量。
+|返回： |返回桶 `n` 中的元素数量。
 |===
 
 '''''
@@ -1720,7 +1720,7 @@ template<class K> size_type bucket(const K& k) const;
 
 [cols=",",]
 |===
-|返回： |将包含键为 `k` 的元素的桶的索引。
+|返回： |返回键为 `k` 的元素的桶的索引。
 
 |后置条件： |返回值小于 `bucket_count()`。
 
@@ -1744,7 +1744,7 @@ const_local_iterator begin(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回： |指向索引为 `n` 的桶中首元素的局部迭代器。
+|返回： |指向索引为 `n` 的桶中第一个元素的局部迭代器。
 |===
 
 '''''
@@ -1761,7 +1761,7 @@ const_local_iterator end(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回： |指向索引为 `n` 的桶中“尾后”元素的局部迭代器。
+|返回： |返回指向索引为 `n` 的桶中“尾后”元素的局部迭代器。
 |===
 
 '''''
@@ -1777,7 +1777,7 @@ const_local_iterator cbegin(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回： |指向索引为 `n` 的桶中首元素的常量局部迭代器。
+|返回： |返回指向索引为 `n` 的桶中第一个元素的常量局部迭代器。
 |===
 
 '''''
@@ -1793,7 +1793,7 @@ const_local_iterator cend(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 应在范围 `[0, bucket_count())` 内。
-|返回： |指向索引为 `n` 的桶中“尾后”元素的常量局部迭代器。
+|返回： |返回指向索引为 `n` 的桶中“尾后”元素的常量局部迭代器。
 |===
 
 '''''
@@ -1806,7 +1806,7 @@ const_local_iterator cend(size_type n) const;
 
 [source,highlight]
 ----
-float load极() const noexcept;
+float load_factor() const noexcept;
 ----
 
 [cols=",",]
@@ -1832,7 +1832,7 @@ float max_load_factor() const noexcept;
 '''''
 
 [[unordered_multimap_set_max_load_factor]]
-==== 设置 max_load_factor
+==== 设置最大负载因子
 
 [source,highlight]
 ----
@@ -1841,24 +1841,24 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |更改容器的最大负载因子，使用 `z` 作为提示。
+|效果： |使用 `z` 作为提示值来更改容器的最大负载因子。
 |===
 
 '''''
 
 [[unordered_multimap_rehash]]
-==== rehash
+==== 重哈希操作
 
 [source,highlight]
 ----
 void rehash(size_type n);
 ----
 
-更改桶的数量，使得至少有 `n`
-个桶，且负载因子小于或等于最大负载因子。适用时，这将增加或减少与容器关联的
+调整桶的数量，使其至少为 `n`
+个，并确保负载因子小于或等于最大负载因子。该操作会根据实际情况扩容或缩容容器关联的
 `bucket_count()`。
 
-当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
+当 `size() == 0` 时，执行`rehash(0)` 将释放底层桶数组的内存。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 

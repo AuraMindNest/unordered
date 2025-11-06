@@ -1154,7 +1154,7 @@ void insert(std::initializer_list<value_type>);
 '''''
 
 [[unordered_flat_set_erase_by_position]]
-==== 按位置擦除
+==== 通过位置擦除
 
 [source,highlight]
 ----
@@ -1186,11 +1186,11 @@ size_type erase(const key_type& k);
 template<class K> size_type erase(K&& k);
 ----
 
-擦除所有键等效于 `k` 的元素。
+擦除所有键等价于 `k` 的元素。
 
 [cols=",",]
 |===
-|返回： |擦除的元素数量。
+|返回： |返回被移除的元素数量。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
 
@@ -1215,7 +1215,7 @@ iterator erase(const_iterator first, const_iterator last);
 
 [cols=",",]
 |===
-|返回： |指向被擦除元素之后元素的迭代器——即 `last`。
+|返回： |返回被擦除元素之后的迭代器——即 `last`。
 |抛出： |此实现中无抛出（既不调用 `hasher` 也不调用 `key_equal` 对象）。
 |===
 

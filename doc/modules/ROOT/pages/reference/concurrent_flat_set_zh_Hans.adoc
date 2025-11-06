@@ -1635,7 +1635,7 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&> policy
 '''''
 
 [[concurrent_flat_set_swap]]
-==== swap
+==== 交换
 
 [source,highlight]
 ----
@@ -1659,7 +1659,7 @@ void swap(concurrent_flat_set& other)
 '''''
 
 [[concurrent_flat_set_clear]]
-==== clear
+==== 清空
 
 [source,highlight]
 ----
@@ -1679,7 +1679,7 @@ void clear() noexcept;
 '''''
 
 [[concurrent_flat_set_merge]]
-==== merge
+==== 合并
 
 [source,highlight]
 ----

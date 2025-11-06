@@ -1184,7 +1184,7 @@ void insert(std::initializer_list<value_type>);
 [cols=",",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
 
 |抛出： |当插入单个元素时，若由非 `hasher`
 调用引发的异常抛出，则函数无效果。

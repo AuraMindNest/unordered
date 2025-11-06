@@ -751,7 +751,9 @@ const_iterator begin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器第一个元素的迭代器，如果容器为空，则返回容器的尾后值。
+|返回：
+|返回指向容器首元素的迭代器；若容器为空，则返回容器的结束迭代器。
+
 |复杂度： |O(`bucket_count()`)
 |===
 
@@ -768,7 +770,7 @@ const_iterator end() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器尾后值的迭代器。
+|返回： |返回指向容器结束位置的迭代器。
 |===
 
 '''''
@@ -783,8 +785,8 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器第一个元素的
-`const_iterator`，如果容器为空，则返回容器的尾后值。
+|返回：
+|`const_iterator`为一种返回指向容器第一个元素的常量迭代器，如果容器为空，则返回容器的结束迭代器。
 
 |复杂度： |O(`bucket_count()`)
 |===
@@ -801,7 +803,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |指向容器尾后值的 `const_iterator`。
+|返回： |返回一个指向容器结束位置的 `const_iterator` 常量迭代器。
 |===
 
 '''''
@@ -825,7 +827,7 @@ const_iterator cend() const noexcept;
 '''''
 
 [[unordered_flat_set_size]]
-==== size
+==== 大小
 
 [source,highlight]
 ----
@@ -849,7 +851,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |容器可能的最大 `size()`。
+|返回： |容器最大可能的 `size()`值。
 |===
 
 '''''

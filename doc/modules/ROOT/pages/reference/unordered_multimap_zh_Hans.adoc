@@ -2117,8 +2117,9 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造
 [[unordered_multimap_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使 `iterator`（`const_iterator`）`it` 指向保存到归档（XML 归档）`ar`
-所读取存储中的原始 `iterator`（`const_iterator`）的恢复位置。
+使迭代器 `iterator`（`const_iterator`）`it` 指向之前通过 XML 归档（XML
+归档）`ar`
+保存的原始迭代器（常量迭代器）的恢复位置（从存储数据中还原出来的位置）。
 
 [cols=",",]
 |===

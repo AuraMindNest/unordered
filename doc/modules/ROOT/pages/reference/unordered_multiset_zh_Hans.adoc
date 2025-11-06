@@ -2016,8 +2016,9 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_multiset_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使迭代器（常量迭代器）`it` 指向从归档（XML 归档）`ar`
-读取的存储中恢复的原始迭代器（常量迭代器）的位置。
+使迭代器 `iterator`（`const_iterator`）`it` 指向之前通过 XML 归档（XML
+归档）`ar`
+保存的原始迭代器（常量迭代器）的恢复位置（从存储数据中还原出来的位置）。
 
 [cols=",",]
 |===

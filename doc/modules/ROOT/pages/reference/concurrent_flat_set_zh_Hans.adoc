@@ -1752,7 +1752,7 @@ key_equal key_eq() const;
 === 集合操作
 
 [[concurrent_flat_set_count]]
-==== count
+==== 统计
 
 [source,highlight]
 ----
@@ -1778,7 +1778,7 @@ template<class K>
 '''''
 
 [[concurrent_flat_set_contains]]
-==== contains
+==== 存在性检查
 
 [source,highlight]
 ----
@@ -1857,7 +1857,7 @@ float max_load_factor() const noexcept;
 '''''
 
 [[concurrent_flat_set_set_max_load_factor]]
-==== 设置 max_load_factor
+==== 设置最大负载因子
 
 [source,highlight]
 ----
@@ -1895,7 +1895,7 @@ size_type max_load() const noexcept;
 '''''
 
 [[concurrent_flat_set_rehash]]
-==== rehash
+==== 重哈希操作
 
 [source,highlight]
 ----
@@ -1906,7 +1906,7 @@ void rehash(size_type n);
 `n`，且负载因子小于等于最大负载因子。适用时，此操作将增长或收缩与表关联的
 `bucket_count()`。
 
-当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
+当 `size() == 0` 时，执行`rehash(0)` 将释放底层桶数组的内存。
 
 使指向元素的指针和引用失效，并改变元素顺序。
 

@@ -1992,7 +1992,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 '''''
 
 [[unordered_multimap_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----
@@ -2002,7 +2002,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
     noexcept(noexcept(x.swap(y)));
 ----
 
-交换 `x` 和 `极` 的内容。
+交换 `x` 和 `y` 的内容。
 
 如果声明了 `Allocator::propagate_on_container_swap` 且
 `Allocator::propagate_on_container_swap::value` 为
@@ -2031,7 +2031,7 @@ template<class K, class T, class H, class P, class A, class Predicate>
     erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
 ----
 
-遍历容器 `c` 并移除所有满足谓词 `pred` 返回 `true` 的元素。
+遍历容器 `c` 并移除所有满足谓词条件（`pred` 返回 `true`） 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -2093,10 +2093,9 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]。`x.key_equal()`
 在功能上等价于 `other.key_equal()`。
 
-|注意： |如果归档是使用 Boost 1.84
-之前的版本保存的，则必须全局定义配置宏
+|注意： |如果归档是由 Boost 1.84 之前的版本保存的，则必须全局定义配置宏
 `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
-才能使此操作成功；否则将抛出异常。
+才能成功执行此操作；否则，将抛出异常。
 |===
 
 '''''
@@ -2104,8 +2103,8 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造
 [[unordered_multimap_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
-归档）`ar`。`it` 可以是 `end()` 迭代器。
+将迭代器 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
+归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===

@@ -2,10 +2,10 @@
 
 [[content]]
 [[header_concurrent_node_set]]
-== `<boost/unordered/concurrent_node_set.hpp>` 概要
+=== `++<++boost/unordered/concurrent++_++node++_++set.hpp++>++` 概要
 
 定义
-link:reference/concurrent_node_set.html#concurrent_node_set[`boost::concurrent_node_set`]
+link:reference/concurrent_node_set.html#concurrent_node_set[`boost::concurrent++_++node++_++set`]
 及其相关函数和别名模板。
 
 ....
@@ -54,4 +54,4 @@ using unordered::concurrent_node_set;
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:36:21 UTC
+最后更新于2025年 10月 31日 21:36:21 UTC

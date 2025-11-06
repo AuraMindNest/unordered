@@ -504,7 +504,7 @@ unordered_multiset(unordered_multiset&& other, const Allocator& a);
 [cols=",",]
 |===
 |备注： |此函数通过 Boost.Move 实现。
-|要求： |`value_type` 可移动插入。
+|要求： |`value_type` 需满足可移动插入要求。
 |===
 
 '''''
@@ -521,9 +521,9 @@ unordered_multiset(std::initializer_list<value_type> il,
                    const allocator_type& a = allocator_type());
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键等价谓词、`a` 作为分配器以及最大负载因子 `1.0`，并将 `il`
-的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将
+`il` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -541,9 +541,9 @@ unordered_multiset(std::initializer_list<value_type> il,
 unordered_multiset(size_type n, const allocator_type& a);
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认哈希函数和键等价谓词、`a` 作为分配器以及最大负载因子
-`1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数（应为默认哈希函数）、默认的键相等性谓词，`a`
+作为分配器，并设置最大负载因子为 `1.0`。
 
 [cols=",",]
 |===
@@ -556,15 +556,16 @@ unordered_multiset(size_type n, const allocator_type& a);
 '''''
 
 [[unordered_multiset_bucket_count_constructor_with_hasher_and_allocator]]
-==== 带哈希函数和分配器的桶数量构造函数
+==== 带哈希函数与分配器的桶数量构造函数
 
 [source,highlight]
 ----
 unordered_multiset(size_type n, const hasher& hf, const allocator_type& a);
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认键等价谓词、`a` 作为分配器以及最大负载因子 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数，默认的键相等性谓词，`a` 作为分配器，并设置最大负载因子为
+`1.0`。
 
 [cols=",",]
 |===
@@ -585,9 +586,9 @@ template<class InputIterator>
   unordered_multiset(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器、默认哈希函数和键等价谓词以及最大负载因子 `1.0`，并将
-`[f, l)` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a`
+作为分配器，默认的哈希函数和键相等性谓词，并设置最大负载因子为
+`1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -598,7 +599,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数量和哈希函数的迭代器范围构造函数
+==== 带桶数量和哈希器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -607,9 +608,9 @@ template<class InputIterator>
                      const allocator_type& a);
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器、默认键等价谓词以及最大负载因子 `1.0`，并将 `[f, l)`
-的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`a`
+作为分配器，默认的键相等性谓词，并设置最大负载因子为 `1.0`，随后将区间
+`[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -627,8 +628,8 @@ template<class InputIterator>
 unordered_multiset(std::initializer_list<value_type> il, const allocator_type& a);
 ----
 
-使用 `a` 作为分配器和最大负载因子 1.0 构造空容器，并将 `il`
-的元素插入其中。
+使用 `a` 作为分配器构造一个空容器，设置最大负载因子为 1.0，并将 `il`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -646,8 +647,8 @@ unordered_multiset(std::initializer_list<value_type> il, const allocator_type& a
 unordered_multiset(std::initializer_list<value_type> il, size_type n, const allocator_type& a)
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `a` 作为分配器和最大负载因子
-1.0，并将 `il` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a`
+作为分配器，并设置最大负载因子为 1.0，随后将 `il` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -658,7 +659,7 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 '''''
 
 [[unordered_multiset_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== 带桶数量、哈希函数和分配器的初始化列表构造函数
+==== 带桶数量、哈希函数与分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -666,8 +667,8 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
                        const allocator_type& a);
 ----
 
-构造至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及最大负载因子 1.0，并将 `il` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`a`
+作为分配器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -687,13 +688,13 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 
 [cols=",",]
 |===
-|备注： |析构函数应用于每个元素，并释放所有内存
+|备注： |析构函数会作用于每个元素，并释放所有内存。
 |===
 
 '''''
 
 [[unordered_multiset_assignment]]
-=== 赋值操作
+=== 赋值
 
 [[unordered_multiset_copy_assignment]]
 ==== 复制赋值
@@ -703,7 +704,7 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 unordered_multiset& operator=(const unordered_multiset& other);
 ----
 
-赋值运算符。复制包含的元素、哈希函数、谓词和最大负载因子，但不复制分配器。
+赋值运算符。该操作会复制容器内的元素、哈希函数、谓词及最大负载因子，但不会复制分配器。
 
 若 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为

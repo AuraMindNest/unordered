@@ -1804,9 +1804,9 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_node_set<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y`
-中都有一个具有相同键且值相等的元素（使用 `operator==`
-比较值类型），则返回 `false`。
+如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
+中均存在相同键的元素，且其值相等（使用 `operator==` 比较值类型），则返回
+`false`。
 
 [cols=",",]
 |===
@@ -1814,7 +1814,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 |===
 
 [[unordered_node_set_swap_2]]
-=== Swap
+=== 交换
 
 [source,highlight]
 ----
@@ -1848,11 +1848,11 @@ template<class K, class T, class H, class P, class A, class Predicate>
     erase_if(unordered_node_set<K, T, H, P, A>& c, Predicate pred);
 ----
 
-遍历容器 `c` 并移除所有满足谓词 `pred` 的元素。
+遍历容器 `c` 并移除所有满足谓词条件（`pred` 返回 `true`） 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |擦除的元素数量。
+|返回： |被擦除的元素数量。
 |注意： a|
 等价于： +
 
@@ -1885,9 +1885,9 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 
 [cols=",",]
 |===
-|要求： |`value_type` 可序列化（XML 可序列化），且支持
+|要求： |`value_type` 必须支持序列化（XML 可序列化），且需兼容
 Boost.Serialization 的 `save_construct_data`/`load_construct_data`
-协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
+协议（该协议由https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
 |===
 
 '''''
@@ -1902,8 +1902,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [cols=",",]
 |===
 |要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入的]。`x.key_equal()`
-在功能上等价于 `other.key_equal()`。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求，且`x.key_equal()`
+在功能上需等价于 `other.key_equal()`。
 |===
 
 '''''
@@ -1911,8 +1911,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_node_set_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
-归档）`ar`。`it` 可以是 `end()` 迭代器。
+将迭代器 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
+归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===

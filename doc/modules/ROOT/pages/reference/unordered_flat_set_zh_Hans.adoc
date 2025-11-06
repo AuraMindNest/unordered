@@ -1366,7 +1366,7 @@ template<class K>
 '''''
 
 [[unordered_flat_set_count]]
-==== count
+==== 统计
 
 [source,highlight]
 ----
@@ -1377,7 +1377,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |键等效于 `k` 的元素数量。
+|返回： |返回键等价于 `k` 的元素数量。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
@@ -1388,7 +1388,7 @@ template<class K>
 '''''
 
 [[unordered_flat_set_contains]]
-==== contains
+==== 存在性检查
 
 [source,highlight]
 ----
@@ -1399,7 +1399,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |一个布尔值，指示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
@@ -1424,7 +1424,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |包含所有键等效于 `k`
+|返回： |返回包含所有键等价于 `k`
 的元素的区间。如果容器不包含任何此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
@@ -1490,7 +1490,7 @@ float max_load_factor() const noexcept;
 '''''
 
 [[unordered_flat_set_set_max_load_factor]]
-==== Set max_load_factor
+==== 设置最大负载因子
 
 [source,highlight]
 ----
@@ -1525,7 +1525,7 @@ size_type max_load() const noexcept;
 '''''
 
 [[unordered_flat_set_rehash]]
-==== rehash
+==== 重哈希操作
 
 [source,highlight]
 ----

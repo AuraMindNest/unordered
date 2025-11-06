@@ -1033,7 +1033,7 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 '''''
 
 [[concurrent_flat_set_size]]
-==== size
+==== 大小
 
 [source,highlight]
 ----

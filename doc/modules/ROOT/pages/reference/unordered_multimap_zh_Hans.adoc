@@ -2,14 +2,13 @@
 
 [[content]]
 [[unordered_multimap]]
-== Class Template unordered_multimap
+== 类模板 unordered_multimap
 
-`boost::unordered_multimap` — An unordered associative container that
-associates keys with another value. The same key can be stored multiple
-times.
+`boost::unordered_multimap` —
+一种无序关联容器，它将键与另一个值关联。同一个键可以存储多次。
 
 [[unordered_multimap_synopsis]]
-=== Synopsis
+=== 概要
 
 ....
 // #include <boost/unordered/unordered_map.hpp>
@@ -252,62 +251,55 @@ namespace unordered {
 [[unordered_multimap_description]]
 === 描述
 
-*Template Parameters*
+*模板参数*
 
 [width="100%",cols="50%,50%",]
 |===
-|_Key_ |`Key` must be
-https://en.cppreference.com/w/cpp/named_req/Erasable[Erasable] from the
-container (i.e. `allocator_traits` can destroy it).
+|_键_ |`Key`
+必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]（即
+`allocator_traits` 可以销毁它）。
 
-|_T_ |`T` must be
-https://en.cppreference.com/w/cpp/named_req/Erasable[Erasable] from the
-container (i.e. `allocator_traits` can destroy it).
+|_值_ |`T`
+必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]（即
+`allocator_traits` 可以销毁它）。
 
-|_Hash_ |A unary function object type that acts a hash function for a
-`Key`. It takes a single argument of type `Key` and returns a value of
-type `std::size_t`.
+|_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为
+`Key` 的参数，并返回一个类型为 `std::size_t` 的值。
 
-|_Pred_ |A binary function object that implements an equivalence
-relation on values of type `Key`. A binary function object that induces
-an equivalence relation on values of type `Key`. It takes two arguments
-of type `Key` and returns a value of type bool.
+|_谓词_ |一个二元函数对象，用于实现 `Key`
+类型值的等价关系。它接受两个类型为 `Key`
+的参数，并返回一个布尔类型的值。
 
-|_Allocator_ |An allocator whose value type is the same as the
-container’s value type. Allocators using
-https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[fancy
-pointers] are supported.
+|_分配器_
+|一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[高级指针]的分配器。
 |===
 
-The elements are organized into buckets. Keys with the same hash code
-are stored in the same bucket.
+元素被组织到桶中。具有相同哈希码的键存储在同一个桶中。
 
-The number of buckets can be automatically increased by a call to
-insert, or as the result of calling rehash.
+桶的数量可以通过调用 insert 自动增加，或者作为调用 rehash 的结果而增加。
 
 [[unordered_multimap_configuration_macros]]
-=== Configuration macros
+=== 配置宏
 
 [[unordered_multimap_boost_unordered_enable_serialization_compatibility_v0]]
 ==== `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
 
-Globally define this macro to support loading of `unordered_multimap`s
-saved to a Boost.Serialization archive with a version of Boost prior to
-Boost 1.84.
+全局定义此宏以支持加载在 Boost 1.84 之前版本中保存到 Boost.Serialization
+存档的 `unordered_multimap`。
 
 [[unordered_multimap_typedefs]]
-=== Typedefs
+=== 类型定义
 
 [source,highlight]
 ----
 typedef implementation-defined iterator;
 ----
 
-An iterator whose value type is `value_type`.
+一种迭代器，其值类型为 `value_type`。
 
-The iterator category is at least a forward iterator.
+迭代器类别至少为前向迭代器。
 
-Convertible to `const_iterator`.
+可转换为 `const_iterator`。
 
 '''''
 
@@ -316,9 +308,9 @@ Convertible to `const_iterator`.
 typedef implementation-defined const_iterator;
 ----
 
-A constant iterator whose value type is `value_type`.
+一种常量迭代器，其值类型为 `value_type`。
 
-The iterator category is at least a forward iterator.
+迭代器类别至少为前向迭代器。
 
 '''''
 
@@ -327,11 +319,9 @@ The iterator category is at least a forward iterator.
 typedef implementation-defined local_iterator;
 ----
 
-An iterator with the same value type, difference type and pointer and
-reference type as iterator.
+一种迭代器，其值类型、差值类型以及指针和引用类型与 iterator 相同。
 
-A `local_iterator` object can be used to iterate through a single
-bucket.
+`local_iterator` 对象可用于遍历单个桶。
 
 '''''
 
@@ -340,11 +330,10 @@ bucket.
 typedef implementation-defined const_local_iterator;
 ----
 
-A constant iterator with the same value type, difference type and
-pointer and reference type as const_iterator.
+一种常量迭代器，其值类型、差值类型以及指针和引用类型与 const_iterator
+相同。
 
-A const_local_iterator object can be used to iterate through a single
-bucket.
+`const_local_iterator` 对象可用于遍历单个桶。
 
 '''''
 
@@ -353,38 +342,37 @@ bucket.
 typedef implementation-defined node_type;
 ----
 
-See node_handle_map for details.
+有关详细信息，请参阅 node_handle_map。
 
 '''''
 
 [[unordered_multimap_constructors]]
-=== Constructors
+=== 构造函数
 
 [[unordered_multimap_default_constructor]]
-==== Default Constructor
+==== 默认构造函数
 
 [source,highlight]
 ----
 unordered_multimap();
 ----
 
-Constructs an empty container using `hasher()` as the hash function,
-`key_equal()` as the key equality predicate, `allocator_type()` as the
-allocator and a maximum load factor of `1.0`.
+使用 `hasher()` 作为哈希函数、`key_equal()`
+作为键相等谓词、`allocator_type()` 作为分配器，并设置最大负载因子为
+`1.0`，构造一个空容器。
 
 [cols=",",]
 |===
-|Postconditions: |`size() == 0`
+|后置条件： |`size() == 0`
 
-|Requires: |If the defaults are used, `hasher`, `key_equal` and
-`allocator_type` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_bucket_count_constructor]]
-==== Bucket Count Constructor
+==== 桶数量构造函数
 
 [source,highlight]
 ----
@@ -394,23 +382,21 @@ explicit unordered_multimap(size_type n,
                             const allocator_type& a = allocator_type());
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, `eql` as the key equality predicate, `a` as the
-allocator and a maximum load factor of `1.0`.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等谓词、`a` 作为分配器，并设置最大负载因子为 `1.0`。
 
 [cols=",",]
 |===
-|Postconditions: |`size() == 0`
+|后置条件： |`size() == 0`
 
-|Requires: |If the defaults are used, `hasher`, `key_equal` and
-`allocator_type` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_iterator_range_constructor]]
-==== Iterator Range Constructor
+==== 迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -422,61 +408,58 @@ unordered_multimap(InputIterator f, InputIterator l,
                    const allocator_type& a = allocator_type());
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, `eql` as the key equality predicate, `a` as the
-allocator and a maximum load factor of `1.0` and inserts the elements
-from `[f, l)` into it.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等谓词、`a` 作为分配器，并设置最大负载因子为 `1.0`，然后将元素从
+`[f, l)` 插入其中。
 
 [cols=",",]
 |===
-|Requires: |If the defaults are used, `hasher`, `key_equal` and
-`allocator_type` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_copy_constructor]]
-==== Copy Constructor
+==== 复制构造函数
 
 [source,highlight]
 ----
 unordered_multimap(const unordered_multimap& other);
 ----
 
-The copy constructor. Copies the contained elements, hash function,
-predicate, maximum load factor and allocator.
+复制构造函数。复制包含的元素、哈希函数、谓词、最大负载因子和分配器。
 
-If `Allocator::select_on_container_copy_construction` exists and has the
-right signature, the allocator will be constructed from its result.
+如果 `Allocator::select_on_container_copy_construction`
+存在且签名正确，则分配器将根据其结果构造。
 
 [cols=",",]
 |===
-|Requires: |`value_type` is copy constructible
+|要求： |`value_type` 可复制构造
 |===
 
 '''''
 
 [[unordered_multimap_move_constructor]]
-==== Move Constructor
+==== 移动构造函数
 
 [source,highlight]
 ----
 unordered_multimap(unordered_multimap&& other);
 ----
 
-The move constructor.
+移动构造函数。
 
 [cols=",",]
 |===
-|Notes: |This is implemented using Boost.Move.
-|Requires: |`value_type` is move-constructible.
+|备注： |此函数通过 Boost.Move 实现。
+|要求： |`value_type` 可移动构造。
 |===
 
 '''''
 
 [[unordered_multimap_iterator_range_constructor_with_allocator]]
-==== Iterator Range Constructor with Allocator
+==== 带分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -484,65 +467,64 @@ template<class InputIterator>
   unordered_multimap(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-Constructs an empty container using `a` as the allocator, with the
-default hash function and key equality predicate and a maximum load
-factor of `1.0` and inserts the elements from `[f, l)` into it.
+使用 `a`
+作为分配器构造一个空容器，使用默认的哈希函数和键相等谓词，并设置最大负载因子为
+`1.0`，然后将元素从 `[f, l)` 插入其中。
 
 [cols=",",]
 |===
-|Requires: |`hasher`, `key_equal` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`hasher` 和 `key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_allocator_constructor]]
-==== Allocator Constructor
+==== 分配器构造函数
 
 [source,highlight]
 ----
 explicit unordered_multimap(const Allocator& a);
 ----
 
-Constructs an empty container, using allocator `a`.
+使用分配器 `a` 构造一个空容器。
 
 '''''
 
 [[unordered_multimap_copy_constructor_with_allocator]]
-==== Copy Constructor with Allocator
+==== 带分配器的复制构造函数
 
 [source,highlight]
 ----
 unordered_multimap(const unordered_multimap& other, const Allocator& a);
 ----
 
-Constructs an container, copying `other`'s contained elements, hash
-function, predicate, maximum load factor, but using allocator `a`.
+构造一个容器，复制 `other`
+包含的元素、哈希函数、谓词和最大负载因子，但使用分配器 `a`。
 
 '''''
 
 [[unordered_multimap_move_constructor_with_allocator]]
-==== Move Constructor with Allocator
+==== 带分配器的移动构造函数
 
 [source,highlight]
 ----
 unordered_multimap(unordered_multimap&& other, const Allocator& a);
 ----
 
-Construct a container moving `other`'s contained elements, and having
-the hash function, predicate and maximum load factor, but using allocate
-`a`.
+构造一个容器，移动 `other`
+包含的元素，并具有相同的哈希函数、谓词和最大负载因子，但使用分配器 `a`。
 
 [cols=",",]
 |===
-|Notes: |This is implemented using Boost.Move.
-|Requires: |`value_type` is move insertable.
+|备注： |此函数通过 Boost.Move 实现。
+|要求： |`value_type` 需满足可移动插入要求。
 |===
 
 '''''
 
 [[unordered_multimap_initializer_list_constructor]]
-==== Initializer List Constructor
+==== 初始化列表构造函数
 
 [source,highlight]
 ----
@@ -553,66 +535,64 @@ unordered_multimap(std::initializer_list<value_type> il,
                    const allocator_type& a = allocator_type());
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, `eql` as the key equality predicate, `a` as the
-allocator and a maximum load factor of `1.0` and inserts the elements
-from `il` into it.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
+作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将
+`il` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|Requires: |If the defaults are used, `hasher`, `key_equal` and
-`allocator_type` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_bucket_count_constructor_with_allocator]]
-==== Bucket Count Constructor with Allocator
+==== 带分配器的桶数量构造函数
 
 [source,highlight]
 ----
 unordered_multimap(size_type n, const allocator_type& a);
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, the default hash function and key equality predicate,
-`a` as the allocator and a maximum load factor of `1.0`.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数（应为默认哈希函数）、默认的键相等性谓词，`a`
+作为分配器，并设置最大负载因子为 `1.0`。
 
 [cols=",",]
 |===
-|Postconditions: |`size() == 0`
+|后置条件： |`size() == 0`
 
-|Requires: |`hasher` and `key_equal` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`hasher` 和 `key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_bucket_count_constructor_with_hasher_and_allocator]]
-==== Bucket Count Constructor with Hasher and Allocator
+==== 带哈希函数与分配器的桶数量构造函数
 
 [source,highlight]
 ----
 unordered_multimap(size_type n, const hasher& hf, const allocator_type& a);
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, the default key equality predicate, `a` as the
-allocator and a maximum load factor of `1.0`.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数，默认的键相等性谓词，`a` 作为分配器，并设置最大负载因子为
+`1.0`。
 
 [cols=",",]
 |===
-|Postconditions: |`size() == 0`
+|后置条件： |`size() == 0`
 
-|Requires: |`key_equal` needs to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_iterator_range_constructor_with_bucket_count_and_allocator]]
-==== Iterator Range Constructor with Bucket Count and Allocator
+==== 带桶数量和分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -620,21 +600,20 @@ template<class InputIterator>
   unordered_multimap(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-Constructs an empty container with at least `n` buckets, using `a` as
-the allocator, with the default hash function and key equality predicate
-and a maximum load factor of `1.0` and inserts the elements from
-`[f, l)` into it.
+构造一个至少包含 `n` 个桶的空容器，使用 `a`
+作为分配器，默认的哈希函数和键相等性谓词，并设置最大负载因子为
+`1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|Requires: |`hasher`, `key_equal` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`hasher` 和 `key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== Iterator Range Constructor with Bucket Count and Hasher
+==== 带桶数量和哈希器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -643,60 +622,58 @@ template<class InputIterator>
                      const allocator_type& a);
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, `a` as the allocator, with the default key equality
-predicate and a maximum load factor of `1.0` and inserts the elements
-from `[f, l)` into it.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`a`
+作为分配器，默认的键相等性谓词，并设置最大负载因子为 `1.0`，随后将区间
+`[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|Requires: |`key_equal` needs to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_initializer_list_constructor_with_allocator]]
-==== initializer_list Constructor with Allocator
+==== 带分配器的初始化列表构造函数
 
 [source,highlight]
 ----
 unordered_multimap(std::initializer_list<value_type> il, const allocator_type& a);
 ----
 
-Constructs an empty container using `a` as the allocator and a maximum
-load factor of 1.0 and inserts the elements from `il` into it.
+使用 `a` 作为分配器构造一个空容器，设置最大负载因子为 1.0，并将 `il`
+中的元素插入其中。
 
 [cols=",",]
 |===
-|Requires: |`hasher` and `key_equal` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`hasher` 和 `key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_initializer_list_constructor_with_bucket_count_and_allocator]]
-==== initializer_list Constructor with Bucket Count and Allocator
+==== 带桶数量和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
 unordered_multimap(std::initializer_list<value_type> il, size_type n, const allocator_type& a);
 ----
 
-Constructs an empty container with at least `n` buckets, using `a` as
-the allocator and a maximum load factor of 1.0 and inserts the elements
-from `il` into it.
+构造一个至少包含 `n` 个桶的空容器，使用 `a`
+作为分配器，并设置最大负载因子为 1.0，随后将 `il` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|Requires: |`hasher` and `key_equal` need to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`hasher` 和 `key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== initializer_list Constructor with Bucket Count and Hasher and Allocator
+==== 带桶数量、哈希函数与分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -704,20 +681,19 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const hash
                    const allocator_type& a);
 ----
 
-Constructs an empty container with at least `n` buckets, using `hf` as
-the hash function, `a` as the allocator and a maximum load factor of 1.0
-and inserts the elements from `il` into it.
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`a`
+作为分配器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|Requires: |`key_equal` needs to be
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible].
+|要求： |`key_equal`
+需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
 |===
 
 '''''
 
 [[unordered_multimap_destructor]]
-=== Destructor
+=== 析构函数
 
 [source,highlight]
 ----
@@ -726,40 +702,37 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstruc
 
 [cols=",",]
 |===
-|Note: |The destructor is applied to every element, and all memory is
-deallocated
+|注意： |析构函数会作用于每个元素，并释放所有内存。
 |===
 
 '''''
 
 [[unordered_multimap_assignment]]
-=== Assignment
+=== 赋值
 
 [[unordered_multimap_copy_assignment]]
-==== Copy Assignment
+==== 复制赋值
 
 [source,highlight]
 ----
 unordered_multimap& operator=(const unordered_multimap& other);
 ----
 
-The assignment operator. Copies the contained elements, hash function,
-predicate and maximum load factor but not the allocator.
+赋值运算符。该操作会复制容器内的元素、哈希函数、谓词及最大负载因子，但不会复制分配器。
 
-If `Alloc::propagate_on_container_copy_assignment` exists and
-`Alloc::propagate_on_container_copy_assignment::value` is `true`, the
-allocator is overwritten, if not the copied elements are created using
-the existing allocator.
+如果 `Alloc::propagate_on_container_copy_assignment` 存在且
+`Alloc::propagate_on_container_copy_assignment::value` 为
+`true`，则覆盖分配器；否则使用现有分配器创建复制的元素。
 
 [cols=",",]
 |===
-|Requires: |`value_type` is copy constructible
+|要求： |`value_type` 可复制构造
 |===
 
 '''''
 
 [[unordered_multimap_move_assignment]]
-==== Move Assignment
+==== 移动赋值
 
 [source,highlight]
 ----
@@ -769,41 +742,37 @@ unordered_multimap& operator=(unordered_multimap&& other)
            boost::is_nothrow_move_assignable_v<Pred>);
 ----
 
-The move assignment operator.
+移动赋值运算符。
 
-If `Alloc::propagate_on_container_move_assignment` exists and
-`Alloc::propagate_on_container_move_assignment::value` is `true`, the
-allocator is overwritten, if not the moved elements are created using
-the existing allocator.
+如果 `Alloc::propagate_on_container_move_assignment` 存在且
+`Alloc::propagate_on_container_move_assignment::value` 为
+`true`，则覆盖分配器；否则使用现有分配器创建移动的元素。
 
 [cols=",",]
 |===
-|Requires: |`value_type` is move constructible.
+|要求： |`value_type` 可移动构造。
 |===
 
 '''''
 
 [[unordered_multimap_initializer_list_assignment]]
-==== Initializer List Assignment
+==== 初始化列表赋值
 
 [source,highlight]
 ----
 unordered_multimap& operator=(std::initializer_list<value_type> il);
 ----
 
-Assign from values in initializer list. All existing elements are either
-overwritten by the new elements or destroyed.
+从初始化列表中的值进行赋值。所有现有元素要么被新元素覆盖，要么被销毁。
 
 [cols=",",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[CopyInsertable]
-into the container and
-https://en.cppreference.com/w/cpp/named_req/CopyAssignable[CopyAssignable].
+|要求： |`value_type`
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中，且满足https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]。
 |===
 
 [[unordered_multimap_iterators]]
-=== Iterators
+=== 迭代器
 
 [[unordered_multimap_begin]]
 ==== begin
@@ -816,8 +785,7 @@ const_iterator begin() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |An iterator referring to the first element of the container,
-or if the container is empty the past-the-end value for the container.
+|返回： |一个指向容器首元素的迭代器；若容器为空，则返回容器的尾后值。
 |===
 
 '''''
@@ -833,8 +801,7 @@ const_iterator end() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |An iterator which refers to the past-the-end value for the
-container.
+|返回： |一个指向容器尾后值的迭代器。
 |===
 
 '''''
@@ -849,9 +816,8 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |A `const_iterator` referring to the first element of the
-container, or if the container is empty the past-the-end value for the
-container.
+|返回： |一个指向容器首元素的
+`const_iterator`；若容器为空，则返回容器的尾后值。
 |===
 
 '''''
@@ -866,14 +832,13 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |A `const_iterator` which refers to the past-the-end value for
-the container.
+|返回： |一个指向容器尾后值的 `const_iterator`。
 |===
 
 '''''
 
 [[unordered_multimap_size_and_capacity]]
-=== Size and Capacity
+=== 大小与容量
 
 [[unordered_multimap_empty]]
 ==== empty
@@ -885,7 +850,7 @@ the container.
 
 [cols=",",]
 |===
-|Returns: |`size() == 0`
+|返回： |`size() == 0`
 |===
 
 '''''
@@ -900,7 +865,7 @@ size_type size() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |`std::distance(begin(), end())`
+|返回： |`std::distance(begin(), end())`
 |===
 
 '''''
@@ -915,13 +880,13 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |`size()` of the largest possible container.
+|返回： |可能的最大容器的 `size()`。
 |===
 
 '''''
 
 [[unordered_multimap_modifiers]]
-=== Modifiers
+=== 修改器
 
 [[unordered_multimap_emplace]]
 ==== emplace
@@ -931,25 +896,22 @@ size_type max_size() const noexcept;
 template<class... Args> iterator emplace(Args&&... args);
 ----
 
-Inserts an object, constructed with the arguments `args`, in the
-container.
+置入一个由参数 `args` 构造的对象到容器中。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[EmplaceConstructible]
-into `X` from `args`.
+|要求： |`value_type` 必须满足从 `args`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]到
+`X`。
 
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+|备注： a|
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
@@ -963,302 +925,280 @@ Pointers and references to elements are never invalidated.
 template<class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
 ----
 
-Inserts an object, constructed with the arguments args, in the
-container.
+置入一个由参数 args 构造的对象到容器中。
 
-`position` is a suggestion to where the element should be inserted.
+`position` 是插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[EmplaceConstructible]
-into `X` from `args`.
+|要求： |`value_type` 必须满足从 `args`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]到
+`X`。
 
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-The standard is fairly vague on the meaning of the hint. But the only
-practical way to use it, and the only way that Boost.Unordered supports
-is to point to an existing element with the same key. +
+|备注： a|
+标准对提示的含义相当模糊。但唯一实用的使用方式，也是 Boost.Unordered
+支持的唯一方式，是指向具有相同键的现有元素。 +
 
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_copy_insert]]
-==== Copy Insert
+==== 复制插入
 
 [source,highlight]
 ----
 iterator insert(const value_type& obj);
 ----
 
-Inserts `obj` in the container.
+将 `obj` 插入容器中。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[CopyInsertable].
+|要求： |`value_type`
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
 
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+|备注： a|
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_move_insert]]
-==== Move Insert
+==== 移动插入
 
 [source,highlight]
 ----
 iterator insert(value_type&& obj);
 ----
 
-Inserts `obj` in the container.
+将 `obj` 插入容器中。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[MoveInsertable].
+|要求： |`value_type`
+必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
 
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+|备注： a|
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_emplace_insert]]
-==== Emplace Insert
+==== 原位构造插入
 
 [source,highlight]
 ----
 template<class P> iterator insert(P&& obj);
 ----
 
-Inserts an element into the container by performing
-`emplace(std::forward<P>(value))`.
+通过执行 `emplace(std::forward<P>(value))` 将元素插入容器。
 
-Only participates in overload resolution if
-`std::is_constructible<value_type, P&&>::value` is `true`.
+仅当 `std::is_constructible<value_type, P&&>::value` 为 `true`
+时参与重载决议。
 
 [cols=",",]
 |===
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 |===
 
 '''''
 
 [[unordered_multimap_copy_insert_with_hint]]
-==== Copy Insert with Hint
+==== 带提示的复制插入
 
 [source,highlight]
 ----
 iterator insert(const_iterator hint, const value_type& obj);
 ----
 
-Inserts `obj` in the container.
+将 `obj` 插入容器中。
 
-`hint` is a suggestion to where the element should be inserted.
+`hint` 是插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[CopyInsertable].
+|要求： |`value_type`
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
 
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-The standard is fairly vague on the meaning of the hint. But the only
-practical way to use it, and the only way that Boost.Unordered supports
-is to point to an existing element with the same key. +
+|备注： a|
+标准对提示的含义相当模糊。但唯一实用的使用方式，也是 Boost.Unordered
+支持的唯一方式，是指向具有相同键的现有元素。 +
 
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_move_insert_with_hint]]
-==== Move Insert with Hint
+==== 带提示的移动插入
 
 [source,highlight]
 ----
 iterator insert(const_iterator hint, value_type&& obj);
 ----
 
-Inserts `obj` in the container.
+将 `obj` 插入容器中。
 
-`hint` is a suggestion to where the element should be inserted.
+`hint` 是插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[MoveInsertable].
+|要求： |`value_type`
+必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
 
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-The standard is fairly vague on the meaning of the hint. But the only
-practical way to use it, and the only way that Boost.Unordered supports
-is to point to an existing element with the same key. +
+|备注： a|
+标准对提示的含义相当模糊。但唯一实用的使用方式，也是 Boost.Unordered
+支持的唯一方式，是指向具有相同键的现有元素。 +
 
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_emplace_insert_with_hint]]
-==== Emplace Insert with Hint
+==== 带提示的原位构造插入
 
 [source,highlight]
 ----
 template<class P> iterator insert(const_iterator hint, P&& obj);
 ----
 
-`hint` is a suggestion to where the element should be inserted.
+通过执行 `emplace_hint(hint, std::forward<P>(value))` 将元素插入容器。
 
-Only participates in overload resolution if
-`std::is_constructible<value_type, P&&>::value` is `true`.
+仅当 `std::is_constructible<value_type, P&&>::value` 为 `true`
+时参与重载决议。
 
-`hint` is a suggestion to where the element should be inserted.
+`hint` 是插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
-|Returns: |An iterator pointing to the inserted element.
+|返回： |指向被插入元素的迭代器。
 
-|Notes: a|
-The standard is fairly vague on the meaning of the hint. But the only
-practical way to use it, and the only way that Boost.Unordered supports
-is to point to an existing element with the same key. +
+|备注： a|
+标准对提示的含义相当模糊。但唯一实用的使用方式，也是 Boost.Unordered
+支持的唯一方式，是指向具有相同键的现有元素。 +
 
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_insert_iterator_range]]
-==== Insert Iterator Range
+==== 插入迭代器范围
 
 [source,highlight]
 ----
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 ----
 
-Inserts a range of elements into the container.
+将一系列元素插入容器中。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[EmplaceConstructible]
-into `X` from `*first`.
+|要求： |`value_type` 必须满足从 `*first`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]到
+`X`。
 
-|Throws: |When inserting a single element, if an exception is thrown by
-an operation other than a call to `hasher` the function has no effect.
+|抛出： |当插入单个元素时，若除调用 `hasher`
+外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+|备注： a|
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_insert_initializer_list]]
-==== Insert Initializer List
+==== 插入初始化列表
 
 [source,highlight]
 ----
 void insert(std::initializer_list<value_type> il);
 ----
 
-Inserts a range of elements into the container.
+将一系列元素插入容器中。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[CopyInsertable]
-into the container.
+|要求： |`value_type`
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中。
 
-|Throws: |When inserting a single element, if an exception is thrown by
-an operation other than a call to `hasher` the function has no effect.
+|抛出： |当插入单个元素时，若除调用 `hasher`
+外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+|备注： a|
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated.
+指向元素的指针和引用永远不会失效。
 
 |===
 
 '''''
 
 [[unordered_multimap_extract_by_iterator]]
-==== Extract by Iterator
+==== 通过迭代器提取
 
 [source,highlight]
 ----
 node_type extract(const_iterator position);
 ----
 
-Removes the element pointed to by `position`.
+移除 `position` 所指向的元素。
 
 [cols=",",]
 |===
-|Returns: |A `node_type` owning the element.
-
-|Notes: |A node extracted using this method can be inserted into a
-compatible `unordered_map`.
+|返回： |拥有该元素的 `node_type`。
+|备注： |使用此方法提取的节点可以插入到兼容的 `unordered_map` 中。
 |===
 
 '''''
 
 [[unordered_multimap_extract_by_key]]
-==== Extract by Key
+==== 通过键提取
 
 [source,highlight]
 ----
@@ -1266,116 +1206,101 @@ node_type extract(const key_type& k);
 template<class K> node_type extract(K&& k);
 ----
 
-Removes an element with key equivalent to `k`.
+移除键等价于 `k` 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|Returns: |A `node_type` owning the element if found, otherwise an empty
-`node_type`.
+|返回： |如果找到，则返回拥有该元素的 `极node_type`；否则返回空的
+`node_type`。
 
-|Throws: |Only throws an exception if it is thrown by `hasher` or
-`key_equal`.
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
 
-|Notes: a|
-A node extracted using this method can be inserted into a compatible
-`unordered_map`. +
+|备注： a|
+使用此方法提取的节点可以插入到兼容的 `unordered_map` 中。 +
 
-The `template<class K>` overload only participates in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs and neither `iterator` nor `const_iterator` are
-implicitly convertible from `K`. The library assumes that `Hash` is
-callable with both `K` and `Key` and that `Pred` is transparent. This
-enables heterogeneous lookup which avoids the cost of instantiating an
-instance of the `Key` type.
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
+隐式转换时，`template<class K>` 重载才会参与重载决议。库假设 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_multimap_insert_with_node_handle]]
-==== Insert with `node_handle`
+==== 使用 `node_handle` 插入
 
 [source,highlight]
 ----
 iterator insert(node_type&& nh);
 ----
 
-If `nh` is empty, has no effect.
+如果 `nh` 为空，则无效果。
 
-Otherwise inserts the element owned by `nh`.
+否则插入 `nh` 所拥有的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`nh` is empty or `nh.get_allocator()` is equal to the
-container’s allocator.
+|要求： |`nh` 为空，或 `nh.get_allocator()` 等于容器的分配器。
+|返回： a|
+如果 `nh` 为空，返回 `end()`。 +
 
-|Returns: a|
-If `nh` was empty, returns `end()`. +
+否则返回指向新插入元素的迭代器。
 
-Otherwise returns an iterator pointing to the newly inserted element.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
+|备注： a|
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-|Throws: |If an exception is thrown by an operation other than a call to
-`hasher` the function has no effect.
+指向元素的指针和引用永远不会失效。 +
 
-|Notes: a|
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
-
-Pointers and references to elements are never invalidated. +
-
-This can be used to insert a node extracted from a compatible
-`unordered_map`.
+这可用于插入从兼容的 `unordered_map` 中提取的节点。
 
 |===
 
 '''''
 
 [[unordered_multimap_insert_with_hint_and_node_handle]]
-==== Insert with Hint and `node_handle`
+==== 带提示并使用 `node_handle` 插入
 
 [source,highlight]
 ----
 iterator insert(const_iterator hint, node_type&& nh);
 ----
 
-If `nh` is empty, has no effect.
+如果 `nh` 为空，则无效果。
 
-Otherwise inserts the element owned by `nh`.
+否则插入 `nh` 所拥有的元素。
 
-`hint` is a suggestion to where the element should be inserted.
+`hint` 是插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
-|Requires: |`nh` is empty or `nh.get_allocator()` is equal to the
-container’s allocator.
+|要求： |`nh` 为空，或 `nh.get_allocator()` 等于容器的分配器。
 
-|Returns: a|
-If `nh` was empty, returns `end()`. +
+|返回： a|
+如果 `nh` 为空，返回 `end()`。 +
 
-Otherwise returns an iterator pointing to the newly inserted element.
+否则返回指向新插入元素的迭代器。
 
-|Throws: |If an exception is thrown by an operation other than a call to
-hasher the function has no effect.
+|抛出： |若除调用 `hasher` 外的操作抛出异常，则该函数无效果。
 
-|Notes: a|
-The standard is fairly vague on the meaning of the hint. But the only
-practical way to use it, and the only way that Boost.Unordered supports
-is to point to an existing element with the same key. +
+|备注： a|
+标准对提示的含义相当模糊。但唯一实用的使用方式，也是 Boost.Unordered
+支持的唯一方式，是指向具有相同键的现有元素。 +
 
-Can invalidate iterators, but only if the insert causes the load factor
-to be greater to or equal to the maximum load factor. +
+可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时。 +
 
-Pointers and references to elements are never invalidated. +
+指向元素的指针和引用永远不会失效。 +
 
-This can be used to insert a node extracted from a compatible
-`unordered_map`.
+这可用于插入从兼容的 `unordered_map` 中提取的节点。
 
 |===
 
 '''''
 
 [[unordered_multimap_erase_by_position]]
-==== Erase by Position
+==== 通过位置擦除
 
 [source,highlight]
 ----
@@ -1383,25 +1308,22 @@ iterator erase(iterator position);
 iterator erase(const_iterator position);
 ----
 
-Erase the element pointed to by `position`.
+擦除 `position` 所指向的元素。
 
 [cols=",",]
 |===
-|Returns: |The iterator following `position` before the erasure.
+|返回： |擦除前 `position` 的下一个迭代器。
 
-|Throws: |Only throws an exception if it is thrown by `hasher` or
-`key_equal`.
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
 
-|Notes: |In older versions this could be inefficient because it had to
-search through several buckets to find the position of the returned
-iterator. The data structure has been changed so that this is no longer
-the case, and the alternative erase methods have been deprecated.
+|备注：
+|在旧版本中，这可能效率低下，因为它必须搜索多个桶以找到返回迭代器的位置。数据结构已更改，不再如此，因此替代擦除方法已被弃用。
 |===
 
 '''''
 
 [[unordered_multimap_erase_by_key]]
-==== Erase by Key
+==== 通过键擦除
 
 [source,highlight]
 ----
@@ -1409,46 +1331,41 @@ size_type erase(const key_type& k);
 template<class K> size_type erase(K&& k);
 ----
 
-Erase all elements with key equivalent to `k`.
+擦除所有键等价于 `k` 的元素。
 
 [cols=",",]
 |===
-|Returns: |The number of elements erased.
+|返回： |被擦除的元素数量。
 
-|Throws: |Only throws an exception if it is thrown by `hasher` or
-`key_equal`.
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
 
-|Notes: |The `template<class K>` overload only participates in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs and neither `iterator` nor `const_iterator` are
-implicitly convertible from `K`. The library assumes that `Hash` is
-callable with both `K` and `Key` and that `Pred` is transparent. This
-enables heterogeneous lookup which avoids the cost of instantiating an
-instance of the `Key` type.
+|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
+隐式转换时，`template<class K>` 重载才会参与重载决议。库假设 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 |===
 
 '''''
 
 [[unordered_multimap_erase_range]]
-==== Erase Range
+==== 范围擦除
 
 [source,highlight]
 ----
 iterator erase(const_iterator first, const_iterator last);
 ----
 
-Erases the elements in the range from `first` to `last`.
+擦除从 `first` 到 `last` 范围内的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|Returns: |The iterator following the erased elements - i.e. `last`.
+|返回： |被擦除元素之后的迭代器，即 `last`。
 
-|Throws: a|
-Only throws an exception if it is thrown by `hasher` or `key_equal`. +
+|抛出： a|
+仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。 +
 
-In this implementation, this overload doesn’t call either function
-object’s methods so it is no throw, but this might not be true in other
-implementations.
+在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
 |===
 
@@ -1462,21 +1379,17 @@ implementations.
 void quick_erase(const_iterator position);
 ----
 
-Erase the element pointed to by `position`.
+擦除 `position` 所指向的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|Throws: a|
-Only throws an exception if it is thrown by `hasher` or `key_equal`. +
+|抛出： a|
+仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。 +
 
-In this implementation, this overload doesn’t call either function
-object’s methods so it is no throw, but this might not be true in other
-implementations.
+在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
-|Notes: |This method was implemented because returning an iterator to
-the next element from erase was expensive, but the container has been
-redesigned so that is no longer the case. So this method is now
-deprecated.
+|备注：
+|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器已重新设计，不再如此。因此该方法现已弃用。
 |===
 
 '''''
@@ -1489,21 +1402,17 @@ deprecated.
 void erase_return_void(const_iterator position);
 ----
 
-Erase the element pointed to by `position`.
+擦除 `position` 所指向的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|Throws: a|
-Only throws an exception if it is thrown by `hasher` or `key_equal`. +
+|抛出： a|
+仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。 +
 
-In this implementation, this overload doesn’t call either function
-object’s methods so it is no throw, but this might not be true in other
-implementations.
+在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
-|Notes: |This method was implemented because returning an iterator to
-the next element from erase was expensive, but the container has been
-redesigned so that is no longer the case. So this method is now
-deprecated.
+|备注：
+|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器已重新设计，不再如此。因此该方法现已弃用。
 |===
 
 '''''
@@ -1519,21 +1428,19 @@ void swap(unordered_multimap& other)
            boost::is_nothrow_swappable_v<Pred>);
 ----
 
-Swaps the contents of the container with the parameter.
+将容器的内容与参数交换。
 
-If `Allocator::propagate_on_container_swap` is declared and
-`Allocator::propagate_on_container_swap::value` is `true` then the
-containers' allocators are swapped. Otherwise, swapping with unequal
-allocators results in undefined behavior.
+如果声明了 `Allocator::propagate_on_container_swap` 且
+`Allocator::propagate_on_container_swap::value` 为
+`true`，则交换容器的分配器。否则，与不等的分配器交换会导致未定义行为。
 
 [cols=",",]
 |===
-|Throws: |Doesn’t throw an exception unless it is thrown by the copy
-constructor or copy assignment operator of `key_equal` or `hasher`.
+|抛出： |除非由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出异常，否则不会抛出异常。
 
-|Notes: |The exception specifications aren’t quite the same as the C++11
-standard, as the equality predicate and hash function are swapped using
-their copy constructors.
+|备注： |异常规范与 C++11
+标准不完全相同，因为相等谓词和哈希函数是使用其复制构造函数交换的。
 |===
 
 '''''
@@ -1546,12 +1453,12 @@ their copy constructors.
 void clear() noexcept;
 ----
 
-Erases all elements in the container.
+擦除容器中的所有元素。
 
 [cols=",",]
 |===
-|Postconditions: |`size() == 0`
-|Throws: |Never throws an exception.
+|后置条件： |`size() == 0`
+|抛出： |从不抛出异常。
 |===
 
 '''''
@@ -1571,32 +1478,33 @@ template<class H2, class P2>
   void merge(unordered_map<Key, T, H2, P2, Allocator>&& source);
 ----
 
-The behavior of this function is undefined if
-`this->get_allocator() != source.get_allocator()`.
+尝试通过迭代 `source` 并提取 `source` 中的所有节点，然后将它们插入
+`*this` 来“合并”两个容器。
 
-This function does not copy or move any elements and instead simply
-relocates the nodes from `source` into `*this`.
+因为 `source` 可能有不同的哈希函数和键相等谓词，所以 `source`
+中每个节点的键会使用 `this->hash_function()`
+重新哈希，然后如果需要，使用 `this->key_eq()` 进行比较。
 
-The behavior of this function is undefined if
-`this->get_allocator() != source.get_allocator()`.
+如果
+`this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
 
-This function does not copy or move any elements and instead simply
-relocates the nodes from `source` into `*this`.
+此函数不复制或移动任何元素，而是简单地将节点从 `source` 重新定位到
+`*this` 中。
 
 [width="100%",cols="50%,50%",]
 |===
-|Notes: a|
-* Pointers and references to transferred elements remain valid.
-* Invalidates iterators to transferred elements.
-* Invalidates iterators belonging to `*this`.
-* Iterators to non-transferred elements in `source` remain valid.
+|备注： a|
+* 指向被转移元素的指针和引用保持有效。
+* 使指向被转移元素的迭代器失效。
+* 使属于 `*this` 的迭代器失效。
+* 指向 `source` 中未被转移元素的迭代器保持有效。
 
 |===
 
 '''''
 
 [[unordered_multimap_observers]]
-=== Observers
+=== 观察器
 
 [[unordered_multimap_get_allocator]]
 ==== get_allocator
@@ -1618,7 +1526,7 @@ hasher hash_function() const;
 
 [cols=",",]
 |===
-|Returns: |The container’s hash function.
+|返回： |容器的哈希函数。
 |===
 
 '''''
@@ -1633,13 +1541,13 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|Returns: |The container’s key equality predicate
+|返回： |容器的键相等谓词。
 |===
 
 '''''
 
 [[unordered_multimap_lookup]]
-=== Lookup
+=== 查找
 
 [[unordered_multimap_find]]
 ==== find
@@ -1656,33 +1564,24 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
   iterator       find(CompatibleKey const& k, CompatibleHash const& hash,
                       CompatiblePredicate const& eq);
 template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate>
-  const_iterator find(CompatibleKey const& k, CompatibleHash const& hash,
+  const_iterator find(CompatibleKey const& k, Compatible极 const& hash,
                       CompatiblePredicate const& eq) const;
 ----
 
 [width="100%",cols="50%,50%",]
 |===
-|Returns: |The templated overloads containing `CompatibleKey`,
-`CompatibleHash` and `CompatiblePredicate` are non-standard extensions
-which allow you to use a compatible hash function and equality predicate
-for a key of a different type in order to avoid an expensive type cast.
-In general, its use is not encouraged and instead the `K` member
-function templates should be used.
+|返回： |指向键等价于 `k` 的元素的迭代器；如果不存在这样的元素，则返回
+`b.end()`。
 
-|Notes: a|
-The templated overloads containing `CompatibleKey`, `CompatibleHash` and
-`CompatiblePredicate` are non-standard extensions which allow you to use
-a compatible hash function and equality predicate for a key of a
-different type in order to avoid an expensive type cast. In general, its
-use is not encouraged and instead the `K` member function templates
-should be used. +
+|备注： a|
+包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate`
+的模板化重载是非标准扩展，允许您使用兼容的哈希函数和相等谓词来处理不同类型的键，以避免昂贵的类型转换。通常，不鼓励使用它，而应使用
+`K` 成员函数模板。 +
 
-The `template<class K>` overloads only participate in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs. The library assumes that `Hash` is callable with
-both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
+`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 
 |===
 
@@ -1700,19 +1599,12 @@ template<class K>
 
 [cols=",",]
 |===
-|Returns: |The `template<class K>` overload only participates in
-overload resolution if `Hash::is_transparent` and `Pred::is_transparent`
-are valid member typedefs. The library assumes that `Hash` is callable
-with both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|返回： |键等价于 `k` 的元素数量。
 
-|Notes: |The `template<class K>` overload only participates in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs. The library assumes that `Hash` is callable with
-both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
+`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1729,19 +1621,12 @@ template<class K>
 
 [cols=",",]
 |===
-|Returns: |The `template<class K>` overload only participates in
-overload resolution if `Hash::is_transparent` and `Pred::is_transparent`
-are valid member typedefs. The library assumes that `Hash` is callable
-with both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|返回： |一个布尔值，指示容器中是否存在键等于 `key` 的元素。
 
-|Notes: |The `template<class K>` overload only participates in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs. The library assumes that `Hash` is callable with
-both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
+`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1761,25 +1646,20 @@ template<class K>
 
 [cols=",",]
 |===
-|Returns: |The `template<class K>` overloads only participate in
-overload resolution if `Hash::is_transparent` and `Pred::is_transparent`
-are valid member typedefs. The library assumes that `Hash` is callable
-with both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|返回： |包含所有键等价于 `k`
+的元素的区间。如果容器不包含任何此类元素，则返回
+`std::make_pair(b.end(), b.end())`。
 
-|Notes: |The `template<class K>` overloads only participate in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs. The library assumes that `Hash` is callable with
-both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
+`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 |===
 
 '''''
 
 [[unordered_multimap_bucket_interface]]
-=== Bucket Interface
+=== 桶接口
 
 [[unordered_multimap_bucket_count]]
 ==== bucket_count
@@ -1791,7 +1671,7 @@ size_type bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |The number of buckets.
+|返回： |桶的数量。
 |===
 
 '''''
@@ -1806,7 +1686,7 @@ size_type max_bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |An upper bound on the number of buckets.
+|返回： |桶数量的上限。
 |===
 
 '''''
@@ -1821,8 +1701,8 @@ size_type bucket_size(size_type n) const;
 
 [cols=",",]
 |===
-|Requires: |`The number of elements in bucket ``n``.`
-|Returns: |The number of elements in bucket `n`.
+|要求： |`n < bucket_count()`
+|返回： |桶 `n` 中的元素数量。
 |===
 
 '''''
@@ -1838,26 +1718,14 @@ template<class K> size_type bucket(const K& k) const;
 
 [cols=",",]
 |===
-|Returns: |The `template<class K>` overload only participates in
-overload resolution if `Hash::is_transparent` and `Pred::is_transparent`
-are valid member typedefs. The library assumes that `Hash` is callable
-with both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|返回： |将包含键为 `k` 的元素的桶的索引。
 
-|Postconditions: |The `template<class K>` overload only participates in
-overload resolution if `Hash::is_transparent` and `Pred::is_transparent`
-are valid member typedefs. The library assumes that `Hash` is callable
-with both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|后置条件： |返回值小于 `bucket_count()`。
 
-|Notes: |The `template<class K>` overload only participates in overload
-resolution if `Hash::is_transparent` and `Pred::is_transparent` are
-valid member typedefs. The library assumes that `Hash` is callable with
-both `K` and `Key` and that `Pred` is transparent. This enables
-heterogeneous lookup which avoids the cost of instantiating an instance
-of the `Key` type.
+|备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
+`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1873,11 +1741,8 @@ const_local_iterator begin(size_type n) const;
 
 [cols=",",]
 |===
-|Requires: |A local iterator pointing the first element in the bucket
-with index `n`.
-
-|Returns: |A local iterator pointing the first element in the bucket
-with index `n`.
+|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|返回： |指向索引为 `n` 的桶中首元素的局部迭代器。
 |===
 
 '''''
@@ -1893,11 +1758,8 @@ const_local_iterator end(size_type n) const;
 
 [cols=",",]
 |===
-|Requires: |A local iterator pointing the first element in the bucket
-with index `n`.
-
-|Returns: |A local iterator pointing the 'one past the end' element in
-the bucket with index `n`.
+|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|返回： |指向索引为 `n` 的桶中“尾后”元素的局部迭代器。
 |===
 
 '''''
@@ -1912,11 +1774,8 @@ const_local_iterator cbegin(size_type n) const;
 
 [cols=",",]
 |===
-|Requires: |A local iterator pointing the first element in the bucket
-with index `n`.
-
-|Returns: |A constant local iterator pointing the first element in the
-bucket with index `n`.
+|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|返回： |指向索引为 `n` 的桶中首元素的常量局部迭代器。
 |===
 
 '''''
@@ -1931,29 +1790,26 @@ const_local_iterator cend(size_type n) const;
 
 [cols=",",]
 |===
-|Requires: |A local iterator pointing the first element in the bucket
-with index `n`.
-
-|Returns: |A constant local iterator pointing the 'one past the end'
-element in the bucket with index `n`.
+|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|返回： |指向索引为 `n` 的桶中“尾后”元素的常量局部迭代器。
 |===
 
 '''''
 
 [[unordered_multimap_hash_policy]]
-=== Hash Policy
+=== 哈希策略
 
 [[unordered_multimap_load_factor]]
 ==== load_factor
 
 [source,highlight]
 ----
-float load_factor() const noexcept;
+float load极() const noexcept;
 ----
 
 [cols=",",]
 |===
-|Returns: |The average number of elements per bucket.
+|返回： |每个桶的平均元素数量。
 |===
 
 '''''
@@ -1968,13 +1824,13 @@ float max_load_factor() const noexcept;
 
 [cols=",",]
 |===
-|Returns: |Returns the current maximum load factor.
+|返回： |返回当前的最大负载因子。
 |===
 
 '''''
 
 [[unordered_multimap_set_max_load_factor]]
-==== Set max_load_factor
+==== 设置 max_load_factor
 
 [source,highlight]
 ----
@@ -1983,8 +1839,7 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|Effects: |Changes the container’s maximum load factor, using `z` as a
-hint.
+|效果： |更改容器的最大负载因子，使用 `z` 作为提示。
 |===
 
 '''''
@@ -1997,21 +1852,18 @@ hint.
 void rehash(size_type n);
 ----
 
-Changes the number of buckets so that there are at least `n` buckets,
-and so that the load factor is less than or equal to the maximum load
-factor. When applicable, this will either grow or shrink the
-`bucket_count()` associated with the container.
+更改桶的数量，使得至少有 `n`
+个桶，且负载因子小于或等于最大负载因子。适用时，这将增加或减少与容器关联的
+`bucket_count()`。
 
-When `size() == 0`, `rehash(0)` will deallocate the underlying buckets
-array.
+当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
 
-Invalidates iterators, and changes the order of elements. Pointers and
-references to elements are not invalidated.
+使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 
 [cols=",",]
 |===
-|Throws: |The function has no effect if an exception is thrown, unless
-it is thrown by the container’s hash function or comparison function.
+|抛出：
+|如果抛出异常，则函数无效果，除非异常由容器的哈希函数或比较函数抛出。
 |===
 
 '''''
@@ -2024,61 +1876,53 @@ it is thrown by the container’s hash function or comparison function.
 void reserve(size_type n);
 ----
 
-Equivalent to `a.rehash(ceil(n / a.max_load_factor()))`, or
-`a.rehash(1)` if `n > 0` and
-`a.max_load_factor() == std::numeric_limits<float>::infinity()`.
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`，或者如果 `n > 0` 且
+`a.max_load_factor() == std::numeric_limits<float>::infinity()`，则等价于
+`a.rehash(1)`。
 
-Similar to `rehash`, this function can be used to grow or shrink the
-number of buckets in the container.
+类似于 `rehash`，此函数可用于增加或减少容器中的桶数量。
 
-Invalidates iterators, and changes the order of elements. Pointers and
-references to elements are not invalidated.
+使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 
 [cols=",",]
 |===
-|Throws: |The function has no effect if an exception is thrown, unless
-it is thrown by the container’s hash function or comparison function.
+|抛出：
+|如果抛出异常，则函数无效果，除非异常由容器的哈希函数或比较函数抛出。
 |===
 
 '''''
 
 [[unordered_multimap_deduction_guides]]
-=== Deduction Guides
+=== 推导指引
 
-A deduction guide will not participate in overload resolution if any of
-the following are true:
+如果以下任意一项为真，则推导指引不参与重载决议：
 
-* It has an `InputIterator` template parameter and a type that does not
-qualify as an input iterator is deduced for that parameter.
-* It has an `Allocator` template parameter and a type that does not
-qualify as an allocator is deduced for that parameter.
-* It has a `Hash` template parameter and an integral type or a type that
-qualifies as an allocator is deduced for that parameter.
-* It has a `Pred` template parameter and a type that qualifies as an
-allocator is deduced for that parameter.
+* 它具有 `InputIterator`
+模板参数，且为该参数推导出的类型不符合输入迭代器要求。
+* 它具有 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
+* 它具有 `Hash`
+模板参数，且为该参数推导出的是整数类型或符合分配器要求的类型。
+* 它具有 `Pred` 模板参数，且为该参数推导出的是符合分配器要求的类型。
 
-A `size_­type` parameter type in a deduction guide refers to the
-`size_­type` member type of the container type deduced by the deduction
-guide. Its default value coincides with the default value of the
-constructor selected.
+推导指引中的 `size_­type` 参数类型引用由推导指引推导出的容器类型的
+`size_­type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_multimap_iter_value_type]]
-==== _iter-mapped-type_
+==== _iter-value-type_
 
 ....
 template<class InputIterator>
-  using iter-mapped-type =
-    std::tuple_element_t<1, iter-value-type<InputIterator>>;  // exposition only
+  using iter-value-type =
+    typename std::iterator_traits<InputIterator>::value_type; // 仅用于说明
 ....
 
 [[unordered_multimap_iter_key_type]]
-==== _iter-to-alloc-type_
+==== _iter-key-type_
 
 ....
 template<class InputIterator>
-  using iter-to-alloc-type = std::pair<
-    std::add_const_t<std::tuple_element_t<0, iter-value-type<InputIterator>>>,
-    std::tuple_element_t<1, iter-value-type<InputIterator>>>; // exposition only
+  using iter-key-type = std::remove_const_t<
+    std::tuple_element_t<0, iter-value-type<InputIterator>>>; // 仅用于说明
 ....
 
 [[unordered_multimap_iter_mapped_type]]
@@ -2087,7 +1931,7 @@ template<class InputIterator>
 ....
 template<class InputIterator>
   using iter-mapped-type =
-    std::tuple_element_t<1, iter-value-type<InputIterator>>;  // exposition only
+    std::tuple_element_t<1, iter-value-type<InputIterator>>;  // 仅用于说明
 ....
 
 [[unordered_multimap_iter_to_alloc_type]]
@@ -2097,11 +1941,11 @@ template<class InputIterator>
 template<class InputIterator>
   using iter-to-alloc-type = std::pair<
     std::add_const_t<std::tuple_element_t<0, iter-value-type<InputIterator>>>,
-    std::tuple_element_t<1, iter-value-type<InputIterator>>>; // exposition only
+    std::tuple_element_t<1, iter-value-type<InputIterator>>>; // 仅用于说明
 ....
 
 [[unordered_multimap_equality_comparisons]]
-=== Equality Comparisons
+=== 相等比较
 
 [[unordered_multimap_operator]]
 ==== operator==
@@ -2113,14 +1957,13 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_multimap<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-Return `true` if `x.size() == y.size()` and for every equivalent key
-group in `x`, there is a group in `y` for the same key, which is a
-permutation (using `operator==` to compare the value types).
+如果 `x.size() == y.size()` 且对于 `x` 中的每个等价键组，`y`
+中都有一个相同键的组（使用 `operator==` 比较值类型，且是排列），则返回
+`true`。
 
 [cols=",",]
 |===
-|Notes: |Behavior is undefined if the two containers don’t have
-equivalent equality predicates.
+|备注： |如果两个容器的等价谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -2135,14 +1978,13 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_multimap<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-Return `false` if `x.size() == y.size()` and for every equivalent key
-group in `x`, there is a group in `y` for the same key, which is a
-permutation (using `operator==` to compare the value types).
+如果 `x.size() == y.size()` 且对于 `x` 中的每个等价键组，`y`
+中都有一个相同键的组（使用 `operator==` 比较值类型，且是排列），则返回
+`false`。
 
 [cols=",",]
 |===
-|Notes: |Behavior is undefined if the two containers don’t have
-equivalent equality predicates.
+|备注： |如果两个容器的等价谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -2158,23 +2000,21 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
     noexcept(noexcept(x.swap(y)));
 ----
 
-Swaps the contents of `x` and `y`.
+交换 `x` 和 `极` 的内容。
 
-If `Allocator::propagate_on_container_swap` is declared and
-`Allocator::propagate_on_container_swap::value` is `true` then the
-containers' allocators are swapped. Otherwise, swapping with unequal
-allocators results in undefined behavior.
+如果声明了 `Allocator::propagate_on_container_swap` 且
+`Allocator::propagate_on_container_swap::value` 为
+`true`，则交换容器的分配器。否则，与不等的分配器交换会导致未定义行为。
 
 [cols=",",]
 |===
-|Effects: |`x.swap(y)`
+|效果： |`x.swap(y)`
 
-|Throws: |Doesn’t throw an exception unless it is thrown by the copy
-constructor or copy assignment operator of `key_equal` or `hasher`.
+|抛出： |除非由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出异常，否则不会抛出异常。
 
-|Notes: |The exception specifications aren’t quite the same as the C++11
-standard, as the equality predicate and hash function are swapped using
-their copy constructors.
+|备注： |异常规范与 C++11
+标准不完全相同，因为相等谓词和哈希函数是使用其复制构造函数交换的。
 |===
 
 '''''
@@ -2189,14 +2029,13 @@ template<class K, class T, class H, class P, class A, class Predicate>
     erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
 ----
 
-Traverses the container `c` and removes all elements for which the
-supplied predicate returns `true`.
+遍历容器 `c` 并移除所有满足谓词 `pred` 返回 `true` 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|Returns: |The number of erased elements.
-|Notes: a|
-Equivalent to: +
+|返回： |被擦除的元素数量。
+|备注： a|
+等价于： +
 
 [source,highlight]
 ----
@@ -2211,89 +2050,81 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
 return original_size - c.size();
 ----
 
-Note that the references passed to `pred` are non-const.
+注意传递给 `pred` 的引用是非 const 的。
 
 |===
 
 [[unordered_multimap_serialization]]
-=== Serialization
+=== 序列化
 
-`unordered_multimap`s can be archived/retrieved by means of
-link:../../../../../serialization/index.html[Boost.Serialization] using
-the API provided by this library. Both regular and XML archives are
-supported.
+`unordered_multimap` 可以通过
+link:../../../../../serialization/index.html[Boost.Serialization]
+使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
 
 [[unordered_multimap_saving_an_unordered_multimap_to_an_archive]]
-==== Saving an unordered_multimap to an archive
+==== 将 unordered_multimap 保存到归档
 
-Saves all the elements of an `unordered_multimap` `x` to an archive (XML
-archive) `ar`.
+将 `unordered_multimap` `x` 的所有元素保存到归档（XML 归档）`ar`。
 
 [cols=",",]
 |===
-|Requires: |`std::remove_const<key_type>::type` and
-`std::remove_const<mapped_type>::type` are serializable (XML
-serializable), and they do support Boost.Serialization
-`save_construct_data`/`load_construct_data` protocol (automatically
-suported by
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[DefaultConstructible]
-types).
+|要求： |`std::remove_const<key_type>::type` 和
+`std::remove_const<mapped_type>::type` 可序列化（XML
+可序列化），并且支持 Boost.Serialization 的
+`save_construct_data`/`load_construct_data`
+协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
 |===
 
 '''''
 
 [[unordered_multimap_loading_an_unordered_multimap_from_an_archive]]
-==== Loading an unordered_multimap from an archive
+==== 从归档加载 unordered_multimap
 
-Deletes all preexisting elements of an `unordered_multimap` `x` and
-inserts from an archive (XML archive) `ar` restored copies of the
-elements of the original `unordered_multimap` `other` saved to the
-storage read by `ar`.
+删除 `unordered_multimap` `x` 的所有预先存在的元素，并从归档（XML
+归档）`ar` 插入原始 `unordered_multimap` `other` 保存到 `ar`
+所读取存储中的元素副本。
 
 [cols=",",]
 |===
-|Requires: |`value_type` is
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[EmplaceConstructible]
-from
-`(std::remove_const<key_type>::type&&, std::remove_const<mapped_type>::type&&)`.
-`x.key_equal()` is functionally equivalent to `other.key_equal()`.
+|要求： |`value_type` 必须满足从
+`(std::remove_const<key_type>::type&&, std::remove_const<mapped_type>::type&&)`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]。`x.key_equal()`
+在功能上等价于 `other.key_equal()`。
 
-|Note: |The `unordered_multimap` `x` pointed to by `it` has been
-previously saved to `ar`, and no modifying operations have been issued
-on `x` between saving of `x` and saving of `it`.
+|注意： |如果归档是使用 Boost 1.84
+之前的版本保存的，则必须全局定义配置宏
+`BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
+才能使此操作成功；否则将抛出异常。
 |===
 
 '''''
 
 [[unordered_multimap_saving_an_iteratorconst_iterator_to_an_archive]]
-==== Saving an iterator/const_iterator to an archive
+==== 将迭代器/常量迭代器保存到归档
 
-Saves the positional information of an `iterator` (`const_iterator`)
-`it` to an archive (XML archive) `ar`. `it` can be and `end()` iterator.
+将 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
+归档）`ar`。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
-|Requires: |The `unordered_multimap` `x` pointed to by `it` has been
-previously saved to `ar`, and no modifying operations have been issued
-on `x` between saving of `x` and saving of `it`.
+|要求： |`it` 指向的 `unordered_multimap` `x` 先前已保存到
+`ar`，并且在保存 `x` 和保存 `it` 之间未对 `x` 发出修改操作。
 |===
 
 '''''
 
 [[unordered_multimap_loading_an_iteratorconst_iterator_from_an_archive]]
-==== Loading an iterator/const_iterator from an archive
+==== 从归档加载迭代器/常量迭代器
 
-Makes an `iterator` (`const_iterator`) `it` point to the restored
-position of the original `iterator` (`const_iterator`) saved to the
-storage read by an archive (XML archive) `ar`.
+使 `iterator`（`const_iterator`）`it` 指向保存到归档（XML 归档）`ar`
+所读取存储中的原始 `iterator`（`const_iterator`）的恢复位置。
 
 [cols=",",]
 |===
-|Requires: |If `x` is the `unordered_multimap` `it` points to, no
-modifying operations have been issued on `x` between loading of `x` and
-loading of `it`.
+|要求： |如果 `x` 是 `it` 指向的 `unordered_multimap`，则在加载 `x`
+和加载 `it` 之间未对 `x` 发出修改操作。
 |===
 
 [[footer]]
 [[footer-text]]
-Last updated 2025-10-31 21:41:46 UTC
+最后更新于 2025-10-31 21:41:46 UTC

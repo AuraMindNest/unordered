@@ -442,8 +442,8 @@ unordered_set(const unordered_set& other);
 
 复制构造函数。复制容器内的元素、哈希函数、谓词、最大负载因子以及分配器。
 
-如果 `Allocator::select_on_container_copy_construction`
-方法存在且签名正确，则将基于其返回结果构造分配器。
+若 `Allocator::select_on_container_copy_construction`
+存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===

@@ -2254,9 +2254,9 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_node_map_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使 `iterator`（`const_iterator`）`it` 指向原始
-`iterator`（`const_iterator`）保存到归档（XML 归档）`ar`
-所读存储中的恢复位置。
+使迭代器 `iterator`（`const_iterator`）`it` 指向之前通过 XML 归档（XML
+归档）`ar`
+保存的原始迭代器（常量迭代器）的恢复位置（从存储数据中还原出来的位置）。
 
 [cols=",",]
 |===

@@ -879,10 +879,11 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 |===
 |返回： |访问的元素数量（0 或 1）。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K, class F>`
-重载才参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key` 类型调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1267,7 +1268,7 @@ template<class F> bool insert_or_visit(const value_type& obj, F f);
 template<class F> bool insert_or_cvisit(const value_type& obj, F f);
 ----
 
-若容器中不存在等价键的元素，则将
+当且仅当容器中不存在等价键的元素时，将
 `obj`插入到容器中；否则，以该等价元素的常量引用为参数调用函数 `f` 。
 
 [width="100%",cols="50%,50%",]
@@ -1293,7 +1294,7 @@ template<class F> bool insert_or_visit(value_type&& obj, F f);
 template<class F> bool insert_or_cvisit(value_type&& obj, F f);
 ----
 
-若容器中不存在等价键的元素，则将
+当且仅当容器中不存在等价键的元素时，将
 `obj`插入到容器中；否则，以该等价元素的常量引用为参数调用函数 `f` 。
 
 [width="100%",cols="50%,50%",]
@@ -1319,8 +1320,8 @@ template<class K, class F> bool insert_or_visit(K&& k, F f);
 template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 ----
 
-若容器中无等价键的元素，则插入从 `std::forward<K>(k)`
-构造的元素；否则以常量引用调用 `f` 访问等价元素。
+当且仅当容器中不存在等价键的元素时，插入由 `std::forward<K>(k)`
+构造的元素；否则，以该等价元素的常量引用为参数调用函数 `f` 。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1335,9 +1336,9 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型别名时，这些重载参与重载决议。库假设 `Hash` 可同时用 `K`
-和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免实例化 `Key`
-类型的开销。
+均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假设 `Hash`
+可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1400,9 +1401,9 @@ template<class... Args, class F1, class F2>
   bool emplace_and_cvisit(Args&>... args, F1&> f1, F2&> f2);
 ----
 
-若表中无等价键的元素，则用参数 `args`
-构造对象并插入表中，然后以常量引用调用 `f1`
-访问新创建的元素；否则以常量引用调用 `f2` 访问等价元素。
+若容器中不存在等价键的元素，则插入由参数 `args`
+构造的对象，并以新元素的常量引用为参数调用函数
+`f1`；否则，以该等价元素的常量引用为参数调用函数 `f2`。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1427,8 +1428,9 @@ template<class F1, class F2> bool insert_and_visit(const value_type& obj, F1 f1,
 template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1, F2 f2);
 ----
 
-若表中无等价键的元素，则插入 `obj`，然后以常量引用调用 `f1`
-访问新创建的元素；否则以常量引用调用 `f2` 访问等价元素。
+当且仅当容器中不存在等价键的元素时，将
+`obj`对象插入到容器中，并以新元素的常量引用为参数调用函数
+`f1`；否则，以该等价元素的常量引用为参数调用函数 `f2`。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1453,8 +1455,9 @@ template<class F1, class F2> bool insert_and_visit(value_type&& obj, F1 f1, F2 f
 template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 f2);
 ----
 
-若表中无等价键的元素，则插入 `obj`，然后以常量引用调用 `f1`
-访问新创建的元素；否则以常量引用调用 `f2` 访问等价元素。
+当且仅当容器中不存在等价键的元素时，将
+`obj`对象插入到容器中，并以新元素的常量引用为参数调用函数
+`f1`；否则，以该等价元素的常量引用为参数调用函数 `f2`。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1479,9 +1482,9 @@ template<class K, class F1, class F2> bool insert_and_visit(K&> k, F1 f1, F2 f2)
 template<class K, class F1, class F2> bool insert_and_cvisit(K&> k, F1 f1, F2 f2);
 ----
 
-若容器中无等价键的元素，则插入从 `std::forward<K>(k)`
-构造的元素，然后以常量引用调用 `f1` 访问新创建的元素；否则以常量引用调用
-`f2` 访问等价元素。
+当且仅当容器中不存在等价键的元素时，插入由 `std::forward<K>(k)`
+构造的元素，并以新元素的常量引用为参数调用函数
+`f1`；否则，以该等价元素的常量引用为参数调用函数 `f2`。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1496,9 +1499,9 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型别名时，这些重载参与重载决议。库假设 `Hash` 可同时用 `K`
-和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免实例化 `Key`
-类型的开销。
+均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假设 `Hash`
+可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1553,7 +1556,7 @@ template<class F1, class F2>
 '''''
 
 [[concurrent_flat_set_erase]]
-==== erase
+==== 擦除
 
 [source,highlight]
 ----
@@ -1561,18 +1564,20 @@ size_type erase(const key_type& k);
 template<class K> size_type erase(const K& k);
 ----
 
-若存在键等价于 `k` 的元素，则擦除之。
+若存在键等价于 `k` 的元素，则将其擦除。
 
 [cols=",",]
 |===
 |返回： |插入的元素数量（0 或 1）。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出时抛出异常。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
 
-|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时才参与重载决议。库假设
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
+类型调用，且 `Pred`
+为透明的。这支持异构查找，该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1586,23 +1591,23 @@ template<class F> size_type erase_if(const key_type& k, F f);
 template<class K, class F> size_type erase_if(const K& k, F f);
 ----
 
-若存在键等价于 `k` 的元素 `x` 且 `f(x)` 为 `true`，则擦除之。
+若存在键等价于 `k` 的元素 `x` 且 `f(x)` 为 `true`，则擦除该元素。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： |插入的元素数量（0 或 1）。
 
-|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出时抛出异常。
+|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时，才会抛出异常。
 
 |注意： a|
-`template<class K, class F>` 重载仅当
-`std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为
-`false` 时参与重载决议。 +
+仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
+为 `false` 时，`template<class K, class F>` 重载才会参与重载决议。 +
 
-`template<class K, class F>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时才参与重载决议。库假设
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K, class F>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 
 |===
 
@@ -1616,12 +1621,13 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 template<class F> size_type erase_if(F f);
 ----
 
-依次以引用调用 `f` 访问表中每个元素，并擦除使 `f` 返回 `true` 的元素。
+依次以容器中每个元素的引用为参数调用函数 `f`，并擦除所有使 `f` 返回
+`true` 的元素。
 
 [cols=",",]
 |===
-|返回： |返回被移除的元素数量。
-|抛出： |仅当 `f` 抛出时抛出异常。
+|返回： |返回被擦除的元素数量。
+|抛出： |仅当 `f` 抛出异常时，才会抛出异常。
 |===
 
 '''''
@@ -1786,10 +1792,12 @@ template<class K>
 |返回： |键等价于 `k` 的元素数量（0 或 1）。
 
 |注意： a|
-`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时才参与重载决议。库假设
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。 +
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
+类型调用，且 `Pred`
+为透明的。这支持异构查找，该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。 +
 
 在并发插入操作存在时，返回值可能无法准确反映执行后的实际表状态。
 
@@ -1812,10 +1820,12 @@ template<class K>
 |返回： |布尔值，指示表中是否存在键等于 `k` 的元素。
 
 |注意： a|
-`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时才参与重载决议。库假设
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。 +
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
+类型调用，且 `Pred`
+为透明的。这支持异构查找，该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。 +
 
 在并发插入操作存在时，返回值可能无法准确反映执行后的实际表状态。
 

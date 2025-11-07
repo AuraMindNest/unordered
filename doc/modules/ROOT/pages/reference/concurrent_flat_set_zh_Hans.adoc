@@ -1640,8 +1640,8 @@ template<class F> size_type erase_if(F f);
 template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&> policy, F f);
 ----
 
-以引用调用 `f` 访问表中每个元素，并擦除使 `f` 返回 `true`
-的元素。执行根据指定执行策略的语义并行化。
+根据指定的执行策略语义，以容器中每个元素的引用为参数并行调用函数
+`f`，并擦除所有使 `f` 返回 `true` 的元素。
 
 [width="100%",cols="50%,50%",]
 |===

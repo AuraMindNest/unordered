@@ -1405,7 +1405,7 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回值： |返回被移除的元素数量。
+|返回值： |返回被擦除的元素数量。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 

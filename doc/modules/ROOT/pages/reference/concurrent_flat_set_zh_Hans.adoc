@@ -494,9 +494,10 @@ concurrent_flat_set(concurrent_flat_set const& other);
 concurrent_flat_set(concurrent_flat_set&& other);
 ----
 
-移动构造函数。`other`
-的内部桶数组直接转移至新表。哈希函数、谓词和分配器从 `other`
-移动构造。若统计link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，则转移
+移动构造函数。该操作将`other`
+的内部桶数组直接转移至新容器，其哈希函数、相等性谓词以及分配器均通过移动构造方式从
+`other`
+转移而来。若统计功能link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，则同时转移
 `other` 的内部统计信息并调用 `other.reset_stats()`。
 
 [cols=",",]
@@ -515,13 +516,13 @@ template<class InputIterator>
   concurrent_flat_set(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-使用 `a` 作为分配器、默认哈希函数和键相等谓词构造空表，并将 `[f, l)`
-的元素插入其中。
+使用 `a` 作为分配器、默认哈希函数和键相等性谓词来构造一个空表，并将区间
+`[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -534,7 +535,7 @@ template<class InputIterator>
 explicit concurrent_flat_set(Allocator const& a);
 ----
 
-使用分配器 `a` 构造空表。
+使用分配器 `a` 构造一个空表。
 
 '''''
 
@@ -546,7 +547,8 @@ explicit concurrent_flat_set(Allocator const& a);
 concurrent_flat_set(concurrent_flat_set const& other, Allocator const& a);
 ----
 
-复制 `other` 的元素、哈希函数和谓词，但使用分配器 `a` 构造表。
+构造一个容器，复制 `other`
+中的的元素、哈希函数及相等性谓词，但使用分配器 `a`。
 
 [cols=",",]
 |===
@@ -564,11 +566,11 @@ concurrent_flat_set(concurrent_flat_set&& other, Allocator const& a);
 ----
 
 若 `a == other.get_allocator()`，则 `other`
-的元素直接转移至新表；否则，元素从 `other` 移动构造。哈希函数和谓词从
-`other` 移动构造，分配器从 `a`
-复制构造。若统计link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，当且仅当
-`a == other.get_allocator()` 时转移内部统计信息，并始终调用
-`other.reset_stats()`。
+中的元素直接转移至新的容器；否则，元素从 `other`
+移动构造。哈希函数和相等性谓词从 `other` 移动构造，分配器从 `a`
+复制构造。若统计功能link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，当且仅当
+`a == other.get_allocator()` 时，同步转移`other`
+的内部统计信息，并始终调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
@@ -585,10 +587,10 @@ concurrent_flat_set(concurrent_flat_set&& other, Allocator const& a);
 concurrent_flat_set(unordered_flat_set<Key, Hash, Pred, Allocator>&& other);
 ----
 
-从 link:#unordered_flat_set[`unordered_flat_set`] 移动构造。`other`
-的内部桶数组直接转移至新容器。哈希函数、谓词和分配器从 `other`
-移动构造。若统计link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，则转移内部统计信息并调用
-`other.reset_stats()`。
+从 link:#unordered_flat_set[`unordered_flat_set`] 进行移动构造。`other`
+的内部桶数组直接转移至新容器。其哈希函数、相等性谓词和分配器从 `other`
+移动构造。若统计功能link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，则转移`other`
+的内部统计信息，并调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
@@ -609,8 +611,8 @@ concurrent_flat_set(std::initializer_list<value_type> il,
                     const allocator_type& a = allocator_type());
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf` 为哈希函数、`eql` 为键相等谓词、`a`
-为分配器，并将 `il` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器，并将初始化列表 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -628,15 +630,15 @@ concurrent_flat_set(std::initializer_list<value_type> il,
 concurrent_flat_set(size_type n, allocator_type const& a);
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf`
-为哈希函数、默认哈希函数和键相等谓词、`a` 为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数、默认哈希函数和键相等性谓词、以及`a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
 |要求： |`hasher` 和 `key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -649,15 +651,15 @@ concurrent_flat_set(size_type n, allocator_type const& a);
 concurrent_flat_set(size_type n, hasher const& hf, allocator_type const& a);
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf` 为哈希函数、默认键相等谓词、`a`
-为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数、默认键相等性谓词、以及`a` 作为为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
 |要求： |`key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -677,7 +679,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -698,7 +700,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -716,7 +718,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, const allocator_type& 
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -735,7 +737,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const all
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -755,7 +757,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const has
 [cols=",",]
 |===
 |要求： |`key_equal`
-需https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''

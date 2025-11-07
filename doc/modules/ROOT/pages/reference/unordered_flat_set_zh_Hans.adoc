@@ -687,10 +687,11 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const hash
 unordered_flat_set& operator=(unordered_flat_set const& other);
 ----
 
-赋值运算符。销毁先前存在的元素，从 `other` 复制赋值哈希函数和谓词，如果
+赋值运算符。该操作会销毁容器内先前存在的元素，从 `other`
+复制赋值哈希函数和谓词，若
 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
-`other` 复制赋值分配器，最后插入 `other` 元素的副本。
+`other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 
 [cols=",",]
 |===
@@ -730,7 +731,7 @@ unordered_flat_set& operator=(unordered_flat_set&& other)
 unordered_flat_set& operator=(std::initializer_list<value_type> il);
 ----
 
-从初始化列表中的值赋值。销毁所有先前存在的元素。
+通过初始化列表中的值进行赋值，容器内所有现有元素均被销毁。
 
 [cols=",",]
 |===

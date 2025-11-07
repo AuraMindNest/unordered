@@ -673,8 +673,9 @@ template<class InputIterator>
   concurrent_flat_set(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-使用至少 `n` 个桶构造空表，以 `a`
-为分配器、默认哈希函数和键相等谓词，并将 `[f, l)` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a`
+作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -694,8 +695,9 @@ template<class InputIterator>
                           const allocator_type& a);
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf` 为哈希函数、`a`
-为分配器、默认键相等谓词，并将 `[f, l)` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数、默认键相等性谓词、以及`a` 作为为分配器，并将区间 `[f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -713,7 +715,9 @@ template<class InputIterator>
 concurrent_flat_set(std::initializer_list<value_type> il, const allocator_type& a);
 ----
 
-使用 `a` 和默认哈希函数及键相等谓词构造空表，并将 `il` 的元素插入其中。
+构造一个空容器，使用 `a`
+作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -731,8 +735,9 @@ concurrent_flat_set(std::initializer_list<value_type> il, const allocator_type& 
 concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const allocator_type& a);
 ----
 
-使用至少 `n` 个桶构造空表，以 `a` 和默认哈希函数及键相等谓词，并将 `il`
-的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a`
+作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -751,8 +756,9 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const has
                     const allocator_type& a);
 ----
 
-使用至少 `n` 个桶构造空表，以 `hf` 为哈希函数、`a`
-为分配器、默认键相等谓词，并将 `il` 的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数、默认键相等性谓词、以及`a` 作为为分配器，并将区间 `[f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -788,15 +794,16 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const has
 concurrent_flat_set& operator=(concurrent_flat_set const& other);
 ----
 
-赋值运算符。销毁先前存在的元素，从 `other` 复制赋值哈希函数和谓词，若
+赋值运算符。该操作会销毁容器内先前存在的元素，从 `other`
+复制赋值哈希函数和谓词，若
 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
-`other` 复制赋值分配器，最后插入 `other` 元素的副本。
+`other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |并发性： |阻塞于 `*this` 和 `other`。
 |===
@@ -813,13 +820,14 @@ concurrent_flat_set& operator=(concurrent_flat_set&& other)
            boost::allocator_traits<Allocator>::propagate_on_container_move_assignment::value);
 ----
 
-移动赋值运算符。销毁先前存在的元素，交换 `other` 的哈希函数和谓词，若
-`Alloc::propagate_on_container_move_assignment` 存在且
-`Alloc::propagate_on_container_move_assignment::value` 为 `true`，则从
-`other` 移动赋值分配器。若此时分配器等于 `other.get_allocator()`，则
-`other` 的内部桶数组直接转移至 `*this`；否则插入 `other`
-元素的移动构造副本。若统计link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，当且仅当最终分配器等于
-`other.get_allocator()` 时转移内部统计信息，并始终调用
+移动赋值运算符。该操作会销毁容器中先前存在的元素，交换 `other`
+的哈希函数和谓词，若 `Alloc::propagate_on_container_move_assignment`
+存在且 `Alloc::propagate_on_container_move_assignment::value` 为
+`true`，则从 `other` 移动赋值分配器。若此时分配器与
+`other.get_allocator()`相等，则将 `other` 的内部桶数组直接转移至
+`*this`；否则插入 `other`
+元素的移动构造副本。若统计功能link:#concurrent_flat_set_boost_unordered_enable_stats[启用]，当且仅当最终分配器与
+`other.get_allocator()`相等时，转移内部统计信息，并始终调用
 `other.reset_stats()`。
 
 [cols=",",]
@@ -837,12 +845,12 @@ concurrent_flat_set& operator=(concurrent_flat_set&& other)
 concurrent_flat_set& operator=(std::initializer_list<value_type> il);
 ----
 
-从初始化列表中的值赋值。销毁所有先前存在的元素。
+通过初始化列表中的值进行赋值，容器内所有现有元素均被销毁。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |并发性： |阻塞于 `*this`。
 |===
@@ -865,7 +873,7 @@ template<class K, class F> size_t visit(const K& k, F f) const;
 template<class K, class F> size_t cvisit(const K& k, F f) const;
 ----
 
-若存在键等价于 `k` 的元素 `x`，则以常量引用调用 `f`。
+若存在键等价于 `k` 的元素 `x`，则以 `x` 的常量引用作为参数调用函数 `f`。
 
 [cols=",",]
 |===

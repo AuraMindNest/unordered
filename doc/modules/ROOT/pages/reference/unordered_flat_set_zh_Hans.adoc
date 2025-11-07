@@ -1192,9 +1192,9 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回： |返回被移除的元素数量。
+|返回： |返回被擦除的元素数量。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`

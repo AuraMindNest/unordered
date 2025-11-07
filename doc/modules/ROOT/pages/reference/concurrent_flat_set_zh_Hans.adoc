@@ -879,10 +879,10 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 |===
 |返回： |访问的元素数（0 或 1）。
 
-|注意： |`template<class K, class F>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时才参与重载决议。库假设
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K, class F>`
+重载才参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key` 类型调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -900,12 +900,12 @@ template<class FwdIterator, class F>
   size_t cvisit(FwdIterator first, FwdIterator last, F f) const;
 ----
 
-对范围 [`first`, `last`) 内的每个元素 `k`，若容器中存在键等价于 `k`
-的元素 `x`，则以常量引用调用 `f`。
+对于范围 [`first`, `last`) 内的每个元素 `k`，若容器中存在键等价于 `k`
+的元素 `x`，则以`x`的常量引用为参数调用函数 `f`。
 
-尽管功能上等同于对每个键单独调用
-link:#concurrent_flat_set_cvisit[`[c]visit`]，但批量访问因内部流线优化通常更快。建议
-`std::distance(first,last)` 至少为
+尽管在功能上等同于对每个键单独调用
+link:#concurrent_flat_set_cvisit[`[c]visit`]，但批量访问因内部流线优化而通常具有更快的执行速度。建议
+`std::distance(first,last)` 至少达到
 link:#concurrent_flat_set_constants[`bulk_visit_size`]
 以获得性能提升：超过此大小后，性能预计不再提升。
 

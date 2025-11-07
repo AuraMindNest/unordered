@@ -877,7 +877,7 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 
 [cols=",",]
 |===
-|返回： |访问的元素数（0 或 1）。
+|返回： |访问的元素数量（0 或 1）。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K, class F>`
@@ -922,7 +922,7 @@ https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward_iterato
 和 `Key` 类型调用，且 `Pred`
 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
-|返回： |访问的元素数。
+|返回： |被访问的元素数量。
 |===
 
 '''''
@@ -941,7 +941,7 @@ template<class F> size_t cvisit_all(F f) const;
 
 [cols=",",]
 |===
-|返回： |访问的元素数。
+|返回： |被访问的元素数量。
 |===
 
 '''''
@@ -956,20 +956,21 @@ template<class ExecutionPolicy, class F> void visit_all(ExecutionPolicy&& policy
 template<class ExecutionPolicy, class F> void cvisit_all(ExecutionPolicy&& policy, F f) const;
 ----
 
-以常量引用调用 `f` 访问表中每个元素。执行根据指定执行策略的语义并行化。
+以常量引用为参数调用 `f`
+来访问容器中的每个元素，该执行为根据指定执行策略的语义并行化的。
 
 [width="100%",cols="50%,50%",]
 |===
-|抛出： |根据所用执行策略的异常处理机制，若 `f` 内抛出异常，可能调用
-`std::terminate`。
+|抛出： |根据所用执行策略的异常处理机制，若在函数 `f`
+内部抛出异常，则可能调用 `std::terminate`。
 
 |注意： a|
 仅在支持 C++17 并行算法的编译器中可用。 +
 
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
-为 `true` 时，这些重载参与重载决议。 +
+为 `true` 时，这些重载才会参与重载决议。 +
 
-不允许无序执行策略。
+不允许使用无序执行策略。
 
 |===
 
@@ -985,12 +986,12 @@ template<class F> bool visit_while(F f) const;
 template<class F> bool cvisit_while(F f) const;
 ----
 
-依次以常量引用调用 `f` 访问表中每个元素，直到 `f` 返回 `false`
-或所有元素访问完毕。
+依次以常量引用为参数调用 `f` 来访问容器中的每个元素，直到 `f` 返回
+`false` 或所有元素均被访问完毕。
 
 [cols=",",]
 |===
-|返回： |当且仅当 `f` 曾返回 `false` 时为 `false`。
+|返回： |当且仅当 `f` 曾返回 `false` 时，才返回 `false`。
 |===
 
 '''''
@@ -1005,26 +1006,27 @@ template<class ExecutionPolicy, class F> bool visit_while(ExecutionPolicy&& poli
 template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& policy, F f) const;
 ----
 
-以常量引用调用 `f` 访问表中每个元素，直到 `f` 返回 `false`
-或所有元素访问完毕。执行根据指定执行策略的语义并行化。
+根据指定的执行策略语义，以容器中每个元素的常量引用为参数并行调用函数
+`f`，直到 `f` 返回 `false` 或所有元素均被访问完毕。
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |当且仅当 `f` 曾返回 `false` 时为 `false`。
+|返回： |当且仅当 `f` 曾返回 `false` 时，才返回 `false`。
 
-|抛出： |根据所用执行策略的异常处理机制，若 `f` 内抛出异常，可能调用
-`std::terminate`。
+|抛出： |根据所用执行策略的异常处理机制，若在函数 `f`
+内部抛出异常，则可能调用 `std::terminate`。
 
 |注意： a|
 仅在支持 C++17 并行算法的编译器中可用。 +
 
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
-为 `true` 时，这些重载参与重载决议。 +
+为 `true` 时，这些重载才会参与重载决议。 +
 
-不允许无序执行策略。 +
+不允许使用无序执行策略。 +
 
-并行化意味着执行不必然在 `f` 返回 `false` 时立即结束，因此 `f`
-可能被继续调用处理更多返回 `false` 的元素。
+并行化意味着执行过程不一定会因 `f` 返回 `false`
+而立即终止，因此系统可能继续使用其他元素调用 `f`（即使其返回值同样为
+`false`）。
 
 |===
 
@@ -1058,13 +1060,13 @@ size_type size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |表中的元素数。
+|返回： |容器中的元素数量。
 |===
 
 [cols=",",]
 |===
 |注意：
-|在并发插入操作存在时，返回值可能无法准确反映执行后的实际表大小。
+|在存在并发插入操作的情况下，返回值可能无法准确反映函数执行完成后容器的真实大小。
 |===
 
 '''''
@@ -1079,7 +1081,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |最大可能表的 `size()`。
+|返回： |容器可能容纳的最大 `size()` 值。
 |===
 
 '''''
@@ -1095,14 +1097,14 @@ size_type max_size() const noexcept;
 template<class... Args> bool emplace(Args&&... args);
 ----
 
-若表中无等价键的元素，则用参数 `args` 构造对象并插入表中。
+当且仅当容器中不存在等价键的元素时，插入一个由参数 `args` 构造的对象。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可从 `args` 构造。
-|返回： |若发生插入则为 `true`。
+|要求： |`value_type` 必须能够从 `args` 参数构造。
+|返回： |若发生插入，则返回 `true`。
 |并发性： |阻塞于 `*this` 的重哈希。
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1115,18 +1117,18 @@ template<class... Args> bool emplace(Args&&... args);
 bool insert(const value_type& obj);
 ----
 
-若表中无等价键的元素，则插入 `obj`。
+当且仅当容器中不存在等价键的元素时，将 `obj` 对象插入到容器。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
-|返回： |若发生插入则为 `true`。 +
+|返回： |若发生插入，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1139,18 +1141,18 @@ bool insert(const value_type& obj);
 bool insert(value_type&& obj);
 ----
 
-若表中无等价键的元素，则插入 `obj`。
+当且仅当容器中不存在等价键的元素时，将 `obj` 对象插入到容器。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
-|返回： |若发生插入则为 `true`。
+|返回： |若发生插入，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1163,24 +1165,25 @@ bool insert(value_type&& obj);
 template<class K> bool insert(K&& k);
 ----
 
-若容器中无等价键的元素，则插入从 `std::forward<K>(k)` 构造的元素。
+当且仅当容器中不存在等价键的元素时，插入一个由 `std::forward<K>(k)`
+构造的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造]。
+|要求： |`value_type` 需满足从 `k`参数
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]的要求。
 
-|返回： |若发生插入则为 `true`。
+|返回： |若发生插入，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
 |注意： a|
-若发生重哈希，则使指向元素的指针和引用失效。 +
+若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型别名时，此重载参与重载决议。库假设 `Hash` 可同时用 `K`
-和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免实例化 `Key`
-类型的开销。
+均为有效的成员类型别名时，此重载才会参与重载决议。标准库假设 `Hash`
+可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1202,7 +1205,7 @@ template<class InputIterator> size_type insert(InputIterator first, InputIterato
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |===
 
 '''''
@@ -1223,7 +1226,7 @@ size_type insert(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |===
 
 '''''
@@ -1237,16 +1240,17 @@ template<class... Args, class F> bool emplace_or_visit(Args&&... args, F&& f);
 template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 ----
 
-若表中无等价键的元素，则用参数 `args`
-构造对象并插入表中；否则以常量引用调用 `f` 访问等价元素。
+若容器中不存在等价键的元素，则用参数 `args`
+构造对象并插入到容器中；否则，以该等价元素的常量引用为参数调用函数 `f`
+。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `args` 构造。
-|返回： |若发生插入则为 `true`。
+|要求： |`value_type` 必须能够从 `args` 参数构造。
+|返回： |若发生插入，则返回 `true`。
 |并发性： |阻塞于 `*this` 的重哈希。
 |注意： a|
-若发生重哈希，则使指向元素的指针和引用失效。 +
+若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 该接口仅为示意，因 C++ 不允许在可变参数包后声明参数 `f`。
 
@@ -1263,19 +1267,19 @@ template<class F> bool insert_or_visit(const value_type& obj, F f);
 template<class F> bool insert_or_cvisit(const value_type& obj, F f);
 ----
 
-若表中无等价键的元素，则插入 `obj`；否则以常量引用调用 `f`
-访问等价元素。
+若容器中不存在等价键的元素，则将
+`obj`插入到容器中；否则，以该等价元素的常量引用为参数调用函数 `f` 。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
-|返回： |若发生插入则为 `true`。 +
+|返回： |若发生插入，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1289,19 +1293,19 @@ template<class F> bool insert_or_visit(value_type&& obj, F f);
 template<class F> bool insert_or_cvisit(value_type&& obj, F f);
 ----
 
-若表中无等价键的元素，则插入 `obj`；否则以常量引用调用 `f`
-访问等价元素。
+若容器中不存在等价键的元素，则将
+`obj`插入到容器中；否则，以该等价元素的常量引用为参数调用函数 `f` 。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
-|返回： |若发生插入则为 `true`。 +
+|返回： |若发生插入，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1320,15 +1324,15 @@ template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造]。
+|要求： |`value_type` 需满足从 `k`参数
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]的要求。
 
-|返回： |若发生插入则为 `true`。
+|返回： |若发生插入，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
 |注意： a|
-若发生重哈希，则使指向元素的指针和引用失效。 +
+若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型别名时，这些重载参与重载决议。库假设 `Hash` 可同时用 `K`
@@ -1358,7 +1362,7 @@ template<class InputIterator,class F>
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |===
 
 '''''
@@ -1380,7 +1384,7 @@ template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> i
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |===
 
 '''''
@@ -1402,11 +1406,11 @@ template<class... Args, class F1, class F2>
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `args` 构造。
-|返回： |若发生插入则为 `true`。
+|要求： |`value_type` 必须能够从 `args` 参数构造。
+|返回： |若发生插入，则返回 `true`。
 |并发性： |阻塞于 `*this` 的重哈希。
 |注意： a|
-若发生重哈希，则使指向元素的指针和引用失效。 +
+若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 该接口仅为示意，因 C++ 不允许在可变参数包后声明参数 `f1` 和 `f2`。
 
@@ -1429,13 +1433,13 @@ template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
-|返回： |若发生插入则为 `true`。 +
+|返回： |若发生插入，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1455,13 +1459,13 @@ template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-为https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
-|返回： |若发生插入则为 `true`。 +
+|返回： |若发生插入，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若发生重哈希，则使指向元素的指针和引用失效。
+|注意： |若触发重哈希操作，则使指向元素的指针和引用失效。
 |===
 
 '''''
@@ -1481,15 +1485,15 @@ template<class K, class F1, class F2> bool insert_and_cvisit(K&> k, F1 f1, F2 f2
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造]。
+|要求： |`value_type` 需满足从 `k`参数
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]的要求。
 
-|返回： |若发生插入则为 `true`。
+|返回： |若发生插入，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
 |注意： a|
-若发生重哈希，则使指向元素的指针和引用失效。 +
+若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型别名时，这些重载参与重载决议。库假设 `Hash` 可同时用 `K`
@@ -1519,7 +1523,7 @@ template<class InputIterator,class F1, class F2>
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |===
 
 '''''
@@ -1543,7 +1547,7 @@ template<class F1, class F2>
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |===
 
 '''''
@@ -1561,7 +1565,7 @@ template<class K> size_type erase(const K& k);
 
 [cols=",",]
 |===
-|返回： |擦除的元素数（0 或 1）。
+|返回： |插入的元素数量（0 或 1）。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出时抛出异常。
 
@@ -1586,7 +1590,7 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |擦除的元素数（0 或 1）。
+|返回： |插入的元素数量（0 或 1）。
 
 |抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出时抛出异常。
 
@@ -1635,8 +1639,8 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&> policy
 
 [width="100%",cols="50%,50%",]
 |===
-|抛出： |根据所用执行策略的异常处理机制，若 `f` 内抛出异常，可能调用
-`std::terminate`。
+|抛出： |根据所用执行策略的异常处理机制，若在函数 `f`
+内部抛出异常，则可能调用 `std::terminate`。
 
 |注意： a|
 仅在支持 C++17 并行算法的编译器中可用。 +
@@ -1644,7 +1648,7 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&> policy
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
 为 `true` 时，此重载参与重载决议。 +
 
-不允许无序执行策略。
+不允许使用无序执行策略。
 
 |===
 
@@ -1710,7 +1714,7 @@ template<class H2, class P2>
 
 [cols=",",]
 |===
-|返回： |插入的元素数。
+|返回： |插入的元素数量。
 |并发性： |阻塞于 `*this` 和 `source`。
 |===
 
@@ -1779,7 +1783,7 @@ template<class K>
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |键等价于 `k` 的元素数（0 或 1）。
+|返回： |键等价于 `k` 的元素数量（0 或 1）。
 
 |注意： a|
 `template<class K>` 重载仅当 `Hash::is_transparent` 和

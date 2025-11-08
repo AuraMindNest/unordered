@@ -1575,7 +1575,7 @@ void reserve(size_type n);
 '''''
 
 [[unordered_flat_set_statistics]]
-=== 统计
+=== 统计信息
 
 [[unordered_flat_set_get_stats]]
 ==== get_stats
@@ -1618,14 +1618,16 @@ void reset_stats() noexcept;
 
 如果以下任一条件成立时，则推导指引不参与重载决议：
 
-* 它具有 `InputIterator`
-模板参数，且为该参数推导出的类型不符合输入迭代器要求。
-* 它具有 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
-* 它具有 `Hash`
-模板参数，且为该参数推导出的是整数类型或符合分配器要求的类型。
-* 它具有 `Pred` 模板参数，且为该参数推导出的是符合分配器要求的类型。
+* 当推导指引包含 `InputIterator`
+模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
+* 当推导指引包含 `Allocator`
+模板参数，且为该参数推导出的类型不符合分配器要求时。
+* 当推导指引包含 `Allocator`
+模板参数，且为该参数推导出的是整数类型或符合分配器要求的类型时。
+* 当推导指引包含 `Pred`
+模板参数，且为该参数推导出的是符合分配器要求的类型时。
 
-推导指引中, `size_­type` 参数类型引用由该指南推导出的容器类型的
+推导指引中, `size_­type` 参数类型引用由该指引推导出的容器类型的
 `size_­type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_flat_set_iter_value_type]]

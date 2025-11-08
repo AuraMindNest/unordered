@@ -1678,7 +1678,9 @@ void swap(concurrent_flat_set& other)
 
 [cols=",",]
 |===
-|抛出： |除非 `key_equal` 或 `hasher` 在交换时抛出，否则不抛出。
+|抛出： |除非 `key_equal` 或 `hasher`
+在交换时抛出异常，否则本操作不会抛出异常。
+
 |并发性： |阻塞于 `*this` 和 `other`。
 |===
 
@@ -1692,7 +1694,7 @@ void swap(concurrent_flat_set& other)
 void clear() noexcept;
 ----
 
-擦除表中所有元素。
+擦除容器中的所有元素。
 
 [cols=",",]
 |===
@@ -1715,8 +1717,8 @@ template<class H2, class P2>
   size_type merge(concurrent_flat_set<Key, H2, P2, Allocator>&& source);
 ----
 
-移动插入 `source` 中键尚未存在于 `*this` 的所有元素，并从 `source`
-中擦除它们。
+将 `source` 中键尚未存在于 `*this` 的所有元素移动插入当前容器，并从
+`source` 中擦除这些元素。
 
 [cols=",",]
 |===
@@ -1739,7 +1741,7 @@ allocator_type get_allocator() const noexcept;
 
 [cols=",",]
 |===
-|返回： |表的分配器。
+|返回： |容器的分配器。
 |===
 
 '''''
@@ -1754,7 +1756,7 @@ hasher hash_function() const;
 
 [cols=",",]
 |===
-|返回： |表的哈希函数。
+|返回： |容器的哈希函数。
 |===
 
 '''''
@@ -1769,7 +1771,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |表的键相等谓词。
+|返回： |容器的键相等性谓词。
 |===
 
 '''''

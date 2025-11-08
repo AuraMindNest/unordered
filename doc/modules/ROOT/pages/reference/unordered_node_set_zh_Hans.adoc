@@ -1400,8 +1400,8 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件：
-|`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
+|后置条件： |`size() == 0`,
+`max_load() >= max_load_factor() * bucket_count()`
 |===
 
 '''''

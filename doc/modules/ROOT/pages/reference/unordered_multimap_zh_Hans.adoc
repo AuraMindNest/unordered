@@ -1872,7 +1872,7 @@ void rehash(size_type n);
 '''''
 
 [[unordered_multimap_reserve]]
-==== reserve
+==== 容量预留
 
 [source,highlight]
 ----

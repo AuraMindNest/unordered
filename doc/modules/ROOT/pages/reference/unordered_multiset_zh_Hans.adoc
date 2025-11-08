@@ -1806,7 +1806,7 @@ void rehash(size_type n);
 '''''
 
 [[unordered_multiset_reserve]]
-==== reserve
+==== 容量预留
 
 [source,highlight]
 ----

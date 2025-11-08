@@ -1271,8 +1271,8 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件：
-|`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
+|后置条件： |`size() == 0`,
+`max_load() >= max_load_factor() * bucket_count()`
 |===
 
 '''''
@@ -1288,8 +1288,8 @@ template<class H2, class P2>
   void merge(unordered_flat_set<Key, T, H2, P2, Allocator>&& source);
 ----
 
-将 `source` 中键尚未存在于 `*this` 的所有元素移动插入，并从 `source`
-中擦除它们。
+将 `source` 中键尚未存在于 `*this` 的所有元素移动插入当前容器，并从
+`source` 中擦除这些元素。
 
 '''''
 

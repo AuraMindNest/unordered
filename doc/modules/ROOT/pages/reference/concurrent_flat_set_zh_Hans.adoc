@@ -1652,7 +1652,7 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&> policy
 仅在支持 C++17 并行算法的编译器中可用。 +
 
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
-为 `true` 时，此重载参与重载决议。 +
+为 `true` 时，此重载才会参与重载决议。 +
 
 不允许使用无序执行策略。
 
@@ -1670,11 +1670,11 @@ void swap(concurrent_flat_set& other)
            boost::allocator_traits<Allocator>::propagate_on_container_swap::value);
 ----
 
-交换表与参数的内容。
+交换容器与参数对象的内容。
 
-若声明 `Allocator::propagate_on_container_swap` 且
+若 `Allocator::propagate_on_container_swap`已定义且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换表的分配器；否则，与不等价分配器交换导致未定义行为。
+`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===

@@ -1940,7 +1940,7 @@ void rehash(size_type n);
 '''''
 
 [[unordered_set_reserve]]
-==== reserve
+==== 容量预留
 
 [source,highlight]
 ----

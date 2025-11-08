@@ -1470,7 +1470,7 @@ float load_factor() const noexcept;
 [cols=",",]
 |===
 |返回：
-|`static_cast<float>(size())/static_cast<float>(bucket_count())`，如果
+|返回`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
 `bucket_count() == 0` 则返回 `0`。
 |===
 
@@ -1501,8 +1501,9 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |无操作，因为用户不允许更改此参数。保留以兼容
-`boost::unordered_set`。
+|效果：
+|此操作不执行任何功能，因为不允许用户更改此参数。保留此接口是为了与
+`boost::unordered_set` 保持兼容性。
 |===
 
 '''''

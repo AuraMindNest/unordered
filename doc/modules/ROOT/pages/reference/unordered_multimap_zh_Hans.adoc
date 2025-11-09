@@ -340,7 +340,7 @@ typedef implementation-defined const_local_iterator;
 
 [source,highlight]
 ----
-typedef implementation-defined node_type;
+typedef 实现定义 node_type;
 ----
 
 有关详细信息，请参阅 node_handle_map。
@@ -432,7 +432,7 @@ unordered_multimap(const unordered_multimap& other);
 复制构造函数。复制包含的元素、哈希函数、谓词、最大负载因子和分配器。
 
 若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则将基于其返回结果构造分配器。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===

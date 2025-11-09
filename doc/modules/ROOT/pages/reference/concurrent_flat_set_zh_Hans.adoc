@@ -288,15 +288,15 @@ namespace unordered {
 |_键_ |`Key`
 必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
 
-|_Hash_ |一种作为 ``Key``
-类型哈希函数的一元函数对象类型。该函数对象接受一个 ``Key``
-类型的参数，并返回 ``std::size_t`` 类型的值。
+|_Hash_ |一种作为 `Key`
+类型哈希函数的一元函数对象类型。该函数对象接受一个 `Key`
+类型的参数，并返回 `std::size_t` 类型的值。
 
-|_Pred_ |一种用于建立 ``Key``
-类型值之间等价关系的二元函数对象。该函数对象接受两个 ``Key``
-类型的参数，并返回 ``bool`` 类型的值。
+|_Pred_ |一种用于建立 `Key`
+类型值之间等价关系的二元函数对象。该函数对象接受两个 `Key`
+类型的参数，并返回 `bool` 类型的值。
 
-|_Allocator_
+|_分配器_
 |一种值类型与容器的值类型相同的分配器。`std::allocator_traits<Allocator>::pointer`
 和 `std::allocator_traits<Allocator>::const_pointer` 必须可分别转换为
 `value_type*` 和 `const value_type*`。
@@ -306,8 +306,8 @@ namespace unordered {
 
 桶数组的大小可通过调用 `insert`/`emplace` 自动增加，或通过调用
 `rehash`/`reserve`
-进行调整。表的__负载因子__（元素数量与桶数量的比值）永远不会超过
-`max_load_factor()`，除非在小型表中实现可能允许更高的负载。
+进行调整。容器的__负载因子__（元素数量与桶数量的比值）永远不会超过
+`max_load_factor()`，除非在元素数量较少时，实现可能允许更高的负载。
 
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
@@ -370,8 +370,8 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 [[concurrent_flat_set_boost_unordered_disable_reentrancy_check]]
 ==== `BOOST_UNORDERED_DISABLE_REENTRANCY_CHECK`
 
-在调试构建中（更准确地说，当link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]未定义时），_容器重入_（在访问
-`m` 元素的函数内部非法调用 `m` 的操作）会被检测并通过 `BOOST_ASSERT_MSG`
+在调试构建版本中（更准确地说，当link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]未定义时），系统会检测__容器重入__行为（即在访问容器
+`m` 元素的函数内部非法调用 `m` 的操作），并通过 `BOOST_ASSERT_MSG`
 发出信号。若运行时速度是关键，可通过全局定义此宏禁用该功能。
 
 '''''
@@ -2130,14 +2130,16 @@ c.erase_if(pred);
 [[concurrent_flat_set_serialization]]
 === 序列化
 
-可通过本库提供的 API 使用
+可通过本库提供的 API ，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-归档/检索 `concurrent_flat_set`。支持常规和 XML 归档。
+实现档归档/检索 `concurrent_flat_set`。同时支持常规格式与 XML
+格式的归档文件。
 
 [[concurrent_flat_set_saving_an_concurrent_flat_set_to_an_archive]]
-==== 保存 concurrent_flat_set 到归档
+==== 将 concurrent_flat_set 保存到归档
 
-将 `concurrent_flat_set` `x` 的所有元素保存到归档（XML 归档）`ar`。
+将 `concurrent_flat_set` 容器`x` 的所有元素保存到归档（XML
+归档）`ar`中。
 
 [cols=",",]
 |===
@@ -2153,8 +2155,9 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[concurrent_flat_set_loading_an_concurrent_flat_set_from_an_archive]]
 ==== 从归档加载 concurrent_flat_set
 
-删除 `concurrent_flat_set` `x` 的所有预先存在元素，并从归档（XML
-归档）`ar` 插入原始 `concurrent_flat_set` `other` 的恢复副本元素。
+删除 `concurrent_flat_set` 容器 `x` 中的所有现有元素，并从归档
+`ar`（XML格式归档）中读取原始 `concurrent_flat_set` 容器 `other`
+保存的元素副本并插入到 `x`。
 
 [cols=",",]
 |===
@@ -2164,4 +2167,4 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:33:36 UTC
+最后更新于 2025年10月31日 21:33:36 UTC

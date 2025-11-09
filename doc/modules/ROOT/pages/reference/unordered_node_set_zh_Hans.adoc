@@ -273,7 +273,7 @@ namespace unordered {
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
 为
-`true`，则直接使用哈希函数；否则添加位混合后处理阶段以提高哈希质量，但会增加计算成本。
+`true`，则直接使用原始哈希函数；否则将添加位混合后处理阶段以提升哈希质量，但会增加额外的计算开销。
 
 '''''
 
@@ -316,7 +316,7 @@ typedef 由实现定义 const_iterator;
 
 [source,highlight]
 ----
-typedef 由实现定义 node_type;
+typedef 实现定义 node_type;
 ----
 
 一个用于保存提取的容器元素的类，建模
@@ -326,7 +326,7 @@ https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 [source,highlight]
 ----
-typedef 由实现定义 insert_return_type;
+typedef 实现定义 insert_return_type;
 ----
 
 内部类模板的特化：
@@ -429,7 +429,7 @@ unordered_node_set(unordered_node_set const& other);
 复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
 
 若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则将基于其返回结果构造分配器。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===

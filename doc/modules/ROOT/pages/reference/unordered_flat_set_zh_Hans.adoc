@@ -244,15 +244,15 @@ namespace unordered {
 |_键_ |`Key`
 必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
 
-|_Hash_ |一种作为 ``Key``
-类型哈希函数的一元函数对象类型。该函数对象接受一个 ``Key``
-类型的参数，并返回 ``std::size_t`` 类型的值。
+|_Hash_ |一种作为 `Key`
+类型哈希函数的一元函数对象类型。该函数对象接受一个 `Key`
+类型的参数，并返回 `std::size_t` 类型的值。
 
-|_Pred_ |一种用于建立 ``Key``
-类型值之间等价关系的二元函数对象。该函数对象接受两个 ``Key``
-类型的参数，并返回 ``bool`` 类型的值。
+|_Pred_ |一种用于建立 `Key`
+类型值之间等价关系的二元函数对象。该函数对象接受两个 `Key`
+类型的参数，并返回 `bool` 类型的值。
 
-|_Allocator_
+|_分配器_
 |一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
@@ -1770,7 +1770,7 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 
 [cols=",",]
 |===
-|要求： |`x.key_equal()` 在功能上等效于 `other.key_equal()`。
+|要求： |`x.key_equal()` 在功能上等价于 `other.key_equal()`。
 |===
 
 '''''

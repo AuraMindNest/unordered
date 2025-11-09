@@ -879,7 +879,7 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[unordered_multiset_emplace]]
-==== emplace
+==== 原地构造
 
 [source,highlight]
 ----

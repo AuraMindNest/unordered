@@ -275,7 +275,7 @@ namespace unordered {
 归档的 `unordered_multiset`。
 
 [[unordered_multiset_typedefs]]
-=== 类型别名
+=== 类型定义
 
 [source,highlight]
 ----
@@ -326,7 +326,7 @@ const_local_iterator 对象，可用于遍历单个桶内的元素。
 
 [source,highlight]
 ----
-typedef 由实现定义 node_type;
+typedef 实现定义 node_type;
 ----
 
 详见 node_handle_set。
@@ -418,7 +418,7 @@ unordered_multiset(const unordered_multiset& other);
 复制构造函数。复制容器内的元素、哈希函数、谓词、最大负载因子以及分配器。
 
 若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则将基于其返回结果构造分配器。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===

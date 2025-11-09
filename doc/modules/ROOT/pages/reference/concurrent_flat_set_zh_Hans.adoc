@@ -312,16 +312,16 @@ namespace unordered {
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
 为
-`true`，则直接使用哈希函数；否则添加位混合后处理阶段以提高哈希质量，但会增加计算成本。
+`true`，则直接使用原始哈希函数；否则将添加位混合后处理阶段以提升哈希质量，但会增加额外的计算开销。
 
 '''''
 
 [[concurrent_flat_set_concurrency_requirements_and_guarantees]]
 === 并发要求与保证
 
-要求在相同 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()`
-时不会引发数据竞争。对于 `Alloc`（即 `Allocator` 或从 `Allocator`
-重绑定的任何分配器类型），要求在相同实例 `al`
+要求在同一个 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()`
+时不会引发数据竞争。对于 `Alloc`（即 `Allocator`
+或其任何重绑定类型），要求在同一个 `Alloc` 实例 `al`
 上并发调用以下操作时不会引发数据竞争：
 
 * 从 `al` 复制构造一个由 `Alloc` 重绑定的分配器
@@ -341,8 +341,8 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 同步。因此，在多线程场景下，对同一 `concurrent_flat_set`
 的阻塞操作将按顺序执行。
 
-若某个操作仅在触发内部重哈希时才会阻塞容器 _`x`_，则称其为__阻塞于 `x`
-的重哈希__。
+若某个操作仅在触发内部重哈希时才会阻塞容器 _`x`_，则称该操作为__阻塞于
+_`x`_ 的重哈希__。
 
 当由 `boost::concurrent_flat_set`
 内部执行时，用户提供的访问函数对传入元素的以下操作不会引发数据竞争：
@@ -455,7 +455,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，以 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -476,7 +476,7 @@ concurrent_flat_set(concurrent_flat_set const& other);
 复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
 
 若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则将基于其返回结果构造分配器。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===
@@ -516,8 +516,9 @@ template<class InputIterator>
   concurrent_flat_set(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-使用 `a` 作为分配器、默认哈希函数和键相等性谓词来构造一个空表，并将区间
-`[f, l)` 中的元素插入其中。
+构造一个空容器，使用 `a`
+作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
@@ -535,7 +536,7 @@ template<class InputIterator>
 explicit concurrent_flat_set(Allocator const& a);
 ----
 
-使用分配器 `a` 构造一个空表。
+使用分配器 `a` 构造一个空容器。
 
 '''''
 

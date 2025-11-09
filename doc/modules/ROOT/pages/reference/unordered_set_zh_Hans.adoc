@@ -328,7 +328,7 @@ const_local_iterator 对象，可用于遍历单个桶内的元素。
 
 [source,highlight]
 ----
-typedef 由实现定义 node_type;
+typedef 实现定义 node_type;
 ----
 
 一个用于保存提取的容器元素的类，建模
@@ -338,7 +338,7 @@ https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 [source,highlight]
 ----
-typedef 由实现定义 insert_return_type;
+typedef 实现定义 insert_return_type;
 ----
 
 内部类模板的特化：
@@ -443,7 +443,7 @@ unordered_set(const unordered_set& other);
 复制构造函数。复制容器内的元素、哈希函数、谓词、最大负载因子以及分配器。
 
 若 `Allocator::select_on_container_copy_construction`
-存在且签名正确，则将基于其返回结果构造分配器。
+方法存在且签名正确，则将基于其返回结果构造分配器。
 
 [cols=",",]
 |===

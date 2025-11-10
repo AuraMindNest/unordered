@@ -1324,7 +1324,7 @@ iterator erase(const_iterator position);
 '''''
 
 [[unordered_multimap_erase_by_key]]
-==== 通过键擦除
+==== 按键擦除
 
 [source,highlight]
 ----

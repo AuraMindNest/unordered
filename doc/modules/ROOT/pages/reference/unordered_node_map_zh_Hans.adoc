@@ -14,9 +14,9 @@
 由于采用开放寻址法，`boost::unordered_node_map` 的接口在多个方面与
 `boost::unordered_map`/`std::unordered_map` 存在差异：
 
-* `begin()` 操作不具备常数时间复杂度。
+* `begin()` 不是常数时间操作。
 * 不提供桶处理 API（除 `bucket_count` 外）。
-* 容器的最大负载因子由内部管理，用户无法设置。
+* 容器的最大负载系数由内部管理，用户无法进行设置。
 
 除此之外，`boost::unordered_node_map` 基本可直接替代标准无序关联容器。
 
@@ -298,29 +298,28 @@ namespace unordered {
 
 |_T_ |
 
-|_Hash_ |一种作为 `Key`
-类型哈希函数的一元函数对象类型。该函数对象接受一个 `Key`
-类型的参数，并返回 `std::size_t` 类型的值。
+|_Hash_ |一种一元函数对象类型，作为 `Key` 的哈希函数。该函数对象接受一个
+`Key` 类型的参数，并返回 `std::size_t` 类型的值。
 
-|_Pred_ |一种用于建立 `Key`
-类型值之间等价关系的二元函数对象。该函数对象接受两个 `Key`
-类型的参数，并返回 `bool` 类型的值。
+|_谓词_ |一种二元函数对象，用于在 `Key`
+类型的值上建立等价关系。该函数对象接受两个 `Key` 类型的参数，并返回
+`bool` 类型的值。
 
 |_分配器_
-|一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 容器的元素节点保存在内部的__桶数组__中。节点根据其元素的哈希码插入到对应的桶中，但如果该桶已被占用（发生__冲突__），则使用原始位置附近的可用桶。
 
-桶数组的大小可通过调用 `insert`/`emplace` 自动增加，或通过调用
+桶数组的大小可以通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
-来调整。容器的__负载因子__（元素数量除以桶数量）永远不会大于
-`max_load_factor()`，除非在小型容器中实现可能允许更高的负载。
+来增加。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
+`max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
 为
-`true`，则直接使用原始哈希函数；否则将添加位混合后处理阶段以提升哈希质量，但会增加额外的计算开销。
+`true`，则直接使用哈希函数；否则会添加位混合后处理阶段以提升哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
@@ -339,7 +338,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 
 [source,highlight]
 ----
-typedef 由实现定义 iterator;
+typedef 实现定义 iterator;
 ----
 
 一个值类型为 `value_type` 的迭代器。
@@ -352,7 +351,7 @@ typedef 由实现定义 iterator;
 
 [source,highlight]
 ----
-typedef 由实现定义 const_iterator;
+typedef 实现定义 const_iterator;
 ----
 
 一个值类型为 `value_type` 的常量迭代器。
@@ -404,8 +403,8 @@ struct insert_return_type // 名称仅为说明
 unordered_node_map();
 ----
 
-使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键值相等谓词、`allocator_type()` 作为分配器，构造一个空容器。
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
+作为键相等性谓词、`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
@@ -428,8 +427,8 @@ explicit unordered_node_map(size_type n,
                             const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键值相等谓词，`a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器。
 
 [cols=",",]
 |===
@@ -454,8 +453,8 @@ template<class InputIterator>
                      const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键值相等谓词，`a` 作为分配器，并将 `[f, l)` 范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -504,9 +503,9 @@ template<class InputIterator>
   unordered_node_map(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-使用 `a`
-作为分配器构造一个空容器，采用默认的哈希函数和键值相等谓词，并将
-`[f, l)` 范围内的元素插入其中。
+构造一个空容器，使用 `a`
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+范围内的元素插入其中。
 
 [cols=",",]
 |===
@@ -536,7 +535,8 @@ explicit unordered_node_map(Allocator const& a);
 unordered_node_map(unordered_node_map const& other, Allocator const& a);
 ----
 
-构造一个容器，复制 `other` 中的元素、哈希函数和谓词，但使用分配器 `a`。
+构造一个容器，复制 `other` 包含的元素、哈希函数和谓词，但使用分配器
+`a`。
 
 '''''
 

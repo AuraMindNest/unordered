@@ -1359,7 +1359,7 @@ node_type extract(const key_type& k);
 template<class K> node_type extract(K&& k);
 ----
 
-提取键等价于 `k` 的元素（如果存在）。
+若存在键等价于 `k` 的元素，则提取该元素。
 
 [cols=",",]
 |===
@@ -1448,7 +1448,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[unordered_node_set_hash_function]]
-==== hash_function
+==== 哈希函数
 
 [source,highlight]
 ----
@@ -1587,7 +1587,7 @@ size_type bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回： |桶数组的大小。
+|返回： |返回桶数组的大小。
 |===
 
 '''''
@@ -1596,7 +1596,7 @@ size_type bucket_count() const noexcept;
 === 哈希策略
 
 [[unordered_node_set_load_factor]]
-==== load_factor
+==== 负载因子
 
 [source,highlight]
 ----
@@ -1606,7 +1606,7 @@ float load_factor() const noexcept;
 [cols=",",]
 |===
 |返回：
-|返回`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
+|返回`static_cast<float>(size())/static_cast<float>(bucket_count())`的结果，若
 `bucket_count() == 0` 则返回 `0`。
 |===
 
@@ -1752,7 +1752,7 @@ void reset_stats() noexcept;
 [[unordered_node_set_deduction_guides]]
 === 推导指引
 
-如果以下任一条件成立时，则推导指引不参与重载决议：
+若以下任一条件成立，则推导指引不参与重载决议：
 
 * 当推导指引包含 `InputIterator`
 模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
@@ -1772,7 +1772,7 @@ void reset_stats() noexcept;
 ....
 template<class InputIterator>
   using iter-value-type =
-    typename std::iterator_traits<InputIterator>::value_type; // 仅为说明
+    typename std::iterator_traits<InputIterator>::value_type; // 仅用于说明
 ....
 
 [[unordered_node_set_equality_comparisons]]

@@ -1196,13 +1196,13 @@ template<class K> size_type erase(K&& k);
 |===
 |返回： |返回被擦除的元素数量。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
+|抛出： |仅当异常由 `hasher` 或 `key_equal` 抛出时，本函数才会抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，`template<class K>` 重载才参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这启用了异构查找，避免了实例化 `Key` 类型的成本。
+均为有效的成员类型别名时，且 `iterator` 和 `const_iterator` 均不能从 `K`
+隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1220,7 +1220,9 @@ iterator erase(const_iterator first, const_iterator last);
 [cols=",",]
 |===
 |返回： |返回被擦除元素之后的迭代器——即 `last`。
-|抛出： |此实现中无抛出（既不调用 `hasher` 也不调用 `key_equal` 对象）。
+
+|抛出： |此实现中不会调用任何内容（既不会调用 `hasher` 也不会调用
+`key_equal` 对象）。
 |===
 
 '''''
@@ -1235,15 +1237,16 @@ void swap(unordered_flat_set& other)
            boost::allocator_traits<Allocator>::propagate_on_container_swap::value);
 ----
 
-将容器的内容与参数交换。
+交换容器与参数的内容。
 
-如果声明了 `Allocator::propagate_on_container_swap` 且
+若 `Allocator::propagate_on_container_swap` 已声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不相等分配器交换会导致未定义行为。
+`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非 `key_equal` 或 `hasher` 在交换时抛出，否则无抛出。
+|抛出： |除非 `key_equal` 或 `hasher`
+在交换时抛出异常，否则本操作不会抛出任何异常。
 |===
 
 '''''
@@ -1256,8 +1259,8 @@ void swap(unordered_flat_set& other)
 init_type pull(const_iterator position);
 ----
 
-从 `position` 指向的元素移动构造一个 `init_value` `x`，擦除该元素并返回
-`x`。
+从 `position` 指向的元素移动构造一个 `init_value` 类型的对象
+`x`，擦除该元素并返回 `x`。
 
 '''''
 
@@ -1290,8 +1293,8 @@ template<class H2, class P2>
   void merge(unordered_flat_set<Key, T, H2, P2, Allocator>&& source);
 ----
 
-将 `source` 中键尚未存在于 `*this` 的所有元素移动插入当前容器，并从
-`source` 中擦除这些元素。
+将 `source` 中键尚未存在于 `*this`
+的所有元素移动插入当前容器，并将这些元素从 `source` 中元素。
 
 '''''
 
@@ -1359,12 +1362,14 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |指向键等效于 `k` 的元素的迭代器，如果不存在则返回 `end()`。
+|返回： |返回一个指向键等效于 `k` 的元素的迭代器，如果不存在则返回
+`end()`。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这启用了异构查找，避免了实例化 `Key` 类型的成本。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1384,15 +1389,16 @@ template<class K>
 |返回： |返回键等价于 `k` 的元素数量。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这启用了异构查找，避免了实例化 `Key` 类型的成本。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
 
 [[unordered_flat_set_contains]]
-==== 存在性检查
+==== 存在性检验
 
 [source,highlight]
 ----
@@ -1406,9 +1412,10 @@ template<class K>
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这启用了异构查找，避免了实例化 `Key` 类型的成本。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1433,9 +1440,10 @@ template<class K>
 `std::make_pair(b.end(), b.end())`。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这启用了异构查找，避免了实例化 `Key` 类型的成本。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1503,8 +1511,7 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果：
-|此操作不执行任何功能，因为不允许用户更改此参数。保留此接口是为了与
+|效果： |不执行任何功能，因为不允许用户更改此参数。保留此接口是为了与
 `boost::unordered_set` 保持兼容性。
 |===
 
@@ -1521,7 +1528,7 @@ size_type max_load() const noexcept;
 [cols=",",]
 |===
 |返回：
-|容器在不重新哈希的情况下可容纳的最大元素数，假设不再有元素被擦除。
+|容器在无需重新哈希的情况下所能容纳的最大元素数量（假设后续不再擦除更多元素）。
 
 |注意： |构造、重新哈希或清空后，容器的最大负载至少为
 `max_load_factor() * bucket_count()`。在高负载条件下擦除时，此数字可能减少。
@@ -1697,14 +1704,16 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 交换 `x` 和 `y` 的内容。
 
-如果声明了 `Allocator::propagate_on_container_swap` 且
+若 `Allocator::propagate_on_container_swap` 已声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不相等分配器交换会导致未定义行为。
+`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
 |效果： |`x.swap(y)`
-|抛出： |除非 `key_equal` 或 `hasher` 在交换时抛出，否则无抛出。
+
+|抛出： |除非 `key_equal` 或 `hasher`
+在交换时抛出异常，否则本操作不会抛出任何异常。
 |===
 
 '''''

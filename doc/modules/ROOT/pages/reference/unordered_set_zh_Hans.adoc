@@ -1497,7 +1497,7 @@ void swap(unordered_set& other)
            boost::is_nothrow_swappable_v<Pred>);
 ----
 
-将容器的内容与参数交换。
+交换容器与参数的内容。
 
 如果声明了 `Allocator::propagate_on_container_swap` 且
 `Allocator::propagate_on_container_swap::value` 为
@@ -1682,7 +1682,7 @@ template<class K>
 '''''
 
 [[unordered_set_contains]]
-==== 存在性检查
+==== 存在性检验
 
 [source,highlight]
 ----

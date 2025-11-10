@@ -794,7 +794,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const has
 concurrent_flat_set& operator=(concurrent_flat_set const& other);
 ----
 
-赋值运算符。该操作会销毁容器内先前存在的元素，从 `other`
+赋值运算符。该操作会销毁容器内先前存在的元素，并从 `other`
 复制赋值哈希函数和谓词，若
 `Alloc::propagate_on_container_copy_assignment` 存在且其
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从

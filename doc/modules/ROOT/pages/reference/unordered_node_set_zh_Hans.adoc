@@ -16,7 +16,7 @@
 
 * `begin()` 不是常数时间操作。
 * 没有用于桶处理的 API（除了 `bucket_count`）。
-* 容器的最大负载因子由内部管理，用户无法设置。
+* 容器的最大负载系数由内部管理，用户无法进行设置。
 
 除此之外，`boost::unordered_node_set`
 基本上是标准无序关联容器的直接替代品。
@@ -251,29 +251,28 @@ namespace unordered {
 |_键_ |`Key`
 必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
 
-|_Hash_ |一种作为 `Key`
-类型哈希函数的一元函数对象类型。该函数对象接受一个 `Key`
-类型的参数，并返回 `std::size_t` 类型的值。
+|_Hash_ |一种一元函数对象类型，作为 `Key` 的哈希函数。该函数对象接受一个
+`Key` 类型的参数，并返回 `std::size_t` 类型的值。
 
-|_Pred_ |一种用于建立 `Key`
-类型值之间等价关系的二元函数对象。该函数对象接受两个 `Key`
-类型的参数，并返回 `bool` 类型的值。
+|_谓词_ |一种二元函数对象，用于在 `Key`
+类型的值上建立等价关系。该函数对象接受两个 `Key` 类型的参数，并返回
+`bool` 类型的值。
 
 |_分配器_
-|一个分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 容器的元素节点保存在内部的__桶数组__中。节点根据其元素的哈希码插入到确定的桶中，但如果桶已被占用（_冲突_），则使用原始位置附近的可用桶。
 
-桶数组的大小可以通过调用 `insert`/`emplace` 自动增加，或者通过调用
+桶数组的大小可以通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
-来增加。容器的__负载因子__（元素数量除以桶数量）永远不会大于
-`max_load_factor()`，除非在较小尺寸时，实现可能允许更高的负载。
+来增加。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
+`max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
 为
-`true`，则直接使用原始哈希函数；否则将添加位混合后处理阶段以提升哈希质量，但会增加额外的计算开销。
+`true`，则直接使用哈希函数；否则会添加位混合后处理阶段以提升哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
@@ -283,7 +282,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 [[unordered_node_set_boost_unordered_enable_stats]]
 ==== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏以启用容器的link:reference/stats.html#stats[统计计算]。请注意，此选项会降低许多操作的总体性能。
+全局定义此宏以启用容器的link:reference/stats.html#stats[统计计算]功能。请注意，此选项会降低许多操作的总体性能。
 
 '''''
 
@@ -292,12 +291,12 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 
 [source,highlight]
 ----
-typedef 由实现定义 iterator;
+typedef 实现定义 iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
 
-迭代器类别至少为前向迭代器。
+迭代器类别至少是前向迭代器。
 
 可转换为 `const_iterator`。
 
@@ -305,12 +304,12 @@ typedef 由实现定义 iterator;
 
 [source,highlight]
 ----
-typedef 由实现定义 const_iterator;
+typedef 实现定义 const_iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
 
-迭代器类别至少为前向迭代器。
+迭代器类别至少是前向迭代器。
 
 '''''
 
@@ -357,8 +356,8 @@ struct insert_return_type // 名称仅为说明
 unordered_node_set();
 ----
 
-使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键相等谓词、`allocator_type()` 作为分配器构造一个空容器。
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
+作为键相等性谓词、`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
@@ -382,7 +381,7 @@ explicit unordered_node_set(size_type n,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等谓词、`a` 作为分配器。
+作为键相等性谓词、`a` 作为分配器。
 
 [cols=",",]
 |===
@@ -408,7 +407,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等谓词、`a` 作为分配器，并将 `[f, l)` 中的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -462,8 +461,9 @@ template<class InputIterator>
   unordered_node_set(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-使用 `a` 作为分配器构造一个空容器，使用默认的哈希函数和键相等谓词，并将
-`[f, l)` 中的元素插入其中。
+构造一个空容器，使用 `a`
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+范围内的元素插入其中。
 
 [cols=",",]
 |===

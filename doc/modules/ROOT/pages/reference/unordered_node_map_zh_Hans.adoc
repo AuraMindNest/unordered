@@ -1039,8 +1039,8 @@ std::pair<iterator, bool> insert(const init_type& obj);
 |注意： a|
 可能使迭代器失效，但仅当插入导致负载因子超过最大负载时。 +
 
-形式为 `insert(x)` 的调用（其中 `x` 可等量转换为 `const value_type&` 和
-`const init_type&`）不会产生歧义，并选择 `init_type` 重载。
+对于 `insert(x)` 形式的调用（其中 `x` 可同等地转换为 `const value_type&`
+和 `const init_type&`）该调用不会产生歧义，并会选择 `init_type` 重载。
 
 |===
 

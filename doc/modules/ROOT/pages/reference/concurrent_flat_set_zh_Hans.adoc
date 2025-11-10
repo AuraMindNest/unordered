@@ -288,13 +288,12 @@ namespace unordered {
 |_键_ |`Key`
 必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
 
-|_Hash_ |一种作为 `Key`
-类型哈希函数的一元函数对象类型。该函数对象接受一个 `Key`
-类型的参数，并返回 `std::size_t` 类型的值。
+|_Hash_ |一种一元函数对象类型，作为 `Key` 的哈希函数。该函数对象接受一个
+`Key` 类型的参数，并返回 `std::size_t` 类型的值。
 
-|_Pred_ |一种用于建立 `Key`
-类型值之间等价关系的二元函数对象。该函数对象接受两个 `Key`
-类型的参数，并返回 `bool` 类型的值。
+|_谓词_ |一种二元函数对象，用于在 `Key`
+类型的值上建立等价关系。该函数对象接受两个 `Key` 类型的参数，并返回
+`bool` 类型的值。
 
 |_分配器_
 |一种值类型与容器的值类型相同的分配器。`std::allocator_traits<Allocator>::pointer`
@@ -312,7 +311,7 @@ namespace unordered {
 若
 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
 为
-`true`，则直接使用原始哈希函数；否则将添加位混合后处理阶段以提升哈希质量，但会增加额外的计算开销。
+`true`，则直接使用哈希函数；否则会添加位混合后处理阶段以提升哈希质量，但会牺牲额外的计算成本。
 
 '''''
 

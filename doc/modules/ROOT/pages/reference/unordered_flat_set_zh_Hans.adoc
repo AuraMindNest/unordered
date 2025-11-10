@@ -1754,9 +1754,9 @@ return original_size - c.size();
 [[unordered_flat_set_serialization]]
 === 序列化
 
-`unordered_flat_set` 可以通过
+`unordered_flat_set` 可通过本库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
+进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[unordered_flat_set_saving_an_unordered_flat_set_to_an_archive]]
 ==== 将 unordered_flat_set 保存到归档
@@ -1775,9 +1775,9 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_flat_set_loading_an_unordered_flat_set_from_an_archive]]
 ==== 从归档加载 unordered_flat_set
 
-删除 `unordered_flat_set` `x` 的所有现有元素，并从归档（XML 归档）`ar`
-插入原始 `unordered_flat_set` `other` 保存到 `ar`
-读取的存储中的元素副本。
+删除 `unordered_flat_set`容器 `x` 中存在的所有现有元素，并从归档（XML
+归档）`ar` 中插入原始 `unordered_flat_set` 容器 `other`
+的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
@@ -1789,13 +1789,13 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_flat_set_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将迭代器 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
-归档）`ar` 中。`it` 可以是 `end()` 迭代器。
+将迭代器（常量迭代器）`it` 的位置信息保存到归档（XML 归档）`ar` 中。`it`
+可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
-|要求： |`it` 指向的 `unordered_flat_set` `x` 先前已保存到
-`ar`，且在保存 `x` 和保存 `it` 之间未对 `x` 执行修改操作。
+|要求： |`it` 所指向的 `unordered_flat_set` 容器 `x` 先前已被保存至
+`ar`，且在保存 `x` 与保存 `it` 期间未对 `x` 执行任何修改操作。
 |===
 
 '''''
@@ -1803,16 +1803,16 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_flat_set_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使迭代器 `iterator`（`const_iterator`）`it` 指向之前通过 XML 归档（XML
-归档）`ar`
-保存的原始迭代器（常量迭代器）的恢复位置（从存储数据中还原出来的位置）。
+使迭代器 `iterator`（`const_iterator`）`it` 指向原始迭代器 `iterator`
+(`const_iterator`) 所恢复的位置，该原始迭代器已被保存到由归档（XML
+归档）`ar` 读取的存储中。
 
 [cols=",",]
 |===
-|要求： |如果 `x` 是 `it` 指向的 `unordered_flat_set`，则在加载 `x`
-和加载 `it` 之间未对 `x` 执行修改操作。
+|要求： |如果 `x` 为 `it` 所指向的 `unordered_flat_set`容器，则在加载
+`x` 和加载 `it` 期间未对 `x` 执行任何修改操作。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:41:12 UTC
+最后更新于 2025年 10月 31日 21:41:12 UTC

@@ -1455,7 +1455,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[unordered_multiset_hash_function]]
-==== hash_function
+==== 哈希函数
 
 [source,highlight]
 ----
@@ -1738,7 +1738,7 @@ const_local_iterator cend(size_type n) const;
 === 哈希策略
 
 [[unordered_multiset_load_factor]]
-==== load_factor
+==== 负载因子
 
 [source,highlight]
 ----
@@ -1831,7 +1831,7 @@ void reserve(size_type n);
 [[unordered_multiset_deduction_guides]]
 === 推导指引
 
-如果以下任一条件成立时，则推导指引不参与重载决议：
+若以下任一条件成立，则推导指引不参与重载决议：
 
 * 当推导指引包含 `InputIterator`
 模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
@@ -1851,7 +1851,7 @@ void reserve(size_type n);
 ....
 template<class InputIterator>
   using iter-value-type =
-    typename std::iterator_traits<InputIterator>::value_type; // 仅为说明
+    typename std::iterator_traits<InputIterator>::value_type; // 仅用于说明
 ....
 
 [[unordered_multiset_equality_comparisons]]

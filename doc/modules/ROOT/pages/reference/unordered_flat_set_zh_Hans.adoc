@@ -1530,8 +1530,8 @@ size_type max_load() const noexcept;
 |返回：
 |容器在无需重新哈希的情况下所能容纳的最大元素数量（假设后续不再擦除更多元素）。
 
-|注意： |构造、重新哈希或清空后，容器的最大负载至少为
-`max_load_factor() * bucket_count()`。在高负载条件下擦除时，此数字可能减少。
+|注意： |在构造、重新哈希或清空后，容器的最大负载至少为
+`max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。
 |===
 
 '''''
@@ -1544,8 +1544,8 @@ size_type max_load() const noexcept;
 void rehash(size_type n);
 ----
 
-如有必要，更改桶数组的大小，使桶数至少为
-`n`，且负载因子小于或等于最大负载因子。适用时，这将增加或减少与容器关联的
+如有必要，将改变桶数组的大小，使其至少包含 `n`
+个桶，并确保负载因子小于或等于最大负载因子。此操作将视情况增加或减少容器关联的
 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)`
@@ -1556,7 +1556,7 @@ void rehash(size_type n);
 [cols=",",]
 |===
 |抛出：
-|如果抛出异常，则函数无效果，除非异常由容器的哈希函数或比较函数抛出。
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1571,14 +1571,14 @@ void reserve(size_type n);
 
 等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
 
-类似于 `rehash`，此函数可用于增加或减少容器中的桶数量。
+与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
 使迭代器、指针和引用失效，并改变元素顺序。
 
 [cols=",",]
 |===
 |抛出：
-|如果抛出异常，则函数无效果，除非异常由容器的哈希函数或比较函数抛出。
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1596,10 +1596,10 @@ stats get_stats() const;
 
 [cols=",",]
 |===
-|返回： |容器迄今为止执行的插入和查找操作的统计描述。
+|返回： |容器截至目前所执行的插入与查找操作的统计信息。
 
 |注意：
-|仅当link:reference/stats.html#stats[统计计算]被link:#unordered_flat_set_boost_unordered_enable_stats[启用]时可用。
+|仅当link:reference/stats.html#stats[统计计算]功能被link:#unordered_flat_set_boost_unordered_enable_stats[启用]时可用。
 |===
 
 '''''
@@ -1614,10 +1614,10 @@ void reset_stats() noexcept;
 
 [cols=",",]
 |===
-|效果： |将容器保存的内部统计信息重置为零。
+|效果： |将容器中保存的内部统计信息重置为零。
 
 |注意：
-|仅当link:reference/stats.html#stats[统计计算]被link:#unordered_flat_set_boost_unordered_enable_stats[启用]时可用。
+|仅当link:reference/stats.html#stats[统计计算]功能被link:#unordered_flat_set_boost_unordered_enable_stats[启用]时可用。
 |===
 
 '''''
@@ -1625,7 +1625,7 @@ void reset_stats() noexcept;
 [[unordered_flat_set_deduction_guides]]
 === 推导指引
 
-若以下任一条件成立，则推导指引不参与重载决议：
+若以下任一条件成立，则推导指引将不参与重载决议：
 
 * 当推导指引包含 `InputIterator`
 模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
@@ -1636,8 +1636,8 @@ void reset_stats() noexcept;
 * 当推导指引包含 `Pred`
 模板参数，且为该参数推导出的是符合分配器要求的类型时。
 
-推导指引中, `size_­type` 参数类型引用由该指引推导出的容器类型的
-`size_­type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
+`size_type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_flat_set_iter_value_type]]
 ==== _迭代器值类型_
@@ -1662,12 +1662,12 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 ----
 
 如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
-中均存在一个具有相同键且值相等的元素（使用 `operator==`
-比较值类型），则返回 `true`。
+中均存在一个具有相同键和相等值（使用 `operator==`
+比较值类型）的元素，则返回 `true`。
 
 [cols=",",]
 |===
-|注意： |如果两个容器的相等谓词不等效，则行为未定义。
+|注意： |若两个容器的相等性谓词不等效，则行为未定义。
 |===
 
 '''''
@@ -1682,13 +1682,13 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_flat_set<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
-中均存在相同键的元素，且其值相等（使用 `operator==` 比较值类型），则返回
-`false`。
+若 `x.size() != y.size()`，或存在 `x` 中的某个元素，在 `y`
+中不存在具有相同键和相等值（使用 `operator==`
+比较值类型）的对应元素，则返回 `false`。
 
 [cols=",",]
 |===
-|注意： |如果两个容器的相等谓词不等效，则行为未定义。
+|注意： |若两个容器的相等性谓词不等效，则行为未定义。
 |===
 
 [[unordered_flat_set_swap_2]]

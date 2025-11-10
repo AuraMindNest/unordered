@@ -531,7 +531,7 @@ unordered_node_set(concurrent_node_set<Key, Hash, Pred, Allocator>&& other);
 [cols=",",]
 |===
 |复杂度： |常数时间。
-|并发性： |在 `other` 上阻塞。
+|并发性： |阻塞于 `other`。
 |===
 
 '''''
@@ -549,7 +549,7 @@ unordered_node_set(std::initializer_list<value_type> il,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等谓词、`a` 作为分配器，并将 `il` 中的元素插入其中。
+作为键相等谓性词和 `a` 作为分配器，并将区间 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -567,8 +567,8 @@ unordered_node_set(std::initializer_list<value_type> il,
 unordered_node_set(size_type n, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用默认的哈希函数和键相等谓词，以及
-`a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数、默认的哈希函数和键相等性谓词，以及 `a` 作为分配器。
 
 [cols=",",]
 |===
@@ -589,7 +589,7 @@ unordered_node_set(size_type n, hasher const& hf, allocator_type const& a);
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的键相等谓词和 `a` 作为分配器。
+作为哈希函数、默认的键相等性谓词和 `a` 作为分配器。
 
 [cols=",",]
 |===
@@ -611,7 +611,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等谓词，并将 `[f, l)`
+作为分配器以及默认的哈希函数和键相等性谓词，并将区间 `[f, l)`
 中的元素插入其中。
 
 [cols=",",]
@@ -633,7 +633,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等谓词，并将 `[f, l)` 中的元素插入其中。
+作为分配器以及默认的键相等性谓词，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -651,8 +651,8 @@ template<class InputIterator>
 unordered_node_set(std::initializer_list<value_type> il, const allocator_type& a);
 ----
 
-使用 `a` 以及默认的哈希函数和键相等谓词构造一个空容器，并将 `il`
-中的元素插入其中。
+构造一个空容器，使用 `a`
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -671,7 +671,7 @@ unordered_node_set(std::initializer_list<value_type> il, size_type n, const allo
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-以及默认的哈希函数和键相等谓词，并将 `il` 中的元素插入其中。
+以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -691,7 +691,7 @@ unordered_node_set(std::initializer_list<value_type> il, size_type n, const hash
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等谓词，并将 `il` 中的元素插入其中。
+作为分配器以及默认的键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -727,7 +727,7 @@ unordered_node_set(std::initializer_list<value_type> il, size_type n, const hash
 unordered_node_set& operator=(unordered_node_set const& other);
 ----
 
-赋值运算符。该操作会销毁容器内先前存在的元素，从 `other`
+赋值运算符。该操作会销毁容器内先前存在的元素，并从 `other`
 复制赋值哈希函数和谓词，若
 `Alloc::propagate_on_container_copy_assignment` 存在且其
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
@@ -794,7 +794,7 @@ const_iterator begin() const noexcept;
 [cols=",",]
 |===
 |返回：
-|返回指向容器首元素的迭代器；若容器为空，则返回容器的结束迭代器。
+|返回一个指向容器首元素的迭代器；若容器为空，则返回容器的结束迭代器。
 
 |复杂度： |O(`bucket_count()`)
 |===
@@ -827,8 +827,8 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回：
-|`const_iterator`为一种返回指向容器第一个元素的常量迭代器，如果容器为空，则返回容器的结束迭代器。
+|返回： |返回一个指向容器首元素的
+`const_iterator`；若容器为空，则返回容器的结束迭代器。
 
 |复杂度： |O(`bucket_count()`)
 |===
@@ -845,7 +845,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器结束位置的 `const_iterator` 常量迭代器。
+|返回： |返回一个指向容器结束位置的 `const_iterator` 。
 |===
 
 '''''
@@ -893,7 +893,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |容器最大可能的 `size()`值。
+|返回： |返回容器可能容纳的最大元素数量`max_size()`。
 |===
 
 '''''
@@ -937,7 +937,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 当且仅当容器中不存在具有等价键的元素时，插入一个使用参数 `args`
 构造的对象。
 
-`position` 是插入元素的建议位置。此实现忽略该建议。
+`position` 是一个关于元素插入位置的建议。此实现将忽略它。
 
 [width="100%",cols="50%,50%",]
 |===

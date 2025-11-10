@@ -6,25 +6,25 @@
 == 闭寻址容器
 
 Boost.Unordered
-实现了最快的闭地址法（通常称为https://en.wikipedia.org/wiki/Hash_table#Separate_chaining[分离链接法]）数据结构之一。下图展示了该数据结构的示例：
+提供了速度最快的闭寻址实现之一，该结构通常被称为https://en.wikipedia.org/wiki/Hash_table#Separate_chaining[分离链接法]。其数据结构示例如下：
 
 [[img-bucket-groups]]
 image:bucket-groups.png[桶组]
 
 图1. 基础桶组实现方案
 
-系统分配一个"桶"数组，每个桶指向独立的链表。这使桶迭代能直接满足标准要求。但此布局的全局迭代通常较慢，因为需检查每个桶的占用状态，时间复杂度为`O(bucket_count() + size())`，而标准要求复杂度应为`O(size())`。
+系统分配一个"桶"数组，其中每个桶分别指向其专属的链表。这种结构使得桶迭代能直接满足标准要求。但采用此布局进行整体容器迭代通常较慢，因为需检查每个桶的占用状态，其时间复杂度为`O(bucket_count() + size())`，而标准要求复杂度应为`O(size())`。
 
-标准规范实现最终会形成下图所示结构：
+典型的标准库实现最终会形成如下图所示的结构：
 
 link:_images/singly-linked.png[image:singly-linked.png[单向链表]]
 
-图2. 标准规范实现方案
+图 2. 典型标准库实现结构
 
 值得注意的是，此方案仅被libc++和libstdc++采用；MSVC
-Dinkumware实现使用了不同方案。标准容器的详细分析可参阅http://bannalia.blogspot.com/2013/10/implementation-of-c-unordered.html[此文]。
+Dinkumware实现则使用了不同方案。关于标准库容器的更详细分析可参阅http://bannalia.blogspot.com/2013/10/implementation-of-c-unordered.html[此文]。
 
-这种非常规数据结构通过将所有节点连成单向链表来实现高效全局迭代。需注意：桶指向其元素起始节点的__前驱节点__，这样可在避免双向链表的前提下高效删除元素。但此结构引入了额外间接访问。例如访问桶首元素需执行：
+这种非常规数据结构通过将所有节点连成单向链表来实现高效全局迭代。需注意：桶指向其元素起始节点的__前驱节点__，这样设计的目的是在保持高效元素删除的同时，无需引入双向链表。但这种数据结构不可避免地带来了额外的间接访问开销。例如，要访问某个桶的第一个元素，必须执行类似以下操作：
 
 [source,highlight]
 ----
@@ -37,7 +37,7 @@ if (n && is_in_bucket(n, idx)) {
 }
 ----
 
-而基础桶组布局只需：
+若采用基础的桶组布局，则仅需执行以下操作：
 
 [source,highlight]
 ----
@@ -49,16 +49,23 @@ if (n) {
 }
 ----
 
-实践中，额外间接访问会显著影响`insert`、`find`和`erase`等操作性能。为实现高效迭代，Boost.Unordered引入创新数据结构"桶组"。桶组是桶数组的固定宽度视图，包含跟踪桶占用状态的位掩码（`std::size_t`）及两个指针，用于形成非空桶组的双向链表。示例如下：
+实际上，这种额外的间接访问会对常见操作（如 `insert`、`find` 和
+`erase`）产生显著的性能影响。但为了保持容器迭代的高效性，Boost.Unordered
+引入了一种新颖的数据结构——“桶组”。桶组是桶数组某个分区的定宽视图，它包含一个位掩码（`std::size_t`
+类型）用于跟踪桶的占用状态，并包含两个指针以形成非空组之间的双向链表。其结构示例如下：
 
 [[img-fca-layout]]
 image:fca.png[fca]
 
-图3. Boost采用的新布局
+图 3. Boost 采用的新布局结构
 
-全局迭代由此转为遍历非空桶组（常数时间复杂度），将总复杂度降回`O(size())`。每个桶组仅占4字空间，管理`sizeof(std::size_t) * CHAR_BIT`个桶，常见实现中桶组引入的空间开销仅为每桶4比特。
+过将容器全局迭代转换为遍历非空桶组（该操作具有常数时间复杂度），系统将整体时间复杂度恢复至
+`O(size())`。每个桶组仅占用 4 个机器字长的空间，其管理的桶数量为
+`sizeof(std::size_t) * CHAR_BIT`，这意味着在所有常见实现架构中，桶组为每个桶引入的空间开销仅为
+4 比特。
 
-Boost.Unordered闭地址法实现的详细说明见https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。实现原理请参阅link:rationale.html#rationale_closed_addressing_containers[对应章节]。
+关于 Boost.Unordered
+闭寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale.html#rationale_closed_addressing_containers[相关说明章节]。
 
 [[structures_open_addressing_containers]]
 == 开放寻址容器

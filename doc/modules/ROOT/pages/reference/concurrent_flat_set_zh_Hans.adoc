@@ -1570,7 +1570,7 @@ template<class K> size_type erase(const K& k);
 |===
 |返回： |插入的元素数量（0 或 1）。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
+|抛出： |仅当异常由 `hasher` 或 `key_equal` 抛出时，本函数才会抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1717,8 +1717,8 @@ template<class H2, class P2>
   size_type merge(concurrent_flat_set<Key, H2, P2, Allocator>&& source);
 ----
 
-将 `source` 中键尚未存在于 `*this` 的所有元素移动插入当前容器，并从
-`source` 中擦除这些元素。
+将 `source` 中键尚未存在于 `*this`
+的所有元素移动插入当前容器，并将这些元素从 `source` 中元素。
 
 [cols=",",]
 |===
@@ -1808,7 +1808,7 @@ template<class K>
 '''''
 
 [[concurrent_flat_set_contains]]
-==== 存在性检查
+==== 存在性检验
 
 [source,highlight]
 ----
@@ -1898,8 +1898,7 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果：
-|此操作不执行任何功能，因为不允许用户更改此参数。保留此接口是为了与
+|效果： |不执行任何功能，因为不允许用户更改此参数。保留此接口是为了与
 `boost::unordered_set` 保持兼容性。
 |===
 

@@ -1021,7 +1021,7 @@ iterator insert(const_iterator hint, const value_type& obj);
 
 当且仅当容器中不存在具有等效键的元素时，插入 `obj`。
 
-`hint` 是插入位置的建议。此实现忽略它。
+`hint` 是一个关于元素插入位置的建议。此实现忽略它。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1051,7 +1051,7 @@ iterator insert(const_iterator hint, value_type&& obj);
 
 当且仅当容器中不存在具有等效键的元素时，插入 `obj`。
 
-`hint` 是插入位置的建议。此实现忽略它。
+`hint` 是一个关于元素插入位置的建议。此实现忽略它。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1082,7 +1082,7 @@ template<class K> std::pair<iterator, bool> insert(const_iterator hint, K&& k);
 当且仅当容器中不存在具有等效键的元素时，插入一个由 `std::forward(k)`
 构造的元素。
 
-`hint` 是插入位置的建议。此实现忽略它。
+`hint` 是一个关于元素插入位置的建议。此实现忽略它。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1117,15 +1117,15 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 ----
 
-将一系列元素插入容器中。仅当容器中没有等效键的元素时，才会插入元素。
+将元素范围插入容器。当且仅当容器中不存在具有等效键的元素时，才会插入相应元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可从 `*first`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造]到容器中。
+|要求： |`value_type` 必须能够从 `*first`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到容器中。
 
-|抛出： |当插入单个元素时，如果调用 `hasher`
-以外的操作抛出异常，则函数无效果。
+|抛出： |在插入单个元素时，若异常由调用 `hasher`
+以外的操作抛出，则此函数不产生任何效果。
 
 |注意：
 |可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载大于最大负载时。
@@ -1141,15 +1141,15 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造]�
 void insert(std::initializer_list<value_type>);
 ----
 
-将一系列元素插入容器中。仅当容器中没有等效键的元素时，才会插入元素。
+将元素范围插入容器。当且仅当容器中不存在具有等效键的元素时，才会插入相应元素。
 
 [cols=",",]
 |===
 |要求： |`value_type`
 必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
 
-|抛出： |当插入单个元素时，如果调用 `hasher`
-以外的操作抛出异常，则函数无效果。
+|抛出： |在插入单个元素时，若异常由调用 `hasher`
+以外的操作抛出，则此函数不产生任何效果。
 
 |注意：
 |可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载大于最大负载时。
@@ -1162,20 +1162,20 @@ void insert(std::initializer_list<value_type>);
 
 [source,highlight]
 ----
-可转换为迭代器 erase(iterator position);
-可转换为迭代器 erase(const_iterator position);
+convertible-to-iterator erase(iterator position);
+convertible-to-iterator erase(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [cols=",",]
 |===
-|返回： |一个不透明对象，可隐式转换为擦除前 `position` 之后紧邻的
-`iterator` 或 `const_iterator`。
+|返回： |返回一个不透明对象，该对象可隐式转换为擦除前紧接在 `position`
+之后的 `iterator` 或 `const_iterator`。
 
 |抛出： |无。
 
-|注意： |返回的不透明对象必须仅被丢弃或立即转换为 `iterator` 或
+|注意： |返回的不透明对象必须仅被丢弃或转换为 `iterator` 或
 `const_iterator`。
 |===
 

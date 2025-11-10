@@ -1520,7 +1520,7 @@ allocator_type get_allocator() const;
 '''''
 
 [[unordered_multimap_hash_function]]
-==== hash_function
+==== 哈希函数
 
 [source,highlight]
 ----
@@ -1803,7 +1803,7 @@ const_local_iterator cend(size_type n) const;
 === 哈希策略
 
 [[unordered_multimap_load_factor]]
-==== load_factor
+==== 负载因子
 
 [source,highlight]
 ----
@@ -1898,7 +1898,7 @@ void reserve(size_type n);
 [[unordered_multimap_deduction_guides]]
 === 推导指引
 
-如果以下任一条件成立时，则推导指引不参与重载决议：
+若以下任一条件成立，则推导指引不参与重载决议：
 
 * 当推导指引包含 `InputIterator`
 模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
@@ -1918,11 +1918,11 @@ void reserve(size_type n);
 ....
 template<class InputIterator>
   using iter-value-type =
-    typename std::iterator_traits<InputIterator>::value_type; // 仅为说明
+    typename std::iterator_traits<InputIterator>::value_type; // 仅用于说明
 ....
 
 [[unordered_multimap_iter_key_type]]
-==== _iter-key-type_
+==== _迭代器键类型_
 
 ....
 template<class InputIterator>
@@ -1931,7 +1931,7 @@ template<class InputIterator>
 ....
 
 [[unordered_multimap_iter_mapped_type]]
-==== _iter-mapped-type_
+==== _迭代器映射类型_
 
 ....
 template<class InputIterator>
@@ -1940,7 +1940,7 @@ template<class InputIterator>
 ....
 
 [[unordered_multimap_iter_to_alloc_type]]
-==== _iter-to-alloc-type_
+==== _迭代器到分配类型_
 
 ....
 template<class InputIterator>
@@ -2074,10 +2074,10 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 [cols=",",]
 |===
 |要求： |`std::remove_const<key_type>::type` 和
-`std::remove_const<mapped_type>::type` 可序列化（XML
-可序列化），并且支持 Boost.Serialization 的
+`std::remove_const<mapped_type>::type` 必须支持序列化（XML
+可序列化），且需兼容 Boost.Serialization 的
 `save_construct_data`/`load_construct_data`
-协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
+协议（该协议由https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
 |===
 
 '''''

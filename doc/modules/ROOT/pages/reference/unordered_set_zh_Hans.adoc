@@ -1060,10 +1060,10 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]�
 指向元素的指针和引用永远不会失效。 +
 
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型，且 `iterator` 与 `const_iterator` 均不能从 `K`
-类型隐式转换时，此重载才参与重载决议。标准库假定`Hash` 可同时被 `K` 和
-`Key` 类型调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化
-`Key` 类型的开销。
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+类型隐式转换时，该重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K`
+和 `Key` 类型调用，且 `Pred`
+为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1166,10 +1166,10 @@ C++标准对提示参数含义的规定相当笼统。在实际使用中唯一�
 指向元素的指针和引用永远不会失效。 +
 
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型，且 `iterator` 与 `const_iterator` 均不能从 `K`
-类型隐式转换时，此重载才参与重载决议。标准库假定`Hash` 可同时被 `K` 和
-`Key` 类型调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化
-`Key` 类型的开销。
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+类型隐式转换时，该重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K`
+和 `Key` 类型调用，且 `Pred`
+为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1271,10 +1271,10 @@ template<class K> node_type extract(K&& k);
 `unordered_multiset` 中，但该特性暂未获得支持。 +
 
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义，且 `iterator` 与 `const_iterator` 均不能从 `K`
-隐式转换时，此重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与
-`Key` 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化
-`Key` 类型的开销。
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+类型隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定
+`Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1410,10 +1410,10 @@ template<class K> size_type erase(K&& k);
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义，且 `iterator` 与 `const_iterator` 均不能从 `K`
-隐式转换时，此重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与
-`Key` 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化
-`Key` 类型的开销。
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+类型隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定
+`Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1650,9 +1650,10 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 `K` 类型的成员函数模板。 +
 
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义时，`template<class K>`
-重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 
 |===
 
@@ -1673,9 +1674,10 @@ template<class K>
 |返回值： |返回键等价于 `k` 的元素数量。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义时，`template<class K>`
-重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1695,9 +1697,10 @@ template<class K>
 |返回值： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义时，`template<class K>`
-重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1722,9 +1725,10 @@ template<class K>
 `std::make_pair(b.end(), b.end())`。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义时，`template<class K>`
-重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1794,9 +1798,10 @@ template<class K> size_type bucket(const K& k) const;
 |后置条件： |返回值小于 `bucket_count()`。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型定义时，`template<class K>`
-重载才参与重载决议。标准库假定 `Hash` 可同时被 `K` 与 `Key` 类型调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''

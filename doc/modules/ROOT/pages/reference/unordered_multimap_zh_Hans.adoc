@@ -1882,7 +1882,7 @@ void reserve(size_type n);
 `a.max_load_factor() == std::numeric_limits<float>::infinity()` 时等价于
 `a.rehash(1)`。
 
-类似于 `rehash`，此函数可用于增加或减少容器中的桶数量。
+与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 
@@ -1897,7 +1897,7 @@ void reserve(size_type n);
 [[unordered_multimap_deduction_guides]]
 === 推导指引
 
-若以下任一条件成立，则推导指引不参与重载决议：
+若以下任一条件成立，则推导指引将不参与重载决议：
 
 * 当推导指引包含 `InputIterator`
 模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
@@ -1908,8 +1908,8 @@ void reserve(size_type n);
 * 当推导指引包含 `Pred`
 模板参数，且为该参数推导出的是符合分配器要求的类型时。
 
-推导指引中, `size_­type` 参数类型引用由该指引推导出的容器类型的
-`size_­type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
+`size_type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_multimap_iter_value_type]]
 ==== _迭代器值类型_

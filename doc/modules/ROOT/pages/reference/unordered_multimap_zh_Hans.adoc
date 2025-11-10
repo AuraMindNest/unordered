@@ -2105,8 +2105,8 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造
 [[unordered_multimap_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将迭代器 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
-归档）`ar` 中。`it` 可以是 `end()` 迭代器。
+将迭代器（常量迭代器）`it` 的位置信息保存到归档（XML 归档）`ar` 中。`it`
+可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
@@ -2119,9 +2119,9 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造
 [[unordered_multimap_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使迭代器 `iterator`（`const_iterator`）`it` 指向之前通过 XML 归档（XML
-归档）`ar`
-保存的原始迭代器（常量迭代器）的恢复位置（从存储数据中还原出来的位置）。
+使迭代器 `iterator`（`const_iterator`）`it` 指向原始迭代器 `iterator`
+(`const_iterator`) 所恢复的位置，该原始迭代器已被保存到由归档（XML
+归档）`ar` 读取的存储中。
 
 [cols=",",]
 |===

@@ -623,7 +623,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_node_set_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数量和哈希器的迭代器范围构造函数
+==== 带桶数与哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -828,7 +828,7 @@ const_iterator cbegin() const noexcept;
 [cols=",",]
 |===
 |返回： |返回一个指向容器首元素的
-`const_iterator`；若容器为空，则返回容器的结束迭代器。
+`const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
 
 |复杂度： |O(`bucket_count()`)
 |===
@@ -845,7 +845,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器结束位置的 `const_iterator` 。
+|返回： |返回一个指向容器结束位置的 `const_iterator` （常量迭代器）。
 |===
 
 '''''
@@ -893,7 +893,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回容器可能容纳的最大元素数量`max_size()`。
+|返回： |返回该容器可能包含的最大值 `size()`。
 |===
 
 '''''
@@ -902,7 +902,7 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[unordered_node_set_emplace]]
-==== 原地构造
+==== emplace
 
 [source,highlight]
 ----
@@ -1024,7 +1024,7 @@ template<class K> std::pair<iterator, bool> insert(K&& k);
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
 
 |返回： a|
-如果插入发生，则返回类型的 bool 分量为 true。 +
+如果插入操作发生，则返回类型的布尔分量为 true。 +
 
 如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
@@ -1120,7 +1120,7 @@ template<class K> std::pair<iterator, bool> insert(const_iterator hint, K&& k);
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
 
 |返回： a|
-如果插入发生，则返回类型的 bool 分量为 true。 +
+如果插入操作发生，则返回类型的布尔分量为 true。 +
 
 如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 

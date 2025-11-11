@@ -256,25 +256,25 @@ namespace unordered {
 [width="100%",cols="50%,50%",]
 |===
 |_键_ |`Key`
-必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]（即
-`allocator_traits` 可以销毁它）。
+需满足从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即
+`allocator_traits` 能够销毁它）。
 
 |_T_ |`T`
-必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]（即
-`allocator_traits` 可以销毁它）。
+需满足从容器https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]
+的要求（即 `allocator_traits` 能够销毁它）。
 
-|_Hash_ |一种一元函数对象类型，作为 `Key` 的哈希函数。该函数对象接受一个
-`Key` 类型的参数，并返回 `std::size_t` 类型的值。
+|_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
+类型的参数，并返回 `std::size_t` 类型的值。
 
-|_谓词_ |一个二元函数对象，用于实现 `Key`
-类型值的等价关系。它接受两个类型为 `Key`
+|_谓词_ |一种二元函数对象，用于在 `Key`
+类型的值上建立等价关系。它接受两个类型为 `Key`
 的参数，并返回一个布尔类型的值。
 
 |_分配器_
 |一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
-元素被组织到桶中。具有相同哈希码的键存储在同一个桶中。
+元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
 桶的数量可以通过调用 insert 自动增加，或者作为调用 rehash 的结果而增加。
 

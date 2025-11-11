@@ -263,8 +263,7 @@ namespace unordered {
 
 元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
-桶的数量可通过调用 insert 操作自动增加，也可通过调用 rehash
-方法进行调整。
+桶的数量可通过调用 insert 操作自动增加，也可通过调用 rehash 操作来调整。
 
 [[unordered_set_configuration_macros]]
 === 配置宏
@@ -280,7 +279,7 @@ namespace unordered {
 
 [source,highlight]
 ----
-typedef 实现定义 iterator;
+typedef implementation-defined iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
@@ -293,7 +292,7 @@ typedef 实现定义 iterator;
 
 [source,highlight]
 ----
-typedef 实现定义 const_iterator;
+typedef implementation-defined const_iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
@@ -304,40 +303,40 @@ typedef 实现定义 const_iterator;
 
 [source,highlight]
 ----
-typedef 由实现定义 local_iterator;
+typedef implementation-defined local_iterator;
 ----
 
-一个迭代器，其值类型、差类型、指针和引用类型均与 iterator 相同。
+一种迭代器，其值类型、差值类型以及指针和引用类型均与 iterator 相同。
 
-`local_iterator` 对象，可用于遍历单个桶内的元素。
+`local_iterator` 对象可用于遍历单个桶内的元素。
 
 '''''
 
 [source,highlight]
 ----
-typedef 由实现定义 const_local_iterator;
+typedef implementation-defined const_local_iterator;
 ----
 
-一个常量迭代器，其值类型、差类型、指针和引用类型均与 const_iterator
+一种常量迭代器，其值类型、差值类型以及指针和引用类型均与 const_iterator
 相同。
 
-const_local_iterator 对象，可用于遍历单个桶内的元素。
+const_local_iterator 对象可用于遍历单个桶内的元素。
 
 '''''
 
 [source,highlight]
 ----
-typedef 实现定义 node_type;
+typedef implementation-defined node_type;
 ----
 
-一个用于保存提取的容器元素的类，建模
+用于保存已提取容器元素的类，其建模自
 https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
 
 [source,highlight]
 ----
-typedef 实现定义 insert_return_type;
+typedef implementation-defined insert_return_type;
 ----
 
 内部类模板的特化：
@@ -345,7 +344,7 @@ typedef 实现定义 insert_return_type;
 [source,highlight]
 ----
 template<class Iterator, class NodeType>
-struct insert_return_type // 名称仅为说明
+struct insert_return_type // 名称仅用于说明
 {
   Iterator position;
   bool     inserted;
@@ -353,7 +352,7 @@ struct insert_return_type // 名称仅为说明
 };
 ----
 
-其中 `Iterator` = `iterator`，`NodeType` = `node_type`。
+其中 `Iterator` = `iterator` 且 `NodeType` = `node_type`。
 
 '''''
 
@@ -368,8 +367,8 @@ struct insert_return_type // 名称仅为说明
 unordered_set();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
-作为键相等性谓词，`allocator_type()` 作为分配器，并设置最大负载因子为
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
+作为键相等性谓词、`allocator_type()` 作为分配器，并将最大负载因子设为
 `1.0`。
 
 [cols=",",]
@@ -394,7 +393,7 @@ explicit unordered_set(size_type n,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`。
+作为键相等性谓词，`a` 作为分配器，并将最大负载因子设为 `1.0`。
 
 [cols=",",]
 |===
@@ -419,9 +418,9 @@ template<class InputIterator>
                 const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将区间
-`[f, l)` 中的元素插入该容器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器，将最大负载因子设为 `1.0`，并将区间
+`[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -439,10 +438,10 @@ template<class InputIterator>
 unordered_set(const unordered_set& other);
 ----
 
-复制构造函数。复制容器内的元素、哈希函数、谓词、最大负载因子以及分配器。
+复制构造函数。复制其所含的元素、哈希函数、谓词、最大负载因子及分配器。
 
-若 `Allocator::select_on_container_copy_construction`
-方法存在且签名正确，则将基于其返回结果构造分配器。
+如果 `Allocator::select_on_container_copy_construction`
+存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===
@@ -464,7 +463,7 @@ unordered_set(unordered_set&& other);
 [cols=",",]
 |===
 |备注： |此函数通过 Boost.Move 实现。
-|要求： |`value_type` 可移动构造。
+|要求： |`value_type` 必须满足可移动构造的要求。
 |===
 
 '''''
@@ -478,9 +477,9 @@ template<class InputIterator>
   unordered_set(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-使用 `a`
-作为分配器构造一个空容器，使用默认的哈希函数和键相等性谓词，并设置最大负载因子为
-`1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
+构造一个空容器，使用 `a`
+作为分配器、默认的哈希函数和键相等性谓词，并将最大负载因子设为
+`1.0`，然后将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
@@ -511,7 +510,7 @@ unordered_set(const unordered_set& other, const Allocator& a);
 ----
 
 构造一个容器，复制 `other`
-包含的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a`。
+中的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a`。
 
 '''''
 
@@ -524,7 +523,7 @@ unordered_set(unordered_set&& other, const Allocator& a);
 ----
 
 构造一个容器，移动 `other`
-包含的元素，并获取其哈希函数、谓词和最大负载因子，但使用分配器 `a`。
+中所包含的元素，并获取其哈希函数、谓词及最大负载因子，但使用分配器 `a`。
 
 [cols=",",]
 |===
@@ -546,8 +545,8 @@ unordered_set(std::initializer_list<value_type> il,
               const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql`
-作为键相等性谓词，`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、及`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将
 `il` 中的元素插入该容器。
 
 [cols=",",]

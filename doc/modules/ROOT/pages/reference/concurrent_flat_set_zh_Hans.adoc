@@ -686,7 +686,7 @@ template<class InputIterator>
 '''''
 
 [[concurrent_flat_set_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数量和哈希器的迭代器范围构造函数
+==== 带桶数与哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -1091,7 +1091,7 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[concurrent_flat_set_emplace]]
-==== 原地构造
+==== emplace
 
 [source,highlight]
 ----

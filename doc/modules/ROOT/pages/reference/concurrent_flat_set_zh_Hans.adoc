@@ -288,8 +288,8 @@ namespace unordered {
 |_键_ |`Key`
 必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
 
-|_Hash_ |一种一元函数对象类型，作为 `Key` 的哈希函数。该函数对象接受一个
-`Key` 类型的参数，并返回 `std::size_t` 类型的值。
+|_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
+类型的参数，并返回 `std::size_t` 类型的值。
 
 |_谓词_ |一种二元函数对象，用于在 `Key`
 类型的值上建立等价关系。该函数对象接受两个 `Key` 类型的参数，并返回

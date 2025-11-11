@@ -578,7 +578,7 @@ unordered_multimap(size_type n, const hasher& hf, const allocator_type& a);
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数，默认的键相等性谓词，`a` 作为分配器，并设置最大负载因子为
+作为哈希函数、默认的键相等性谓词、`a` 作为分配器，并设置最大负载因子为
 `1.0`。
 
 [cols=",",]
@@ -601,7 +601,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器，默认的哈希函数和键相等性谓词，并设置最大负载因子为
+作为分配器、默认的哈希函数和键相等性谓词，并设置最大负载因子为
 `1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
@@ -613,7 +613,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_multimap_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数量和哈希器的迭代器范围构造函数
+==== 带桶数与哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -622,9 +622,9 @@ template<class InputIterator>
                      const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`a`
-作为分配器，默认的键相等性谓词，并设置最大负载因子为 `1.0`，随后将区间
-`[f, l)` 中的元素插入该容器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf`
+作为哈希函数、默认的键相等性谓词、`a` 作为分配器，并设置最大负载因子为
+`1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
@@ -681,7 +681,7 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const hash
                    const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`a`
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
 作为分配器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
 
 [cols=",",]
@@ -722,7 +722,7 @@ unordered_multimap& operator=(const unordered_multimap& other);
 
 如果 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为
-`true`，则覆盖分配器；否则使用现有分配器创建所复制的元素。
+`true`，则覆盖分配器；否则将使用现有分配器创建所复制的元素。
 
 [cols=",",]
 |===
@@ -746,7 +746,7 @@ unordered_multimap& operator=(unordered_multimap&& other)
 
 如果 `Alloc::propagate_on_container_move_assignment` 存在且
 `Alloc::propagate_on_container_move_assignment::value` 为
-`true`，则覆盖分配器；否则使用现有分配器创建被移动的元素。
+`true`，则覆盖分配器；否则将使用现有分配器创建所复制的元素。
 
 [cols=",",]
 |===
@@ -763,7 +763,7 @@ unordered_multimap& operator=(unordered_multimap&& other)
 unordered_multimap& operator=(std::initializer_list<value_type> il);
 ----
 
-通过初始化列表中的值进行赋值操作。所有现有元素要么被新元素覆盖，要么被销毁。
+将初始化列表中的值赋给容器。所有现有元素要么被新元素覆盖，要么被销毁。
 
 [cols=",",]
 |===
@@ -818,7 +818,7 @@ const_iterator cbegin() const noexcept;
 [cols=",",]
 |===
 |返回： |返回一个指向容器首元素的
-`const_iterator`；若容器为空，则返回容器的结束迭代器。
+`const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -833,7 +833,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器结束位置的 `const_iterator` 。
+|返回： |返回一个指向容器结束位置的 `const_iterator` （常量迭代器）。
 |===
 
 '''''
@@ -881,7 +881,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回容器可能容纳的最大元素数量`max_size()`。
+|返回： |返回该容器可能包含的最大值 `size()`。
 |===
 
 '''''
@@ -890,7 +890,7 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[unordered_multimap_emplace]]
-==== 原地构造
+==== emplace
 
 [source,highlight]
 ----
@@ -928,7 +928,7 @@ template<class... Args> iterator emplace_hint(const_iterator position, Args&&...
 
 置入一个由参数 args 构造的对象到容器中。
 
-`position` 是插入元素位置的建议。
+`position` 是一个关于插入元素位置的建议。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1009,7 +1009,7 @@ iterator insert(value_type&& obj);
 '''''
 
 [[unordered_multimap_emplace_insert]]
-==== 原位构造插入
+==== 原位插入
 
 [source,highlight]
 ----

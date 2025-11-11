@@ -1185,9 +1185,9 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须满足从 `*first`
-参数https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
-`X`的要求。
+|要求： |`value_type` 必须能够从 `*first`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到
+`X` 中。
 
 |抛出： |若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
 
@@ -1213,7 +1213,7 @@ void insert(std::initializer_list<value_type>);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器中的要求。
 
 |抛出： |若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
 

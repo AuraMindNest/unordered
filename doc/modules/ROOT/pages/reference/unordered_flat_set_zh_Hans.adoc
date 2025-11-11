@@ -284,7 +284,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 
 [source,highlight]
 ----
-typedef 实现定义 iterator;
+typedef implementation-defined iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
@@ -297,7 +297,7 @@ typedef 实现定义 iterator;
 
 [source,highlight]
 ----
-typedef 实现定义 const_iterator;
+typedef implementation-defined const_iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
@@ -386,8 +386,8 @@ unordered_flat_set(unordered_flat_set const& other);
 
 复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
 
-若 `Allocator::select_on_container_copy_construction`
-方法存在且签名正确，则将基于其返回结果构造分配器。
+如果 `Allocator::select_on_container_copy_construction`
+存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===

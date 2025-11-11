@@ -1095,7 +1095,7 @@ iterator insert(const_iterator hint, value_type&& obj);
 '''''
 
 [[unordered_multimap_emplace_insert_with_hint]]
-==== 带提示的原位构造插入
+==== 带提示的原位插入
 
 [source,highlight]
 ----
@@ -1137,9 +1137,9 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须满足从 `*first`
-参数https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
-`X`的要求。
+|要求： |`value_type` 必须能够从 `*first`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到
+`X` 中。
 
 |抛出： |当插入单个元素时，若除调用 `hasher`
 外的操作抛出异常，则该函数无效果。
@@ -1166,7 +1166,7 @@ void insert(std::initializer_list<value_type> il);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器中的要求。
 
 |抛出： |当插入单个元素时，若除调用 `hasher`
 外的操作抛出异常，则该函数无效果。

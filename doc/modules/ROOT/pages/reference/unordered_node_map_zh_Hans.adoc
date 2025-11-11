@@ -665,7 +665,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_node_map_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数量和哈希器的迭代器范围构造函数
+==== 带桶数与哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -870,7 +870,7 @@ const_iterator cbegin() const noexcept;
 [cols=",",]
 |===
 |返回： |返回一个指向容器首元素的
-`const_iterator`；若容器为空，则返回容器的结束迭代器。
+`const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
 
 |复杂度： |O(`bucket_count()`)
 |===
@@ -887,7 +887,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器结束位置的 `const_iterator` 。
+|返回： |返回一个指向容器结束位置的 `const_iterator` （常量迭代器）。
 |===
 
 '''''
@@ -935,7 +935,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回容器可能容纳的最大元素数量`max_size()`。
+|返回： |返回该容器可能包含的最大值 `size()`。
 |===
 
 '''''
@@ -944,7 +944,7 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[unordered_node_map_emplace]]
-==== 原地构造
+==== emplace
 
 [source,highlight]
 ----

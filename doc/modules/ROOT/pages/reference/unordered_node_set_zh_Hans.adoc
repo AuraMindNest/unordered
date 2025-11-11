@@ -291,7 +291,7 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 
 [source,highlight]
 ----
-typedef 实现定义 iterator;
+typedef implementation-defined iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
@@ -304,7 +304,7 @@ typedef 实现定义 iterator;
 
 [source,highlight]
 ----
-typedef 实现定义 const_iterator;
+typedef implementation-defined const_iterator;
 ----
 
 一个常量迭代器，其值类型为 `value_type`。
@@ -315,17 +315,17 @@ typedef 实现定义 const_iterator;
 
 [source,highlight]
 ----
-typedef 实现定义 node_type;
+typedef implementation-defined node_type;
 ----
 
-一个用于保存提取的容器元素的类，建模
+用于保存已提取容器元素的类，其建模自
 https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
 
 [source,highlight]
 ----
-typedef 实现定义 insert_return_type;
+typedef implementation-defined insert_return_type;
 ----
 
 内部类模板的特化：
@@ -333,7 +333,7 @@ typedef 实现定义 insert_return_type;
 [source,highlight]
 ----
 template<class Iterator, class NodeType>
-struct insert_return_type // 名称仅为说明
+struct insert_return_type // 名称仅用于说明
 {
   Iterator position;
   bool     inserted;
@@ -341,7 +341,7 @@ struct insert_return_type // 名称仅为说明
 };
 ----
 
-其中 `Iterator` = `iterator`，`NodeType` = `node_type`。
+其中 `Iterator` = `iterator` 且 `NodeType` = `node_type`。
 
 '''''
 
@@ -427,8 +427,8 @@ unordered_node_set(unordered_node_set const& other);
 
 复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
 
-若 `Allocator::select_on_container_copy_construction`
-方法存在且签名正确，则将基于其返回结果构造分配器。
+如果 `Allocator::select_on_container_copy_construction`
+存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===

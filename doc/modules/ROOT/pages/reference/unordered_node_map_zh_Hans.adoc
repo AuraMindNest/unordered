@@ -1686,7 +1686,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[unordered_node_map_hash_function]]
-==== 哈希函数
+==== hash_function
 
 [source,highlight]
 ----
@@ -1710,7 +1710,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |容器的键相等性谓词。
+|返回： |容器的键相等性谓词
 |===
 
 '''''
@@ -1743,18 +1743,18 @@ template<class K>
 '''''
 
 [[unordered_node_map_count]]
-==== 统计
+==== count
 
 [source,highlight]
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type      count(const K& k) const;
+  size_type     极客 count(const K& k) const;
 ----
 
 [cols=",",]
 |===
-|返回： |返回键等价于 `k` 的元素数量。
+|返回： |键等价于 `k` 的元素数量。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
@@ -1765,7 +1765,7 @@ template<class K>
 '''''
 
 [[unordered_node_map_contains]]
-==== 存在性检验
+==== contains
 
 [source,highlight]
 ----
@@ -1776,7 +1776,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
@@ -1802,7 +1802,7 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回包含所有键等价于 `k`
-的元素的区间。如果容器不包含任何此类元素，则返回
+的元素的范围。若容器中不存在此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
@@ -1828,8 +1828,8 @@ template<class K> mapped_type& operator[](K&& k);
 |效果： |若容器中尚未包含键等价于 `k` 的元素，则插入值
 `std::pair<key_type const, mapped_type>(k, mapped_type())`。
 
-|返回： |对 `x.second` 的引用，其中 `x`
-是容器中已存在的元素或新插入的键等价于 `k` 的元素。
+|返回： |返回一个引用，该引用指向容器中已存在的键等于 `k` 的元素 `x` 的
+`x.second` 成员；若元素不存在，则指向新插入元素的该成员。
 
 |抛出： |若由非 `hasher` 调用引发的异常抛出，则函数无效果。
 
@@ -1858,9 +1858,11 @@ template<class K> const mapped_type& at(const K& k) const;
 
 [cols=",",]
 |===
-|返回： |对 `x.second` 的引用，其中 `x` 是键等价于 `k` 的（唯一）元素。
+|返回： |返回一个引用，该引用指向键等价于 `k` 的（唯一）元素 `x`
+的`x.second`成员。
 
-|抛出： |若不存在此元素，则抛出类型为 `std::out_of_range` 的异常对象。
+|抛出： |如果不存在这样的元素，则抛出类型为 `std::out_of_range`
+的异常对象。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定

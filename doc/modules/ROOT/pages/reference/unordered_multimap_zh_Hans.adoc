@@ -1482,16 +1482,15 @@ template<class H2, class P2>
 尝试通过迭代 `source` 并提取 `source` 中的所有节点，然后将它们插入
 `*this` 来“合并”两个容器。
 
-由于 `source`
-容器可能采用不同的哈希函数与键相等性谓词，因此会使用`this->hash_function()`对
-`source` 中每个节点的键进行重哈希，并在需要时通过 `this->key_eq()`
-进行键值比较。
+由于 `source` 可以有不同的哈希函数和键相等性谓词，因此会使用
+`this->hash_function()` 操作对 `source`
+中每个节点的键进行重哈希，并在需要时使用 `this->key_eq()` 进行比较。
 
 如果
 `this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
 
-此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新安置到
-`*this` 容器中。
+此函数不复制或移动任何元素，而是简单地将节点从 `source` 重新定位到
+`*this` 中。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1519,7 +1518,7 @@ allocator_type get_allocator() const;
 '''''
 
 [[unordered_multimap_hash_function]]
-==== 哈希函数
+==== hash_function
 
 [source,highlight]
 ----
@@ -1543,7 +1542,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |容器的键相等性谓词。
+|返回： |容器的键相等性谓词
 |===
 
 '''''
@@ -1572,13 +1571,13 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |返回指向键等价于 `k`
-的元素的迭代器，如果不存在这样的元素，则返回 `b.end()`。
+|返回： |返回一个指向键等价于 `k`
+的元素的迭代器，若不存在这样的元素，则返回 `b.end()`。
 
 |备注： a|
-包含 `CompatibleKey`、`CompatibleHash` 与 `CompatiblePredicate`
-的模板化重载是非标准扩展，允许用户通过兼容的哈希函数和相等性谓词处理不同类型的键，从而避免昂贵的类型转换。通常不建议使用该扩展，而应优先使用基于
-`K` 类型的成员函数模板。 +
+包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate`
+的模板化重载是非标准扩展，允许用户使用兼容的哈希函数和相等性谓词来处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应改用基于
+`K` 的成员函数模板。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
@@ -1590,18 +1589,18 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 '''''
 
 [[unordered_multimap_count]]
-==== 统计
+==== count
 
 [source,highlight]
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type      count(const K& k) const;
+  size_type     极客 count(const K& k) const;
 ----
 
 [cols=",",]
 |===
-|返回： |返回键等价于 `k` 的元素数量。
+|返回： |键等价于 `k` 的元素数量。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
@@ -1612,7 +1611,7 @@ template<class K>
 '''''
 
 [[unordered_multimap_contains]]
-==== 存在性检验
+==== contains
 
 [source,highlight]
 ----
@@ -1623,7 +1622,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
@@ -1649,7 +1648,7 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回包含所有键等价于 `k`
-的元素的区间。如果容器不包含任何此类元素，则返回
+的元素的范围。若容器中不存在此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`

@@ -893,7 +893,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回该容器可能包含的最大值 `size()`。
+|返回： |返回该容器可能容纳的最大值 `size()`。
 |===
 
 '''''

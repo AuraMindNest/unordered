@@ -1238,7 +1238,7 @@ node_type extract(const_iterator position);
 
 [cols=",",]
 |===
-|返回值： |返回拥有该元素的 `node_type`节点对象。
+|返回值： |返回一个拥有该元素的 `node_type`对象。
 
 |备注： |在 C++17 标准中，通过此方法提取的节点可被插入到兼容的
 `unordered_multiset` 中，但该特性暂未获得支持。
@@ -1259,8 +1259,8 @@ template<class K> node_type extract(K&& k);
 
 [width="100%",cols="50%,50%",]
 |===
-|返回值： |如果找到，则返回拥有该元素的 `node_type`对象；否则返回空的
-`node_type`对象。
+|返回值： |如果找到，则返回一个拥有该元素的 `node_type`
+对象；否则返回一个空的 `node_type` 对象。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
@@ -1296,17 +1296,15 @@ insert_return_type insert(node_type&& nh);
 需与容器的分配器相等。
 
 |返回值： a|
-若 `nh` 为空节点，则返回一个 `insert_return_type`
-对象，该类对象满足：`inserted` 为 `false`，`position` 等于 `end()`，且
-`node` 为空。 +
+如果 `nh` 为空，则返回一个 `insert_return_type`，其中：`inserted` 等于
+`false`，`position` 等于 `end()`，且 `node` 为空。 +
 
-否则，若容器中已存在等价键的元素，则返回一个
-`insert_return_type`对象，该类对象满足：`inserted` 为
-`false`，`position` 指向匹配的现有元素，且 `node` 包含来自 `nh`
-的节点。 +
+否则，如果已存在具有等价键的元素，则返回一个
+`insert_return_type`，其中：`inserted` 等于 `false`，`position`
+指向匹配的元素，且 `node` 包含来自 `nh` 的节点。 +
 
-否则，如果插入成功，则返回一个
-`insert_return_type`对象，该类对象满足：`inserted` 为 `true`，`position`
+否则，如果插入操作成功，则返回一个
+`insert_return_type`，其中：`inserted` 等于 `true`，`position`
 指向新插入的元素，且 `node` 为空。
 
 |抛出： |若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
@@ -1335,7 +1333,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 
 否则，当且仅当容器中不存在等价键的元素时，才会插入 `nh` 所拥有的元素。
 
-如果容器中已存在等价键的元素，则对 `nh` 不产生任何影响（即 `nh`
+如果容器中已存在具有等价键的元素，则对 `nh` 不产生任何影响（即 `nh`
 仍持有该节点）。
 
 `hint` 是插入元素位置的建议。
@@ -1346,9 +1344,9 @@ iterator insert(const_iterator hint, node_type&& nh);
 需与容器的分配器相等。
 
 |返回值： a|
-如果 `nh` 为空节点，则返回 `end()`。 +
+如果 `nh` 为空，则返回 `end()`。 +
 
-如果容器中已存在等价键的元素，则返回指向该元素的迭代器。 +
+若容器中已存在具有等效键的元素，则返回指向该元素的迭代器。 +
 
 否则，返回指向新插入元素的迭代器。
 
@@ -1380,12 +1378,12 @@ iterator erase(const_iterator position);
 
 [cols=",",]
 |===
-|返回值： |返回擦除操作前位于 `position` 之后的迭代器。
+|返回值： |擦除操作前紧接在 `position` 之后的迭代器。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
 |备注：
-|在旧版本中此操作可能效率较低，因为需要遍历多个桶来定位返回迭代器的位置。但是数据结构现已优化，该问题已得到解决，因此原有的替代擦除方法已被弃用。
+|在旧版本中，此操作可能效率较低，因为需要遍历多个桶来定位返回迭代器的位置。但数据结构现已优化，不再存在此问题，因此其他擦除方法已被弃用。
 |===
 
 '''''
@@ -1403,7 +1401,7 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回值： |返回被擦除的元素数量。
+|返回值： |被擦除的元素数量。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
@@ -1424,7 +1422,7 @@ template<class K> size_type erase(K&& k);
 iterator erase(const_iterator first, const_iterator last);
 ----
 
-擦除从 `first` 到 `last` 范围内的元素。
+擦除从 `first` 到 `last` 范围内（包含 `first`，不包含 `last`）的元素。
 
 [width="100%",cols="50%,50%",]
 |===

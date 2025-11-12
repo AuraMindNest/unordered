@@ -1756,7 +1756,7 @@ size_type max_bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回值： |桶数量的上限值。
+|返回值： |桶数量的上限。
 |===
 
 '''''
@@ -1772,13 +1772,13 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n < bucket_count()`
-|返回值： |返回桶 `n` 中的元素数量。
+|返回值： |桶 `n` 中的元素数量。
 |===
 
 '''''
 
 [[unordered_set_bucket]]
-==== bucket
+==== 桶
 
 [source,highlight]
 ----
@@ -1788,9 +1788,9 @@ template<class K> size_type bucket(const K& k) const;
 
 [cols=",",]
 |===
-|返回值： |返回键为 `k` 的元素的桶的索引。
+|返回值： |返回键为 `k` 的元素所在桶的索引。
 
-|后置条件： |返回值小于 `bucket_count()`。
+|后置条件： |返回值应小于 `bucket_count()`。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1813,7 +1813,7 @@ const_local_iterator begin(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
-|返回值： |指向索引为 `n` 的桶中第一个元素的局部迭代器。
+|返回值： |返回指向索引为 `n` 的桶中第一个元素的局部迭代器。
 |===
 
 '''''
@@ -1830,7 +1830,7 @@ const_local_iterator end(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
-|返回值： |返回指向索引为 `n` 的桶中“尾后”元素的局部迭代器。
+|返回值： |返回指向索引为 `n` 的桶中“末尾之后”元素的局部迭代器。
 |===
 
 '''''
@@ -1862,7 +1862,7 @@ const_local_iterator cend(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n` 的取值范围应为 `[0, bucket_count())` 。
-|返回值： |返回指向索引为 `n` 的桶中“尾后”元素的常量局部迭代器。
+|返回值： |返回指向索引为 `n` 的桶中“末尾之后”元素的常量局部迭代器。
 |===
 
 '''''
@@ -1871,7 +1871,7 @@ const_local_iterator cend(size_type n) const;
 === 哈希策略
 
 [[unordered_set_load_factor]]
-==== 负载因子
+==== load_factor
 
 [source,highlight]
 ----
@@ -1910,24 +1910,24 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |使用 `z` 作为提示值来更改容器的最大负载因子。
+|效果： |使用 `z` 作为提示来更改容器的最大负载因子。
 |===
 
 '''''
 
 [[unordered_set_rehash]]
-==== 重哈希操作
+==== 重哈希
 
 [source,highlight]
 ----
 void rehash(size_type n);
 ----
 
-调整桶的数量，使其至少为 `n`
-个，并确保负载因子小于或等于最大负载因子。该操作会根据实际情况扩容或缩容容器关联的
+改变桶的数量，使其至少为 `n`
+个，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器关联的
 `bucket_count()`。
 
-当 `size() == 0` 时，执行`rehash(0)` 将释放底层桶数组的内存。
+当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 
@@ -1940,15 +1940,15 @@ void rehash(size_type n);
 '''''
 
 [[unordered_set_reserve]]
-==== 容量预留
+==== reserve
 
 [source,highlight]
 ----
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`，或当 `n > 0` 且
-`a.max_load_factor() == std::numeric_limits<float>::infinity()` 时等价于
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`，或者若 `n > 0` 且
+`a.max_load_factor() == std::numeric_limits<float>::infinity()`，则等价于
 `a.rehash(1)`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
@@ -1964,22 +1964,22 @@ void reserve(size_type n);
 [[unordered_set_deduction_guides]]
 === 推导指引
 
-若以下任一条件成立，则推导指引将不参与重载决议：
+如果以下任何一项为真，则推导指引将不参与重载决议：
 
-* 当推导指引包含 `InputIterator`
-模板参数，且为该参数推导出的类型不符合输入迭代器要求时。
-* 当推导指引包含 `Allocator`
-模板参数，且为该参数推导出的类型不符合分配器要求时。
-* 当推导指引包含 `Allocator`
-模板参数，且为该参数推导出的是整数类型或符合分配器要求的类型时。
-* 当推导指引包含 `Pred`
-模板参数，且为该参数推导出的是符合分配器要求的类型时。
+* 该推导指引包含 `InputIterator`
+模板参数，但为此参数推导出的类型不符合输入迭代器的要求。
+* 该推导指引包含 `Allocator`
+模板参数，且为该参数推导出的类型不符合分配器要求。
+* 该推导指引包含 `Hash`
+模板参数，且为该参数推导出的是整数类型或符合分配器要求的类型。
+* 该推导指引包含 `Pred`
+模板参数，且为该参数推导出的是符合分配器要求的类型。
 
 推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
 `size_type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_set_iter_value_type]]
-==== _迭代器值类型_
+==== _iter-value-type_
 
 ....
 template<class InputIterator>
@@ -2001,8 +2001,8 @@ template<class Key, class Hash, class Pred, class Alloc>
 ----
 
 如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
-中均存在一个具有相同键和相等值（使用 `operator==`
-比较值类型）的元素，则返回 `true`。
+中均存在一个具有相同键且值相等的元素（使用 `operator==`
+比较值类型），则返回 `true`。
 
 [cols=",",]
 |===
@@ -2021,9 +2021,9 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const unordered_set<Key, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() != y.size()`，或存在 `x` 中的某个元素，在 `y`
-中不存在具有相同键和相等值（使用 `operator==`
-比较值类型）的对应元素，则返回 `false`。
+如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
+中均存在一个具有相同键且值相等的元素（使用 `operator==`
+比较值类型），则返回 `false`。
 
 [cols=",",]
 |===
@@ -2072,7 +2072,7 @@ template<class K, class H, class P, class A, class Predicate>
     erase_if(unordered_set<K, H, P, A>& c, Predicate pred);
 ----
 
-遍历容器 `c` 并移除所有满足谓词条件（`pred` 返回 `true`） 的元素。
+遍历容器 `c` 并删除所有使提供的谓词返回 `true` 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -2129,9 +2129,10 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求，且`x.key_equal()`
 在功能上需等价于 `other.key_equal()`。
 
-|备注： |如果归档是由 Boost 1.84 之前的版本保存的，则必须全局定义配置宏
+|备注： |若归档文件是使用 Boost 1.84
+之前的版本保存的，则必须全局定义配置宏
 `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
-才能成功执行此操作；否则，将抛出异常。
+才能成功执行此操作；否则将抛出异常。
 |===
 
 '''''
@@ -2139,8 +2140,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_set_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将迭代器（常量迭代器）`it` 的位置信息保存到归档（XML 归档）`ar` 中。`it`
-可以是 `end()` 迭代器。
+将`iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
+归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
@@ -2153,8 +2154,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_set_loading_an_iteratorconst_iterator_from_an_archive]]
 ==== 从归档加载迭代器/常量迭代器
 
-使迭代器 `iterator`（`const_iterator`）`it` 指向原始迭代器 `iterator`
-(`const_iterator`) 所恢复的位置，该原始迭代器已被保存到由归档（XML
+使 `iterator`（`const_iterator`）`it` 指向原始
+`iterator`（`const_iterator`）的位置。该原始迭代器已被保存到由归档（XML
 归档）`ar` 读取的存储中。
 
 [cols=",",]

@@ -1747,7 +1747,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[concurrent_flat_set_hash_function]]
-==== 哈希函数
+==== hash_function
 
 [source,highlight]
 ----
@@ -1780,13 +1780,13 @@ key_equal key_eq() const;
 === 集合操作
 
 [[concurrent_flat_set_count]]
-==== 统计
+==== count
 
 [source,highlight]
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type      count(const K& k) const;
+  size_type     极客 count(const K& k) const;
 ----
 
 [width="100%",cols="50%,50%",]
@@ -1808,7 +1808,7 @@ template<class K>
 '''''
 
 [[concurrent_flat_set_contains]]
-==== 存在性检验
+==== contains
 
 [source,highlight]
 ----

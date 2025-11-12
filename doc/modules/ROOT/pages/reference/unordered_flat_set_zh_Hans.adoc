@@ -1182,7 +1182,7 @@ convertible-to-iterator erase(const_iterator position);
 '''''
 
 [[unordered_flat_set_erase_by_key]]
-==== 按键擦除
+==== 通过键擦除
 
 [source,highlight]
 ----
@@ -1194,7 +1194,7 @@ template<class K> size_type erase(K&& k);
 
 [cols=",",]
 |===
-|返回： |返回被擦除的元素数量。
+|返回： |被擦除的元素数量。
 
 |抛出： |仅当异常由 `hasher` 或 `key_equal` 抛出时，本函数才会抛出异常。
 
@@ -1215,7 +1215,7 @@ template<class K> size_type erase(K&& k);
 iterator erase(const_iterator first, const_iterator last);
 ----
 
-擦除从 `first` 到 `last` 范围内的元素。
+擦除从 `first` 到 `last` 范围内（包含 `first`，不包含 `last`）的元素。
 
 [cols=",",]
 |===

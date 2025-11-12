@@ -1317,7 +1317,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[unordered_flat_set_hash_function]]
-==== 哈希函数
+==== hash_function
 
 [source,highlight]
 ----
@@ -1341,7 +1341,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |容器的键相等性谓词。
+|返回： |容器的键相等性谓词
 |===
 
 '''''
@@ -1375,18 +1375,18 @@ template<class K>
 '''''
 
 [[unordered_flat_set_count]]
-==== 统计
+==== count
 
 [source,highlight]
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type      count(const K& k) const;
+  size_type     极客 count(const K& k) const;
 ----
 
 [cols=",",]
 |===
-|返回： |返回键等价于 `k` 的元素数量。
+|返回： |键等价于 `k` 的元素数量。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1398,7 +1398,7 @@ template<class K>
 '''''
 
 [[unordered_flat_set_contains]]
-==== 存在性检验
+==== contains
 
 [source,highlight]
 ----
@@ -1409,7 +1409,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1436,7 +1436,7 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回包含所有键等价于 `k`
-的元素的区间。如果容器不包含任何此类元素，则返回
+的元素的范围。若容器中不存在此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`

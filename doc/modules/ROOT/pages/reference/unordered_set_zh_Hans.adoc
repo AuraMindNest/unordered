@@ -248,7 +248,7 @@ namespace unordered {
 |===
 |_键_ |`Key`
 需满足从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即
-`allocator_traits` 能够销毁它）。
+`allocator_traits` 能够销毁该对象）。
 
 |_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
 类型的参数，并返回 `std::size_t` 类型的值。
@@ -263,7 +263,7 @@ namespace unordered {
 
 元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
-桶的数量可通过调用 insert 操作自动增加，也可通过调用 rehash 操作来调整。
+桶的数量可通过调用插入操作自动增加，也可通过调用重哈希操作来调整。
 
 [[unordered_set_configuration_macros]]
 === 配置宏

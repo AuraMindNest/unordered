@@ -435,7 +435,7 @@ unordered_multimap(const unordered_multimap& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 可复制构造
+|要求： |`value_type` 需满足可复制构造要求。
 |===
 
 '''''
@@ -474,7 +474,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -564,7 +564,7 @@ unordered_multimap(size_type n, const allocator_type& a);
 |后置条件： |`size() == 0`
 
 |要求： |`hasher` 和 `key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -586,7 +586,7 @@ unordered_multimap(size_type n, const hasher& hf, const allocator_type& a);
 |后置条件： |`size() == 0`
 
 |要求： |`key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -607,7 +607,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -629,7 +629,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -648,7 +648,7 @@ unordered_multimap(std::initializer_list<value_type> il, const allocator_type& a
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -667,7 +667,7 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const allo
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -687,7 +687,7 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const hash
 [cols=",",]
 |===
 |要求： |`key_equal`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -726,7 +726,7 @@ unordered_multimap& operator=(const unordered_multimap& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 可复制构造
+|要求： |`value_type` 需满足可复制构造要求。
 |===
 
 '''''
@@ -786,7 +786,7 @@ const_iterator begin() const noexcept;
 [cols=",",]
 |===
 |返回：
-|返回一个指向容器首元素的迭代器；若容器为空，则返回容器的结束迭代器。
+|返回一个指向容器第一个元素的迭代器；若容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -817,7 +817,7 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器首元素的
+|返回： |返回一个指向容器第一个元素的
 `const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
 |===
 

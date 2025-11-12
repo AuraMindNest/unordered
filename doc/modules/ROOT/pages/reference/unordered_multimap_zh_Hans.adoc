@@ -4,8 +4,8 @@
 [[unordered_multimap]]
 == 类模板 unordered_multimap
 
-`boost::unordered_multimap` —
-一种无序关联容器，它将键与另一个值关联。同一个键可以存储多次。
+`boost::unordered_multimap` ——
+一种无序关联容器，用于将键与另一个值相关联。同一键可被存储多次。
 
 [[unordered_multimap_synopsis]]
 === 概要
@@ -257,11 +257,11 @@ namespace unordered {
 |===
 |_键_ |`Key`
 需满足从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即
-`allocator_traits` 能够销毁它）。
+`allocator_traits` 能够销毁该对象）。
 
 |_T_ |`T`
 需满足从容器https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]
-的要求（即 `allocator_traits` 能够销毁它）。
+的要求（即 `allocator_traits` 能够销毁该对象）。
 
 |_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
 类型的参数，并返回 `std::size_t` 类型的值。
@@ -276,7 +276,7 @@ namespace unordered {
 
 元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
-桶的数量可通过调用 insert 操作自动增加，也可通过调用 rehash 操作来调整。
+桶的数量可通过调用插入操作自动增加，也可通过调用重哈希操作来调整。
 
 [[unordered_multimap_configuration_macros]]
 === 配置宏
@@ -285,7 +285,7 @@ namespace unordered {
 ==== `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
 
 全局定义此宏以支持加载在 Boost 1.84 之前版本中保存到 Boost.Serialization
-存档的 `unordered_multimap`。
+归档的 `unordered_multimap`。
 
 [[unordered_multimap_typedefs]]
 === 类型定义
@@ -365,8 +365,8 @@ unordered_multimap();
 |===
 |后置条件： |`size() == 0`
 
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -389,8 +389,8 @@ explicit unordered_multimap(size_type n,
 |===
 |后置条件： |`size() == 0`
 
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -414,8 +414,8 @@ unordered_multimap(InputIterator f, InputIterator l,
 
 [cols=",",]
 |===
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -541,8 +541,8 @@ unordered_multimap(std::initializer_list<value_type> il,
 
 [cols=",",]
 |===
-|要求： |如果使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需要满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''

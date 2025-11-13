@@ -1786,7 +1786,7 @@ key_equal key_eq() const;
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type     极客 count(const K& k) const;
+  size_type      count(const K& k) const;
 ----
 
 [width="100%",cols="50%,50%",]
@@ -1808,7 +1808,7 @@ template<class K>
 '''''
 
 [[concurrent_flat_set_contains]]
-==== contains
+==== 包含
 
 [source,highlight]
 ----

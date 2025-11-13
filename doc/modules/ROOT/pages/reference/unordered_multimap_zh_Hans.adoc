@@ -2132,8 +2132,8 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 
 [cols=",",]
 |===
-|要求： |如果 `x` 是 `it` 指向的 `unordered_multimap`，则在加载 `x`
-和加载 `it` 之间未对 `x` 发出修改操作。
+|要求： |如果 `x` 是 `it` 所指向的 `unordered_multimap`容器，则在加载
+`x` 与加载 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 [[footer]]

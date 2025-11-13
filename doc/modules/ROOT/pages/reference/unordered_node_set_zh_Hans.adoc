@@ -1691,7 +1691,7 @@ void rehash(size_type n);
 '''''
 
 [[unordered_node_set_reserve]]
-==== reserve
+==== 保留
 
 [source,highlight]
 ----
@@ -1757,7 +1757,7 @@ void reset_stats() noexcept;
 如果以下任何一项为真，则推导指引将不参与重载决议：
 
 * 该推导指引包含 `InputIterator`
-模板参数，但为此参数推导出的类型不符合输入迭代器的要求。
+模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
 * 该推导指引包含 `Allocator`
 模板参数，且为该参数推导出的类型不符合分配器要求。
 * 该推导指引包含 `Hash`
@@ -1831,7 +1831,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
     noexcept(noexcept(x.swap(y)));
 ----
 
-交换 `x` 和 `y` 的内容。
+交换 `x` 与 `y` 的内容。
 
 如果声明了 `Allocator::propagate_on_container_swap` 且
 `Allocator::propagate_on_container_swap::value` 为
@@ -1855,11 +1855,11 @@ template<class K, class T, class H, class P, class A, class Predicate>
     erase_if(unordered_node_set<K, T, H, P, A>& c, Predicate pred);
 ----
 
-遍历容器 `c` 并删除所有使提供的谓词返回 `true` 的元素。
+遍历容器 `c` ，并删除所有使提供的谓词返回 `true` 的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |被擦除的元素数量。
+|返回： |返回被擦除的元素数量。
 |注意： a|
 等价于： +
 
@@ -1933,7 +1933,7 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 ==== 从归档加载迭代器/常量迭代器
 
 使 `iterator`（`const_iterator`）`it` 指向原始
-`iterator`（`const_iterator`）的位置。该原始迭代器已被保存到由归档（XML
+`iterator`（`const_iterator`）所恢复的位置。该原始迭代器已被保存到由归档（XML
 归档）`ar` 读取的存储中。
 
 [cols=",",]

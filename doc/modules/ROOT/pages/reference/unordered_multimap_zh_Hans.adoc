@@ -276,7 +276,7 @@ namespace unordered {
 
 元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
-桶的数量可通过调用插入操作自动增加，也可通过调用重哈希操作来调整。
+桶的数量可通过调用插入操作来自动增加，也可通过调用重哈希操作来调整。
 
 [[unordered_multimap_configuration_macros]]
 === 配置宏
@@ -2138,4 +2138,4 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:41:46 UTC
+最后更新于 2025年 10月 31日 21:41:46 UTC

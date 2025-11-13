@@ -1392,7 +1392,7 @@ void quick_erase(const_iterator position);
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
 |备注：
-|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器已重新设计，不再如此。因此该方法现已弃用。
+|此方法的实现初衷是因为从擦除操作返回下一个元素的迭代器代价高昂。随着容器结构的重新设计，该问题已得到解决，因此该方法现已弃用。
 |===
 
 '''''
@@ -1415,7 +1415,7 @@ void erase_return_void(const_iterator position);
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
 |备注：
-|此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器已重新设计，不再如此。因此该方法现已弃用。
+|此方法的实现初衷是因为从擦除操作返回下一个元素的迭代器代价高昂。随着容器结构的重新设计，该问题已得到解决，因此该方法现已弃用。
 |===
 
 '''''
@@ -1433,17 +1433,17 @@ void swap(unordered_multimap& other)
 
 交换容器与参数的内容。
 
-如果声明了 `Allocator::propagate_on_container_swap` 且
+如果 `Allocator::propagate_on_container_swap` 已声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不等的分配器交换会导致未定义行为。
+`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非由 `key_equal` 或 `hasher`
-的复制构造函数或复制赋值运算符抛出异常，否则不会抛出异常。
+|抛出： |除非异常由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出，否则不会抛出异常。
 
 |备注： |异常规范与 C++11
-标准不完全相同，因为相等谓词和哈希函数是使用其复制构造函数交换的。
+标准不完全相同，因为相等性谓词和哈希函数是使用其复制构造函数交换的。
 |===
 
 '''''
@@ -1461,7 +1461,7 @@ void clear() noexcept;
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-|抛出： |从不抛出异常。
+|抛出： |从不抛出任何异常。
 |===
 
 '''''
@@ -1481,8 +1481,8 @@ template<class H2, class P2>
   void merge(unordered_map<Key, T, H2, P2, Allocator>&& source);
 ----
 
-尝试通过迭代 `source` 并提取 `source` 中的所有节点，然后将它们插入
-`*this` 来“合并”两个容器。
+通过遍历 `source` 容器，提取其中所有节点并将其插入到 `*this`
+中，以此尝试将两个容器"合并"。
 
 由于 `source` 可以有不同的哈希函数和键相等性谓词，因此会使用
 `this->hash_function()` 操作对 `source`
@@ -1491,7 +1491,7 @@ template<class H2, class P2>
 如果
 `this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
 
-此函数不复制或移动任何元素，而是简单地将节点从 `source` 重新定位到
+此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新定位到
 `*this` 中。
 
 [width="100%",cols="50%,50%",]
@@ -1582,9 +1582,10 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 `K` 的成员函数模板。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 
 |===
 
@@ -1597,23 +1598,24 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type     极客 count(const K& k) const;
+  size_type      count(const K& k) const;
 ----
 
 [cols=",",]
 |===
-|返回： |键等价于 `k` 的元素数量。
+|返回： |返回键等价于 `k` 的元素数量。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
 
 [[unordered_multimap_contains]]
-==== contains
+==== 包含
 
 [source,highlight]
 ----
@@ -1624,12 +1626,13 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1654,9 +1657,10 @@ template<class K>
 `std::make_pair(b.end(), b.end())`。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -1705,7 +1709,7 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n < bucket_count()`
-|返回： |桶 `n` 中的元素数量。
+|返回： |返回桶 `n` 中的元素数量。
 |===
 
 '''''
@@ -1726,9 +1730,10 @@ template<class K> size_type bucket(const K& k) const;
 |后置条件： |返回值应小于 `bucket_count()`。
 
 |备注： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假设
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和 `Key`
+类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型的开销。
 |===
 
 '''''
@@ -2007,19 +2012,19 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 交换 `x` 和 `y` 的内容。
 
-如果声明了 `Allocator::propagate_on_container_swap` 且
+如果 `Allocator::propagate_on_container_swap` 已声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不等的分配器交换会导致未定义行为。
+`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
 |效果： |`x.swap(y)`
 
-|抛出： |除非由 `key_equal` 或 `hasher`
-的复制构造函数或复制赋值运算符抛出异常，否则不会抛出异常。
+|抛出： |除非异常由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出，否则不会抛出异常。
 
 |备注： |异常规范与 C++11
-标准不完全相同，因为相等谓词和哈希函数是使用其复制构造函数交换的。
+标准不完全相同，因为相等性谓词和哈希函数是使用其复制构造函数交换的。
 |===
 
 '''''

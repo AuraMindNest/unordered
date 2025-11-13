@@ -855,7 +855,7 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 
 [cols=",",]
 |===
-|返回： |访问的元素数量（0或1）。
+|返回： |被访问的元素数量（0或1）。
 
 |注意：
 |仅当`Hash::is_transparent`和`Pred::is_transparent`均为有效的成员类型别名时，`template<class K, class F>`重载才会参与重载决议。标准库假设`Hash`可同时被`K`和`Key`

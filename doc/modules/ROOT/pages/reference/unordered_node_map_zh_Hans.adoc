@@ -892,7 +892,7 @@ const_iterator cend() const noexcept;
 === 大小与容量
 
 [[unordered_node_map_empty]]
-==== empty
+==== 空
 
 [source,highlight]
 ----
@@ -1035,8 +1035,8 @@ std::pair<iterator, bool> insert(const init_type& obj);
 |注意： a|
 可能使迭代器失效，但仅当插入导致负载因子超过最大负载时。 +
 
-对于 `insert(x)` 形式的调用（其中 `x` 可同等地转换为 `const value_type&`
-和 `const init_type&`）该调用不会产生歧义，并会选择 `init_type` 重载。
+对于 `insert(x)`
+形式的调用（其中`x`可同等地转换为`const value_type&`和`const init_type&`），该调用不会产生歧义，并选择`init_type`重载。
 
 |===
 
@@ -1068,8 +1068,8 @@ std::pair<iterator, bool> insert(init_type&& obj);
 |注意： a|
 可能使迭代器失效，但仅当插入导致负载因子超过最大负载时。 +
 
-对于 `insert(x)` 形式的调用（其中 `x` 可同等地转换为 `const value_type&`
-和 `const init_type&`）该调用不会产生歧义，并会选择 `init_type` 重载。
+对于 `insert(x)` 形式的调用（其中`x`可同等地转换为`const value_type&` 和
+`const init_type&`），不会产生歧义，并选择`init_type`重载。
 
 |===
 

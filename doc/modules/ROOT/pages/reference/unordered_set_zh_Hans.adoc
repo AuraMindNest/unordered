@@ -1378,7 +1378,7 @@ iterator erase(const_iterator position);
 
 [cols=",",]
 |===
-|返回值： |擦除操作前紧接在 `position` 之后的迭代器。
+|返回值： |返回擦除操作前紧接在 `position` 之后的迭代器。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 

@@ -364,16 +364,14 @@ namespace unordered {
 [[concurrent_flat_set_boost_unordered_disable_reentrancy_check]]
 ==== `BOOST_UNORDERED_DISABLE_REENTRANCY_CHECK`
 
-在调试构建版本中（更准确地说，当link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]未定义时），系统会检测__容器重入__行为（即在访问容器
-`m` 元素的函数内部非法调用 `m` 的操作），并通过 `BOOST_ASSERT_MSG`
-发出信号。若运行时速度是关键，可通过全局定义此宏禁用该功能。
+在调试版本中（更准确地说，当link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]未定义时），会检测__容器重入__（即在访问`m`元素的函数内部非法调用`m`的操作），并通过`BOOST_ASSERT_MSG`发出信号。若需关注运行时速度，可通过全局定义此宏来禁用该功能。
 
 '''''
 
 [[concurrent_flat_set_boost_unordered_enable_stats]]
 ==== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏可为容器启用link:reference/stats.html#stats[统计计算]功能。请注意，此选项会降低多项操作的总体性能。
+全局定义此宏以启用表的link:reference/stats.html#stats[统计计算]功能。请注意，此选项会降低许多操作的总体性能。
 
 '''''
 
@@ -398,8 +396,7 @@ static constexpr size_type bulk_visit_size;
 concurrent_flat_set();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键相等性谓词、`allocator_type()` 作为分配器。
+构造一个空容器，使用`hasher()`作为哈希函数、`key_equal()`作为键相等性谓词、`allocator_type()`作为分配器。
 
 [cols=",",]
 |===
@@ -422,8 +419,7 @@ explicit concurrent_flat_set(size_type n,
                              const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器。
+构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`eql`作为键相等性谓词、以及`a`作为分配器。
 
 [cols=",",]
 |===
@@ -448,8 +444,7 @@ template<class InputIterator>
                       const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，以 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
+构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`eql`作为键相等性谓词、以及`a`作为分配器，并将`[f, l)`中的元素插入其中。
 
 [cols=",",]
 |===
@@ -467,14 +462,14 @@ template<class InputIterator>
 concurrent_flat_set(concurrent_flat_set const& other);
 ----
 
-复制构造函数。该函数会复制容器内的元素、哈希函数、谓词以及分配器。
+复制构造函数。复制所包含的元素、哈希函数、谓词和分配器。
 
 如果 `Allocator::select_on_container_copy_construction`
 存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须满足可复制构造要求。
+|要求： |`value_type`必须满足可复制构造要求。
 |并发性： |阻塞于 `other`。
 |===
 
@@ -511,7 +506,7 @@ template<class InputIterator>
 ----
 
 构造一个空容器，使用 `a`
-作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
+作为分配器以及默认的哈希函数和键相等性谓词，并将区间 `[f, l)`
 中的元素插入其中。
 
 [cols=",",]
@@ -530,7 +525,7 @@ template<class InputIterator>
 explicit concurrent_flat_set(Allocator const& a);
 ----
 
-使用分配器 `a` 构造一个空容器。
+使用分配器`a`构造一个空容器。
 
 '''''
 
@@ -543,7 +538,7 @@ concurrent_flat_set(concurrent_flat_set const& other, Allocator const& a);
 ----
 
 构造一个容器，复制 `other`
-中的的元素、哈希函数及相等性谓词，但使用分配器 `a`。
+中的元素、哈希函数及键相等性谓词，但使用分配器 `a`。
 
 [cols=",",]
 |===

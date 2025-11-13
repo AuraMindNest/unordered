@@ -850,7 +850,7 @@ const_iterator cend() const noexcept;
 === 大小与容量
 
 [[unordered_node_set_empty]]
-==== empty
+==== 空
 
 [source,highlight]
 ----

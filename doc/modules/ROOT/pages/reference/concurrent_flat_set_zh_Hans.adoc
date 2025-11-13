@@ -292,45 +292,40 @@ namespace unordered {
 类型的参数，并返回 `std::size_t` 类型的值。
 
 |_谓词_ |一种二元函数对象，用于在 `Key`
-类型的值上建立等价关系。该函数对象接受两个 `Key` 类型的参数，并返回
-`bool` 类型的值。
+类型的值上建立等价关系。它接受两个类型为`Key`的参数，并返回一个类型为`bool`的值。
 
-|_分配器_
+|_Allocator_
 |一种值类型与容器的值类型相同的分配器。`std::allocator_traits<Allocator>::pointer`
 和 `std::allocator_traits<Allocator>::const_pointer` 必须可分别转换为
 `value_type*` 和 `const value_type*`。
 |===
 
-表的元素存储在内部的__桶数组__中。元素根据其哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则使用原始位置附近的可用桶。
+容器的元素存储在内部的__桶数组__中。元素根据其哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则会使用原始位置附近可用的桶。
 
-桶数组的大小可通过调用 `insert`/`emplace` 自动增加，或通过调用
+桶数组的大小可通过调用 `insert`/`emplace`操作来自动增加，也可通过调用
 `rehash`/`reserve`
-进行调整。容器的__负载因子__（元素数量与桶数量的比值）永远不会超过
-`max_load_factor()`，除非在元素数量较少时，实现可能允许更高的负载。
+操作来调整。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
+`max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
-若
-link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
-为
-`true`，则直接使用哈希函数；否则会添加位混合后处理阶段以提升哈希质量，但会牺牲额外的计算成本。
+如果link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`为`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会增加额外的计算成本。
 
 '''''
 
 [[concurrent_flat_set_concurrency_requirements_and_guarantees]]
 === 并发要求与保证
 
-要求在同一个 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()`
-时不会引发数据竞争。对于 `Alloc`（即 `Allocator`
-或其任何重绑定类型），要求在同一个 `Alloc` 实例 `al`
-上并发调用以下操作时不会引发数据竞争：
+要求在对同一个 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()`
+时不得引入数据竞争。对于 `Alloc`（即 `Allocator`
+或其重绑定后的任意分配器类型），在同一实例 `al`
+上并发调用以下操作时不得引入数据竞争：
 
-* 从 `al` 复制构造一个由 `Alloc` 重绑定的分配器
+* 从 `Alloc` 重绑定的分配器从 `al` 进行复制构造。
 * `std::allocator_traits<Alloc>::allocate`
 * `std::allocator_traits<Alloc>::deallocate`
 * `std::allocator_traits<Alloc>::construct`
 * `std::allocator_traits<Alloc>::destroy`
 
-通常，若 `Hash`、`Pred` 和 `Allocator`
-这些类型是无状态的，或者相关操作仅涉及对其内部数据成员的常量访问，则能满足这些要求。
+通常，如果`Hash`、`Pred`和`Allocator`这些类型是无状态的，或者操作仅涉及对内部数据成员的常量访问，即可满足上述要求。
 
 除析构操作外，对同一个 `concurrent_flat_set`
 实例并发调用任何操作都不会引发数据竞争——即这些操作是线程安全的。

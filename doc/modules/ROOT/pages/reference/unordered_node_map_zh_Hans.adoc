@@ -302,10 +302,9 @@ namespace unordered {
 类型的参数，并返回 `std::size_t` 类型的值。
 
 |_谓词_ |一种二元函数对象，用于在 `Key`
-类型的值上建立等价关系。该函数对象接受两个 `Key` 类型的参数，并返回
-`bool` 类型的值。
+类型的值上建立等价关系。它接受两个类型为`Key`的参数，并返回一个类型为`bool`的值。
 
-|_分配器_
+|_Allocator_
 |一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
@@ -316,10 +315,7 @@ namespace unordered {
 来增加。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
 `max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
-若
-link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
-为
-`true`，则直接使用哈希函数；否则会添加位混合后处理阶段以提升哈希质量，但会牺牲额外的计算成本。
+如果link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`为`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会增加额外的计算成本。
 
 '''''
 

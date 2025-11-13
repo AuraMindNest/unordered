@@ -5,7 +5,7 @@
 == 类模板 unordered_multiset
 
 `boost::unordered_multiset` ——
-一种存储值的无序关联容器。同一键值可被多次存储。
+一种用于存储值的无序关联容器。同一个键值可被多次存储。
 
 [[unordered_multiset_synopsis]]
 === 概要
@@ -261,9 +261,9 @@ namespace unordered {
 |一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
-元素被组织到桶中。具有相同哈希码的键存储在同一个桶中，等价键的元素相邻存储。
+元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内，且等效键的元素彼此相邻存储。
 
-桶的数量可通过调用插入操作自动增加，也可通过调用重哈希操作来调整。
+桶的数量可通过调用插入操作来自动增加，也可通过调用重哈希操作来调整。
 
 [[unordered_multiset_configuration_macros]]
 === 配置宏

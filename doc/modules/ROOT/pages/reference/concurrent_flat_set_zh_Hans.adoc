@@ -601,8 +601,7 @@ concurrent_flat_set(std::initializer_list<value_type> il,
                     const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将初始化列表 `il` 中的元素插入其中。
+构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`eql`作为键相等性谓词、`a`作为分配器，并将`il`中的元素插入其中。
 
 [cols=",",]
 |===
@@ -620,8 +619,7 @@ concurrent_flat_set(std::initializer_list<value_type> il,
 concurrent_flat_set(size_type n, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认哈希函数和键相等性谓词、以及`a` 作为分配器。
+构造一个至少包含`n`个桶的空容器、使用默认哈希函数和键相等性谓词、以及`a`作为分配器。
 
 [cols=",",]
 |===
@@ -641,8 +639,7 @@ concurrent_flat_set(size_type n, allocator_type const& a);
 concurrent_flat_set(size_type n, hasher const& hf, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认键相等性谓词、以及`a` 作为为分配器。
+构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、默认键相等性谓词、以及`a`作为分配器。
 
 [cols=",",]
 |===
@@ -663,9 +660,7 @@ template<class InputIterator>
   concurrent_flat_set(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
-中的元素插入其中。
+构造一个至少包含`n`个桶的空容器，使用`a`作为分配器、默认哈希函数和键相等性谓词，并将`[f, l)`中的元素插入其中。
 
 [cols=",",]
 |===
@@ -685,9 +680,7 @@ template<class InputIterator>
                           const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认键相等性谓词、以及`a` 作为为分配器，并将区间 `[f, l)`
-中的元素插入其中。
+构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`a`作为分配器、默认键相等性谓词，并将`[f, l)`中的元素插入其中。
 
 [cols=",",]
 |===
@@ -706,8 +699,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, const allocator_type& 
 ----
 
 构造一个空容器，使用 `a`
-作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
-中的元素插入其中。
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -725,9 +717,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, const allocator_type& 
 concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器、默认哈希函数和键相等性谓词，并将区间 `[f, l)`
-中的元素插入其中。
+构造一个至少包含`n`个桶的空容器，使用`a`和默认哈希函数及键相等性谓词，并将`il`中的元素插入其中。
 
 [cols=",",]
 |===
@@ -746,9 +736,7 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const has
                     const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认键相等性谓词、以及`a` 作为为分配器，并将区间 `[f, l)`
-中的元素插入其中。
+构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`a`作为分配器以及默认键相等性谓词，并将`il`中的元素插入其中。
 
 [cols=",",]
 |===
@@ -784,9 +772,9 @@ concurrent_flat_set(std::initializer_list<value_type> il, size_type n, const has
 concurrent_flat_set& operator=(concurrent_flat_set const& other);
 ----
 
-赋值运算符。该操作会销毁容器内先前存在的元素，并从 `other`
-复制赋值哈希函数和谓词，若
-`Alloc::propagate_on_container_copy_assignment` 存在且其
+赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
+复制赋值哈希函数与键相等性谓词。若
+`Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
 `other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 
@@ -835,7 +823,7 @@ concurrent_flat_set& operator=(concurrent_flat_set&& other)
 concurrent_flat_set& operator=(std::initializer_list<value_type> il);
 ----
 
-通过初始化列表中的值进行赋值，容器内所有现有元素均被销毁。
+将初始化列表中的值赋给容器，该操作会销毁所有已存在的元素。
 
 [cols=",",]
 |===
@@ -867,13 +855,12 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 
 [cols=",",]
 |===
-|返回： |返回被访问的元素数量（0 或 1）。
+|返回： |访问的元素数量（0或1）。
 
-|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K, class F>`
-重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
-类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
-类型的开销。
+|注意：
+|仅当`Hash::is_transparent`和`Pred::is_transparent`均为有效的成员类型别名时，`template<class K, class F>`重载才会参与重载决议。标准库假设`Hash`可同时被`K`和`Key`
+类型调用，且`Pred`为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -902,16 +889,17 @@ link:#concurrent_flat_set_constants[`bulk_visit_size`]
 
 [cols=",",]
 |===
-|要求： |`FwdIterator`
-需满足https://en.cppreference.com/w/cpp/named_req/ForwardIterator[前向迭代器]要求（C++11
-至 C++17标准），或满足
-https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward_iterator]规范（C++20
-及更高版本）。对于 `K` =
+|要求：
+|`FwdIterator`需满去https://en.cppreference.com/w/cpp/named_req/ForwardIterator[LegacyForwardIterator]要求（C++11
+到
+C++17），或符合https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward_iterator]（规范C++20
+及更高版本）。对于`K` =
 `std::iterator_traits<FwdIterator>::value_type`，需满足以下条件之一：`K`
-为 `key_type` 或 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名。对于后一种情况，标准库假设 `Hash` 可同时被 `K`
-和 `Key` 类型调用，且 `Pred`
-为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+与 `key_type` 类型相同，或 `Hash::is_transparent` 与
+`Pred::is_transparent`
+均为有效的成员类型别名。对于后一种情况，标准库假定 `Hash` 可同时被 `K`
+和 `Key` 调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化`Key` 类型对象所需的开销。
 
 |返回： |被访问的元素数量。
 |===

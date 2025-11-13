@@ -842,7 +842,7 @@ const_iterator cend() const noexcept;
 === 大小与容量
 
 [[unordered_multimap_empty]]
-==== empty
+==== 空
 
 [source,highlight]
 ----

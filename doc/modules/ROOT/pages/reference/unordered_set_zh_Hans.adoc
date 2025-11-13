@@ -1524,7 +1524,7 @@ void clear() noexcept;
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-|抛出： |从不抛出异常。
+|抛出： |从不抛出任何异常。
 |===
 
 '''''
@@ -1554,7 +1554,7 @@ template<class H2, class P2>
 如果
 `this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
 
-此函数不复制或移动任何元素，而是简单地将节点从 `source` 重新定位到
+此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新定位到
 `*this` 中。
 
 [width="100%",cols="50%,50%",]
@@ -1661,12 +1661,12 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 ----
 size_type        count(const key_type& k) const;
 template<class K>
-  size_type     极客 count(const K& k) const;
+  size_type      count(const K& k) const;
 ----
 
 [cols=",",]
 |===
-|返回值： |键等价于 `k` 的元素数量。
+|返回值： |返回键等价于 `k` 的元素数量。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1678,7 +1678,7 @@ template<class K>
 '''''
 
 [[unordered_set_contains]]
-==== contains
+==== 包含
 
 [source,highlight]
 ----
@@ -1689,7 +1689,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回值： |返回布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回值： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
 |备注： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1772,7 +1772,7 @@ size_type bucket_size(size_type n) const;
 [cols=",",]
 |===
 |要求： |`n < bucket_count()`
-|返回值： |桶 `n` 中的元素数量。
+|返回值： |返回桶 `n` 中的元素数量。
 |===
 
 '''''

@@ -257,7 +257,7 @@ namespace unordered {
 类型的值上建立等价关系。它接受两个类型为 `Key`
 的参数，并返回一个布尔类型的值。
 
-|_分配器_
+|_Allocator_
 |一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 

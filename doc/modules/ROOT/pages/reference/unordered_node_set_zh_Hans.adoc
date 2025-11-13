@@ -723,9 +723,9 @@ unordered_node_set(std::initializer_list<value_type> il, size_type n, const hash
 unordered_node_set& operator=(unordered_node_set const& other);
 ----
 
-赋值运算符。该操作会销毁容器内先前存在的元素，并从 `other`
-复制赋值哈希函数和谓词，若
-`Alloc::propagate_on_container_copy_assignment` 存在且其
+赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
+复制赋值哈希函数与键相等性谓词。若
+`Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
 `other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 
@@ -767,7 +767,7 @@ unordered_node_set& operator=(unordered_node_set&& other)
 unordered_node_set& operator=(std::initializer_list<value_type> il);
 ----
 
-通过初始化列表中的值进行赋值，容器内所有现有元素均被销毁。
+将初始化列表中的值赋给容器，该操作会销毁所有已存在的元素。
 
 [cols=",",]
 |===

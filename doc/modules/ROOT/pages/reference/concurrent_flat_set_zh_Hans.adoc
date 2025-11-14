@@ -1374,9 +1374,9 @@ template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> i
 [source,highlight]
 ----
 template<class... Args, class F1, class F2>
-  bool emplace_and_visit(Args&>... args, F1&& f1, F2&> f2);
+  bool emplace_and_visit(Args&&... args, F1&& f1, F2&& f2);
 template<class... Args, class F1, class F2>
-  bool emplace_and_cvisit(Args&>... args, F1&> f1, F2&> f2);
+  bool emplace_and_cvisit(Args&&... args, F1&& f1, F2&& f2);
 ----
 
 若容器中不存在等价键的元素，则插入由参数 `args`
@@ -1542,13 +1542,13 @@ size_type erase(const key_type& k);
 template<class K> size_type erase(const K& k);
 ----
 
-若存在键等价于 `k` 的元素，则将其擦除。
+若存在键等价于`k`的元素，则擦除该元素。
 
 [cols=",",]
 |===
 |返回： |插入的元素数量（0 或 1）。
 
-|抛出： |仅当异常由 `hasher` 或 `key_equal` 抛出时，本函数才会抛出异常。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1561,7 +1561,7 @@ template<class K> size_type erase(const K& k);
 '''''
 
 [[concurrent_flat_set_erase_if_by_key]]
-==== 按键 erase_if
+==== 按键条件擦除
 
 [source,highlight]
 ----
@@ -1569,7 +1569,7 @@ template<class F> size_type erase_if(const key_type& k, F f);
 template<class K, class F> size_type erase_if(const K& k, F f);
 ----
 
-若存在键等价于 `k` 的元素 `x` 且 `f(x)` 为 `true`，则擦除该元素。
+若存在键等价于 `k` 的元素 `x`，且 `f(x)`为`true`，则擦除该元素。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1578,14 +1578,14 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 |抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时，才会抛出异常。
 
 |注意： a|
-仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
+仅当`std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
 为 `false` 时，`template<class K, class F>` 重载才会参与重载决议。 +
 
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K, class F>`
-重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 与 `Key`
-类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
-类型的开销。
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 
 |===
 
@@ -1605,7 +1605,7 @@ template<class F> size_type erase_if(F f);
 [cols=",",]
 |===
 |返回： |被擦除的元素数量。
-|抛出： |仅当 `f` 抛出异常时，才会抛出异常。
+|抛出： |仅当`f`抛出异常时，才会抛出异常。
 |===
 
 '''''
@@ -1629,8 +1629,7 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&& policy
 |注意： a|
 仅在支持 C++17 并行算法的编译器中可用。 +
 
-仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
-为 `true` 时，此重载才会参与重载决议。 +
+仅当`std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`为`true`时，此重载才会参与重载决议。 +
 
 不允许使用无序执行策略。
 
@@ -1648,7 +1647,7 @@ void swap(concurrent_flat_set& other)
            boost::allocator_traits<Allocator>::propagate_on_container_swap::value);
 ----
 
-交换容器与参数对象的内容。
+交换容器与参数的内容。
 
 若 `Allocator::propagate_on_container_swap`已定义且
 `Allocator::propagate_on_container_swap::value` 为

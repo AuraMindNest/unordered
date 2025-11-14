@@ -1272,8 +1272,8 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`,
-`max_load() >= max_load_factor() * bucket_count()`
+|后置条件：
+|`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
 |===
 
 '''''
@@ -1289,8 +1289,8 @@ template<class H2, class P2>
   void merge(unordered_flat_set<Key, T, H2, P2, Allocator>&& source);
 ----
 
-将 `source` 中键尚未存在于 `*this`
-的所有元素移动插入当前容器，并将这些元素从 `source` 中元素。
+对 `source` 中所有键不在 `*this`
+中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 '''''
 
@@ -1457,7 +1457,7 @@ size_type bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回桶数组的大小。
+|返回： |桶数组的大小。
 |===
 
 '''''
@@ -1475,9 +1475,9 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回：
-|返回`static_cast<float>(size())/static_cast<float>(bucket_count())`的结果，若
-`bucket_count() == 0` 则返回 `0`。
+|返回： |返回
+`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
+`bucket_count() == 0`，则返回 `0`。
 |===
 
 '''''

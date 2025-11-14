@@ -1649,14 +1649,14 @@ void swap(concurrent_flat_set& other)
 
 交换容器与参数的内容。
 
-若 `Allocator::propagate_on_container_swap`已定义且
-`Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
+若 `Allocator::propagate_on_container_swap`
+已声明且`Allocator::propagate_on_container_swap::value` 为
+`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非交换操作导致 `key_equal` 或 `hasher`
-抛出异常，否则本操作不会抛出任何异常。
+|抛出： |除非 `key_equal` 或 `hasher`
+在交换时抛出异常，否则本操作不会抛出任何异常。
 
 |并发性： |阻塞于 `*this` 和 `other`。
 |===
@@ -1675,8 +1675,8 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`,
-`max_load() >= max_load_factor() * bucket_count()`
+|后置条件：
+|`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
 
 |并发性： |阻塞于 `*this`。
 |===
@@ -1694,8 +1694,8 @@ template<class H2, class P2>
   size_type merge(concurrent_flat_set<Key, H2, P2, Allocator>&& source);
 ----
 
-将 `source` 中键尚未存在于 `*this`
-的所有元素移动插入当前容器，并将这些元素从 `source` 中元素。
+对 `source` 中所有键不在 `*this`
+中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 [cols=",",]
 |===
@@ -1718,7 +1718,7 @@ allocator_type get_allocator() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回容器的分配器。
+|返回： |容器的分配器。
 |===
 
 '''''
@@ -1733,7 +1733,7 @@ hasher hash_function() const;
 
 [cols=",",]
 |===
-|返回： |返回容器的哈希函数。
+|返回： |容器的哈希函数。
 |===
 
 '''''
@@ -1748,7 +1748,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |返回容器的键相等性谓词。
+|返回： |容器的键相等性谓词。
 |===
 
 '''''
@@ -1768,7 +1768,7 @@ template<class K>
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |返回键等价于 `k` 的元素数量（0 或 1）。
+|返回： |返回键等价于`k`的元素数量（0或1）。
 
 |注意： a|
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
@@ -1796,7 +1796,7 @@ template<class K>
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |返回布尔值表示容器中是否存在键等于 `k` 的元素。
+|返回： |返回一个布尔值，表示容器中是否存在键等于 `k` 的元素。
 
 |注意： a|
 仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
@@ -1825,7 +1825,7 @@ size_type bucket_count() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回桶数组的大小。
+|返回： |桶数组的大小。
 |===
 
 '''''
@@ -1843,9 +1843,9 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回：
-|返回`static_cast<float>(size())/static_cast<float>(bucket_count())`的结果，若
-`bucket_count() == 0` 则返回 `0`。
+|返回： |返回
+`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
+`bucket_count() == 0`，则返回 `0`。
 |===
 
 '''''

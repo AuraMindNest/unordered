@@ -2,10 +2,10 @@
 
 [[content]]
 [[header_unordered_node_set]]
-== `<boost/unordered/unordered_node_set.hpp>` 概要
+=== `++<++boost/unordered/unordered++_++node++_++set.hpp++>++` 概要
 
 定义
-link:reference/unordered_node_set.html#unordered_node_set[`boost::unordered_node_set`]
+link:reference/unordered_node_set.html#unordered_node_set[`boost::unordered++_++node++_++set`]
 及其相关函数和别名模板。
 
 ....

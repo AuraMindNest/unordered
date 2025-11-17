@@ -2,10 +2,10 @@
 
 [[content]]
 [[header_unordered_node_map]]
-== `<boost/unordered/unordered_node_map.hpp>` 概要
+=== `++<++boost/unordered/unordered++_++node++_++map.hpp++>++` 概要
 
 定义
-link:reference/unordered_node_map.html#unordered_node_map[`boost::unordered_node_map`]
+link:reference/unordered_node_map.html#unordered_node_map[`boost::unordered++_++node++_++map`]
 及相关函数和别名模板。
 
 ....
@@ -54,4 +54,4 @@ using unordered::unordered_node_map;
 
 [[footer]]
 [[footer-text]]
-最后更新于2025-10-31 21:38:46 UTC
+最后更新于2025年 10月 31日 21:38:46 UTC

@@ -2,11 +2,11 @@
 
 [[content]]
 [[header_concurrent_flat_map]]
-== `<boost/unordered/concurrent_flat_map.hpp>` 概要
+=== `++<++boost/unordered/concurrent++_++flat++_++map.hpp++>++` 概要
 
 定义
-link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent_flat_map`]
-以及相关的函数和别名模板。
+link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent++_++flat++_++map`]
+以及相关的函数与别名模板。
 
 ....
 namespace boost {
@@ -54,4 +54,4 @@ using unordered::concurrent_flat_map;
 
 [[footer]]
 [[footer-text]]
-最后更新于2025-10-31 21:34:46 UTC
+最后更新于2025年 10月 31日 21:34:46 UTC

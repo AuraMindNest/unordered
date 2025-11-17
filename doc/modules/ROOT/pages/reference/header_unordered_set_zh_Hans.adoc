@@ -2,10 +2,10 @@
 
 [[content]]
 [[header_unordered_set]]
-== `<boost/unordered/unordered_set.hpp>` 概要
+=== `++<++boost/unordered/unordered++_++set.hpp++>++` 概要
 
 定义
-link:reference/unordered_set.html#unordered_set[`boost::unordered_set`]、link:reference/unordered_multiset.html#unordered_multiset[`boost::unordered_multiset`]
+link:reference/unordered_set.html#unordered_set[`boost::unordered++_++set`]、link:reference/unordered_multiset.html#unordered_multiset[`boost::unordered++_++multiset`]
 以及相关的函数和别名模板。
 
 ....
@@ -85,4 +85,4 @@ using unordered::unordered_multiset;
 
 [[footer]]
 [[footer-text]]
-最后更新于2025-10-31 21:39:49 UTC
+最后更新于2025年 10月 31日 21:39:49 UTC

@@ -13,7 +13,7 @@ https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感
 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]。
 
 [[compliance_deduction_guides]]
-=== 推导指南
+=== 推导指引
 
 https://en.cppreference.com/w/cpp/language/class_template_argument_deduction[类模板参数推导
 (CTAD)] 的推导指南仅在 C++17（或更高版本）编译器中可用。

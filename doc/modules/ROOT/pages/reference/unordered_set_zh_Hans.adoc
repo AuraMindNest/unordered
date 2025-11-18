@@ -483,8 +483,9 @@ template<class InputIterator>
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+|要求： |`hasher`、`key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -616,8 +617,9 @@ template<class InputIterator>
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+|要求： |`hasher`、`key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''

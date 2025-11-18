@@ -864,7 +864,7 @@ concurrent_node_set& operator=(concurrent_node_set const& other);
 
 赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
 复制赋值哈希函数与键相等性谓词。若
-`Alloc::propagate_on_container_copy_assignment` 存在且
+`Alloc::propagate_on_container_copy_assignment` 存在，且
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
 `other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 

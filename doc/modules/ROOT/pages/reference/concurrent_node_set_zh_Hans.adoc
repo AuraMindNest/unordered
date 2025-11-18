@@ -1095,8 +1095,9 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 
 不允许使用无序执行策略。 +
 
-并行化意味着执行不必然在 `f` 返回 `false` 时立即结束，因此 `f`
-可能继续被调用并返回 `false`。
+并行化意味着执行不一定会因 `f` 返回 `false`
+而立即结束，因此系统可能继续使用其他元素调用 `f`（即使其返回值同样为
+`false`）。
 
 |===
 
@@ -1106,7 +1107,7 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 === 大小与容量
 
 [[concurrent_node_set_empty]]
-==== empty（判空）
+==== 空
 
 [source,highlight]
 ----
@@ -1121,7 +1122,7 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 '''''
 
 [[concurrent_node_set_size]]
-==== size（大小）
+==== 大小
 
 [source,highlight]
 ----
@@ -1130,19 +1131,19 @@ size_type size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |表中的元素数量。
+|返回： |容器中的元素数量。
 |===
 
 [cols=",",]
 |===
 |注意：
-|在存在并发插入操作时，返回值可能无法准确反映执行后表的实际大小。
+|在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实大小。
 |===
 
 '''''
 
 [[concurrent_node_set_max_size]]
-==== max_size（最大大小）
+==== max_size
 
 [source,highlight]
 ----
@@ -1151,7 +1152,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |最大可能表的 `size()`。
+|返回： |返回该容器可能包含的最大元素数量`size()`。
 |===
 
 '''''
@@ -1160,19 +1161,20 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[concurrent_node_set_emplace]]
-==== emplace（原位构造）
+==== 原地构造
 
 [source,highlight]
 ----
 template<class... Args> bool emplace(Args&&... args);
 ----
 
-当且仅当表中不存在等价键的元素时，插入一个由参数 `args` 构造的对象。
+当且仅当容器中不存在具有等效键的元素时，插入一个由参数 `args`
+构造的对象。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可由 `args` 构造。
-|返回： |若插入发生，则为 `true`。
+|要求： |`value_type` 必须能够由 `args` 构造。
+|返回： |若插入操作发生，则返回 `true`。
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
 
@@ -1191,9 +1193,10 @@ bool insert(const value_type& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
-|返回： |若插入发生，则为 `true`。 +
+|返回： |若插入操作发生，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
@@ -1213,9 +1216,10 @@ bool insert(value_type&& obj);
 [cols=",",]
 |===
 |要求： |`value_type` 需满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
-|返回： |若插入发生，则为 `true`。
+|返回： |若插入操作发生，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
@@ -1230,22 +1234,23 @@ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
 template<class K> bool insert(K&& k);
 ----
 
-当且仅当容器中不存在等价键的元素时，插入由 `std::forward<K>(k)`
+当且仅当容器中不存在等价键的元素时，插入一个由 `std::forward<K>(k)`
 构造的元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 需从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]。
+|要求： |`value_type` 必须能够从 `k` 进行
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
-|返回： |若插入发生，则为 `true`。
+|返回： |若插入操作发生，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，此重载才参与重载决议。库假定 `Hash` 可同时用 `K`
-和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免实例化 `Key`
-类型的开销。
+均为有效的成员类型别名时，此重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1266,7 +1271,7 @@ template<class InputIterator> size_type insert(InputIterator first, InputIterato
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |===
 
 '''''
@@ -1287,7 +1292,7 @@ size_type insert(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |===
 
 '''''
@@ -1300,27 +1305,27 @@ size_type insert(std::initializer_list<value_type> il);
 insert_return_type insert(node_type&& nh);
 ----
 
-若 `nh` 非空，当且仅当表中不存在键等价于 `nh.value()`
-的元素时，插入关联元素。函数返回时 `nh` 为空。
+若 `nh` 非空，则当且仅当容器中不存在与 `nh.value()`
+等效的键时，插入其关联的元素。函数返回时 `nh` 为空。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-由 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
-* 若插入成功，则 `inserted` 为 true 且 `node` 为空。
-* 若插入失败，则 `inserted` 为 false 且 `node` 保留 `nh` 的原值。
+* 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
+* 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
-|抛出： |若由调用 `hasher` 以外的操作引发异常，则函数无任何效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 |并发性： |阻塞于 `*this` 的重哈希。
-|注意： |若 `nh` 非空且其分配器与容器分配器不相等，则行为未定义。
+|注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
 '''''
 
 [[concurrent_node_set_emplace_or_cvisit]]
-==== emplace_or_[c]visit（原位构造或[c]访问）
+==== emplace_or_[c]visit
 
 [source,highlight]
 ----
@@ -1328,13 +1333,13 @@ template<class... Args, class F> bool emplace_or_visit(Args&&... args, F&& f);
 template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 ----
 
-若表中无等价键的元素，则插入由参数 `args`
-构造的对象；否则以等价元素的常量引用调用 `f`。
+当容器中不存在具有等效键的元素时，插入一个由参数 `args`
+构造的对象；否则，使用指向等效元素的常量引用调用 `f`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可由 `args` 构造。
-|返回： |若插入发生，则为 `true`。
+|要求： |`value_type` 必须能够由 `args` 构造。
+|返回： |若插入操作发生，则返回 `true`。
 |并发性： |阻塞于 `*this` 的重哈希。
 |注意： |此接口仅为说明，因 C++ 不允许在可变参数包后声明参数 `f`。
 |===
@@ -1342,7 +1347,7 @@ template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 '''''
 
 [[concurrent_node_set_copy_insert_or_cvisit]]
-==== 复制 insert_or_[c]visit（复制插入或[c]访问）
+==== 复制 insert_or_[c]visit
 
 [source,highlight]
 ----
@@ -1350,15 +1355,16 @@ template<class F> bool insert_or_visit(const value_type& obj, F f);
 template<class F> bool insert_or_cvisit(const value_type& obj, F f);
 ----
 
-当且仅当表中无等价键的元素时插入 `obj`；否则以等价元素的常量引用调用
-`f`。
+当且仅当容器中不存在具有等效键的元素时，插入
+`obj`；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
-|返回： |若插入发生，则为 `true`。 +
+|返回： |若插入操作发生，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
@@ -1366,7 +1372,7 @@ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
 '''''
 
 [[concurrent_node_set_move_insert_or_cvisit]]
-==== 移动 insert_or_[c]visit（移动插入或[c]访问）
+==== 移动 insert_or_[c]visit
 
 [source,highlight]
 ----
@@ -1374,15 +1380,16 @@ template<class F> bool insert_or_visit(value_type&& obj, F f);
 template<class F> bool insert_or_cvisit(value_type&& obj, F f);
 ----
 
-当且仅当表中无等价键的元素时插入 `obj`；否则以等价元素的常量引用调用
-`f`。
+当且仅当容器中不存在具有等效键的元素时，插入
+`obj`；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
-|返回： |若插入发生，则为 `true`。 +
+|返回： |若插入操作发生，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
@@ -1390,7 +1397,7 @@ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
 '''''
 
 [[concurrent_node_set_transparent_insert_or_cvisit]]
-==== 透明 insert_or_[c]visit（透明插入或[c]访问）
+==== 透明 insert_or_[c]visit
 
 [source,highlight]
 ----
@@ -1398,22 +1405,23 @@ template<class K, class F> bool insert_or_visit(K&& k, F f);
 template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 ----
 
-当且仅当容器中无等价键的元素时，插入由 `std::forward<K>(k)`
-构造的元素；否则以等价元素的常量引用调用 `f`。
+当且仅当容器中不存在具有等效键的元素时，插入由 `std::forward<K>(k)`
+构造的元素；否则，使用指向等效元素的常量引用调用 `f`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 需从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]。
+|要求： |`value_type` 必须能够从 `k` 进行
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
-|返回： |若插入发生，则为 `true`。
+|返回： |若插入操作发生，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，这些重载才参与重载决议。库假定 `Hash` 可同时用
-`K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免实例化 `Key`
-类型的开销。
+均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1437,7 +1445,7 @@ template<class InputIterator,class F>
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |===
 
 '''''
@@ -1459,7 +1467,7 @@ template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> i
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |===
 
 '''''
@@ -1473,21 +1481,25 @@ template<class F> insert_return_type insert_or_visit(node_type&& nh, F f);
 template<class F> insert_return_type insert_or_cvisit(node_type&& nh, F f);
 ----
 
-若 `nh` 为空，则不执行任何操作。否则，当且仅当表中无键等价于
-`nh.value()` 的元素时，插入关联元素；否则以等价元素的常量引用调用 `f`。
+若 `nh` 为空，则不执行任何操作；否则，当且仅当容器中不存在与
+`nh.value()`
+等效的键时，插入其关联的元素；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-由 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
-* 若插入成功，则 `inserted` 为 true 且 `node` 为空。
-* 若插入失败，则 `inserted` 为 false 且 `node` 保留 `nh` 的原值。
+* 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
+* 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
-|抛出： |若由调用 `hasher` 或 `f` 以外的操作引发异常，则函数无任何效果。
+|抛出： |若异常由调用 `hasher` 或调用 `f`
+以外的操作抛出，则此函数不产生任何效果。
+
 |并发性： |阻塞于 `*this` 的重哈希。
-|注意： |若 `nh` 非空且其分配器与容器分配器不相等，则行为未定义。
+
+|注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
 '''''
@@ -1509,9 +1521,9 @@ template<class... Args, class F1, class F2>
 
 [cols=",",]
 |===
-|要求： |`value_type` 可由 `args` 构造。
+|要求： |`value_type` 必须能够由 `args` 构造。
 
-|返回： |若插入发生，则为 `true`。
+|返回： |若插入操作发生，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
@@ -1536,9 +1548,10 @@ template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
-|返回： |若插入发生，则为 `true`。 +
+|返回： |若插入操作发生，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
@@ -1560,9 +1573,10 @@ template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
-|返回： |若插入发生，则为 `true`。 +
+|返回： |若插入操作发生，则返回 `true`。 +
 
 |并发性： |阻塞于 `*this` 的重哈希。
 |===
@@ -1584,17 +1598,18 @@ template<class K, class F1, class F2> bool insert_and_cvisit(K&& k, F1 f1, F2 f2
 
 [cols=",",]
 |===
-|要求： |`value_type` 需从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[可原位构造]。
+|要求： |`value_type` 必须能够从 `k` 进行
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
-|返回： |若插入发生，则为 `true`。
+|返回： |若插入操作发生，则返回 `true`。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，这些重载才参与重载决议。库假定 `Hash` 可同时用
-`K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免实例化 `Key`
-类型的开销。
+均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1618,7 +1633,7 @@ template<class InputIterator,class F1, class F2>
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |===
 
 '''''
@@ -1642,7 +1657,7 @@ template<class F1, class F2>
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |===
 
 '''''
@@ -1665,18 +1680,18 @@ template<class F1, class F2>
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-由 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
-* 若插入成功，则 `inserted` 为 true 且 `node` 为空。
-* 若插入失败，则 `inserted` 为 false 且 `node` 保留 `nh` 的原值。
+* 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
+* 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
 |抛出： |若由调用 `hasher`、`f1` 或 `f2`
 以外的操作引发异常，则函数无任何效果。
 
 |并发性： |阻塞于 `*this` 的重哈希。
 
-|注意： |若 `nh` 非空且其分配器与容器分配器不相等，则行为未定义。
+|注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
 '''''
@@ -1891,7 +1906,7 @@ template<class H2, class P2>
 
 [cols=",",]
 |===
-|返回： |插入的元素数量。
+|返回： |被插入的元素数量。
 |并发性： |阻塞于 `*this` 和 `source`。
 |===
 

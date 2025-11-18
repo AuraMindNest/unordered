@@ -311,9 +311,9 @@ namespace unordered {
 
 容器的元素节点保存在内部的__桶数组__中。节点根据其元素的哈希码插入到对应的桶中，但如果该桶已被占用（发生__冲突__），则使用原始位置附近的可用桶。
 
-桶数组的大小可以通过调用 `insert`/`emplace` 自动增加，也可通过调用
+桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
-来增加。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
+来调整。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
 `max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
 若
@@ -329,7 +329,8 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 [[unordered_node_map_boost_unordered_enable_stats]]
 ==== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏以启用容器的link:reference/stats.html#stats[统计计算]功能。请注意，此选项会降低许多操作的总体性能。
+全局定义此宏以启用容器的 link:reference/stats.html#stats[统计计算]
+功能。请注意，此选项会降低许多操作的总体性能。
 
 '''''
 
@@ -403,8 +404,8 @@ struct insert_return_type // 名称仅用于说明
 unordered_node_map();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键相等性谓词、`allocator_type()` 作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
+作为键相等性谓词，`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
@@ -454,7 +455,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
@@ -535,8 +536,7 @@ explicit unordered_node_map(Allocator const& a);
 unordered_node_map(unordered_node_map const& other, Allocator const& a);
 ----
 
-构造一个容器，复制 `other` 包含的元素、哈希函数和谓词，但使用分配器
-`a`。
+构造一个容器，复制 `other` 中的元素、哈希函数及谓词，但使用分配器 `a`。
 
 '''''
 
@@ -572,8 +572,8 @@ unordered_node_map(concurrent_node_map<Key, T, Hash, Pred, Allocator>&& other);
 
 [cols=",",]
 |===
-|复杂度： |常数时间。
-|并发性： |阻塞于 `other`。
+|复杂度： |常数时间复杂度。
+|并发性： |在 `other` 上阻塞。
 |===
 
 '''''
@@ -591,7 +591,7 @@ unordered_node_map(std::initializer_list<value_type> il,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等谓性词和 `a` 作为分配器，并将区间 `il` 中的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -610,7 +610,7 @@ unordered_node_map(size_type n, allocator_type const& a);
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的哈希函数和键相等性谓词，以及 `a` 作为分配器。
+作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
 
 [cols=",",]
 |===
@@ -631,7 +631,7 @@ unordered_node_map(size_type n, hasher const& hf, allocator_type const& a);
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的键相等性谓词和 `a` 作为分配器。
+作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
 
 [cols=",",]
 |===
@@ -653,8 +653,8 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将区间 `[f, l)`
-中的元素插入其中。
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+范围内的元素插入其中。
 
 [cols=",",]
 |===
@@ -675,7 +675,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将区间 `[f, l)` 中的元素插入其中。
+作为分配器以及默认的键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
@@ -713,7 +713,7 @@ unordered_node_map(std::initializer_list<value_type> il, size_type n, const allo
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
+作为分配器、默认哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -733,7 +733,7 @@ unordered_node_map(std::initializer_list<value_type> il, size_type n, const hash
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将 `il` 中的元素插入其中。
+作为分配器、默认键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -771,7 +771,7 @@ unordered_node_map& operator=(unordered_node_map const& other);
 
 赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
 复制赋值哈希函数与键相等性谓词。若
-`Alloc::propagate_on_container_copy_assignment` 存在且
+`Alloc::propagate_on_container_copy_assignment` 存在，且
 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
 `other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 

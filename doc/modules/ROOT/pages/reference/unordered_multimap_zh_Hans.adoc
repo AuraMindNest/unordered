@@ -1520,7 +1520,7 @@ allocator_type get_allocator() const;
 '''''
 
 [[unordered_multimap_hash_function]]
-==== hash_function
+==== 哈希函数
 
 [source,highlight]
 ----
@@ -1615,7 +1615,7 @@ template<class K>
 '''''
 
 [[unordered_multimap_contains]]
-==== 包含
+==== contains
 
 [source,highlight]
 ----
@@ -1808,7 +1808,7 @@ const_local_iterator cend(size_type n) const;
 === 哈希策略
 
 [[unordered_multimap_load_factor]]
-==== load_factor
+==== load_factor（负载因子）
 
 [source,highlight]
 ----
@@ -1823,7 +1823,7 @@ float load_factor() const noexcept;
 '''''
 
 [[unordered_multimap_max_load_factor]]
-==== max_load_factor
+==== max_load_factor（最大负载因子）
 
 [source,highlight]
 ----
@@ -1907,12 +1907,9 @@ void reserve(size_type n);
 
 * 该推导指引包含 `InputIterator`
 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
-* 该推导指引包含 `Allocator`
-模板参数，且为该参数推导出的类型不符合分配器要求。
-* 该推导指引包含 `Hash`
-模板参数，且为该参数推导出的是整数类型或符合分配器要求的类型。
-* 该推导指引包含 `Pred`
-模板参数，且为该参数推导出的是符合分配器要求的类型。
+* 具有 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
+* 具有 `Hash` 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
+* 具有 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
 推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
 `size_type` 成员类型。其默认值与所选构造函数的默认值一致。

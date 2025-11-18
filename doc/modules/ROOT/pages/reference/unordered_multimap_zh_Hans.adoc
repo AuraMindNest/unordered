@@ -548,7 +548,7 @@ unordered_multimap(std::initializer_list<value_type> il,
 '''''
 
 [[unordered_multimap_bucket_count_constructor_with_allocator]]
-==== 带分配器的桶数量构造函数
+==== 带分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -570,7 +570,7 @@ unordered_multimap(size_type n, const allocator_type& a);
 '''''
 
 [[unordered_multimap_bucket_count_constructor_with_hasher_and_allocator]]
-==== 带哈希函数与分配器的桶数量构造函数
+==== 带哈希函数和分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -592,7 +592,7 @@ unordered_multimap(size_type n, const hasher& hf, const allocator_type& a);
 '''''
 
 [[unordered_multimap_iterator_range_constructor_with_bucket_count_and_allocator]]
-==== 带桶数量和分配器的迭代器范围构造函数
+==== 带桶数和分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -613,7 +613,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_multimap_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数与哈希函数的迭代器范围构造函数
+==== 带桶数和哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -654,7 +654,7 @@ unordered_multimap(std::initializer_list<value_type> il, const allocator_type& a
 '''''
 
 [[unordered_multimap_initializer_list_constructor_with_bucket_count_and_allocator]]
-==== 带桶数量和分配器的初始化列表构造函数
+==== 带桶数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -673,7 +673,7 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const allo
 '''''
 
 [[unordered_multimap_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== 带桶数量、哈希函数与分配器的初始化列表构造函数
+==== 带桶数、哈希函数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -702,13 +702,13 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const hash
 
 [cols=",",]
 |===
-|注意： |析构函数会作用于每个元素，并释放所有内存。
+|注意： |析构函数会作用于每个元素，并释放所有内存
 |===
 
 '''''
 
 [[unordered_multimap_assignment]]
-=== 赋值
+=== 赋值操作
 
 [[unordered_multimap_copy_assignment]]
 ==== 复制赋值

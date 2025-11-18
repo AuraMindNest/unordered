@@ -285,47 +285,54 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key`
-必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
+|_键_ |`Key` 必须满足
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+到容器中的要求，且需满足从容器中
+https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 
-|_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
-类型的参数，并返回 `std::size_t` 类型的值。
+|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
+的参数，并返回一个 `std::size_t` 类型的值。
 
-|_谓词_ |一种二元函数对象，用于在 `Key`
-类型的值上建立等价关系。它接受两个类型为`Key`的参数，并返回一个类型为`bool`的值。
+|_谓词_ |二元函数对象，用于在 `Key`
+类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool`
+类型的值。
 
-|_Allocator_
-|一种值类型与容器的值类型相同的分配器。`std::allocator_traits<Allocator>::pointer`
+|_分配器_
+|一种分配器，其值类型与容器的值类型相同。`std::allocator_traits<Allocator>::pointer`
 和 `std::allocator_traits<Allocator>::const_pointer` 必须可分别转换为
-`value_type*` 和 `const value_type*`。
+`value_type*` 和 `const value_type*`，且可从这些类型转换而来。
 |===
 
 容器的元素存储在内部的__桶数组__中。元素根据其哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则会使用原始位置附近可用的桶。
 
-桶数组的大小可通过调用 `insert`/`emplace`操作来自动增加，也可通过调用
+桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
-操作来调整。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
+进行调整。容器的__负载因子__（元素数量与桶数量的比值）永远不会超过
 `max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
-如果link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`为`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会增加额外的计算成本。
+若
+link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
+为
+`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
 [[concurrent_flat_set_concurrency_requirements_and_guarantees]]
 === 并发要求与保证
 
-要求在对同一个 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()`
+要求对同一 `Hash` 或 `Pred` 常量实例并发调用 `operator()`
 时不得引入数据竞争。对于 `Alloc`（即 `Allocator`
 或其重绑定后的任意分配器类型），在同一实例 `al`
 上并发调用以下操作时不得引入数据竞争：
 
-* 从 `Alloc` 重绑定的分配器从 `al` 进行复制构造。
+* 从 `al` 复制构造重新绑定的分配器
 * `std::allocator_traits<Alloc>::allocate`
 * `std::allocator_traits<Alloc>::deallocate`
 * `std::allocator_traits<Alloc>::construct`
 * `std::allocator_traits<Alloc>::destroy`
 
-通常，如果`Hash`、`Pred`和`Allocator`这些类型是无状态的，或者操作仅涉及对内部数据成员的常量访问，即可满足上述要求。
+通常而言，若 `Hash`、`Pred` 和 `Allocator`
+这些类型不包含状态，或其操作仅涉及对内部数据成员的常量访问，即可满足上述要求。
 
 除析构操作外，对同一个 `concurrent_flat_set`
 实例并发调用任何操作都不会引发数据竞争——即这些操作是线程安全的。
@@ -335,8 +342,8 @@ namespace unordered {
 同步。因此，在多线程场景下，对同一 `concurrent_flat_set`
 的阻塞操作将按顺序执行。
 
-若某个操作仅在触发内部重新哈希时才会阻塞于 `x`，则称该操作__阻塞于 _`x`_
-的重哈希__。
+若某个操作仅在触发内部重哈希时才会阻塞于 _`x`_，则称该操作__阻塞于 _`x`_
+的重哈希过程__。
 
 当由 `boost::concurrent_flat_set`
 内部执行时，用户提供的访问函数对传入元素的以下操作不会引发数据竞争：
@@ -364,14 +371,19 @@ namespace unordered {
 [[concurrent_flat_set_boost_unordered_disable_reentrancy_check]]
 ==== `BOOST_UNORDERED_DISABLE_REENTRANCY_CHECK`
 
-在调试版本中（更准确地说，当link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]未定义时），会检测__容器重入__（即在访问`m`元素的函数内部非法调用`m`的操作），并通过`BOOST_ASSERT_MSG`发出信号。若需关注运行时速度，可通过全局定义此宏来禁用该功能。
+在调试版本中（更准确地说，当未定义
+link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]
+时），系统会检测__容器重入__行为（即在访问 `m` 元素的函数内部非法调用
+`m` 上的操作），并通过 `BOOST_ASSERT_MSG`
+发出信号。若需关注运行时速度，可通过全局定义此宏来禁用该功能。
 
 '''''
 
 [[concurrent_flat_set_boost_unordered_enable_stats]]
 ==== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏以启用表的link:reference/stats.html#stats[统计计算]功能。请注意，此选项会降低许多操作的总体性能。
+全局定义此宏以启用容器的 link:reference/stats.html#stats[统计计算]
+功能。请注意，此选项会降低多数操作的总体性能。
 
 '''''
 
@@ -396,7 +408,8 @@ static constexpr size_type bulk_visit_size;
 concurrent_flat_set();
 ----
 
-构造一个空容器，使用`hasher()`作为哈希函数、`key_equal()`作为键相等性谓词、`allocator_type()`作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
+作为键相等性谓词，`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
@@ -409,7 +422,7 @@ concurrent_flat_set();
 '''''
 
 [[concurrent_flat_set_bucket_count_constructor]]
-==== 桶数量构造函数
+==== 桶数构造函数
 
 [source,highlight]
 ----
@@ -419,7 +432,8 @@ explicit concurrent_flat_set(size_type n,
                              const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`eql`作为键相等性谓词、以及`a`作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器。
 
 [cols=",",]
 |===
@@ -444,7 +458,8 @@ template<class InputIterator>
                       const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含`n`个桶的空容器，使用`hf`作为哈希函数、`eql`作为键相等性谓词、以及`a`作为分配器，并将`[f, l)`中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
+作为键相等性谓词、`a` 作为分配器，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
@@ -462,7 +477,7 @@ template<class InputIterator>
 concurrent_flat_set(concurrent_flat_set const& other);
 ----
 
-复制构造函数。复制所包含的元素、哈希函数、谓词和分配器。
+复制构造函数。复制其所包含的元素、哈希函数、谓词和分配器。
 
 如果 `Allocator::select_on_container_copy_construction`
 存在且签名正确，则将根据其结果来构造分配器。
@@ -1912,8 +1927,8 @@ size_type max_load() const noexcept;
 void rehash(size_type n);
 ----
 
-必要时调整桶数组的大小，使其至少包含
-`n`个桶，并确保负载因子小于或等于最大负载因子。该操作会根据实际情况扩容或缩容容器的
+如有必要，将改变桶数组的大小，使其至少包含 `n`
+个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
@@ -1940,7 +1955,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
+等效于`a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1969,7 +1984,7 @@ stats get_stats() const;
 
 [cols=",",]
 |===
-|返回： |容器自创建以来所执行的插入与查找操作的统计描述。
+|返回： |容器截至目前所执行的插入与查找操作的统计信息。
 
 |注意：
 |仅当link:reference/stats.html#stats[统计计算]被link:#concurrent_flat_set_boost_unordered_enable_stats[启用]时可用。
@@ -1987,7 +2002,7 @@ void reset_stats() noexcept;
 
 [cols=",",]
 |===
-|效果： |将容器维护的内部统计数据重置为零。
+|效果： |将容器所保存的内部统计信息重置为零。
 
 |注意：
 |仅当link:reference/stats.html#stats[统计计算]被link:#concurrent_flat_set_boost_unordered_enable_stats[启用]时可用。
@@ -1998,7 +2013,7 @@ void reset_stats() noexcept;
 [[concurrent_flat_set_deduction_guides]]
 === 推导指引
 
-如果以下任何一项为真，则推导指引将不参与重载决议：
+如果以下任何一条件为真，则推导指引将不参与重载决议：
 
 * 该推导指引包含 `InputIterator`
 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
@@ -2034,9 +2049,9 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const concurrent_flat_set<Key, Hash, Pred, Alloc>& y);
 ----
 
-当且仅当满足以下条件时返回 `true`：`x.size() == y.size()`，且对于 `x`
-中的每个元素，`y` 中均存在相同键的元素，且其值相等（使用 `operator==`
-比较值类型）。
+若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y`
+中均存在一个具有相同键和相等值的元素（使用 `operator==`
+比较值类型），则返回 `true`。
 
 [cols=",",]
 |===
@@ -2056,9 +2071,9 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const concurrent_flat_set<Key, Hash, Pred, Alloc>& y);
 ----
 
-当且仅当满足以下条件时返回 `true`：`x.size() == y.size()`，且对于 `x`
-中的每个元素，`y` 中均存在相同键的元素，且其值相等（使用 `operator==`
-比较值类型）。
+若 `x.size() == y.size()`，并且对于 `x` 中的每个元素，`y`
+中均存在一个具有相同键和相等值的元素（使用`operator==`比较值类型），则返回
+`false`。
 
 [cols=",",]
 |===

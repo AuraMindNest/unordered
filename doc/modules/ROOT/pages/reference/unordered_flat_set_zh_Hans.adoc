@@ -393,7 +393,7 @@ unordered_flat_set(unordered_flat_set const& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 可复制构造
+|要求： |`value_type` 必须可复制构造
 |===
 
 '''''
@@ -521,7 +521,7 @@ unordered_flat_set(std::initializer_list<value_type> il,
 '''''
 
 [[unordered_flat_set_bucket_count_constructor_with_allocator]]
-==== 带分配器的桶数量构造函数
+==== 带分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -542,7 +542,7 @@ unordered_flat_set(size_type n, allocator_type const& a);
 '''''
 
 [[unordered_flat_set_bucket_count_constructor_with_hasher_and_allocator]]
-==== 带哈希函数与分配器的桶数量构造函数
+==== 带哈希函数和分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -563,7 +563,7 @@ unordered_flat_set(size_type n, hasher const& hf, allocator_type const& a);
 '''''
 
 [[unordered_flat_set_iterator_range_constructor_with_bucket_count_and_allocator]]
-==== 带桶数量和分配器的迭代器范围构造函数
+==== 带桶数和分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -584,7 +584,7 @@ template<class InputIterator>
 '''''
 
 [[unordered_flat_set_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数与哈希函数的迭代器范围构造函数
+==== 带桶数和哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -624,7 +624,7 @@ unordered_flat_set(std::initializer_list<value_type> il, const allocator_type& a
 '''''
 
 [[unordered_flat_set_initializer_list_constructor_with_bucket_count_and_allocator]]
-==== 带桶数量和分配器的初始化列表构造函数
+==== 带桶数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -643,7 +643,7 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const allo
 '''''
 
 [[unordered_flat_set_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== 带桶数量、哈希函数与分配器的初始化列表构造函数
+==== 带桶数、哈希函数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -672,13 +672,13 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const hash
 
 [cols=",",]
 |===
-|注意： |析构函数会作用于每个元素，并释放所有内存。
+|注意： |析构函数会作用于每个元素，并释放所有内存
 |===
 
 '''''
 
 [[unordered_flat_set_assignment]]
-=== 赋值
+=== 赋值操作
 
 [[unordered_flat_set_copy_assignment]]
 ==== 复制赋值
@@ -733,7 +733,7 @@ unordered_flat_set& operator=(unordered_flat_set&& other)
 unordered_flat_set& operator=(std::initializer_list<value_type> il);
 ----
 
-将初始化列表中的值赋给容器，该操作会销毁所有已存在的元素。
+从初始化列表中的值赋值。该操作销毁所有原有元素。
 
 [cols=",",]
 |===

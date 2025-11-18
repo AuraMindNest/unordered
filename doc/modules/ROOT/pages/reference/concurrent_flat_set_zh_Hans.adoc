@@ -1026,7 +1026,7 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 不允许使用无序执行策略。 +
 
 并行化意味着执行不一定会因 `f` 返回 `false`
-而立即结束，因此`f`可能会被其他元素进一步调用（即使其返回值同样为
+而立即结束，因此系统可能继续使用其他元素调用 `f`（即使其返回值同样为
 `false`）。
 
 |===
@@ -1082,7 +1082,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回该容器可能包含的最大元素数量`size()` 。
+|返回： |返回该容器可能包含的最大元素数量`size()`。
 |===
 
 '''''
@@ -1091,14 +1091,15 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[concurrent_flat_set_emplace]]
-==== emplace
+==== 原地构造
 
 [source,highlight]
 ----
 template<class... Args> bool emplace(Args&&... args);
 ----
 
-当且仅当容器中不存在等价键的元素时，插入一个用参数`args`构造的对象。
+当且仅当容器中不存在具有等效键的元素时，插入一个由参数 `args`
+构造的对象。
 
 [cols=",",]
 |===
@@ -1182,8 +1183,8 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，此重载才会参与重载决议。标准库假设 `Hash`
-可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+均为有效的成员类型别名时，此重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
@@ -1191,7 +1192,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 '''''
 
 [[concurrent_flat_set_insert_iterator_range]]
-==== 插入迭代器范围
+==== 迭代器范围插入
 
 [source,highlight]
 ----
@@ -1212,7 +1213,7 @@ template<class InputIterator> size_type insert(InputIterator first, InputIterato
 '''''
 
 [[concurrent_flat_set_insert_initializer_list]]
-==== 插入初始化列表
+==== 初始化列表插入
 
 [source,highlight]
 ----
@@ -1241,9 +1242,8 @@ template<class... Args, class F> bool emplace_or_visit(Args&&... args, F&& f);
 template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 ----
 
-若容器中不存在等价键的元素，则用参数 `args`
-构造对象并插入到容器中；否则，以该等价元素的常量引用为参数调用函数 `f`
-。
+当容器中不存在具有等效键的元素时，插入一个由参数 `args`
+构造的对象；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1253,7 +1253,7 @@ template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 |注意： a|
 若触发重哈希操作，则使指向元素的指针和引用失效。 +
 
-该接口仅为示意，因 C++ 不允许在可变参数包后声明参数 `f`。
+此接口仅为说明，因 C++ 不允许在可变参数包后声明参数 `f`。
 
 |===
 
@@ -1320,8 +1320,8 @@ template<class K, class F> bool insert_or_visit(K&& k, F f);
 template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 ----
 
-当且仅当容器中不存在等价键的元素时，插入由 `std::forward<K>(k)`
-构造的元素；否则，以该等价元素的常量引用为参数调用函数 `f` 。
+当且仅当容器中不存在具有等效键的元素时，插入由 `std::forward<K>(k)`
+构造的元素；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1345,7 +1345,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 '''''
 
 [[concurrent_flat_set_insert_iterator_range_or_visit]]
-==== 插入迭代器范围或访问
+==== 迭代器范围插入或访问
 
 [source,highlight]
 ----
@@ -1369,7 +1369,7 @@ template<class InputIterator,class F>
 '''''
 
 [[concurrent_flat_set_insert_initializer_list_or_visit]]
-==== 插入初始化列表或访问
+==== 初始化列表插入或访问
 
 [source,highlight]
 ----

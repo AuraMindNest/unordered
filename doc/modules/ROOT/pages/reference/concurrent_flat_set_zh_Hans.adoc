@@ -484,7 +484,7 @@ concurrent_flat_set(concurrent_flat_set const& other);
 
 [cols=",",]
 |===
-|要求： |`value_type`必须满足可复制构造要求。
+|要求： |`value_type` 可复制构造
 |并发性： |阻塞于 `other`。
 |===
 

@@ -1828,7 +1828,7 @@ void swap(concurrent_node_set& other)
 '''''
 
 [[concurrent_node_set_extract]]
-==== extract（提取）
+==== extract
 
 [source,highlight]
 ----
@@ -1840,7 +1840,8 @@ template<class K> node_type extract(K&& k);
 
 [cols=",",]
 |===
-|返回： |包含被提取元素的 `node_type` 对象，若无元素被提取则为空。
+|返回： |返回一个包含被提取元素的 `node_type`
+对象，若未提取任何元素则为空。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
 
@@ -1861,13 +1862,14 @@ template<class F> node_type extract_if(const key_type& k, F f);
 template<class K, class F> node_type extract_if(K&& k, F f);
 ----
 
-若存在键等价于 `k` 的元素 `x` 且 `f(x)` 为 `true`，则提取该元素。
+若存在键等价于 `k` 的元素 `x` ，且 `f(x)` 为 `true`，则提取该元素。
 
 [cols=",",]
 |===
-|返回： |包含被提取元素的 `node_type` 对象，若无元素被提取则为空。
+|返回： |返回一个包含被提取元素的 `node_type`
+对象，若未提取任何元素则为空。
 
-|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时才会抛出。
+|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时，才会抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 均为有效的成员类型别名时，`template<class K>`
@@ -1878,14 +1880,14 @@ template<class K, class F> node_type extract_if(K&& k, F f);
 '''''
 
 [[concurrent_node_set_clear]]
-==== clear（清空）
+==== 清空
 
 [source,highlight]
 ----
 void clear() noexcept;
 ----
 
-擦除表中所有元素。
+擦除容器中所有元素。
 
 [cols=",",]
 |===
@@ -1898,7 +1900,7 @@ void clear() noexcept;
 '''''
 
 [[concurrent_node_set_merge]]
-==== merge（合并）
+==== 合并
 
 [source,highlight]
 ----
@@ -1908,8 +1910,8 @@ template<class H2, class P2>
   size_type merge(concurrent_node_set<Key, H2, P2, Allocator>&& source);
 ----
 
-将 `source` 中键尚未存在于 `*this` 的所有元素移动插入，并从 `source`
-中擦除这些元素。
+对 `source` 中所有键不在 `*this`
+中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 [cols=",",]
 |===
@@ -1923,7 +1925,7 @@ template<class H2, class P2>
 === 观察器
 
 [[concurrent_node_set_get_allocator]]
-==== get_allocator（获取分配器）
+==== get_allocator
 
 [source,highlight]
 ----
@@ -1932,13 +1934,13 @@ allocator_type get_allocator() const noexcept;
 
 [cols=",",]
 |===
-|返回： |表的分配器。
+|返回： |容器的分配器。
 |===
 
 '''''
 
 [[concurrent_node_set_hash_function]]
-==== hash_function（哈希函数）
+==== 哈希函数
 
 [source,highlight]
 ----
@@ -1947,13 +1949,13 @@ hasher hash_function() const;
 
 [cols=",",]
 |===
-|返回： |表的哈希函数。
+|返回： |容器的哈希函数。
 |===
 
 '''''
 
 [[concurrent_node_set_key_eq]]
-==== key_eq（键相等谓词）
+==== key_eq
 
 [source,highlight]
 ----
@@ -1962,7 +1964,7 @@ key_equal key_eq() const;
 
 [cols=",",]
 |===
-|返回： |表的键相等谓词。
+|返回： |容器的键相等性谓词。
 |===
 
 '''''
@@ -1971,7 +1973,7 @@ key_equal key_eq() const;
 === 集合操作
 
 [[concurrent_node_set_count]]
-==== count（计数）
+==== count
 
 [source,highlight]
 ----
@@ -1990,14 +1992,14 @@ template<class K>
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
 
-在存在并发插入操作时，返回值可能无法准确反映执行后表的实际状态。
+在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
 |===
 
 '''''
 
 [[concurrent_node_set_contains]]
-==== contains（包含）
+==== contains
 
 [source,highlight]
 ----
@@ -2008,7 +2010,7 @@ template<class K>
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |布尔值，指示表中是否存在键等于 `k` 的元素。
+|返回： |返回布尔值，表示容器中是否存在键等于 `k` 的元素。
 
 |注意： a|
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
@@ -2016,7 +2018,7 @@ template<class K>
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
 
-在存在并发插入操作时，返回值可能无法准确反映执行后表的实际状态。
+在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
 |===
 
@@ -2026,7 +2028,7 @@ template<class K>
 === 桶接口
 
 [[concurrent_node_set_bucket_count]]
-==== bucket_count（桶数量）
+==== bucket_count
 
 [source,highlight]
 ----
@@ -2053,9 +2055,9 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回：
-|`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
-`bucket_count() == 0` 则为 `0`。
+|返回： |返回
+`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
+`bucket_count() == 0` 则返回 `0`。
 |===
 
 '''''
@@ -2070,7 +2072,7 @@ float max_load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回表的最大负载因子。
+|返回： |返回容器的最大负载因子。
 |===
 
 '''''
@@ -2085,8 +2087,8 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |无操作，因用户无权更改此参数。保留以兼容
-`boost::unordered_set`。
+|效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与
+`boost::unordered_set` 保持兼容。
 |===
 
 '''''
@@ -2102,20 +2104,20 @@ size_type max_load() const noexcept;
 [width="100%",cols="50%,50%",]
 |===
 |返回：
-|在不再擦除元素的前提下，表在不重哈希的情况下可容纳的最大元素数。
+|返回容器在无需重哈希的情况下所能容纳的最大元素数量（假设后续无元素被删除）。
 
 |注意： a|
-构造、重哈希或清空后，表的最大负载至少为
-`max_load_factor() * bucket_count()`。在高负载条件下擦除元素时，此数值可能减少。 +
+在构造、重哈希或清空操作后，容器的最大负载至少为
+`max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。 +
 
-在存在并发插入操作时，返回值可能无法准确反映执行后表的实际状态。
+在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
 |===
 
 '''''
 
 [[concurrent_node_set_rehash]]
-==== rehash（重哈希）
+==== 重哈希
 
 [source,highlight]
 ----
@@ -2131,7 +2133,7 @@ void rehash(size_type n);
 [width="100%",cols="50%,50%",]
 |===
 |抛出：
-|若引发异常，则函数无任何效果，除非异常由表的哈希函数或比较函数抛出。
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 
 |并发性： a|
 阻塞于 `*this`。
@@ -2155,7 +2157,7 @@ void reserve(size_type n);
 [cols=",",]
 |===
 |抛出：
-|若引发异常，则函数无任何效果，除非异常由表的哈希函数或比较函数抛出。
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 
 |并发性： |阻塞于 `*this`。
 |===
@@ -2175,7 +2177,7 @@ stats get_stats() const;
 
 [cols=",",]
 |===
-|返回： |容器截至目前所执行的插入与查找操作的统计信息。
+|返回： |返回容器截至目前所执行的插入与查找操作的统计信息。
 
 |注意：
 |仅当link:reference/stats.html#stats[统计计算]功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]时可用。
@@ -2212,8 +2214,8 @@ void reset_stats() noexcept;
 * 具有 `Hash` 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
 * 具有 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
-推导指引中的 `size_­type` 参数类型指代由该推导指引推导出的容器类型的
-`size_­type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
+`size_type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[concurrent_node_set_iter_value_type]]
 ==== _iter-value-type_
@@ -2237,14 +2239,14 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const concurrent_node_set<Key, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y`
+若 `x.size() == y.size()` ，且对于 `x` 中的每个元素，`y`
 中均存在一个具有相同键和相等值的元素（使用 `operator==`
 比较值类型），则返回 `true`。
 
 [cols=",",]
 |===
 |并发性： |阻塞于 `x` 和 `y`。
-|注意： |若两表的相等谓词不等价，则行为未定义。
+|注意： |若两个容器的相等性谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -2266,7 +2268,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 [cols=",",]
 |===
 |并发性： |阻塞于 `x` 和 `y`。
-|注意： |若两表的相等谓词不等价，则行为未定义。
+|注意： |若两个容器的相等性谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -2309,20 +2311,20 @@ c.erase_if(pred);
 [[concurrent_node_set_serialization]]
 === 序列化
 
-`concurrent_node_set` 可通过
+`concurrent_node_set` 可通过本组件库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
+进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[concurrent_node_set_saving_an_concurrent_node_set_to_an_archive]]
-==== Saving an concurrent_node_set to an archive（将 concurrent_node_set 保存至归档）
+==== 将 concurrent_node_set 保存到归档
 
 将 `concurrent_node_set` `x` 的所有元素保存至归档（XML 归档）`ar`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 可序列化（XML 可序列化），且支持
+|要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持
 Boost.Serialization 的 `save_construct_data`/`load_construct_data`
-协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型自动支持）。
+协议（该协议对满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型自动支持）。
 
 |并发性： |阻塞于 `x`。
 |===
@@ -2330,17 +2332,18 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 '''''
 
 [[concurrent_node_set_loading_an_concurrent_node_set_from_an_archive]]
-==== Loading an concurrent_node_set from an archive（从归档加载 concurrent_node_set）
+==== 从归档加载 concurrent_node_set
 
-删除 `concurrent_node_set` `x` 的所有现有元素，并从归档（XML 归档）`ar`
-插入原始 `concurrent_node_set` `other` 保存至 `ar` 所读存储的元素副本。
+删除 `concurrent_node_set` 容器 `x` 中所有已存在的元素，并从归档（XML
+归档）`ar` 中插入原始 `concurrent_node_set` 容器 `other`
+的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`x.key_equal()` 在功能上等价于 `other.key_equal()`。
+|要求： |`x.key_equal()` 需要在功能上等价于 `other.key_equal()`。
 |并发性： |阻塞于 `x`。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:34:13 UTC
+最后更新于 2025年 10月 31日 21:34:13 UTC

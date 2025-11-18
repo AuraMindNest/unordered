@@ -263,14 +263,14 @@ namespace unordered {
 需满足从容器https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]
 的要求（即 `allocator_traits` 能够销毁该对象）。
 
-|_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
-类型的参数，并返回 `std::size_t` 类型的值。
+|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
+的参数，并返回一个 `std::size_t` 类型的值。
 
 |_谓词_ |一种二元函数对象，用于在 `Key`
 类型的值上建立等价关系。它接受两个类型为 `Key`
 的参数，并返回一个布尔类型的值。
 
-|_Allocator_
+|_分配器_
 |一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
@@ -339,7 +339,7 @@ const_local_iterator 对象可用于遍历单个桶内的元素。
 
 [source,highlight]
 ----
-typedef implementation-defined node_type;
+typedef  实现定义  node_type;
 ----
 
 有关详细信息，请参阅 node_handle_map。
@@ -372,7 +372,7 @@ unordered_multimap();
 '''''
 
 [[unordered_multimap_bucket_count_constructor]]
-==== 桶数量构造函数
+==== 桶数构造函数
 
 [source,highlight]
 ----
@@ -1903,7 +1903,7 @@ void reserve(size_type n);
 [[unordered_multimap_deduction_guides]]
 === 推导指引
 
-如果以下任何一项为真，则推导指引将不参与重载决议：
+如果以下任何一条件为真，则推导指引将不参与重载决议：
 
 * 该推导指引包含 `InputIterator`
 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
@@ -2081,8 +2081,9 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 |要求： |`std::remove_const<key_type>::type` 和
 `std::remove_const<mapped_type>::type` 必须满足可序列化要求（XML
 可序列化），且需要支持 Boost.Serialization 的
-`save_construct_data`/`load_construct_data`
-协议（该协议自动支持https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]类型）。
+`save_construct_data`/`load_construct_data` 协议（该协议自动支持
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求）。
 |===
 
 '''''

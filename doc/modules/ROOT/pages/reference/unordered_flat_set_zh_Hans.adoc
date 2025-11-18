@@ -864,7 +864,7 @@ size_type max_size() const noexcept;
 === 修改器
 
 [[unordered_flat_set_emplace]]
-==== emplace
+==== 原地构造
 
 [source,highlight]
 ----
@@ -1112,7 +1112,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 '''''
 
 [[unordered_flat_set_insert_iterator_range]]
-==== 插入迭代器范围
+==== 迭代器范围插入
 
 [source,highlight]
 ----
@@ -1136,7 +1136,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 '''''
 
 [[unordered_flat_set_insert_initializer_list]]
-==== 插入初始化列表
+==== 初始化列表插入
 
 [source,highlight]
 ----

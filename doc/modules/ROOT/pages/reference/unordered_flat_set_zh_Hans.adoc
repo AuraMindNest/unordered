@@ -241,16 +241,19 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key`
-必须满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]到容器的要求，并且满足可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]的要求。
+|_键_ |`Key` 必须满足
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+到容器中的要求，且需满足从容器中
+https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 
-|_哈希_ |一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key`
-类型的参数，并返回 `std::size_t` 类型的值。
+|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
+的参数，并返回一个 `std::size_t` 类型的值。
 
-|_谓词_ |一种二元函数对象，用于在 `Key`
-类型的值上建立等价关系。它接受两个类型为`Key`的参数，并返回一个类型为`bool`的值。
+|_谓词_ |二元函数对象，用于在 `Key`
+类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool`
+类型的值。
 
-|_Allocator_
+|_分配器_
 |一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
@@ -261,7 +264,10 @@ namespace unordered {
 来增加。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
 `max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
-如果link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`为`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会增加额外的计算成本。
+若
+link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
+为
+`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
@@ -325,7 +331,7 @@ unordered_flat_set();
 '''''
 
 [[unordered_flat_set_bucket_count_constructor]]
-==== 桶数量构造函数
+==== 桶数构造函数
 
 [source,highlight]
 ----
@@ -380,7 +386,7 @@ template<class InputIterator>
 unordered_flat_set(unordered_flat_set const& other);
 ----
 
-复制构造函数。复制所包含的元素、哈希函数、谓词和分配器。
+复制构造函数。复制其所包含的元素、哈希函数、谓词和分配器。
 
 如果 `Allocator::select_on_container_copy_construction`
 存在且签名正确，则将根据其结果来构造分配器。
@@ -1565,7 +1571,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
+等效于`a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1621,7 +1627,7 @@ void reset_stats() noexcept;
 [[unordered_flat_set_deduction_guides]]
 === 推导指引
 
-如果以下任何一项为真，则推导指引将不参与重载决议：
+如果以下任何一条件为真，则推导指引将不参与重载决议：
 
 * 该推导指引包含 `InputIterator`
 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。

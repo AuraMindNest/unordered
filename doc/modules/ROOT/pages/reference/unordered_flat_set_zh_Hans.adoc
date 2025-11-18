@@ -902,7 +902,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 当且仅当容器中不存在具有等效键的元素时，插入一个由参数 `args`
 构造的对象。
 
-`position` 是一个关于元素插入位置的建议。此实现将忽略它。
+`position` 是一个关于元素插入位置的提示，本实现将忽略该提示。
 
 [width="100%",cols="50%,50%",]
 |===

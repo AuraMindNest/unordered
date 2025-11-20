@@ -14,9 +14,9 @@
 由于采用开放寻址法，`boost::unordered_node_map` 的接口在多个方面与
 `boost::unordered_map`/`std::unordered_map` 存在差异：
 
-* `begin()` 不是常数时间操作。
+* `begin()` 不是常数时间复杂度操作。
 * 不提供桶处理 API（除 `bucket_count` 外）。
-* 容器的最大负载系数由内部管理，用户无法进行设置。
+* 容器的最大负载因子由内部管理，用户无法设置。
 
 除此之外，`boost::unordered_node_map` 基本可直接替代标准无序关联容器。
 
@@ -1107,9 +1107,10 @@ iterator insert(const_iterator hint, const init_type& obj);
 |注意： a|
 可能使迭代器失效，但仅当插入导致负载因子超过最大负载时。 +
 
-形式为 `insert(hint, x)` 的调用（其中 `x` 可等量转换为
-`const value_type&` 和 `const init_type&`）不会产生歧义，并选择
-`init_type` 重载。
+对于 `insert(hint, x)` 形式的调用（其中 `x` 可同等地转换为
+`const value_type&` 和
+`const init_type&`），该调用不会产生歧义，并会选择 `init_type`
+重载版本。
 
 |===
 
@@ -1143,8 +1144,9 @@ iterator insert(const_iterator hint, init_type&& obj);
 |注意： a|
 可能使迭代器失效，但仅当插入导致负载因子超过最大负载时。 +
 
-形式为 `insert(hint, x)` 的调用（其中 `x` 可等量转换为 `value_type&&` 和
-`init_type&&`）不会产生歧义，并选择 `init_type` 重载。
+对于 `insert(hint, x)` 形式的调用（其中 `x` 可同等地转换为
+`value_type&&` 和 `init_type&&`），该调用不会产生歧义，并会选择
+`init_type` 重载版本。
 
 |===
 
@@ -1162,8 +1164,8 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够从 `*first`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到容器中。
+|要求： |`value_type` 必须能够通过 `*first`
+在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
 
 |抛出： |当插入单个元素时，若由非 `hasher`
 调用引发的异常抛出，则函数无效果。
@@ -1481,8 +1483,8 @@ value_type(std::piecewise_construct,
 
 [source,highlight]
 ----
-convertible-to-iterator erase(iterator position);
-convertible-to-iterator erase(const_iterator position);
+可转换为迭代器 erase(iterator position);
+可转换为迭代器 erase(const_iterator position);
 ----
 
 擦除由 `position` 指向的元素。
@@ -1494,7 +1496,7 @@ convertible-to-iterator erase(const_iterator position);
 
 |抛出： |无。
 
-|注意： |返回的不透明对象必须仅被丢弃或转换为 `iterator` 或
+|注意： |返回的不透明对象必须被立即丢弃或转换为 `iterator` 或
 `const_iterator`。
 |===
 
@@ -2038,7 +2040,7 @@ void reset_stats() noexcept;
 
 [cols=",",]
 |===
-|效果： |将容器中保存的内部统计信息重置为零。
+|效果： |将容器维护的内部统计信息清零。
 
 |注意：
 |仅当link:reference/stats.html#stats[统计计算]功能link:#unordered_node_map_boost_unordered_enable_stats[启用]时可用。
@@ -2053,9 +2055,11 @@ void reset_stats() noexcept;
 
 * 该推导指引包含 `InputIterator`
 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
-* 具有 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
-* 具有 `Hash` 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
-* 具有 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
+* 该推导指引包含 `Allocator`
+模板参数，且为该参数推导出的类型不符合分配器要求。
+* 该推导指引包含 `Hash`
+模板参数，且为该参数推导出的类型为整型或符合分配器要求。
+* 该推导指引包含 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
 推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
 `size_type` 成员类型。其默认值与所选构造函数的默认值一致。
@@ -2110,9 +2114,9 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_node_map<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
-中均存在一个具有相同键且值相等的元素（使用 `operator==`
-比较值类型），则返回 `true`。
+若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y`
+中均存在一个具有相同键和相等值（使用 `operator==`
+比较值类型）的元素，则返回 `true`。
 
 [cols=",",]
 |===
@@ -2168,7 +2172,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 '''''
 
 [[unordered_node_map_erase_if]]
-=== erase_if
+=== 条件擦除
 
 [source,highlight]
 ----
@@ -2181,7 +2185,7 @@ template<class K, class T, class H, class P, class A, class Predicate>
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |返回被擦除的元素数量。
+|返回： |被擦除的元素数量。
 |注意： a|
 等价于： +
 
@@ -2198,7 +2202,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
 return original_size - c.size();
 ----
 
-注意，传递给 `pred` 的引用是非常量的。
+请注意，传递给 `pred` 的引用是非常量的。
 
 |===
 

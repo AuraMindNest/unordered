@@ -721,7 +721,7 @@ unordered_multiset& operator=(const unordered_multiset& other);
 
 如果 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为
-`true`，则覆盖分配器；否则将使用现有分配器创建所复制的元素。
+`true`，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [cols=",",]
 |===
@@ -745,7 +745,7 @@ unordered_multiset& operator=(unordered_multiset&& other)
 
 如果 `Alloc::propagate_on_container_move_assignment` 存在且
 `Alloc::propagate_on_container_move_assignment::value` 为
-`true`，则覆盖分配器；否则将使用现有分配器创建所复制的元素。
+`true`，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [cols=",",]
 |===
@@ -762,7 +762,7 @@ unordered_multiset& operator=(unordered_multiset&& other)
 unordered_multiset& operator=(std::initializer_list<value_type> il);
 ----
 
-将初始化列表中的值赋给容器。所有现有元素要么被新元素覆盖，要么被销毁。
+将初始化列表中的值赋给容器。所有已存在的元素将被新元素覆盖或销毁。
 
 [cols=",",]
 |===
@@ -898,19 +898,21 @@ size_type max_size() const noexcept;
 template<class... Args> iterator emplace(Args&&... args);
 ----
 
-插入一个使用参数 args 构造的对象到容器中。
+向容器中插入一个由参数 args 构造的对象。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足从 `args` 到 `X`
-的https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
+的https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]
+要求。
 
-|返回： |指向插入元素的迭代器。
+|返回： |返回一个指向插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
 
 |备注： a|
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -926,24 +928,26 @@ template<class... Args> iterator emplace(Args&&... args);
 template<class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
 ----
 
-插入一个使用参数 args 构造的对象到容器中。
+向容器中插入一个由参数 args 构造的对象。
 
-`hint` 是元素插入位置的提示。
+`hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type` 需满足从 `args` 到 `X`
-的https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
+的https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]
+要求。
 
-|返回： |指向插入元素的迭代器。
+|返回： |返回一个指向插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
 
 |备注： a|
 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
 支持的唯一方式）是指向具有相同键的现有元素。 +
 
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -966,12 +970,13 @@ iterator insert(const value_type& obj);
 |要求： |`value_type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
 
-|返回： |指向插入元素的迭代器。
+|返回： |返回一个指向插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
 
 |备注： a|
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -994,12 +999,13 @@ iterator insert(value_type&& obj);
 |要求： |`value_type`
 需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
 
-|返回： |指向插入元素的迭代器。
+|返回： |返回一个指向插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
 
 |备注： a|
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -1017,22 +1023,23 @@ iterator insert(const_iterator hint, const value_type& obj);
 
 插入 `obj` 到容器中。
 
-`hint` 是元素插入位置的提示。
+`hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
 
-|返回： |指向插入元素的迭代器。
+|返回： |返回一个指向插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
 
 |备注： a|
 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
 支持的唯一方式）是指向具有相同键的现有元素。 +
 
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -1050,22 +1057,23 @@ iterator insert(const_iterator hint, value_type&& obj);
 
 插入 `obj` 到容器中。
 
-`hint` 是元素插入位置的提示。
+`hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
 需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
 
-|返回： |指向插入元素的迭代器。
+|返回： |返回一个指向插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
 
 |备注： a|
 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
 支持的唯一方式）是指向具有相同键的现有元素。 +
 
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -1093,7 +1101,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 调用外的操作抛出，则函数无效果。
 
 |备注： a|
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -1120,7 +1128,7 @@ void insert(std::initializer_list<value_type> il);
 调用外的操作抛出，则函数无效果。
 
 |备注： a|
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
 
@@ -1192,14 +1200,17 @@ iterator insert(node_type&& nh);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`nh` 为空或 `nh.get_allocator()` 等于容器的分配器。
+
 |返回： a|
 若 `nh` 为空，返回 `end()`。 +
 
 否则返回指向新插入元素的迭代器。
 
-|抛出： |若异常由 `hasher` 调用外的操作抛出，则函数无效果。
+|抛出： |若异常由调用 `hasher`
+以外的操作引发异常，则该函数不产生任何效果。
+
 |备注： a|
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。 +
 
@@ -1221,7 +1232,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 
 否则插入 `nh` 拥有的元素。
 
-`hint` 是元素插入位置的提示。
+`hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1238,7 +1249,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
 支持的唯一方式）是指向具有相同键的现有元素。 +
 
-仅当插入导致负载因子大于或等于最大负载因子时，可能使迭代器失效。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。 +
 

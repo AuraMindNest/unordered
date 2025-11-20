@@ -1999,7 +1999,7 @@ template<class K>
 '''''
 
 [[concurrent_node_set_contains]]
-==== contains
+==== 包含
 
 [source,highlight]
 ----

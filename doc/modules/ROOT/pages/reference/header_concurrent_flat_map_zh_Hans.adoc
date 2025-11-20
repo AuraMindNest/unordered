@@ -2,11 +2,11 @@
 
 [[content]]
 [[header_concurrent_flat_map]]
-=== `++<++boost/unordered/concurrent++_++flat++_++map.hpp++>++` Synopsis
+=== `++<++boost/unordered/concurrent++_++flat++_++map.hpp++>++` 概要
 
-Defines
+定义
 link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent++_++flat++_++map`]
-and associated functions and alias templates.
+及相关函数和别名模板。
 
 ....
 namespace boost {
@@ -19,7 +19,7 @@ namespace unordered {
            class Allocator = std::allocator<std::pair<const Key, T>>>
   class concurrent_flat_map;
 
-  // Equality Comparisons
+  // 相等比较
   template<class Key, class T, class Hash, class Pred, class Alloc>
     bool operator==(const concurrent_flat_map<Key, T, Hash, Pred, Alloc>& x,
                     const concurrent_flat_map<Key, T, Hash, Pred, Alloc>& y);
@@ -28,18 +28,18 @@ namespace unordered {
     bool operator!=(const concurrent_flat_map<Key, T, Hash, Pred, Alloc>& x,
                     const concurrent_flat_map<Key, T, Hash, Pred, Alloc>& y);
 
-  // swap
+  // 交换
   template<class Key, class T, class Hash, class Pred, class Alloc>
     void swap(concurrent_flat_map<Key, T, Hash, Pred, Alloc>& x,
               concurrent_flat_map<Key, T, Hash, Pred, Alloc>& y)
       noexcept(noexcept(x.swap(y)));
 
-  // Erasure
+  // 擦除
   template<class K, class T, class H, class P, class A, class Predicate>
     typename concurrent_flat_map<K, T, H, P, A>::size_type
       erase_if(concurrent_flat_map<K, T, H, P, A>& c, Predicate pred);
 
-  // Pmr aliases (C++17 and up)
+  // Pmr 别名（C++17 及以上）
   namespace pmr {
     template<class Key,
              class T,
@@ -59,4 +59,4 @@ using unordered::concurrent_flat_map;
 
 [[footer]]
 [[footer-text]]
-Last updated 2025-11-19 20:39:01 UTC
+最后更新于 2025-11-19 20:38:30 UTC

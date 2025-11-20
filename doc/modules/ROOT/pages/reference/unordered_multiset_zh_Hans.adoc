@@ -282,7 +282,7 @@ namespace unordered {
 typedef implementation-defined iterator;
 ----
 
-值类型为 `value_type` 的常量迭代器。
+一种常量迭代器，其值类型为 `value_type`。
 
 迭代器类别至少为前向迭代器。
 
@@ -295,7 +295,7 @@ typedef implementation-defined iterator;
 typedef implementation-defined const_iterator;
 ----
 
-值类型为 `value_type` 的常量迭代器。
+一种常量迭代器，其值类型为 `value_type`。
 
 迭代器类别至少为前向迭代器。
 
@@ -353,7 +353,8 @@ unordered_multiset();
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -377,7 +378,8 @@ explicit unordered_multiset(size_type n,
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -402,7 +404,8 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -422,7 +425,7 @@ unordered_multiset(const unordered_multiset& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 可复制构造
+|要求： |`value_type` 必须可复制构造。
 |===
 
 '''''
@@ -461,7 +464,8 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher`、`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -529,7 +533,8 @@ unordered_multiset(std::initializer_list<value_type> il,
 [cols=",",]
 |===
 |要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -551,7 +556,8 @@ unordered_multiset(size_type n, const allocator_type& a);
 |后置条件： |`size() == 0`
 
 |要求： |`hasher` 和 `key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -573,7 +579,8 @@ unordered_multiset(size_type n, const hasher& hf, const allocator_type& a);
 |后置条件： |`size() == 0`
 
 |要求： |`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -594,7 +601,8 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher`、`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -616,7 +624,8 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -635,7 +644,8 @@ unordered_multiset(std::initializer_list<value_type> il, const allocator_type& a
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -654,7 +664,8 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -674,7 +685,8 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 [cols=",",]
 |===
 |要求： |`key_equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -713,7 +725,7 @@ unordered_multiset& operator=(const unordered_multiset& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 可复制构造
+|要求： |`value_type` 必须可复制构造。
 |===
 
 '''''

@@ -734,7 +734,7 @@ unordered_set& operator=(const unordered_set& other);
 
 如果 `Alloc::propagate_on_container_copy_assignment` 存在且
 `Alloc::propagate_on_container_copy_assignment::value` 为
-`true`，则覆盖分配器；否则将使用现有分配器创建所复制的元素。
+`true`，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [cols=",",]
 |===
@@ -758,7 +758,7 @@ unordered_set& operator=(unordered_set&& other)
 
 如果 `Alloc::propagate_on_container_move_assignment` 存在且
 `Alloc::propagate_on_container_move_assignment::value` 为
-`true`，则覆盖分配器；否则将使用现有分配器创建所复制的元素。
+`true`，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [cols=",",]
 |===
@@ -775,7 +775,7 @@ unordered_set& operator=(unordered_set&& other)
 unordered_set& operator=(std::initializer_list<value_type> il);
 ----
 
-将初始化列表中的值赋给容器。所有现有元素要么被新元素覆盖，要么被销毁。
+将初始化列表中的值赋给容器。所有已存在的元素将被新元素覆盖或销毁。
 
 [cols=",",]
 |===

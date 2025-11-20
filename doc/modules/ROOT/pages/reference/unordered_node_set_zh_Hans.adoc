@@ -1625,7 +1625,7 @@ float max_load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回容器的最大负载因子。
+|返回： |容器的最大负载因子。
 |===
 
 '''''
@@ -1657,9 +1657,9 @@ size_type max_load() const noexcept;
 [cols=",",]
 |===
 |返回：
-|容器在无需重新哈希的情况下所能容纳的最大元素数量（假设后续不再擦除更多元素）。
+|返回容器在不重哈希的情况下可容纳的最大元素数（假设不再擦除元素）。
 
-|注意： |在构造、重新哈希或清空后，容器的最大负载至少为
+|注意： |在构造、重新哈希或清空操作后，容器的最大负载至少为
 `max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。
 |===
 
@@ -1674,11 +1674,11 @@ void rehash(size_type n);
 ----
 
 如有必要，将改变桶数组的大小，使其至少包含 `n`
-个桶，并确保负载因子小于或等于最大负载因子。此操作将视情况增加或减少容器关联的
+个桶，并确保负载因子小于或等于最大负载因子。此操作将视情况增加或减少容器的
 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)`
-将释放底层桶数组。如果提供的分配器使用花式指针，则随后执行默认分配。
+将释放底层桶数组。若使用的分配器采用花式指针，随后会执行默认分配操作。
 
 使迭代器失效并改变元素顺序。
 
@@ -1698,7 +1698,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等效于`a.rehash(ceil(n / a.max_load_factor()))`。
+等效于 `a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1725,7 +1725,7 @@ stats get_stats() const;
 
 [cols=",",]
 |===
-|返回： |容器截至目前所执行的插入与查找操作的统计信息。
+|返回： |容器直到目前已执行插入和查找操作的统计摘要。
 
 |注意：
 |仅当link:#unordered_node_set_boost_unordered_enable_stats[启用]了link:reference/stats.html#stats[统计计算]时可用。

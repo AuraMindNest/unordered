@@ -1518,16 +1518,16 @@ template<class K> size_type erase(K&& k);
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，且 `iterator` 和 `const_iterator` 均不能从 `K`
+均为有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K`
 隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash`
-可同时被 `K` 和 `Key` 类型调用，且 `Pred`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
 
 [[unordered_node_map_erase_range]]
-==== 范围擦除
+==== 擦除范围
 
 [source,highlight]
 ----
@@ -1540,7 +1540,7 @@ iterator erase(const_iterator first, const_iterator last);
 |===
 |返回： |返回被擦除元素之后的迭代器——即 `last`。
 
-|抛出： |此实现中不会调用任何内容（既不会调用 `hasher` 也不会调用
+|抛出： |在此实现中不抛出任何异常（既不调用 `hasher`， 也不调用
 `key_equal` 对象）。
 |===
 
@@ -1621,7 +1621,7 @@ template<class K> node_type extract(K&& k);
 init_type pull(const_iterator position);
 ----
 
-从 `position` 指向的元素移动构造一个 `init_value` 类型的对象
+从 `position` 指向的元素移动构造一个 `init_value` 对象
 `x`，擦除该元素并返回 `x`。
 
 '''''
@@ -1731,8 +1731,8 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个指向键等效于 `k` 的元素的迭代器，如果不存在则返回
-`end()`。
+|返回： |返回一个指向键等价于 `k`
+的元素的迭代器；若不存在这样的元素，则返回 `end()`。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
@@ -1765,7 +1765,7 @@ template<class K>
 '''''
 
 [[unordered_node_map_contains]]
-==== contains
+==== 包含
 
 [source,highlight]
 ----

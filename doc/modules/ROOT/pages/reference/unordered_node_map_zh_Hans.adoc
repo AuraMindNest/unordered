@@ -1542,7 +1542,7 @@ template<class K> size_type erase(K&& k);
 |===
 |返回： |被擦除的元素数量。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才抛出异常。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 均为有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K`
@@ -1554,7 +1554,7 @@ template<class K> size_type erase(K&& k);
 '''''
 
 [[unordered_node_map_erase_range]]
-==== 擦除范围
+==== 范围擦除
 
 [source,highlight]
 ----
@@ -1630,7 +1630,7 @@ template<class K> node_type extract(K&& k);
 |===
 |返回： |保存被提取元素的 `node_type` 对象，若无元素被提取则为空。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才抛出异常。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
 
 |注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定

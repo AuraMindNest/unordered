@@ -1599,7 +1599,7 @@ size_type bucket_count() const noexcept;
 === 哈希策略
 
 [[unordered_node_set_load_factor]]
-==== load_factor（负载因子）
+==== 负载因子
 
 [source,highlight]
 ----
@@ -1810,7 +1810,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_node_set<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
+如果 `x.size() == y.size()` ，且对于 `x` 中的每个元素，在 `y`
 中均存在一个具有相同键且值相等的元素（使用 `operator==`
 比较值类型），则返回 `false`。
 

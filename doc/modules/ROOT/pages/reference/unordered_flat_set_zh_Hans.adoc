@@ -318,8 +318,8 @@ typedef implementation-defined const_iterator;
 unordered_flat_set();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
-作为键相等性谓词，`allocator_type()` 作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
+作为键相等性谓词、以及`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
@@ -343,7 +343,7 @@ explicit unordered_flat_set(size_type n,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器。
+作为键相等性谓词、以及`a` 作为分配器。
 
 [cols=",",]
 |===
@@ -369,7 +369,7 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将 `[f, l)` 范围内的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -387,7 +387,7 @@ template<class InputIterator>
 unordered_flat_set(unordered_flat_set const& other);
 ----
 
-复制构造函数。复制其所包含的元素、哈希函数、谓词和分配器。
+复制构造函数。复制其所包含的元素、哈希函数、谓词及分配器。
 
 若 `Allocator::select_on_container_copy_construction`
 存在且签名正确，则将根据其结果来构造分配器。

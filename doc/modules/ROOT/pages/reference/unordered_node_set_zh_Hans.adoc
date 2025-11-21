@@ -7,19 +7,18 @@
 `boost::unordered_node_set` —
 一种基于节点的开放寻址无序关联容器，用于存储唯一值。
 
-`boost::unordered_node_set` 使用类似 `boost::unordered_flat_set`
-的开放寻址布局，但由于基于节点，它提供了指针稳定性和节点处理功能。其性能介于
-`boost::unordered_set` 和 `boost::unordered_flat_set` 之间。
+`boost::unordered_node_set` 采用与 `boost::unordered_flat_set`
+相似的开放寻址布局，但由于其基于节点的特性，该容器提供了指针稳定性和节点处理功能。其性能介于
+`boost::unordered_set` 与 `boost::unordered_flat_set` 之间。
 
-由于采用开放寻址，`boost::unordered_node_set` 的接口在多个方面与
-`boost::unordered_set`/`std::unordered_set` 不同：
+由于其采用开放寻址法，`boost::unordered_node_set` 的接口在多个方面与
+`boost::unordered_set`/`std::unordered_set` 有所不同：
 
 * `begin()` 不是常数时间复杂度操作。
 * 未提供用于桶管理的 API（除 `bucket_count` 外）。
 * 容器的最大负载因子由内部管理，用户无法进行设置。
 
-除此之外，`boost::unordered_node_set`
-基本上是标准无序关联容器的直接替代品。
+除此之外，`boost::unordered_node_set` 几乎可以完全替代标准无序关联容器。
 
 [[unordered_node_set_synopsis]]
 === 概要
@@ -248,8 +247,8 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key`
-必须可从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
+|_键_ |`Key` 必须可从容器中
+https://en.cppreference.com/w/cpp/named_req/Erasable[擦除] 。
 
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
 的参数，并返回一个 `std::size_t` 类型的值。
@@ -262,7 +261,7 @@ namespace unordered {
 |一种分配器，其值类型与容器的值类型相同，是一种支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
-容器的元素节点保存在内部的__桶数组__中。节点根据其元素的哈希码插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则使用原始位置附近的可用桶。
+容器的元素节点保存在内部的__桶数组__中。节点根据其元素的哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则使用原始位置附近的可用桶。
 
 桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
@@ -365,7 +364,8 @@ unordered_node_set();
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -389,7 +389,8 @@ explicit unordered_node_set(size_type n,
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -413,7 +414,8 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -433,7 +435,7 @@ unordered_node_set(unordered_node_set const& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须可复制构造
+|要求： |`value_type` 必须满足可复制构造要求
 |===
 
 '''''
@@ -447,9 +449,10 @@ unordered_node_set(unordered_node_set&& other);
 ----
 
 移动构造函数。`other`
-的内部桶数组直接转移给新容器。哈希函数、谓词和分配器从 `other`
-移动构造。如果link:#unordered_node_set_boost_unordered_enable_stats[启用]了统计功能，则转移
-`other` 的内部统计信息并调用 `other.reset_stats()`。
+的内部桶数组直接转移给新容器。哈希函数、谓词和分配器均从 `other`
+移动构造。如果统计功能已
+link:#unordered_node_set_boost_unordered_enable_stats[启用]，则转移
+`other` 的内部统计信息，并调用 `other.reset_stats()`。
 
 '''''
 
@@ -463,13 +466,14 @@ template<class InputIterator>
 ----
 
 构造一个空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+作为分配器、以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`hasher` 和 `key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -509,8 +513,9 @@ unordered_node_set(unordered_node_set&& other, Allocator const& a);
 如果 `a == other.get_allocator()`，则 `other`
 的元素节点直接转移给新容器；否则，元素从 `other`
 移动构造。哈希函数和谓词从 `other` 移动构造，分配器从 `a`
-复制构造。如果link:#unordered_node_set_boost_unordered_enable_stats[启用]了统计功能，则当
-`a == other.get_allocator()` 时转移 `other` 的内部统计信息，并始终调用
+复制构造。如果统计功能已
+link:#unordered_node_set_boost_unordered_enable_stats[启用] ，则当
+`a == other.get_allocator()` 时，转移 `other` 的内部统计信息，并始终调用
 `other.reset_stats()`。
 
 '''''
@@ -524,9 +529,10 @@ unordered_node_set(concurrent_node_set<Key, Hash, Pred, Allocator>&& other);
 ----
 
 从 link:#concurrent_node_set[`concurrent_node_set`] 移动构造。`other`
-的内部桶数组直接转移给新容器。哈希函数、谓词和分配器从 `other`
-移动构造。如果link:#unordered_node_set_boost_unordered_enable_stats[启用]了统计功能，则转移
-`other` 的内部统计信息并调用 `other.reset_stats()`。
+的内部桶数组直接转移给新容器。哈希函数、谓词和分配器均从 `other`
+移动构造。若统计功能已
+link:#unordered_node_set_boost_unordered_enable_stats[启用] ，则转移
+`other` 的内部统计信息，并调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
@@ -554,7 +560,8 @@ unordered_node_set(std::initializer_list<value_type> il,
 [cols=",",]
 |===
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -574,8 +581,9 @@ unordered_node_set(size_type n, allocator_type const& a);
 |===
 |后置条件： |`size() == 0`
 
-|要求： |`hasher` 和 `key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`hasher` 和 `key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -595,8 +603,9 @@ unordered_node_set(size_type n, hasher const& hf, allocator_type const& a);
 |===
 |后置条件： |`size() == 0`
 
-|要求： |`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -611,13 +620,14 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+作为分配器、以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`hasher` 和 `key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -637,8 +647,9 @@ template<class InputIterator>
 
 [cols=",",]
 |===
-|要求： |`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -657,8 +668,9 @@ unordered_node_set(std::initializer_list<value_type> il, const allocator_type& a
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`hasher` 和 `key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -676,8 +688,9 @@ unordered_node_set(std::initializer_list<value_type> il, size_type n, const allo
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`hasher` 和 `key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -696,8 +709,9 @@ unordered_node_set(std::initializer_list<value_type> il, size_type n, const hash
 
 [cols=",",]
 |===
-|要求： |`key_equal`
-需要是https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]。
+|要求： |`key_equal` 需满足
+https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -736,8 +750,9 @@ unordered_node_set& operator=(unordered_node_set const& other);
 
 [cols=",",]
 |===
-|要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入的]
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 |===
 
 '''''
@@ -753,14 +768,16 @@ unordered_node_set& operator=(unordered_node_set&& other)
             std::is_same<pointer, value_type*>::value);
 ----
 
-移动赋值运算符。销毁先前存在的元素，交换 `other` 的哈希函数和谓词，如果
+移动赋值操作符。该操作会销毁容器中原有的元素，交换 `other`
+的哈希函数与键相等性谓词。若
 `Alloc::propagate_on_container_move_assignment` 存在且
 `Alloc::propagate_on_container_move_assignment::value` 为 `true`，则从
-`other` 移动赋值分配器。如果此时分配器等于 `other.get_allocator()`，则
-`other` 的内部桶数组直接转移给新容器；否则，插入 `other`
-元素的移动构造副本。如果link:#unordered_node_set_boost_unordered_enable_stats[启用]了统计功能，则当最终分配器等于
-`other.get_allocator()` 时转移 `other` 的内部统计信息，并始终调用
-`other.reset_stats()`。
+`other` 移动赋值分配器。若此时分配器与 `other.get_allocator()`
+相等，则直接将 `other` 的内部桶数组转移至当前容器；否则，将插入 `other`
+中元素的移动构造副本。若统计功能已
+link:#unordered_node_set_boost_unordered_enable_stats[启用]
+，则当且仅当最终分配器与 `other.get_allocator()`
+相等时，同时转移其内部统计信息，并始终调用 `other.reset_stats()`。
 
 '''''
 
@@ -776,8 +793,9 @@ unordered_node_set& operator=(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入的]
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 |===
 
 [[unordered_node_set_iterators]]
@@ -910,19 +928,22 @@ size_type max_size() const noexcept;
 template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 ----
 
-当且仅当容器中不存在具有等价键的元素时，插入一个使用参数 `args`
+当且仅当容器中不存在具有等价键的元素时，插入一个由参数 `args`
 构造的对象。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `args` 构造。
+|要求： |`value_type` 必须能够通过 `args` 构造。
+
 |返回： a|
-如果插入发生，则返回类型的 `bool` 分量为 `true`。 +
+如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。 +
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
+
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 |===
 
 '''''
@@ -935,21 +956,24 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
     template<class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
 ----
 
-当且仅当容器中不存在具有等价键的元素时，插入一个使用参数 `args`
+当且仅当容器中不存在具有等价键的元素时，插入一个由参数 `args`
 构造的对象。
 
 `position` 是一个关于元素插入位置的提示，本实现将忽略该提示。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `args` 构造。
+|要求： |`value_type` 必须能够通过 `args` 构造。
+
 |返回： a|
-如果插入发生，则返回类型的 `bool` 分量为 `true`。 +
+如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。 +
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
+
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 |===
 
 '''''
@@ -966,17 +990,19 @@ std::pair<iterator, bool> insert(const value_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入的]。
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
 |返回： a|
-如果插入发生，则返回类型的 `bool` 分量为 `true`。 +
+如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。
 |===
 
 '''''
@@ -993,17 +1019,19 @@ std::pair<iterator, bool> insert(value_type&& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入的]。
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
 |返回： a|
-如果插入发生，则返回类型的 `bool` 分量为 `true`。 +
+如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。
 |===
 
 '''''
@@ -1016,29 +1044,30 @@ std::pair<iterator, bool> insert(value_type&& obj);
 template<class K> std::pair<iterator, bool> insert(K&& k);
 ----
 
-当且仅当容器中不存在具有等价键的元素时，插入一个从 `std::forward<K>(k)`
+当且仅当容器中不存在具有等价键的元素时，插入一个由 `std::forward<K>(k)`
 构造的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
+|要求： |`value_type` 必须能够从 `k`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
 |返回： a|
 如果插入操作发生，则返回类型的布尔分量为 true。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
 |注意： a|
-可能使迭代器失效，但仅当插入导致负载超过最大负载时。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，此重载才参与重载决议。库假设 `Hash` 可同时使用 `K` 和 `Key`
-调用，且 `Pred` 是透明的。这启用了异构查找，避免了实例化 `Key`
-类型的开销。
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+隐式转换时，该重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和
+`Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 
 |===
 
@@ -1058,17 +1087,19 @@ iterator insert(const_iterator hint, const value_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入的]。
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
 |返回： a|
-如果插入发生，则返回类型的 `bool` 分量为 `true`。 +
+如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。
 |===
 
 '''''
@@ -1087,17 +1118,19 @@ iterator insert(const_iterator hint, value_type&& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
-是https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入的]。
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
 |返回： a|
-如果插入发生，则返回类型的 `bool` 分量为 `true`。 +
+如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。
 |===
 
 '''''
@@ -1110,31 +1143,32 @@ iterator insert(const_iterator hint, value_type&& obj);
 template<class K> std::pair<iterator, bool> insert(const_iterator hint, K&& k);
 ----
 
-当且仅当容器中不存在具有等价键的元素时，插入一个从 `std::forward<K>(k)`
+当且仅当容器中不存在具有等价键的元素时，插入一个由 `std::forward<K>(k)`
 构造的元素。
 
 `hint` 是一个关于元素插入位置的提示，本实现将忽略该提示。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 可从 `k`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]。
+|要求： |`value_type` 必须能够从 `k`
+https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
 |返回： a|
 如果插入操作发生，则返回类型的布尔分量为 true。 +
 
-如果插入发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
+如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
 |注意： a|
-可能使迭代器失效，但仅当插入导致负载超过最大负载时。 +
+可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 都不能从 `K`
-隐式转换时，此重载才参与重载决议。库假设 `Hash` 可同时使用 `K` 和 `Key`
-调用，且 `Pred` 是透明的。这启用了异构查找，避免了实例化 `Key`
-类型的开销。
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+隐式转换时，该重载才会参与重载决议。标准库假设 `Hash` 可同时被 `K` 和
+`Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 
 |===
 
@@ -1148,7 +1182,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]�
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 ----
 
-将元素范围插入容器。仅当容器中不存在具有等价键的元素时，才插入元素。
+将元素范围插入容器。仅当容器中不存在等效键时，才会插入元素。
 
 [cols=",",]
 |===
@@ -1156,10 +1190,11 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
-|抛出： |当插入单个元素时，如果调用 `hasher`
-以外的操作抛出异常，则该函数无效果。
+|抛出： |当插入单个元素时，若异常由调用 `hasher`
+以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。
 |===
 
 '''''
@@ -1172,7 +1207,7 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 void insert(std::initializer_list<value_type>);
 ----
 
-将元素范围插入容器。仅当容器中不存在具有等价键的元素时，才插入元素。
+将元素范围插入容器。仅当容器中不存在等效键时，才会插入元素。
 
 [cols=",",]
 |===
@@ -1180,10 +1215,11 @@ void insert(std::initializer_list<value_type>);
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 到容器中的要求。
 
-|抛出： |当插入单个元素时，如果调用 `hasher`
-以外的操作抛出异常，则该函数无效果。
+|抛出： |当插入单个元素时，若异常由调用 `hasher`
+以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |可能使迭代器失效，但仅当插入导致负载超过最大负载时。
+|注意：
+|可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。
 |===
 
 '''''
@@ -1212,7 +1248,7 @@ insert_return_type insert(node_type&& nh);
 * 如果插入失败，则 `inserted` 为 false，`node` 保留 `nh` 先前的值，且
 `position` 指向一个键等价于 `nh.value()` 的元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
 |注意： |如果 `nh` 非空且 `nh` 与容器的分配器不相等，则行为未定义。
 |===
@@ -1237,7 +1273,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 |返回： |若 `nh` 为空，则返回的迭代器为
 `end()`。若插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的已存在元素。
 
-|抛出： |如果调用 `hasher` 以外的操作抛出异常，则该函数无效果。
+|抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
 |注意： |如果 `nh` 非空且 `nh` 与容器的分配器不相等，则行为未定义。
 |===

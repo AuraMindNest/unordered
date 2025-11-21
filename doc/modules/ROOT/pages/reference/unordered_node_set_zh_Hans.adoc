@@ -1345,11 +1345,11 @@ void swap(unordered_node_set& other)
 node_type extract(const_iterator position);
 ----
 
-提取 `position` 指向的元素。
+提取由 `position` 指向的元素。
 
 [cols=",",]
 |===
-|返回： |一个包含被提取元素的 `node_type` 对象。
+|返回： |返回一个包含被提取元素的 `node_type` 对象。
 |抛出： |无。
 |===
 
@@ -1368,7 +1368,8 @@ template<class K> node_type extract(K&& k);
 
 [cols=",",]
 |===
-|返回： |一个包含被提取元素的 `node_type` 对象，如果未提取元素则为空。
+|返回： |返回一个包含被提取元素的 `node_type`
+对象；若未提取到元素，则返回空对象。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
 
@@ -1422,14 +1423,14 @@ template<class H2, class P2>
   void merge(unordered_node_set<Key, T, H2, P2, Allocator>&& source);
 ----
 
-从 `source` 转移所有键在 `*this` 中尚不存在的元素节点。
+转移 `source` 中所有键不在 `*this` 中的元素节点。
 
 [cols=",",]
 |===
 |要求： |`this->get_allocator() == source.get_allocator()`。
 
-|注意： |使指向被转移元素的迭代器失效。如果 `*this`
-的结果大小大于其原始最大负载，则使与 `*this` 关联的所有迭代器失效。
+|注意： |指向被转移元素的迭代器将失效。若 `*this`
+的最终大小大于其原始最大负载，则与 `*this` 关联的所有迭代器将失效。
 |===
 
 '''''
@@ -1613,7 +1614,7 @@ float load_factor() const noexcept;
 |===
 |返回： |返回
 `static_cast<float>(size())/static_cast<float>(bucket_count())`，若
-`bucket_count() == 0` 则返回 `0`。
+`bucket_count() == 0`， 则返回 `0`。
 |===
 
 '''''
@@ -1677,7 +1678,7 @@ void rehash(size_type n);
 ----
 
 如有必要，将改变桶数组的大小，使其至少包含 `n`
-个桶，并确保负载因子小于或等于最大负载因子。此操作将视情况增加或减少容器的
+个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)`

@@ -1353,7 +1353,7 @@ template<class K> size_type erase(K&& k);
 '''''
 
 [[unordered_multimap_erase_range]]
-==== 擦除范围
+==== 范围擦除
 
 [source,highlight]
 ----

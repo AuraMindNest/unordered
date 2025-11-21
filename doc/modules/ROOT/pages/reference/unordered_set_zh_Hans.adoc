@@ -376,7 +376,8 @@ unordered_set();
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -400,7 +401,8 @@ explicit unordered_set(size_type n,
 |后置条件： |`size() == 0`
 
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -425,7 +427,8 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''
@@ -553,7 +556,8 @@ unordered_set(std::initializer_list<value_type> il,
 [cols=",",]
 |===
 |要求： |若使用默认参数，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+要求。
 |===
 
 '''''

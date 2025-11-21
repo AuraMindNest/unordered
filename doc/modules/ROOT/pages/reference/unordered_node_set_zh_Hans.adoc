@@ -1153,7 +1153,8 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 [cols=",",]
 |===
 |要求： |`value_type` 必须能够通过 `*first`
-在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
+在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
 |抛出： |当插入单个元素时，如果调用 `hasher`
 以外的操作抛出异常，则该函数无效果。
@@ -1175,8 +1176,9 @@ void insert(std::initializer_list<value_type>);
 
 [cols=",",]
 |===
-|要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+到容器中的要求。
 
 |抛出： |当插入单个元素时，如果调用 `hasher`
 以外的操作抛出异常，则该函数无效果。
@@ -1200,13 +1202,13 @@ insert_return_type insert(node_type&& nh);
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-一个从 `position`、`inserted` 和 `node` 构造的 `insert_return_type`
+返回一个从 `position`、`inserted` 和 `node` 构造的 `insert_return_type`
 对象： +
 
-* 如果 `nh` 为空，则 `inserted` 为 `false`，`position` 为 `end()`，且
+* 若 `nh` 为空，则 `inserted` 为 `false`，`position` 为 `end()`，且
 `node` 为空。
-* 否则，如果插入发生，则 `inserted` 为 true，`position`
-指向插入的元素，且 `node` 为空。
+* 否则，若插入操作发生，则 `inserted` 为 `true`，`position`
+指向被插入的元素，且 `node` 为空。
 * 如果插入失败，则 `inserted` 为 false，`node` 保留 `nh` 先前的值，且
 `position` 指向一个键等价于 `nh.value()` 的元素。
 
@@ -1218,7 +1220,7 @@ insert_return_type insert(node_type&& nh);
 '''''
 
 [[unordered_node_set_insert_node_with_hint]]
-==== 带提示插入节点
+==== 带提示的节点插入
 
 [source,highlight]
 ----

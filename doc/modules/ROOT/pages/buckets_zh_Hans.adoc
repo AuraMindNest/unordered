@@ -35,9 +35,9 @@ image:buckets-oa.png[开放寻址桶]
 
 |*方法* |*描述*
 
-|`size_type max_bucket_count() const` |桶数量的上限值。
+|`size_type max_bucket_count() const` |桶数量的上限。
 
-|`size_type bucket_size(size_type n) const` |编号为`n`的桶中的元素数量。
+|`size_type bucket_size(size_type n) const` |返回桶 `n` 中的元素数量。
 
 |`size_type bucket(key_type const& k) const`
 |返回键`k`所对应的桶的索引。
@@ -82,9 +82,9 @@ image:buckets-oa.png[开放寻址桶]
 |`X(InputIterator i, InputIterator j, size_type n)`
 |构造一个至少包含`n`个桶的空容器，并插入范围`[i, j)`中的元素（`X`表示容器类型）。
 
-|`float load_factor() const` |每个桶的平均元素数量。
+|`float load_factor() const` |返回每个桶的平均元素数量。
 
-|`float max_load_factor() const` |返回当前最大负载因子。
+|`float max_load_factor() const` |返回当前的最大负载因子。
 
 |`float max_load_factor(float z)`
 |以`z`作为提示值来更改容器的最大负载因子。 +

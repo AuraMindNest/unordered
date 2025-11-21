@@ -1605,11 +1605,11 @@ void swap(unordered_node_map& other)
 node_type extract(const_iterator position);
 ----
 
-提取 `position` 指向的元素。
+提取由 `position` 指向的元素。
 
 [cols=",",]
 |===
-|返回： |保存被提取元素的 `node_type` 对象。
+|返回： |返回一个包含被提取元素的 `node_type` 对象。
 |抛出： |无。
 |===
 
@@ -1628,14 +1628,16 @@ template<class K> node_type extract(K&& k);
 
 [cols=",",]
 |===
-|返回： |保存被提取元素的 `node_type` 对象，若无元素被提取则为空。
+|返回： |返回一个包含被提取元素的 `node_type`
+对象；若未提取到元素，则返回空对象。
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1682,14 +1684,14 @@ template<class H2, class P2>
   void merge(unordered_node_map<Key, T, H2, P2, Allocator>&& source);
 ----
 
-从 `source` 转移所有键在 `*this` 中不存在的元素节点。
+转移 `source` 中所有键不在 `*this` 中的元素节点。
 
 [cols=",",]
 |===
 |要求： |`this->get_allocator() == source.get_allocator()`。
 
-|注意： |使指向被转移元素的迭代器失效。若 `*this`
-的最终大小大于其原始最大负载，则使与 `*this` 关联的所有迭代器失效。
+|注意： |指向被转移元素的迭代器将失效。若 `*this`
+的最终大小大于其原始最大负载，则与 `*this` 关联的所有迭代器将失效。
 |===
 
 '''''
@@ -1761,10 +1763,11 @@ template<class K>
 |返回： |返回一个指向键等价于 `k`
 的元素的迭代器；若不存在这样的元素，则返回 `end()`。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1783,10 +1786,11 @@ template<class K>
 |===
 |返回： |返回键等价于 `k` 的元素数量。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1805,10 +1809,11 @@ template<class K>
 |===
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1832,10 +1837,11 @@ template<class K>
 的元素的范围。若容器中不存在此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1863,10 +1869,11 @@ template<class K> mapped_type& operator[](K&& k);
 |注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载超过最大负载时才会发生。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 
 |===
 
@@ -1891,10 +1898,11 @@ template<class K> const mapped_type& at(const K& k) const;
 |抛出： |如果不存在这样的元素，则抛出类型为 `std::out_of_range`
 的异常对象。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1932,7 +1940,7 @@ float load_factor() const noexcept;
 |===
 |返回： |返回
 `static_cast<float>(size())/static_cast<float>(bucket_count())`，若
-`bucket_count() == 0` 则返回 `0`。
+`bucket_count() == 0`， 则返回 `0`。
 |===
 
 '''''
@@ -1996,7 +2004,7 @@ void rehash(size_type n);
 ----
 
 如有必要，将改变桶数组的大小，使其至少包含 `n`
-个桶，并确保负载因子小于或等于最大负载因子。此操作将视情况增加或减少容器的
+个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)`
@@ -2007,7 +2015,7 @@ void rehash(size_type n);
 [cols=",",]
 |===
 |抛出：
-|若抛出异常则函数无效果，除非异常由容器的哈希函数或比较函数抛出。
+|若抛出异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -2029,7 +2037,7 @@ void reserve(size_type n);
 [cols=",",]
 |===
 |抛出：
-|若抛出异常则函数无效果，除非异常由容器的哈希函数或比较函数抛出。
+|若抛出异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -2104,7 +2112,7 @@ template<class InputIterator>
 ....
 template<class InputIterator>
   using iter-key-type = std::remove_const_t<
-    std::tuple_element_t<0, iter-value-type<InputIterator>>>; // 仅为说明
+    std::tuple_element_t<0, iter-value-type<InputIterator>>>; // 仅用于说明
 ....
 
 [[unordered_node_map_iter_mapped_type]]
@@ -2113,7 +2121,7 @@ template<class InputIterator>
 ....
 template<class InputIterator>
   using iter-mapped-type =
-    std::tuple_element_t<1, iter-value-type<InputIterator>>;  // 仅为说明
+    std::tuple_element_t<1, iter-value-type<InputIterator>>;  // 仅用于说明
 ....
 
 [[unordered_node_map_iter_to_alloc_type]]
@@ -2123,7 +2131,7 @@ template<class InputIterator>
 template<class InputIterator>
   using iter-to-alloc-type = std::pair<
     std::add_const_t<std::tuple_element_t<0, iter-value-type<InputIterator>>>,
-    std::tuple_element_t<1, iter-value-type<InputIterator>>>; // 仅为说明
+    std::tuple_element_t<1, iter-value-type<InputIterator>>>; // 仅用于说明
 ....
 
 [[unordered_node_map_equality_comparisons]]
@@ -2145,7 +2153,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|注意： |若两个容器的相等谓词不等效，则行为未定义。
+|注意： |若两个容器的相等性谓词不等效，则行为未定义。
 |===
 
 '''''
@@ -2166,7 +2174,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|注意： |若两个容器的相等谓词不等效，则行为未定义。
+|注意： |若两个容器的相等性谓词不等效，则行为未定义。
 |===
 
 [[unordered_node_map_swap_2]]
@@ -2234,9 +2242,9 @@ return original_size - c.size();
 [[unordered_node_map_serialization]]
 === 序列化
 
-`unordered_node_map` 可通过本库提供的 API 使用
+`unordered_node_map` 可通过本组件库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-进行归档/检索。支持常规归档和 XML 归档。
+进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[unordered_node_map_saving_an_unordered_node_map_to_an_archive]]
 ==== 将 unordered_node_map 保存到归档
@@ -2258,16 +2266,16 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 [[unordered_node_map_loading_an_unordered_node_map_from_an_archive]]
 ==== 从归档加载 unordered_node_map
 
-删除 `unordered_node_map` `x` 的所有现有元素，并从归档（XML 归档）`ar`
-插入原始 `unordered_node_map` `other` 保存到 `ar`
-所读存储中的元素恢复副本。
+删除 `unordered_node_map` 容器 `x` 中所有已存在的元素，并从归档（XML
+归档）`ar` 中插入原始 `unordered_node_map` 容器 `other`
+的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`key_type` 和 `mapped_type` 可分别从
+|要求： |`key_type` 与 `mapped_type` 必须能够分别从
 `std::remove_const<key_type>::type&&` 和
-`std::remove_const<mapped_type>::type&&` 构造。且 `x.key_equal()`
-在功能上等效于 `other.key_equal()`。
+`std::remove_const<mapped_type>::type&&` 构造。且需要`x.key_equal()`
+在功能上等价于 `other.key_equal()`。
 |===
 
 '''''
@@ -2280,8 +2288,8 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 
 [cols=",",]
 |===
-|要求： |`it` 指向的 `unordered_node_map` `x` 先前已保存到
-`ar`，且在保存 `x` 和保存 `it` 之间未对 `x` 执行修改操作。
+|要求： |`it` 所指向的 `unordered_node_map` 容器 `x` 必须先前已保存至
+`ar`，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 '''''
@@ -2295,10 +2303,10 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 
 [cols=",",]
 |===
-|要求： |若 `x` 是 `it` 指向的 `unordered_node_map`，则在加载 `x` 和加载
-`it` 之间未对 `x` 执行修改操作。
+|要求： |若 `x` 是 `it` 所指向的 `unordered_node_map` 容器，则在加载 `x`
+与加载 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:42:20 UTC
+最后更新于 2025年 10月 31日 21:42:20 UTC

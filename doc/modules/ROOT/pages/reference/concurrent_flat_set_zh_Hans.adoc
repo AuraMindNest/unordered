@@ -1856,7 +1856,7 @@ size_type bucket_count() const noexcept;
 === 哈希策略
 
 [[concurrent_flat_set_load_factor]]
-==== load_factor（负载因子）
+==== 负载因子
 
 [source,highlight]
 ----

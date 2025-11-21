@@ -1486,7 +1486,7 @@ float load_factor() const noexcept;
 |===
 |返回： |返回
 `static_cast<float>(size())/static_cast<float>(bucket_count())`，若
-`bucket_count() == 0` 则返回 `0`。
+`bucket_count() == 0`， 则返回 `0`。
 |===
 
 '''''
@@ -1550,7 +1550,7 @@ void rehash(size_type n);
 ----
 
 如有必要，将改变桶数组的大小，使其至少包含 `n`
-个桶，并确保负载因子小于或等于最大负载因子。此操作将视情况增加或减少容器的
+个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)`

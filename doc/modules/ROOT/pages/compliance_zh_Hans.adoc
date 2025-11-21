@@ -75,7 +75,7 @@ https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指�
 ** `begin()` 不是常数时间复杂度操作。
 ** `erase(iterator)`
 不返回指向下一元素的迭代器，而是返回一个代理对象，该对象可按需转换为目标迭代器；这可以避免在无需迭代器时可能产生的高昂递增操作开销。
-** 不提供桶处理 API（`bucket_count` 除外）。
+** 未提供用于桶管理的 API（除 `bucket_count` 外）。
 ** 容器的最大负载因子由内部自动管理，用户无法手动设置。通过公开函数
 `max_load` 获取的最大负载值，在高负载情况下执行删除操作时可能会降低。
 * 扁平容器（`boost::unordered_flat_set` 与

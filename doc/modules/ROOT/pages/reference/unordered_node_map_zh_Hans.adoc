@@ -1382,7 +1382,7 @@ value_type(std::piecewise_construct,
            std::forward_as_tuple(std::forward<Args>(args)...))
 ----
 
-而 link:#unordered_node_map_emplace_hint[emplace_hint]
+而非像 link:#unordered_node_map_emplace_hint[emplace_hint]
 会简单地将所有参数转发给 `value_type` 的构造函数。
 
 可能会导致迭代器失效，但仅当插入操作导致负载超过最大负载时才会发生。
@@ -1410,11 +1410,11 @@ template<class K, class M>
   std::pair<iterator, bool> insert_or_assign(K&& k, M&& obj);
 ----
 
-向容器中插入新元素或通过赋值更新现有元素。
+向容器中插入新元素，或通过赋值给已存在的元素值来更新该元素。
 
-若存在键为 `k` 的元素，则通过赋值 `std::forward<M>(obj)` 更新它。
+若存在键为 `k` 的元素，则通过赋值 `std::forward<M>(obj)` 来更新该元素。
 
-若不存在此元素，则将其作为以下形式添加到容器：
+若不存在该元素，则将其以如下方式添加到容器中：
 
 [source,highlight]
 ----
@@ -1441,10 +1441,10 @@ value_type(std::piecewise_construct,
 |注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载超过最大负载时才会发生。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K, class M>`
-才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K, class M>`
+才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 
 |===
 
@@ -1463,11 +1463,11 @@ template<class K, class M>
   iterator insert_or_assign(const_iterator hint, K&& k, M&& obj);
 ----
 
-向容器中插入新元素或通过赋值更新现有元素。
+向容器中插入新元素，或通过赋值给已存在的元素值来更新该元素。
 
-若存在键为 `k` 的元素，则通过赋值 `std::forward<M>(obj)` 更新它。
+若存在键为 `k` 的元素，则通过赋值 `std::forward<M>(obj)` 来更新该元素。
 
-若不存在此元素，则将其作为以下形式添加到容器：
+若不存在该元素，则将其以如下方式添加到容器中：
 
 [source,highlight]
 ----
@@ -1494,10 +1494,10 @@ value_type(std::piecewise_construct,
 |注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载超过最大负载时才会发生。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义时，`template<class K, class M>`
-才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K, class M>`
+才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 
 |===
 

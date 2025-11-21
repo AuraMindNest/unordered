@@ -1585,9 +1585,9 @@ void swap(unordered_node_map& other)
 
 交换容器与参数的内容。
 
-若声明了 `Allocator::propagate_on_container_swap` 且
+若 `Allocator::propagate_on_container_swap` 已声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不相等分配器交换会导致未定义行为。
+`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
@@ -2182,9 +2182,9 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 交换 `x` 与 `y` 的内容。
 
-若声明了 `Allocator::propagate_on_container_swap` 且
+若 `Allocator::propagate_on_container_swap` 已声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器。否则，与不相等分配器交换会导致未定义行为。
+`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===

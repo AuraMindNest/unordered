@@ -442,7 +442,7 @@ unordered_multiset(unordered_multiset&& other);
 
 [cols=",",]
 |===
-|备注： |此函数通过 Boost.Move 实现。
+|注意： |此函数通过 Boost.Move 实现。
 |要求： |`value_type` 必须满足可移动构造的要求。
 |===
 
@@ -508,7 +508,7 @@ unordered_multiset(unordered_multiset&& other, const Allocator& a);
 
 [cols=",",]
 |===
-|备注： |此函数通过 Boost.Move 实现。
+|注意： |此函数通过 Boost.Move 实现。
 |要求： |`value_type` 需满足可移动插入要求。
 |===
 
@@ -701,7 +701,7 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 
 [cols=",",]
 |===
-|备注： |析构函数会作用于每个元素，并释放所有内存
+|注意： |析构函数会作用于每个元素，并释放所有内存
 |===
 
 '''''
@@ -911,7 +911,7 @@ template<class... Args> iterator emplace(Args&&... args);
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
+|注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
@@ -943,9 +943,9 @@ template<class... Args> iterator emplace_hint(const_iterator position, Args&&...
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
-标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
-支持的唯一方式）是指向具有相同键的现有元素。 +
+|注意： a|
+标准规范对提示参数的含义规定相当模糊。实际上唯一有效的使用方式（也是
+Boost.Unordered 唯一支持的用法）是指向一个具有相同键的已存在元素。 +
 
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
@@ -963,19 +963,20 @@ template<class... Args> iterator emplace_hint(const_iterator position, Args&&...
 iterator insert(const value_type& obj);
 ----
 
-插入 `obj` 到容器中。
+向容器中插入 `obj`。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
 |返回： |返回一个指向插入元素的迭代器。
 
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
+|注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
@@ -992,19 +993,20 @@ iterator insert(const value_type& obj);
 iterator insert(value_type&& obj);
 ----
 
-插入 `obj` 到容器中。
+向容器中插入 `obj`。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
 |返回： |返回一个指向插入元素的迭代器。
 
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
+|注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
@@ -1021,23 +1023,24 @@ iterator insert(value_type&& obj);
 iterator insert(const_iterator hint, const value_type& obj);
 ----
 
-插入 `obj` 到容器中。
+向容器中插入 `obj`。
 
 `hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+要求。
 
 |返回： |返回一个指向插入元素的迭代器。
 
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
-标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
-支持的唯一方式）是指向具有相同键的现有元素。 +
+|注意： a|
+标准规范对提示参数的含义规定相当模糊。实际上唯一有效的使用方式（也是
+Boost.Unordered 唯一支持的用法）是指向一个具有相同键的已存在元素。 +
 
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
@@ -1055,23 +1058,24 @@ iterator insert(const_iterator hint, const value_type& obj);
 iterator insert(const_iterator hint, value_type&& obj);
 ----
 
-插入 `obj` 到容器中。
+向容器中插入 `obj`。
 
 `hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求。
 
 |返回： |返回一个指向插入元素的迭代器。
 
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
-标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
-支持的唯一方式）是指向具有相同键的现有元素。 +
+|注意： a|
+标准规范对提示参数的含义规定相当模糊。实际上唯一有效的使用方式（也是
+Boost.Unordered 唯一支持的用法）是指向一个具有相同键的已存在元素。 +
 
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
@@ -1097,10 +1101,10 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到
 `X` 中。
 
-|抛出： |插入单个元素时，若异常由 `hasher`
-调用外的操作抛出，则函数无效果。
+|抛出： |插入单个元素时，若异常由调用 `hasher`
+以外的操作抛出，则此函数不产生任何效果。
 
-|备注： a|
+|注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
@@ -1124,10 +1128,10 @@ void insert(std::initializer_list<value_type> il);
 |要求： |`value_type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
 
-|抛出： |插入单个元素时，若异常由 `hasher`
-调用外的操作抛出，则函数无效果。
+|抛出： |插入单个元素时，若异常由调用 `hasher`
+以外的操作抛出，则此函数不产生任何效果。
 
-|备注： a|
+|注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。
@@ -1149,7 +1153,7 @@ node_type extract(const_iterator position);
 [cols=",",]
 |===
 |返回： |返回一个拥有该元素的 `node_type`对象。
-|备注： |通过此方法提取的节点可插入兼容的 `unordered_set`。
+|注意： |通过此方法提取的节点可插入兼容的 `unordered_set`。
 |===
 
 '''''
@@ -1172,7 +1176,7 @@ template<class K> node_type extract(K&& k);
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
 
-|备注： a|
+|注意： a|
 通过此方法提取的节点可插入兼容的 `unordered_set`。 +
 
 `template<class K>` 重载仅当 `Hash::is_transparent` 和
@@ -1209,7 +1213,7 @@ iterator insert(node_type&& nh);
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
 
-|备注： a|
+|注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
 指向元素的指针和引用永不失效。 +
@@ -1245,9 +1249,9 @@ iterator insert(const_iterator hint, node_type&& nh);
 
 |抛出： |若异常由调用 hasher 以外的操作抛出，则此函数不产生任何效果。
 
-|备注： a|
-标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered
-支持的唯一方式）是指向具有相同键的现有元素。 +
+|注意： a|
+标准规范对提示参数的含义规定相当模糊。实际上唯一有效的使用方式（也是
+Boost.Unordered 唯一支持的用法）是指向一个具有相同键的已存在元素。 +
 
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 
@@ -1276,7 +1280,7 @@ iterator erase(const_iterator position);
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
 
-|备注：
+|注意：
 |在旧版本中，此操作可能效率较低，因为需要遍历多个桶来定位返回迭代器的位置。但数据结构现已优化，不再存在此问题，因此其他擦除方法已被弃用。
 |===
 
@@ -1299,7 +1303,7 @@ template<class K> size_type erase(K&& x);
 
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
 
-|备注： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
+|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
 `Pred::is_transparent` 是有效的成员类型别名，且 `iterator` 或
 `const_iterator` 不能从 `K` 隐式转换时参与重载决议。库假定 `Hash`
 可同时用 `K` 和 `Key` 调用，且 `Pred`
@@ -1348,7 +1352,7 @@ void quick_erase(const_iterator position);
 
 在此实现中，此重载不调用任一函数对象的方法，故为无抛出，但其他实现可能不成立。
 
-|备注：
+|注意：
 |此方法因从擦除返回下一元素的迭代器开销大而实现，但容器已重新设计，不再如此。故此方法现已弃用。
 |===
 
@@ -1371,7 +1375,7 @@ void erase_return_void(const_iterator position);
 
 在此实现中，此重载不调用任一函数对象的方法，故为无抛出，但其他实现可能不成立。
 
-|备注：
+|注意：
 |此方法因从擦除返回下一元素的迭代器开销大而实现，但容器已重新设计，不再如此。故此方法现已弃用。
 |===
 
@@ -1399,7 +1403,7 @@ void swap(unordered_multiset&)
 |抛出： |除非由 `key_equal` 或 `hasher`
 的复制构造/赋值操作抛出，否则不抛异常。
 
-|备注： |异常规范与 C++11
+|注意： |异常规范与 C++11
 标准不完全相同，因为等价谓词和哈希函数通过其复制构造函数交换。
 |===
 
@@ -1453,7 +1457,7 @@ template<class H2, class P2>
 
 [width="100%",cols="50%,50%",]
 |===
-|备注： a|
+|注意： a|
 * 指向被转移元素的指针和引用保持有效。
 * 使指向被转移元素的迭代器失效。
 * 使属于 `*this` 的迭代器失效。
@@ -1533,7 +1537,7 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 |返回： |返回一个指向键等价于 `k`
 的元素的迭代器，若不存在这样的元素，则返回 `b.end()`。
 
-|备注： a|
+|注意： a|
 包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate`
 的模板化重载是非标准扩展，允许用户使用兼容的哈希函数和相等性谓词来处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应改用基于
 `K` 的成员函数模板。 +
@@ -1561,7 +1565,7 @@ template<class K>
 |===
 |返回： |返回键等价于 `k` 的元素数量。
 
-|备注： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
+|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
 `Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
 可同时用 `K` 和 `Key` 调用，且 `Pred`
 是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
@@ -1583,7 +1587,7 @@ template<class K>
 |===
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
-|备注： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
+|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
 `Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
 可同时用 `K` 和 `Key` 调用，且 `Pred`
 是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
@@ -1610,7 +1614,7 @@ template<class K>
 的元素的范围。若容器中不存在此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
-|备注： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
+|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
 `Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
 可同时用 `K` 和 `Key` 调用，且 `Pred`
 是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
@@ -1682,7 +1686,7 @@ template<class K> size_type bucket(const K& k) const;
 
 |后置条件： |返回值应小于 `bucket_count()`。
 
-|备注： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
+|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
 `Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
 可同时用 `K` 和 `Key` 调用，且 `Pred`
 是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
@@ -1894,7 +1898,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|备注： |若两个容器的等价谓词不等价，则行为未定义。
+|注意： |若两个容器的等价谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -1915,7 +1919,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|备注： |若两个容器的等价谓词不等价，则行为未定义。
+|注意： |若两个容器的等价谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -1944,7 +1948,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 |抛出： |除非由 `key_equal` 或 `hasher`
 的复制构造/赋值操作抛出，否则不抛异常。
 
-|备注： |异常规范与 C++11
+|注意： |异常规范与 C++11
 标准不完全相同，因为等价谓词和哈希函数通过其复制构造函数交换。
 |===
 
@@ -1965,7 +1969,7 @@ template<class K, class H, class P, class A, class Predicate>
 [width="100%",cols="50%,50%",]
 |===
 |返回： |被擦除的元素数量。
-|备注： a|
+|注意： a|
 等价于： +
 
 [source,highlight]
@@ -2016,7 +2020,7 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求，且`x.key_equal()`
 在功能上需等价于 `other.key_equal()`。
 
-|备注： |若归档文件是使用 Boost 1.84
+|注意： |若归档文件是使用 Boost 1.84
 之前的版本保存的，则必须全局定义配置宏
 `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
 才能成功执行此操作；否则将抛出异常。

@@ -1699,7 +1699,7 @@ size_type max_bucket_count() const noexcept;
 '''''
 
 [[unordered_multimap_bucket_size]]
-==== bucket_size
+==== 桶大小
 
 [source,highlight]
 ----
@@ -1808,7 +1808,7 @@ const_local_iterator cend(size_type n) const;
 === 哈希策略
 
 [[unordered_multimap_load_factor]]
-==== load_factor（负载因子）
+==== 负载因子
 
 [source,highlight]
 ----
@@ -1884,7 +1884,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`，或者若 `n > 0` 且
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`，若 `n > 0` 且
 `a.max_load_factor() == std::numeric_limits<float>::infinity()`，则等价于
 `a.rehash(1)`。
 

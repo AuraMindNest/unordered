@@ -492,7 +492,7 @@ unordered_flat_set(concurrent_flat_set<Key, Hash, Pred, Allocator>&& other);
 [cols=",",]
 |===
 |复杂度： |常数时间复杂度。
-|并发性： |在 `other` 上阻塞。
+|并发性： |阻塞于 `other`。
 |===
 
 '''''
@@ -510,7 +510,7 @@ unordered_flat_set(std::initializer_list<value_type> il,
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将 `il` 中的元素插入其中。
+作为键相等性谓词、以及`a` 作为分配器，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
@@ -613,7 +613,8 @@ unordered_flat_set(std::initializer_list<value_type> il, const allocator_type& a
 ----
 
 构造一个空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
+作为分配器、以及默认的哈希函数和键相等性谓词，并将 `il`
+中的元素插入其中。
 
 [cols=",",]
 |===

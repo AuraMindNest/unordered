@@ -258,7 +258,7 @@ namespace unordered {
 的参数，并返回一个布尔类型的值。
 
 |_分配器_
-|一种分配器，其值类型与容器的值类型相同。支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|一种分配器，其值类型与容器的值类型相同，是一种支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内，且等效键的元素彼此相邻存储。
@@ -2010,7 +2010,7 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 |===
 |要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持
 Boost.Serialization 的 `save_construct_data`/`load_construct_data`
-协议（该协议对满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型自动支持）。
+协议（该协议自动支持满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 |===
 
 '''''
@@ -2018,8 +2018,9 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_multiset_loading_an_unordered_multiset_from_an_archive]]
 ==== 从归档加载 unordered_multiset
 
-删除 `unordered_multiset` `x` 的所有预先存在的元素，并从归档（XML
-归档）`ar` 插入原始 `unordered_multiset` `other` 的元素的恢复副本。
+删除 `unordered_multiset` 容器 `x` 中所有已存在的元素，并从归档（XML
+归档）`ar` 中插入原始 `unordered_multiset` 容器 `other`
+的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
@@ -2038,13 +2039,13 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_multiset_saving_an_iteratorconst_iterator_to_an_archive]]
 ==== 将迭代器/常量迭代器保存到归档
 
-将`iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML
-归档）`ar` 中。`it` 可以是 `end()` 迭代器。
+将`iterator`（`const_iterator`）常量迭代器 `it`
+的位置信息保存到归档（XML 归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
-|要求： |`it` 指向的 `unordered_multiset` `x` 先前已保存到
-`ar`，且在保存 `x` 和保存 `it` 之间未对 `x` 发出修改操作。
+|要求： |`it` 所指向的 `unordered_multiset` 容器 `x` 必须先前已保存至
+`ar`，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 '''''
@@ -2058,10 +2059,10 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 
 [cols=",",]
 |===
-|要求： |若 `x` 是 `it` 指向的 `unordered_multiset`，则在加载 `x` 和加载
-`it` 之间未对 `x` 发出修改操作。
+|要求： |若 `x` 是 `it` 所指向的 `unordered_multiset` 容器，则在加载 `x`
+与加载 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:42:03 UTC
+最后更新于 2025年 10月 31日 21:42:03 UTC

@@ -1093,7 +1093,7 @@ Boost.Unordered 唯一支持的用法）是指向一个具有相同键的已存�
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 ----
 
-插入元素范围到容器中。
+将元素范围插入容器。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1121,7 +1121,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 void insert(std::initializer_list<value_type> il);
 ----
 
-插入元素范围到容器中。仅当容器中不存在等价键的元素时才插入。
+将元素范围插入容器。仅当容器中不存在等效键时，才会插入范围中的对应元素。
 
 [width="100%",cols="50%,50%",]
 |===
@@ -1153,7 +1153,7 @@ node_type extract(const_iterator position);
 [cols=",",]
 |===
 |返回： |返回一个拥有该元素的 `node_type`对象。
-|注意： |通过此方法提取的节点可插入兼容的 `unordered_set`。
+|注意： |通过此方法提取的节点可被插入到兼容的 `unordered_set` 容器中。
 |===
 
 '''''
@@ -1174,16 +1174,16 @@ template<class K> node_type extract(K&& k);
 |返回： |如果找到，则返回一个拥有该元素的 `node_type`
 对象；否则返回一个空的 `node_type` 对象。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。
 
 |注意： a|
-通过此方法提取的节点可插入兼容的 `unordered_set`。 +
+通过此方法提取的节点可被插入到兼容的 `unordered_set` 容器中。 +
 
-`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名，且 `iterator` 或
-`const_iterator` 不能从 `K` 隐式转换时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 
 |===
 
@@ -1197,18 +1197,18 @@ template<class K> node_type extract(K&& k);
 iterator insert(node_type&& nh);
 ----
 
-若 `nh` 为空，则无效果。
+若 `nh` 为空，则不执行任何操作。
 
 否则插入 `nh` 拥有的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`nh` 为空或 `nh.get_allocator()` 等于容器的分配器。
+|要求： |`nh` 必须为空，或 `nh.get_allocator()` 必须等于容器的分配器。
 
 |返回： a|
-若 `nh` 为空，返回 `end()`。 +
+若 `nh` 为空，则返回 `end()`。 +
 
-否则返回指向新插入元素的迭代器。
+否则，返回指向新插入元素的迭代器。
 
 |抛出： |若异常由调用 `hasher`
 以外的操作引发异常，则该函数不产生任何效果。
@@ -1218,7 +1218,7 @@ iterator insert(node_type&& nh);
 
 指向元素的指针和引用永不失效。 +
 
-此方法可用于插入从兼容 `unordered_set` 提取的节点。
+此方法可用于插入从兼容的 `unordered_set` 容器中提取的节点。
 
 |===
 
@@ -1232,7 +1232,7 @@ iterator insert(node_type&& nh);
 iterator insert(const_iterator hint, node_type&& nh);
 ----
 
-若 `nh` 为空，则无效果。
+若 `nh` 为空，则不执行任何操作。
 
 否则插入 `nh` 拥有的元素。
 
@@ -1240,12 +1240,12 @@ iterator insert(const_iterator hint, node_type&& nh);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`nh` 为空或 `nh.get_allocator()` 等于容器的分配器。
+|要求： |`nh` 必须为空，或 `nh.get_allocator()` 必须等于容器的分配器。
 
 |返回： a|
-若 `nh` 为空，返回 `end()`。 +
+若 `nh` 为空，则返回 `end()`。 +
 
-否则返回指向新插入元素的迭代器。
+否则，返回指向新插入元素的迭代器。
 
 |抛出： |若异常由调用 hasher 以外的操作抛出，则此函数不产生任何效果。
 
@@ -1257,7 +1257,7 @@ Boost.Unordered 唯一支持的用法）是指向一个具有相同键的已存�
 
 指向元素的指针和引用永不失效。 +
 
-此方法可用于插入从兼容 `unordered_set` 提取的节点。
+此方法可用于插入从兼容的 `unordered_set` 容器中提取的节点。
 
 |===
 
@@ -1272,13 +1272,13 @@ iterator erase(iterator position);
 iterator erase(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [cols=",",]
 |===
 |返回： |返回擦除操作前紧接在 `position` 之后的迭代器。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。
 
 |注意：
 |在旧版本中，此操作可能效率较低，因为需要遍历多个桶来定位返回迭代器的位置。但数据结构现已优化，不再存在此问题，因此其他擦除方法已被弃用。
@@ -1301,13 +1301,13 @@ template<class K> size_type erase(K&& x);
 |===
 |返回： |被擦除的元素数量。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时抛出。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。
 
-|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名，且 `iterator` 或
-`const_iterator` 不能从 `K` 隐式转换时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
+隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash`
+可同时被 `K` 和 `Key` 调用，且 `Pred`
+是透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1327,9 +1327,9 @@ iterator erase(const_iterator first, const_iterator last);
 |返回： |返回被擦除元素之后的迭代器——即 `last`。
 
 |抛出： a|
-仅当 `hasher` 或 `key_equal` 抛出异常时抛出。 +
+仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。 +
 
-在此实现中，此重载不调用任一函数对象的方法，故为无抛出，但其他实现可能不成立。
+在此实现中，该重载不会调用任一函数对象的方法，因此不会抛出任何异常，但其他实现中可能并非如此。
 
 |===
 
@@ -1343,17 +1343,17 @@ iterator erase(const_iterator first, const_iterator last);
 void quick_erase(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [width="100%",cols="50%,50%",]
 |===
 |抛出： a|
-仅当 `hasher` 或 `key_equal` 抛出异常时抛出。 +
+仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。 +
 
-在此实现中，此重载不调用任一函数对象的方法，故为无抛出，但其他实现可能不成立。
+在此实现中，该重载不会调用任一函数对象的方法，因此不会抛出任何异常，但其他实现中可能并非如此。
 
 |注意：
-|此方法因从擦除返回下一元素的迭代器开销大而实现，但容器已重新设计，不再如此。故此方法现已弃用。
+|此方法的实现的早期版本，因通过擦除返回下一元素迭代器而开销较大。但随着容器结构的重新设计，该问题已得到解决，因此该方法现已被弃用。
 |===
 
 '''''
@@ -1366,17 +1366,17 @@ void quick_erase(const_iterator position);
 void erase_return_void(const_iterator position);
 ----
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [width="100%",cols="50%,50%",]
 |===
 |抛出： a|
-仅当 `hasher` 或 `key_equal` 抛出异常时抛出。 +
+仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。 +
 
-在此实现中，此重载不调用任一函数对象的方法，故为无抛出，但其他实现可能不成立。
+在此实现中，该重载不会调用任一函数对象的方法，因此不会抛出任何异常，但其他实现中可能并非如此。
 
 |注意：
-|此方法因从擦除返回下一元素的迭代器开销大而实现，但容器已重新设计，不再如此。故此方法现已弃用。
+|此方法的实现的早期版本，因通过擦除返回下一元素迭代器而开销较大。但随着容器结构的重新设计，该问题已得到解决，因此该方法现已被弃用。
 |===
 
 '''''
@@ -1396,15 +1396,15 @@ void swap(unordered_multiset&)
 
 若 `Allocator::propagate_on_container_swap` 声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器；否则，与不等价分配器交换导致未定义行为。
+`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非由 `key_equal` 或 `hasher`
-的复制构造/赋值操作抛出，否则不抛异常。
+|抛出： |除非异常由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
 
 |注意： |异常规范与 C++11
-标准不完全相同，因为等价谓词和哈希函数通过其复制构造函数交换。
+标准并不完全相同，因为相等性谓词和哈希函数是通过其复制构造函数进行交换的。
 |===
 
 '''''
@@ -1542,10 +1542,11 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 的模板化重载是非标准扩展，允许用户使用兼容的哈希函数和相等性谓词来处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应改用基于
 `K` 的成员函数模板。 +
 
-`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 
 |===
 
@@ -1565,10 +1566,11 @@ template<class K>
 |===
 |返回： |返回键等价于 `k` 的元素数量。
 
-|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1587,10 +1589,11 @@ template<class K>
 |===
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
-|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1614,10 +1617,11 @@ template<class K>
 的元素的范围。若容器中不存在此类元素，则返回
 `std::make_pair(b.end(), b.end())`。
 
-|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1656,7 +1660,7 @@ size_type max_bucket_count() const noexcept;
 '''''
 
 [[unordered_multiset_bucket_size]]
-==== bucket_size
+==== 桶大小
 
 [source,highlight]
 ----
@@ -1686,10 +1690,11 @@ template<class K> size_type bucket(const K& k) const;
 
 |后置条件： |返回值应小于 `bucket_count()`。
 
-|注意： |`template<class K>` 重载仅当 `Hash::is_transparent` 和
-`Pred::is_transparent` 是有效的成员类型别名时参与重载决议。库假定 `Hash`
-可同时用 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent`
+均为有效的成员类型别名时，`template<class K>`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
+类型对象所需的开销。
 |===
 
 '''''
@@ -1764,7 +1769,7 @@ const_local_iterator cend(size_type n) const;
 === 哈希策略
 
 [[unordered_multiset_load_factor]]
-==== load_factor（负载因子）
+==== 负载因子
 
 [source,highlight]
 ----
@@ -1826,7 +1831,8 @@ void rehash(size_type n);
 
 [cols=",",]
 |===
-|抛出： |若异常由容器的哈希函数或比较函数抛出，则函数无效果。
+|抛出：
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1839,7 +1845,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`，或者若 `n > 0` 且
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`，若 `n > 0` 且
 `a.max_load_factor() == std::numeric_limits<float>::infinity()`，则等价于
 `a.rehash(1)`。
 
@@ -1849,7 +1855,8 @@ void reserve(size_type n);
 
 [cols=",",]
 |===
-|抛出： |若异常由容器的哈希函数或比较函数抛出，则函数无效果。
+|抛出：
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1898,7 +1905,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|注意： |若两个容器的等价谓词不等价，则行为未定义。
+|注意： |若两个容器的相等性谓词不等效，则行为未定义。
 |===
 
 '''''
@@ -1913,13 +1920,13 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const unordered_multiset<Key, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` 且对于 `x` 中的每个元素，在 `y`
+如果 `x.size() == y.size()` ，且对于 `x` 中的每个元素，在 `y`
 中均存在一个具有相同键且值相等的元素（使用 `operator==`
 比较值类型），则返回 `false`。
 
 [cols=",",]
 |===
-|注意： |若两个容器的等价谓词不等价，则行为未定义。
+|注意： |若两个容器的相等性谓词不等效，则行为未定义。
 |===
 
 '''''
@@ -1939,17 +1946,17 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 若 `Allocator::propagate_on_container_swap` 声明且
 `Allocator::propagate_on_container_swap::value` 为
-`true`，则交换容器的分配器；否则，与不等价分配器交换导致未定义行为。
+`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
 |效果： |`x.swap(y)`
 
-|抛出： |除非由 `key_equal` 或 `hasher`
-的复制构造/赋值操作抛出，否则不抛异常。
+|抛出： |除非异常由 `key_equal` 或 `hasher`
+的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
 
 |注意： |异常规范与 C++11
-标准不完全相同，因为等价谓词和哈希函数通过其复制构造函数交换。
+标准并不完全相同，因为相等性谓词和哈希函数是通过其复制构造函数进行交换的。
 |===
 
 '''''
@@ -1990,9 +1997,9 @@ return original_size - c.size();
 [[unordered_multiset_serialization]]
 === 序列化
 
-`unordered_multiset` 可通过
+`unordered_multiset` 可通过本组件库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
+进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[unordered_multiset_saving_an_unordered_multiset_to_an_archive]]
 ==== 保存 unordered_multiset 到归档

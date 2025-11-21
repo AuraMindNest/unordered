@@ -2142,7 +2142,7 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 |===
 |要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持
 Boost.Serialization 的 `save_construct_data`/`load_construct_data`
-协议（该协议对满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型自动支持）。
+协议（该协议自动支持满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 
 |并发性： |阻塞于 `x`。
 |===

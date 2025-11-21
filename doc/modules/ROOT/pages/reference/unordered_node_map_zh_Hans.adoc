@@ -1180,12 +1180,13 @@ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 ----
 
-将元素范围插入容器。当且仅当容器中不存在具有等价键的元素时插入元素。
+将元素范围插入容器。仅当容器中不存在等效键时，才会插入范围中的对应元素。
 
 [cols=",",]
 |===
 |要求： |`value_type` 必须能够通过 `*first`
-在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
+在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+。
 
 |抛出： |当插入单个元素时，若异常由调用 `hasher`
 以外的操作抛出，则此函数不产生任何效果。
@@ -1204,12 +1205,13 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 void insert(std::initializer_list<value_type>);
 ----
 
-将元素范围插入容器。当且仅当容器中不存在具有等价键的元素时插入元素。
+将元素范围插入容器。仅当容器中不存在等效键时，才会插入范围中的对应元素。
 
 [cols=",",]
 |===
-|要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]到容器中的要求。
+|要求： |`value_type` 需满足
+https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+到容器中的要求。
 
 |抛出： |当插入单个元素时，若异常由调用 `hasher`
 以外的操作抛出，则此函数不产生任何效果。
@@ -1229,24 +1231,24 @@ insert_return_type insert(node_type&& nh);
 ----
 
 若 `nh` 非空，则当且仅当容器中不存在键等价于 `nh.key()`
-的元素时，插入关联元素。函数返回时 `nh` 为空。
+的元素时，插入其关联元素。函数返回时 `nh` 为空。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-一个从 `position`、`inserted` 和 `node` 构造的 `insert_return_type`
+返回一个从 `position`、`inserted` 和 `node` 构造的 `insert_return_type`
 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false`，`position` 为 `end()`，且
 `node` 为空。
-* 否则若插入发生，则 `inserted` 为 true，`position` 指向插入的元素，且
-`node` 为空。
-* 若插入失败，则 `inserted` 为 false，`node` 保留 `nh` 的先前值，且
-`position` 指向键等价于 `nh.key()` 的元素。
+* 否则，若插入操作发生，则 `inserted` 为 `true`，`position`
+指向被插入的元素，且 `node` 为空。
+* 若插入操作失败，则 `inserted` 为 `false`，`node` 保留 `nh`
+的原始值，且 `position` 指向与 `nh.key()` 等效的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |若 `nh` 非空且其分配器与容器分配器不相等，则行为未定义。
+|注意： |若 `nh` 非空，且其分配器与容器分配器不相等，则行为未定义。
 |===
 
 '''''
@@ -1260,7 +1262,8 @@ iterator insert(const_iterator hint, node_type&& nh);
 ----
 
 若 `nh` 非空，则当且仅当容器中不存在键等价于 `nh.key()`
-的元素时，插入关联元素。若插入发生，则 `nh` 变为空；否则保持不变。
+的元素时，插入其关联的元素。若插入操作发生，则 `nh` 变为空；否则 `nh`
+保持不变。
 
 `hint` 是一个关于元素插入位置的提示，本实现将忽略该提示。
 
@@ -1271,7 +1274,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
-|注意： |若 `nh` 非空且其分配器与容器分配器不相等，则行为未定义。
+|注意： |若 `nh` 非空，且其分配器与容器分配器不相等，则行为未定义。
 |===
 
 '''''
@@ -1304,8 +1307,8 @@ template<class K, class... Args>
 
 |注意： a|
 此函数与 link:#unordered_node_map_emplace[emplace]
-类似，区别在于若存在等价键的元素则不构造
-`value_type`；否则，构造形式如下： +
+类似，区别在于：若已存在具有等价键的元素，则不会构造任何 `value_type`
+对象；否则，将按以下形式构造： +
 
 [source,highlight]
 ----
@@ -1320,16 +1323,16 @@ value_type(std::piecewise_construct,
            std::forward_as_tuple(std::forward<Args>(args)...))
 ----
 
-而 link:#unordered_node_map_emplace[emplace] 会简单地将所有参数转发给
-`value_type` 的构造函数。
+而非像 link:#unordered_node_map_emplace[emplace]
+会简单地将所有参数转发给 `value_type` 的构造函数。
 
 可能会导致迭代器失效，但仅当插入操作导致负载超过最大负载时才会发生。
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K`
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
 隐式转换时，`template<class K, class... Args>`
-重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1363,8 +1366,8 @@ template<class K, class... Args>
 
 |注意： a|
 此函数与 link:#unordered_node_map_emplace_hint[emplace_hint]
-类似，区别在于若存在等价键的元素则不构造
-`value_type`；否则，构造形式如下： +
+类似，区别在于：若已存在具有等效键的元素，则不会构造任何 `value_type`
+对象；否则，将按以下形式构造： +
 
 [source,highlight]
 ----
@@ -1385,10 +1388,10 @@ value_type(std::piecewise_construct,
 可能会导致迭代器失效，但仅当插入操作导致负载超过最大负载时才会发生。
 
 仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-是有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K`
+均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K`
 隐式转换时，`template<class K, class... Args>`
-重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 

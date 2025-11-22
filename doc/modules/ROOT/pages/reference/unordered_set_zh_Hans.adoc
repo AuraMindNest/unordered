@@ -2132,8 +2132,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [cols=",",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求，且`x.key_equal()`
-在功能上需等价于 `other.key_equal()`。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求，且`x.key_equal()` 在功能上需等价于 `other.key_equal()`。
 
 |备注： |若归档文件是使用 Boost 1.84
 之前的版本保存的，则必须全局定义配置宏

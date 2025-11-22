@@ -1270,7 +1270,7 @@ iterator insert(const_iterator hint, node_type&& nh);
 [cols=",",]
 |===
 |返回： |若 `nh` 为空，则返回的迭代器为
-`end()`。若插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的已存在元素。
+`end()`。若插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 
@@ -1598,7 +1598,7 @@ void swap(unordered_node_map& other)
 '''''
 
 [[unordered_node_map_extract_by_position]]
-==== 按位置提取
+==== 通过位置提取
 
 [source,highlight]
 ----

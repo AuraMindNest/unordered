@@ -2150,7 +2150,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等效于 `a.rehash(ceil(n / a.max_load_factor()))`。
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 

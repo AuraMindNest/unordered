@@ -1731,7 +1731,7 @@ void rehash(size_type n);
 [cols=",",]
 |===
 |抛出：
-|如果抛出异常，则该函数无效果，除非异常由容器的哈希函数或比较函数抛出。
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1744,7 +1744,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等效于 `a.rehash(ceil(n / a.max_load_factor()))`。
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1753,7 +1753,7 @@ void reserve(size_type n);
 [cols=",",]
 |===
 |抛出：
-|如果抛出异常，则该函数无效果，除非异常由容器的哈希函数或比较函数抛出。
+|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1771,10 +1771,10 @@ stats get_stats() const;
 
 [cols=",",]
 |===
-|返回： |容器直到目前已执行插入和查找操作的统计摘要。
+|返回： |返回容器直到目前已执行插入和查找操作的统计摘要。
 
-|注意：
-|仅当link:#unordered_node_set_boost_unordered_enable_stats[启用]了link:reference/stats.html#stats[统计计算]时可用。
+|注意： |仅当 link:reference/stats.html#stats[统计计算] 功能
+link:#unordered_node_set_boost_unordered_enable_stats[启用]时可用
 |===
 
 '''''
@@ -1791,8 +1791,8 @@ void reset_stats() noexcept;
 |===
 |效果： |将容器维护的内部统计信息清零。
 
-|注意：
-|仅当link:#unordered_node_set_boost_unordered_enable_stats[启用]了link:reference/stats.html#stats[统计计算]时可用。
+|注意： |仅当 link:reference/stats.html#stats[统计计算] 功能
+link:#unordered_node_set_boost_unordered_enable_stats[启用]时可用
 |===
 
 '''''
@@ -1841,7 +1841,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|注意： |如果两个容器的相等谓词不等价，则行为未定义。
+|注意： |如果两个容器的相等性谓词不等价，则行为未定义。
 |===
 
 '''''
@@ -1862,7 +1862,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 [cols=",",]
 |===
-|注意： |如果两个容器的相等谓词不等价，则行为未定义。
+|注意： |如果两个容器的相等性谓词不等价，则行为未定义。
 |===
 
 [[unordered_node_set_swap_2]]
@@ -1928,9 +1928,9 @@ return original_size - c.size();
 [[unordered_node_set_serialization]]
 === 序列化
 
-`unordered_node_set` 可以通过
+`unordered_node_set` 可通过本组件库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
-使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
+进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[unordered_node_set_saving_an_unordered_node_set_to_an_archive]]
 ==== 将 unordered_node_set 保存到归档
@@ -1949,15 +1949,15 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 [[unordered_node_set_loading_an_unordered_node_set_from_an_archive]]
 ==== 从归档加载 unordered_node_set
 
-删除 `unordered_node_set` `x` 的所有预先存在的元素，并从归档（XML
-归档）`ar` 插入原始 `unordered_node_set` `other` 保存到 `ar`
-所读存储中的元素恢复副本。
+删除 `unordered_node_set` 容器 `x` 中所有已存在的元素，并从归档（XML
+归档）`ar` 中插入原始 `unordered_node_set` 容器 `other`
+的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
 |要求： |`value_type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求，且`x.key_equal()`
-在功能上需等价于 `other.key_equal()`。
+需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+要求，且`x.key_equal()` 在功能上需等价于 `other.key_equal()`。
 |===
 
 '''''
@@ -1970,8 +1970,8 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 
 [cols=",",]
 |===
-|要求： |`it` 指向的 `unordered_node_set` `x` 先前已保存到
-`ar`，且在保存 `x` 和保存 `it` 之间未对 `x` 执行修改操作。
+|要求： |`it` 所指向的 `unordered_node_set` 容器 `x` 必须先前已保存至
+`ar`，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 '''''
@@ -1985,10 +1985,10 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 
 [cols=",",]
 |===
-|要求： |如果 `x` 是 `it` 指向的 `unordered_node_set`，则在加载 `x`
-和加载 `it` 之间未对 `x` 执行修改操作。
+|要求： |若 `x` 是 `it` 所指向的 `unordered_node_set` 容器，则在加载 `x`
+与加载 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 [[footer]]
 [[footer-text]]
-最后更新于 2025-10-31 21:42:38 UTC
+最后更新于 2025年 10月 31日 21:42:38 UTC

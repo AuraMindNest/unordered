@@ -11,9 +11,9 @@
 插入基准测试会插入`n`个随机值，其中`n`的范围在10,000至300万之间。在重复值测试场景中，同一组随机值会平均重复插入
 5 次。
 
-擦除基准测试会随机擦除所有 `n`
-个元素，直至容器为空。按键擦除的操作则使用 `erase(const key_type&)`
-方法，每次调用会移除整个等效元素组。
+在擦除基准测试中，随机删除所有 `n`
+个元素直至容器为空。通过键擦除操作使用 `erase(const key_type&)`
+方法，每次调用将移除整个等效元素组。
 
 成功查找基准测试通过按照元素的原始插入顺序查找全部 `n` 个值来完成。
 
@@ -89,12 +89,12 @@ link:_images/benchmarks-set/gcc/scattered%20erasure%20by%20key.xlsx.practice%20n
 non unique,width=250]]
 
 a|
-link:_images/benchmarks-set/gcc/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[image:benchmarks-set/gcc/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[按键进行的分散式擦除.xlsx.practice
+link:_images/benchmarks-set/gcc/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[image:benchmarks-set/gcc/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[按键分散式擦除.xlsx.practice
 non unique 5,width=250]]
 
 a|
 
-|按键操作， 重复元素 |按键操作, 重复元素, +
+|通过键操作， 重复元素 |通过键操作, 重复元素, +
 最大负载因子 5
 |===
 
@@ -208,12 +208,12 @@ link:_images/benchmarks-set/clang_libcpp/scattered%20erasure%20by%20key.xlsx.pra
 non unique,width=250]]
 
 a|
-link:_images/benchmarks-set/clang_libcpp/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[image:benchmarks-set/clang_libcpp/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[按键进行的分散式擦除.xlsx.practice
+link:_images/benchmarks-set/clang_libcpp/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[image:benchmarks-set/clang_libcpp/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[按键分散式擦除.xlsx.practice
 non unique 5,width=250]]
 
 a|
 
-|按键操作， 重复元素 |按键操作, 重复元素, +
+|通过键操作， 重复元素 |通过键操作, 重复元素, +
 最大负载因子 5
 |===
 
@@ -327,12 +327,12 @@ link:_images/benchmarks-set/vs/scattered%20erasure%20by%20key.xlsx.practice%20no
 non unique,width=250]]
 
 a|
-link:_images/benchmarks-set/vs/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[image:benchmarks-set/vs/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[按键进行的分散式擦除.xlsx.practice
+link:_images/benchmarks-set/vs/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[image:benchmarks-set/vs/scattered%20erasure%20by%20key.xlsx.practice%20non-unique%205.png[按键分散式擦除.xlsx.practice
 non unique 5,width=250]]
 
 a|
 
-|按键操作， 重复元素 |按键操作, 重复元素, +
+|通过键操作， 重复元素 |通过键操作, 重复元素, +
 最大负载因子 5
 |===
 

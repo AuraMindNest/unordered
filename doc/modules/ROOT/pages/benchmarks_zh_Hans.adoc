@@ -3,16 +3,16 @@
 
 [[content]]
 [[benchmarks_boostunordered_multiset]]
-== boost::unordered_[multi]set
+=== boost::unordered++_[++multi++]++set
 
-所有基准测试均使用`unordered_set<unsigned int>`(非重复元素）
-和`unordered_multiset<unsigned int>`（重复元素）创建。源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_set[在此处获取]。
+所有基准测试均使用`unordered++_++set++<++unsigned int++>++`(非重复元素）
+和`unordered++_++multiset++<++unsigned int++>++`（重复元素）创建。源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_set[在此处获取]。
 
 插入基准测试会插入`n`个随机值，其中`n`的范围在10,000至300万之间。在重复值测试场景中，同一组随机值会平均重复插入
 5 次。
 
 在擦除基准测试中，随机删除所有 `n`
-个元素直至容器为空。通过键擦除操作使用 `erase(const key_type&)`
+个元素直至容器为空。通过键擦除操作使用 `erase(const key++_++type&)`
 方法，每次调用将移除整个等效元素组。
 
 成功查找基准测试通过按照元素的原始插入顺序查找全部 `n` 个值来完成。
@@ -20,10 +20,10 @@
 未命中查找基准测试使用不同种子值生成的`n`个随机整数进行。
 
 [[benchmarks_gcc_12_libstdc_v3_x64]]
-=== GCC 12 + libstdc++-v3, x64
+==== GCC 12 {plus} libstdc{plus}{plus}-v3, x64
 
 [[benchmarks_insertion]]
-==== 插入
+===== 插入
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -64,7 +64,7 @@ norehash non unique 5,width=250]]
 |===
 
 [[benchmarks_erasure]]
-==== 擦除
+===== 擦除
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -99,7 +99,7 @@ a|
 |===
 
 [[benchmarks_successful_lookup]]
-==== 成功查找
+===== 成功查找
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -119,7 +119,7 @@ non unique 5,width=250]]
 |===
 
 [[benchmarks_unsuccessful_lookup]]
-==== 未命中查找
+===== 未命中查找
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -139,10 +139,10 @@ non unique 5,width=250]]
 |===
 
 [[benchmarks_clang_15_libc_x64]]
-=== Clang 15 + libc++, x64
+==== Clang 15 {plus} libc{plus}{plus}, x64
 
 [[benchmarks_insertion_2]]
-==== 插入
+===== 插入
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -183,7 +183,7 @@ norehash non unique 5,width=250]]
 |===
 
 [[benchmarks_erasure_2]]
-==== 擦除
+===== 擦除
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -218,7 +218,7 @@ a|
 |===
 
 [[benchmarks_successful_lookup_2]]
-==== 成功查找
+===== 成功查找
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -238,7 +238,7 @@ non unique 5,width=250]]
 |===
 
 [[benchmarks_unsuccessful_lookup_2]]
-==== 未命中查找
+===== 未命中查找
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -258,10 +258,10 @@ non unique 5,width=250]]
 |===
 
 [[benchmarks_visual_studio_2022_dinkumware_x64]]
-=== Visual Studio 2022 + Dinkumware, x64
+==== Visual Studio 2022 {plus} Dinkumware, x64
 
 [[benchmarks_insertion_3]]
-==== 插入
+===== 插入
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -302,7 +302,7 @@ norehash non unique 5,width=250]]
 |===
 
 [[benchmarks_erasure_3]]
-==== 擦除
+===== 擦除
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -337,7 +337,7 @@ a|
 |===
 
 [[benchmarks_successful_lookup_3]]
-==== 成功查找
+===== 成功查找
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -357,7 +357,7 @@ non unique 5,width=250]]
 |===
 
 [[benchmarks_unsuccessful_lookup_3]]
-==== 未命中查找
+===== 未命中查找
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -377,14 +377,14 @@ non unique 5,width=250]]
 |===
 
 [[benchmarks_boostunordered_flatnode_map]]
-== boost::unordered_(flat|node)_map
+=== boost::unordered++_++(flat++|++node)++_++map
 
 所有基准测试均为使用以下链接来创建的：
 
-* https://abseil.io/docs/cpp/guides/container[`absl::flat_hash_map`]`<uint64_t, uint64_t>`
-* `boost::unordered_map<uint64_t, uint64_t>`
-* `boost::unordered_flat_map<uint64_t, uint64_t>`
-* `boost::unordered_node_map<uint64_t, uint64_t>`
+* https://abseil.io/docs/cpp/guides/container[`absl::flat++_++hash++_++map`]`++<++uint64++_++t, uint64++_++t++>++`
+* `boost::unordered++_++map++<++uint64++_++t, uint64++_++t++>++`
+* `boost::unordered++_++flat++_++map++<++uint64++_++t, uint64++_++t++>++`
+* `boost::unordered++_++node++_++map++<++uint64++_++t, uint64++_++t++>++`
 
 源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_flat_map[在此处获取]。
 
@@ -398,7 +398,7 @@ non unique 5,width=250]]
 未命中查找基准测试使用不同种子值生成的`n`个随机整数进行。
 
 [[benchmarks_gcc_12_x64]]
-=== GCC 12, x64
+==== GCC 12, x64
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -418,7 +418,7 @@ link:_images/benchmarks-flat_map/gcc-x64/Scattered%20unsuccessful%20looukp.xlsx.
 |===
 
 [[benchmarks_clang_15_x64]]
-=== Clang 15, x64
+==== Clang 15, x64
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -438,7 +438,7 @@ link:_images/benchmarks-flat_map/clang-x64/Scattered%20unsuccessful%20looukp.xls
 |===
 
 [[benchmarks_visual_studio_2022_x64]]
-=== Visual Studio 2022, x64
+==== Visual Studio 2022, x64
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -458,7 +458,7 @@ link:_images/benchmarks-flat_map/vs-x64/Scattered%20unsuccessful%20looukp.xlsx.p
 |===
 
 [[benchmarks_clang_12_arm64]]
-=== Clang 12, ARM64
+==== Clang 12, ARM64
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -478,7 +478,7 @@ link:_images/benchmarks-flat_map/clang-arm64/Scattered%20unsuccessful%20looukp.x
 |===
 
 [[benchmarks_gcc_12_x86]]
-=== GCC 12, x86
+==== GCC 12, x86
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -498,7 +498,7 @@ link:_images/benchmarks-flat_map/gcc-x86/Scattered%20unsuccessful%20looukp.xlsx.
 |===
 
 [[benchmarks_clang_15_x86]]
-=== Clang 15, x86
+==== Clang 15, x86
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -518,7 +518,7 @@ link:_images/benchmarks-flat_map/clang-x86/Scattered%20unsuccessful%20looukp.xls
 |===
 
 [[benchmarks_visual_studio_2022_x86]]
-=== Visual Studio 2022, x86
+==== Visual Studio 2022, x86
 
 [width="100%",cols="25%,25%,25%,25%",]
 |===
@@ -538,23 +538,23 @@ link:_images/benchmarks-flat_map/vs-x86/Scattered%20unsuccessful%20looukp.xlsx.p
 |===
 
 [[benchmarks_boostconcurrent_flatnode_map]]
-== boost::concurrent_(flat|node)_map
+=== boost::concurrent++_++(flat++|++node)++_++map
 
 所有基准测试均为使用以下链接来创建的：
 
-* https://spec.oneapi.io/versions/latest/elements/oneTBB/source/containers/concurrent_hash_map_cls.html[`oneapi::tbb::concurrent_hash_map`]`<int, int>`
-* https://github.com/greg7mdp/gtl/blob/main/docs/phmap.md[`gtl::parallel_flat_hash_map`]`<int, int>`（含64个子映射）
-* `boost::concurrent_flat_map<int, int>`
-* `boost::concurrent_node_map<int, int>`
+* https://spec.oneapi.io/versions/latest/elements/oneTBB/source/containers/concurrent_hash_map_cls.html[`oneapi::tbb::concurrent++_++hash++_++map`]`++<++int, int++>++`
+* https://github.com/greg7mdp/gtl/blob/main/docs/phmap.md[`gtl::parallel++_++flat++_++hash++_++map`]`++<++int, int++>++`（含64个子映射）
+* `boost::concurrent++_++flat++_++map++<++int, int++>++`
+* `boost::concurrent++_++node++_++map++<++int, int++>++`
 
 源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_concurrent_flat_map[在此处获取]。
 
 基准测试使用__T__个线程（数量1至16之间）并发执行随机选择的操作，这些操作包括**更新**、**成功查找**和**未命中查找**三种类型。操作使用的键遵循https://en.wikipedia.org/wiki/Zipf%27s_law#Formal_definition[齐夫分布]，并采用不同的__偏斜__参数：偏斜值越高，键的分布越集中在取值区间的较低数值区域。
 
-测试对`boost::concurrent_flat_map`与`boost::concurrent_node_map`均采用了常规访问与link:concurrent.html#concurrent_bulk_visitation[批量访问]两种模式：对于后者，查找键会先缓存在本地数组中，待缓冲区达到link:reference/concurrent_flat_map.html#concurrent_flat_map_constants[`bulk_visit_size`]大小时再统一处理。
+测试对`boost::concurrent++_++flat++_++map`与`boost::concurrent++_++node++_++map`均采用了常规访问与link:concurrent.html#concurrent_bulk_visitation[批量访问]两种模式：对于后者，查找键会先缓存在本地数组中，待缓冲区达到link:reference/concurrent_flat_map.html#concurrent_flat_map_constants[`bulk++_++visit++_++size`]大小时再统一处理。
 
 [[benchmarks_gcc_12_x64_2]]
-=== GCC 12, x64
+==== GCC 12, x64
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -597,7 +597,7 @@ link:_images/benchmarks-concurrent_map/gcc-x64/Parallel%20workload.xlsx.5M,%200.
 |===
 
 [[benchmarks_clang_15_x64_2]]
-=== Clang 15, x64
+==== Clang 15, x64
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -640,7 +640,7 @@ link:_images/benchmarks-concurrent_map/clang-x64/Parallel%20workload.xlsx.5M,%20
 |===
 
 [[benchmarks_visual_studio_2022_x64_2]]
-=== Visual Studio 2022, x64
+==== Visual Studio 2022, x64
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -683,7 +683,7 @@ link:_images/benchmarks-concurrent_map/vs-x64/Parallel%20workload.xlsx.5M,%200.9
 |===
 
 [[benchmarks_clang_12_arm64_2]]
-=== Clang 12, ARM64
+==== Clang 12, ARM64
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -726,7 +726,7 @@ link:_images/benchmarks-concurrent_map/clang-arm64/Parallel%20workload.xlsx.5M,%
 |===
 
 [[benchmarks_gcc_12_x86_2]]
-=== GCC 12, x86
+==== GCC 12, x86
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -769,7 +769,7 @@ link:_images/benchmarks-concurrent_map/gcc-x86/Parallel%20workload.xlsx.5M,%200.
 |===
 
 [[benchmarks_clang_15_x86_2]]
-=== Clang 15, x86
+==== Clang 15, x86
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -812,7 +812,7 @@ link:_images/benchmarks-concurrent_map/clang-x86/Parallel%20workload.xlsx.5M,%20
 |===
 
 [[benchmarks_visual_studio_2022_x86_2]]
-=== Visual Studio 2022, x86
+==== Visual Studio 2022, x86
 
 [width="100%",cols="34%,33%,33%",]
 |===
@@ -856,4 +856,4 @@ link:_images/benchmarks-concurrent_map/vs-x86/Parallel%20workload.xlsx.5M,%200.9
 
 [[footer]]
 [[footer-text]]
-最后更新于2025年10月31日 21:29:37 [UTC]
+最后更新于2025年10月31日 21:29:37 ++[++UTC++]++

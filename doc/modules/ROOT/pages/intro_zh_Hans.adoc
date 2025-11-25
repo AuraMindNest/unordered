@@ -3,11 +3,11 @@
 
 [[content]]
 https://en.wikipedia.org/wiki/Hash_table[哈希表]是一种极其流行的计算机数据结构，几乎在所有编程语言中都能找到其不同形式的存在。红黑树（在
-C++ 中被 `std::set` 和 `std::map`
+C{plus}{plus} 中被 `std::set` 和 `std::map`
 使用）等其他关联结构在插入和查找操作上具有对数时间复杂度，但哈希表若配置得当，这些操作的平均时间复杂度可达到常数级别，并且通常速度更快。
 
-C++11 标准引入了__无序关联容器__
-`std::unordered_set`、`std::unordered_map`、`std::unordered_multiset`和`std::unordered_multimap`，但针对哈希表的研究并未止步：CPU架构的进步（如更强大的缓存、https://en.wikipedia.org/wiki/Single_instruction,_multiple_data[SIMD]指令集以及日益普及的https://en.wikipedia.org/wiki/Multi-core_processor[多核处理器]）为改进基于哈希的数据结构创造了新的可能，这些新应用场景已远超
+C{plus}{plus}11 标准引入了__无序关联容器__
+`std::unordered++_++set`、`std::unordered++_++map`、`std::unordered++_++multiset`和`std::unordered++_++multimap`，但针对哈希表的研究并未止步：CPU架构的进步（如更强大的缓存、https://en.wikipedia.org/wiki/Single_instruction,_multiple_data[SIMD]指令集以及日益普及的https://en.wikipedia.org/wiki/Multi-core_processor[多核处理器]）为改进基于哈希的数据结构创造了新的可能，这些新应用场景已远超
 2011 年标准所定义的无序关联容器的能力范围。
 
 Boost.Unordered
@@ -17,24 +17,29 @@ Boost.Unordered
 [width="100%",cols="34%,33%,33%",]
 |===
 | |*基于节点* |*扁平*
-|*闭寻址法* |`boost::unordered_set` +
-`boost::unordered_map` +
-`boost::unordered_multiset` +
-`boost::unordered_multimap` |
-|*开放寻址法* |`boost::unordered_node_set` +
-`boost::unordered_node_map` |`boost::unordered_flat_set` +
-`boost::unordered_flat_map`
-|*并发* |`boost::concurrent_node_set` +
-`boost::concurrent_node_map` |`boost::concurrent_flat_set` +
-`boost::concurrent_flat_map`
+
+|*闭寻址法* |`boost::unordered++_++set` +
+`boost::unordered++_++map` +
+`boost::unordered++_++multiset` +
+`boost::unordered++_++multimap` |
+
+|*开放寻址法* |`boost::unordered++_++node++_++set` +
+`boost::unordered++_++node++_++map`
+|`boost::unordered++_++flat++_++set` +
+`boost::unordered++_++flat++_++map`
+
+|*并发* |`boost::concurrent++_++node++_++set` +
+`boost::concurrent++_++node++_++map`
+|`boost::concurrent++_++flat++_++set` +
+`boost::concurrent++_++flat++_++map`
 |===
 
-* **闭寻址容器**完全符合C++无序关联容器规范，并在标准接口的技术约束范围内提供了业界领先的运行性能。
+* **闭寻址容器**完全符合C{plus}{plus}无序关联容器规范，并在标准接口的技术约束范围内提供了业界领先的运行性能。
 * **开放寻址容器**采用了更高效的数据结构与算法（典型场景下性能提升2倍以上），同时为了适配实现方案而对标准接口做了细微调整。该类容器包含两种变体：*扁平式*（最快）与**基于节点式**，后者在重新哈希时能保持指针稳定性，但性能会有所下降。
-* 最后，**并发容器**专为高性能多线程场景设计与实现，其接口与常规C++容器存在根本性差异。该系列同时提供扁平与基于节点两种变体。
+* 最后，**并发容器**专为高性能多线程场景设计与实现，其接口与常规C{plus}{plus}容器存在根本性差异。该系列同时提供扁平与基于节点两种变体。
 
-Boost.Unordered中的所有集合与映射均分别参照 `std::unordered_set` 和
-`std::unordered_map` 的方式进行实例化：
+Boost.Unordered中的所有集合与映射均分别参照 `std::unordered++_++set` 和
+`std::unordered++_++map` 的方式进行实例化：
 
 [source,highlight]
 ----

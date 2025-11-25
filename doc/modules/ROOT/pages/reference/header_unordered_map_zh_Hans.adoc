@@ -2,10 +2,10 @@
 
 [[content]]
 [[header_unordered_map]]
-== `<boost/unordered/unordered_map.hpp>` 概要
+=== `++<++boost/unordered/unordered++_++map.hpp++>++` 概要
 
 定义
-link:reference/unordered_map.html#unordered_map[`boost::unordered_map`]、link:reference/unordered_multimap.html#unordered_multimap[`boost::unordered_multimap`]
+link:reference/unordered_map.html#unordered_map[`boost::unordered++_++map`]、link:reference/unordered_multimap.html#unordered_multimap[`boost::unordered++_++multimap`]
 以及相关函数和别名模板。
 
 ....

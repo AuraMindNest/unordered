@@ -3,7 +3,7 @@
 
 [[content]]
 [[preamble]]
-关联容器使用排序关系来规定元素的存储方式，而无序关联容器则依赖相等性谓词与哈希函数。例如，link:reference/unordered_map.html[`boost::unordered_map`]
+关联容器使用排序关系来规定元素的存储方式，而无序关联容器则依赖相等性谓词与哈希函数。例如，link:reference/unordered_map.html[`boost::unordered++_++map`]
 的声明如下：
 
 [source,highlight]
@@ -67,7 +67,7 @@ boost::unordered_map<std::string, int, ihash, iequal_to>
 ----
 
 这是位于
-link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp]
+link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case++_++insensitive.hpp]
 示例的简化版本，该版本支持其他区域设置和字符串类型。
 
 [width="100%",cols="50%,50%",]
@@ -79,7 +79,7 @@ a|
 |===
 
 [[hash_equality_custom_types]]
-== 自定义类型
+=== 自定义类型
 
 类似地，自定义类型也可使用自定义哈希函数：
 
@@ -144,8 +144,8 @@ Boost.Hash 才能获得此功能。
 [width="100%",cols="50%,50%",options="header",]
 |===
 |方法 |描述
-|`hasher hash_function() const` |返回容器的哈希函数。
-|`key_equal key_eq() const` |返回容器的键相等性函数。
+|`hasher hash++_++function() const` |返回容器的哈希函数。
+|`key++_++equal key++_++eq() const` |返回容器的键相等性函数。
 |===
 
 [[footer]]

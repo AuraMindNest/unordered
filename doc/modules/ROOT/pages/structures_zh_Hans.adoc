@@ -3,7 +3,7 @@
 
 [[content]]
 [[structures_closed_addressing_containers]]
-== 闭寻址容器
+=== 闭寻址容器
 
 Boost.Unordered
 提供了速度最快的闭寻址实现之一，该结构通常被称为https://en.wikipedia.org/wiki/Hash_table#Separate_chaining[分离链接法]。其数据结构示例如下：
@@ -13,7 +13,7 @@ image:bucket-groups.png[桶组]
 
 图1. 基础桶组实现方案
 
-系统分配一个"桶"数组，其中每个桶分别指向其专属的链表。这种结构使得桶迭代能直接满足标准要求。但采用此布局进行整体容器迭代通常较慢，因为需检查每个桶的占用状态，其时间复杂度为`O(bucket_count() + size())`，而标准要求复杂度应为`O(size())`。
+系统分配一个"桶"数组，其中每个桶分别指向其专属的链表。这种结构使得桶迭代能直接满足标准要求。但采用此布局进行整体容器迭代通常较慢，因为需检查每个桶的占用状态，其时间复杂度为`O(bucket++_++count() {plus} size())`，而标准要求复杂度应为`O(size())`。
 
 典型的标准库实现最终会形成如下图所示的结构：
 
@@ -21,7 +21,7 @@ link:_images/singly-linked.png[image:singly-linked.png[单向链表]]
 
 图 2. 典型标准库实现结构
 
-值得注意的是，此方案仅被libc++和libstdc++采用；MSVC
+值得注意的是，此方案仅被libc{plus}{plus}和libstdc{plus}{plus}采用；MSVC
 Dinkumware实现则使用了不同方案。关于标准库容器的更详细分析可参阅http://bannalia.blogspot.com/2013/10/implementation-of-c-unordered.html[此文]。
 
 这种非常规数据结构通过将所有节点连成单向链表来实现高效全局迭代。需注意：桶指向其元素起始节点的__前驱节点__，这样设计的目的是在保持高效元素删除的同时，无需引入双向链表。但这种数据结构不可避免地带来了额外的间接访问开销。例如，要访问某个桶的第一个元素，必须执行类似以下操作：
@@ -51,7 +51,7 @@ if (n) {
 
 实际上，这种额外的间接访问会对常见操作（如 `insert`、`find` 和
 `erase`）产生显著的性能影响。但为了保持容器迭代的高效性，Boost.Unordered
-引入了一种新颖的数据结构——“桶组”。桶组是桶数组某个分区的定宽视图，它包含一个位掩码（`std::size_t`
+引入了一种新颖的数据结构——“桶组”。桶组是桶数组某个分区的定宽视图，它包含一个位掩码（`std::size++_++t`
 类型）用于跟踪桶的占用状态，并包含两个指针以形成非空组之间的双向链表。其结构示例如下：
 
 [[img-fca-layout]]
@@ -61,24 +61,24 @@ image:fca.png[fca]
 
 过将容器全局迭代转换为遍历非空桶组（该操作具有常数时间复杂度），系统将整体时间复杂度恢复至
 `O(size())`。每个桶组仅占用 4 个机器字长的空间，其管理的桶数量为
-`sizeof(std::size_t) * CHAR_BIT`，这意味着在所有常见实现架构中，桶组为每个桶引入的空间开销仅为
+`sizeof(std::size++_++t) ++*++ CHAR++_++BIT`，这意味着在所有常见实现架构中，桶组为每个桶引入的空间开销仅为
 4 比特。
 
 关于 Boost.Unordered
 闭寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale.html#rationale_closed_addressing_containers[相关说明章节]。
 
 [[structures_open_addressing_containers]]
-== 开放寻址容器
+=== 开放寻址容器
 
-下图展示`boost::unordered_flat_set`/`unordered_node_set`及`boost:unordered_flat_map`/`unordered_node_map`的基础内部布局：
+下图展示`boost::unordered++_++flat++_++set`/`unordered++_++node++_++set`及`boost:unordered++_++flat++_++map`/`unordered++_++node++_++map`的基础内部布局：
 
 [[img-foa-layout]]
 image:foa.png[foa]
 
 图4. Boost.Unordered采用的开放寻址布局结构
 
-与所有开放寻址容器一样，元素（对于 `boost::unordered_node_set` 和
-`boost::unordered_node_map`
+与所有开放寻址容器一样，元素（对于 `boost::unordered++_++node++_++set`
+和 `boost::unordered++_++node++_++map`
 则是元素节点的指针）直接存储在桶数组中。该数组在逻辑上被划分为 2^_n_^
 个组，每组包含 15
 个元素。除桶数组外，还存在一个关联的__元数据数组__，其中包含 2^_n_^ 个
@@ -118,9 +118,9 @@ image:foa-metadata-interleaving.png[foa元数据位交织]
 开放寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/11/inside-boostunorderedflatmap.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale.html#rationale_open_addresing_containers[相关说明章节]。
 
 [[structures_concurrent_containers]]
-== 并发容器
+=== 并发容器
 
-`boost::concurrent_flat_set`/`boost::concurrent_node_set`和`boost::concurrent_flat_map`/`boost::concurrent_node_map`采用前述link:structures.html#structures_open_addressing_containers[开放寻址布局]，并在此基础上增加了同步机制。
+`boost::concurrent++_++flat++_++set`/`boost::concurrent++_++node++_++set`和`boost::concurrent++_++flat++_++map`/`boost::concurrent++_++node++_++map`采用前述link:structures.html#structures_open_addressing_containers[开放寻址布局]，并在此基础上增加了同步机制。
 
 [[img-cfoa-layout]]
 image:cfoa.png[cfoa]

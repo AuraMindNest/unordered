@@ -2,12 +2,12 @@
 
 [[content]]
 [[stats]]
-== 统计信息
+=== 统计信息
 
 开放寻址和并发容器可配置为持续统计受所提供哈希函数质量影响的某些内部操作。
 
 [[stats_synopsis]]
-=== 概要
+==== 概要
 
 ....
 struct stats-summary-type
@@ -39,22 +39,22 @@ struct stats-type
 ....
 
 [[stats_stats_summary_type]]
-==== _统计摘要类型_
+===== _统计摘要类型_
 
 提供数值序列的平均值、方差和标准差。
 
 [[stats_insertion_stats_type]]
-==== _插入统计类型_
+===== _插入统计类型_
 
 提供容器执行的插入操作次数及相关__探查长度__（每次操作访问的link:structures.html#structures_open_addressing_containers[桶组]数量）的统计信息。
 
 [[stats_lookup_stats_type]]
-==== _查找统计类型_
+===== _查找统计类型_
 
 对于成功（找到元素）或失败（未找到）查找操作，提供容器执行的操作次数及相关__探查长度__（访问的link:structures.html#structures_open_addressing_containers[桶组]数量）和每次操作的元素比较次数的统计信息。
 
 [[stats_stats_type]]
-==== _stats-type_
+===== _stats-type_
 
 提供容器执行的插入操作、成功及失败查找操作的统计信息。若提供的哈希函数质量良好，则：
 

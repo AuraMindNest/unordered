@@ -2,24 +2,27 @@
 
 [[content]]
 [[concurrent_node_set]]
-== 类模板 concurrent_node_set
+=== 类模板 concurrent++_++node++_++set
 
-`boost::concurrent_node_set` ——
+`boost::concurrent++_++node++_++set` ——
 一种基于节点的哈希表，用于存储唯一值，并允许在无外部同步机制的情况下并发执行元素插入、擦除、查找和访问操作。
 
-尽管 `boost::concurrent_node_set` 的行为类似于容器，但它并不符合标准 C++
+尽管 `boost::concurrent++_++node++_++set`
+的行为类似于容器，但它并不符合标准 C{plus}{plus}
 https://en.cppreference.com/w/cpp/named_req/Container[容器]
 概念。具体而言，它不提供迭代器及相关操作（如 `begin`、`end`
 等）。元素的访问通过用户提供的 _访问函数_ 实现，这些函数被传递至
-`concurrent_node_set` 的内部操作，并以受控方式执行。这种基于访问的 API
+`concurrent++_++node++_++set`
+的内部操作，并以受控方式执行。这种基于访问的 API
 设计支持低竞争度的并发使用场景。
 
-`boost::concurrent_node_set` 的内部数据结构与
-`boost::unordered_node_set` 类似。与 `boost::concurrent_flat_set`
+`boost::concurrent++_++node++_++set` 的内部数据结构与
+`boost::unordered++_++node++_++set` 类似。与
+`boost::concurrent++_++flat++_++set`
 不同，它提供了指针稳定性和节点处理功能，但可能以性能降低为代价。
 
 [[concurrent_node_set_synopsis]]
-=== 概要
+==== 概要
 
 ....
 // #include <boost/unordered/concurrent_node_set.hpp>
@@ -296,7 +299,7 @@ namespace unordered {
 '''''
 
 [[concurrent_node_set_description]]
-=== 描述
+==== 描述
 
 *模板参数*
 
@@ -308,16 +311,17 @@ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
-的参数，并返回一个 `std::size_t` 类型的值。
+的参数，并返回一个 `std::size++_++t` 类型的值。
 
 |_谓词_ |二元函数对象，用于在 `Key`
 类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool`
 类型的值。
 
 |_分配器_
-|一种分配器，其值类型与容器的值类型相同。`std::allocator_traits<Allocator>::pointer`
-和 `std::allocator_traits<Allocator>::const_pointer` 必须可分别转换为
-`value_type*` 和 `const value_type*`，且可从这些类型转换而来。
+|一种分配器，其值类型与容器的值类型相同。`std::allocator++_++traits++<++Allocator++>++::pointer`
+和 `std::allocator++_++traits++<++Allocator++>++::const++_++pointer`
+必须可分别转换为 `value++_++type++*++` 和
+`const value++_++type++*++`，且可从这些类型转换而来。
 |===
 
 容器的元素节点存储在内部的__桶数组__中。节点根据其元素的哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则会使用原始位置附近可用的桶。
@@ -325,17 +329,17 @@ https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
 进行调整。容器的__负载因子__（元素数量与桶数量的比值）永远不会超过
-`max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
+`max++_++load++_++factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
 若
-link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
+link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`]`++<++Hash++>++::value`
 为
 `true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
 [[concurrent_node_set_concurrency_requirements_and_guarantees]]
-=== 并发要求与保证
+==== 并发要求与保证
 
 要求对同一 `Hash` 或 `Pred` 常量实例并发调用 `operator()`
 时不得引入数据竞争。对于 `Alloc`（即 `Allocator`
@@ -343,26 +347,26 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 上并发调用以下操作时不得引入数据竞争：
 
 * 从 `al` 复制构造重新绑定的分配器
-* `std::allocator_traits<Alloc>::allocate`
-* `std::allocator_traits<Alloc>::deallocate`
-* `std::allocator_traits<Alloc>::construct`
-* `std::allocator_traits<Alloc>::destroy`
+* `std::allocator++_++traits++<++Alloc++>++::allocate`
+* `std::allocator++_++traits++<++Alloc++>++::deallocate`
+* `std::allocator++_++traits++<++Alloc++>++::construct`
+* `std::allocator++_++traits++<++Alloc++>++::destroy`
 
 通常而言，若 `Hash`、`Pred` 和 `Allocator`
 这些类型不包含状态，或其操作仅涉及对内部数据成员的常量访问，即可满足上述要求。
 
-除析构操作外，对同一 `concurrent_node_set`
+除析构操作外，对同一 `concurrent++_++node++_++set`
 实例并发调用任何操作均不会引入数据竞争——即这些操作是线程安全的。
 
 若某个操作 *op* 被显式指定为__阻塞于__ `x`（其中 `x` 为
-`boost::concurrent_node_set` 实例），则先前对 `x` 的阻塞操作将与 *op*
-同步。因此，在多线程场景中，对同一 `concurrent_node_set`
+`boost::concurrent++_++node++_++set` 实例），则先前对 `x` 的阻塞操作将与
+*op* 同步。因此，在多线程场景中，对同一 `concurrent++_++node++_++set`
 的阻塞操作将按顺序执行。
 
 若某个操作仅在触发内部重哈希时才会阻塞于 _`x`_，则称该操作__阻塞于 _`x`_
 的重哈希过程__。
 
-当由 `boost::concurrent_node_set`
+当由 `boost::concurrent++_++node++_++set`
 内部执行时，用户提供的访问函数对传递的元素执行以下操作不会引入数据竞争：
 
 * 对元素的读取访问。
@@ -373,31 +377,31 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 ** 在名称不包含 `cvisit`
 的非常量容器函数中，此条件适用于最后一个（或唯一一个）访问函数。
 
-任何插入或修改元素 `e` 的 `boost::concurrent_node_set` 操作均与在 `e`
-上内部调用的访问函数同步。
+任何插入或修改元素 `e` 的 `boost::concurrent++_++node++_++set`
+操作均与在 `e` 上内部调用的访问函数同步。
 
-由 `boost::concurrent_node_set` `x` 执行的访问函数不得调用 `x`
-上的任何操作；仅当对另一 `boost::concurrent_node_set` 实例 `y`
+由 `boost::concurrent++_++node++_++set` `x` 执行的访问函数不得调用 `x`
+上的任何操作；仅当对另一 `boost::concurrent++_++node++_++set` 实例 `y`
 的并发未完成操作不直接或间接访问 `x` 时，才允许调用 `y` 上的操作。
 
 '''''
 
 [[concurrent_node_set_configuration_macros]]
-=== 配置宏
+==== 配置宏
 
 [[concurrent_node_set_boost_unordered_disable_reentrancy_check]]
-==== `BOOST_UNORDERED_DISABLE_REENTRANCY_CHECK`
+===== `BOOST++_++UNORDERED++_++DISABLE++_++REENTRANCY++_++CHECK`
 
 在调试版本中（更准确地说，当未定义
-link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`]
+link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST++_++ASSERT++_++IS++_++VOID`]
 时），系统会检测__容器重入__行为（即在访问 `m` 元素的函数内部非法调用
-`m` 上的操作），并通过 `BOOST_ASSERT_MSG`
+`m` 上的操作），并通过 `BOOST++_++ASSERT++_++MSG`
 发出信号。若需关注运行时速度，可通过全局定义此宏来禁用该功能。
 
 '''''
 
 [[concurrent_node_set_boost_unordered_enable_stats]]
-==== `BOOST_UNORDERED_ENABLE_STATS`
+===== `BOOST++_++UNORDERED++_++ENABLE++_++STATS`
 
 全局定义此宏以启用容器的 link:reference/stats.html#stats[统计计算]
 功能。请注意，此选项会降低多数操作的总体性能。
@@ -405,7 +409,7 @@ link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSE
 '''''
 
 [[concurrent_node_set_typedefs]]
-=== 类型定义
+==== 类型定义
 
 [source,highlight]
 ----
@@ -434,12 +438,12 @@ struct insert_return_type // 名称仅用于说明
 };
 ----
 
-其中 `NodeType` = `node_type`。
+其中 `NodeType` = `node++_++type`。
 
 '''''
 
 [[concurrent_node_set_constants]]
-=== 常量
+==== 常量
 
 [source,highlight]
 ----
@@ -450,25 +454,25 @@ static constexpr size_type bulk_visit_size;
 操作中内部使用的数据块大小。
 
 [[concurrent_node_set_constructors]]
-=== 构造函数
+==== 构造函数
 
 [[concurrent_node_set_default_constructor]]
-==== 默认构造函数
+===== 默认构造函数
 
 [source,highlight]
 ----
 concurrent_node_set();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()`
-作为键相等性谓词，`allocator_type()` 作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数，`key++_++equal()`
+作为键相等性谓词，`allocator++_++type()` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -476,7 +480,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_bucket_count_constructor]]
-==== 桶数构造函数
+===== 桶数构造函数
 
 [source,highlight]
 ----
@@ -493,8 +497,8 @@ explicit concurrent_node_set(size_type n,
 |===
 |后置条件： |`size() == 0`
 
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -502,7 +506,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_iterator_range_constructor]]
-==== 迭代器范围构造函数
+===== 迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -515,12 +519,13 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将 `[f, l)` 范围内的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将 `++[++f, l)`
+范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -528,7 +533,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_copy_constructor]]
-==== 复制构造函数
+===== 复制构造函数
 
 [source,highlight]
 ----
@@ -537,19 +542,19 @@ concurrent_node_set(concurrent_node_set const& other);
 
 复制构造函数。复制其所包含的元素、哈希函数、谓词及分配器。
 
-若 `Allocator::select_on_container_copy_construction`
+若 `Allocator::select++_++on++_++container++_++copy++_++construction`
 存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须满足可复制构造要求
+|要求： |`value++_++type` 必须满足可复制构造要求
 |并发性： |阻塞于 `other`。
 |===
 
 '''''
 
 [[concurrent_node_set_move_constructor]]
-==== 移动构造函数
+===== 移动构造函数
 
 [source,highlight]
 ----
@@ -560,7 +565,7 @@ concurrent_node_set(concurrent_node_set&& other);
 的内部桶数组直接转移至新容器。哈希函数、谓词及分配器均从 `other`
 移动构造。若统计功能以
 link:#concurrent_node_set_boost_unordered_enable_stats[启用]
-，则同时转移 `other` 的内部统计信息，并调用 `other.reset_stats()`。
+，则同时转移 `other` 的内部统计信息，并调用 `other.reset++_++stats()`。
 
 [cols=",",]
 |===
@@ -570,7 +575,7 @@ link:#concurrent_node_set_boost_unordered_enable_stats[启用]
 '''''
 
 [[concurrent_node_set_iterator_range_constructor_with_allocator]]
-==== 带分配器的迭代器范围构造函数
+===== 带分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -579,12 +584,12 @@ template<class InputIterator>
 ----
 
 构造一个空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 与 `key_equal` 需满足
+|要求： |`hasher` 与 `key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -592,7 +597,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_allocator_constructor]]
-==== 分配器构造函数
+===== 分配器构造函数
 
 [source,highlight]
 ----
@@ -604,7 +609,7 @@ explicit concurrent_node_set(Allocator const& a);
 '''''
 
 [[concurrent_node_set_copy_constructor_with_allocator]]
-==== 带分配器的复制构造函数
+===== 带分配器的复制构造函数
 
 [source,highlight]
 ----
@@ -621,19 +626,19 @@ concurrent_node_set(concurrent_node_set const& other, Allocator const& a);
 '''''
 
 [[concurrent_node_set_move_constructor_with_allocator]]
-==== 带分配器的移动构造函数
+===== 带分配器的移动构造函数
 
 [source,highlight]
 ----
 concurrent_node_set(concurrent_node_set&& other, Allocator const& a);
 ----
 
-若 `a == other.get_allocator()`，则 `other`
+若 `a == other.get++_++allocator()`，则 `other`
 的元素直接转移至新容器；否则，元素从 `other` 移动构造。哈希函数和谓词从
 `other` 移动构造，分配器从 `a` 复制构造。若统计功能已
 link:#concurrent_node_set_boost_unordered_enable_stats[启用]
-，则当且仅当 `a == other.get_allocator()` 时，同时转移 `other`
-的内部统计信息，并始终调用 `other.reset_stats()`。
+，则当且仅当 `a == other.get++_++allocator()` 时，同时转移 `other`
+的内部统计信息，并始终调用 `other.reset++_++stats()`。
 
 [cols=",",]
 |===
@@ -643,27 +648,28 @@ link:#concurrent_node_set_boost_unordered_enable_stats[启用]
 '''''
 
 [[concurrent_node_set_move_constructor_from_unordered_node_set]]
-==== 从 unordered_node_set 的移动构造函数
+===== 从 unordered++_++node++_++set 的移动构造函数
 
 [source,highlight]
 ----
 concurrent_node_set(unordered_node_set<Key, Hash, Pred, Allocator>&& other);
 ----
 
-从 link:#unordered_node_set[`unordered_node_set`] 移动构造。`other`
+从 link:#unordered_node_set[`unordered++_++node++_++set`]
+移动构造。`other`
 的内部桶数组直接转移至新容器。哈希函数、谓词及分配器均从 `other`
 移动构造。若统计功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]，则同时转移
-`other` 的内部统计信息，并调用 `other.reset_stats()`。
+`other` 的内部统计信息，并调用 `other.reset++_++stats()`。
 
 [cols=",",]
 |===
-|复杂度： |O(`bucket_count()`)
+|复杂度： |O(`bucket++_++count()`)
 |===
 
 '''''
 
 [[concurrent_node_set_initializer_list_constructor]]
-==== 初始化列表构造函数
+===== 初始化列表构造函数
 
 [source,highlight]
 ----
@@ -679,8 +685,8 @@ concurrent_node_set(std::initializer_list<value_type> il,
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
-需满足
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -688,7 +694,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_bucket_count_constructor_with_allocator]]
-==== 带分配器的桶数构造函数
+===== 带分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -702,7 +708,7 @@ concurrent_node_set(size_type n, allocator_type const& a);
 |===
 |后置条件： |`size() == 0`
 
-|要求： |`hasher` 和 `key_equal` 需满足
+|要求： |`hasher` 和 `key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -710,7 +716,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_bucket_count_constructor_with_hasher_and_allocator]]
-==== 带哈希函数和分配器的桶数构造函数
+===== 带哈希函数和分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -724,7 +730,7 @@ concurrent_node_set(size_type n, hasher const& hf, allocator_type const& a);
 |===
 |后置条件： |`size() == 0`
 
-|要求： |`key_equal` 需满足
+|要求： |`key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -732,7 +738,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_iterator_range_constructor_with_bucket_count_and_allocator]]
-==== 带桶数和分配器的迭代器范围构造函数
+===== 带桶数和分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -741,12 +747,12 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+作为分配器以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 与 `key_equal` 需满足
+|要求： |`hasher` 与 `key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -754,7 +760,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数和哈希函数的迭代器范围构造函数
+===== 带桶数和哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -764,11 +770,12 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
+作为分配器以及默认的键相等性谓词，并将 `++[++f, l)`
+范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key_equal` 需满足
+|要求： |`key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -776,7 +783,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_initializer_list_constructor_with_allocator]]
-==== 带分配器的初始化列表构造函数
+===== 带分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -788,7 +795,7 @@ concurrent_node_set(std::initializer_list<value_type> il, const allocator_type& 
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal` 需满足
+|要求： |`hasher` 和 `key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -796,7 +803,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_initializer_list_constructor_with_bucket_count_and_allocator]]
-==== 带桶数和分配器的初始化列表构造函数
+===== 带桶数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -808,7 +815,7 @@ concurrent_node_set(std::initializer_list<value_type> il, size_type n, const all
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal` 需满足
+|要求： |`hasher` 和 `key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -816,7 +823,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== 带桶数、哈希函数和分配器的初始化列表构造函数
+===== 带桶数、哈希函数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -829,7 +836,7 @@ concurrent_node_set(std::initializer_list<value_type> il, size_type n, const has
 
 [cols=",",]
 |===
-|要求： |`key_equal` 需满足
+|要求： |`key++_++equal` 需满足
 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
@@ -837,7 +844,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_destructor]]
-=== 析构函数
+==== 析构函数
 
 [source,highlight]
 ----
@@ -852,10 +859,10 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 '''''
 
 [[concurrent_node_set_assignment]]
-=== 赋值操作
+==== 赋值操作
 
 [[concurrent_node_set_copy_assignment]]
-==== 复制赋值
+===== 复制赋值
 
 [source,highlight]
 ----
@@ -864,23 +871,24 @@ concurrent_node_set& operator=(concurrent_node_set const& other);
 
 赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
 复制赋值哈希函数与键相等性谓词。若
-`Alloc::propagate_on_container_copy_assignment` 存在，且
-`Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
-`other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
+`Alloc::propagate++_++on++_++container++_++copy++_++assignment` 存在，且
+`Alloc::propagate++_++on++_++container++_++copy++_++assignment::value`
+为 `true`，则从 `other` 复制赋值分配器，最后插入 `other`
+中所有元素的副本。
 
 [cols=",",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
-|并发性： |阻塞于 `*this` 和 `other`。
+|并发性： |阻塞于 `++*++this` 和 `other`。
 |===
 
 '''''
 
 [[concurrent_node_set_move_assignment]]
-==== 移动赋值
+===== 移动赋值
 
 [source,highlight]
 ----
@@ -891,24 +899,24 @@ concurrent_node_set& operator=(concurrent_node_set&& other)
 
 移动赋值操作符。该操作会销毁容器中原有的元素，并交换 `other`
 的哈希函数与键相等性谓词。若
-`Alloc::propagate_on_container_move_assignment` 存在且
-`Alloc::propagate_on_container_move_assignment::value` 为 `true`，则从
-`other` 移动赋值分配器。若此时分配器与 `other.get_allocator()`
-相等，则直接将 `other` 的内部桶数组转移至 `*this`；否则，将插入 `other`
-中元素的移动构造副本。若统计功能
+`Alloc::propagate++_++on++_++container++_++move++_++assignment` 存在且
+`Alloc::propagate++_++on++_++container++_++move++_++assignment::value`
+为 `true`，则从 `other` 移动赋值分配器。若此时分配器与
+`other.get++_++allocator()` 相等，则直接将 `other` 的内部桶数组转移至
+`++*++this`；否则，将插入 `other` 中元素的移动构造副本。若统计功能
 link:#concurrent_node_set_boost_unordered_enable_stats[已启用]
-，则当且仅当最终分配器与 `other.get_allocator()`
-相等时，同时转移其内部统计信息，并始终调用 `other.reset_stats()`。
+，则当且仅当最终分配器与 `other.get++_++allocator()`
+相等时，同时转移其内部统计信息，并始终调用 `other.reset++_++stats()`。
 
 [cols=",",]
 |===
-|并发性： |阻塞于 `*this` 和 `other`。
+|并发性： |阻塞于 `++*++this` 和 `other`。
 |===
 
 '''''
 
 [[concurrent_node_set_initializer_list_assignment]]
-==== 初始化列表赋值
+===== 初始化列表赋值
 
 [source,highlight]
 ----
@@ -919,20 +927,20 @@ concurrent_node_set& operator=(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
-|并发性： |阻塞于 `*this`。
+|并发性： |阻塞于 `++*++this`。
 |===
 
 '''''
 
 [[concurrent_node_set_visitation]]
-=== 访问操作
+==== 访问操作
 
 [[concurrent_node_set_cvisit]]
-==== [c]visit（[c]访问）
+===== ++[++c++]++visit（++[++c++]++访问）
 
 [source,highlight]
 ----
@@ -950,8 +958,8 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 |===
 |返回： |被访问的元素数量（0 或 1）。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K, class F>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K, class F++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
@@ -959,7 +967,7 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 '''''
 
 [[concurrent_node_set_bulk_visit]]
-==== 批量访问
+===== 批量访问
 
 [source,highlight]
 ----
@@ -971,27 +979,27 @@ template<class FwdIterator, class F>
   size_t cvisit(FwdIterator first, FwdIterator last, F f) const;
 ----
 
-对范围 [`first`, `last`) 内的每个元素 `k`，若容器中存在键等价于 `k`
+对范围 ++[++`first`, `last`) 内的每个元素 `k`，若容器中存在键等价于 `k`
 的元素 `x`，则使用指向 `x` 的常量引用调用 `f`。
 
 尽管批量访问在功能上等效于对每个键单独调用
-link:#concurrent_node_set_cvisit[`[c]visit`]，但该操作因内部流线化优化而通常表现更优。建议
+link:#concurrent_node_set_cvisit[`++[++c++]++visit`]，但该操作因内部流线化优化而通常表现更优。建议
 `std::distance(first,last)` 至少达到
-link:#concurrent_node_set_constants[`bulk_visit_size`]以获得性能提升：超过此规模后，性能预计不会进一步增长。
+link:#concurrent_node_set_constants[`bulk++_++visit++_++size`]以获得性能提升：超过此规模后，性能预计不会进一步增长。
 
 [cols=",",]
 |===
 |要求： |`FwdIterator` 需满足
 https://en.cppreference.com/w/cpp/named_req/ForwardIterator[LegacyForwardIterator]
-要求（C++11 至 C++17）或符合
-https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward_iterator]规范（C++20
+要求（C{plus}{plus}11 至 C{plus}{plus}17）或符合
+https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward++_++iterator]规范（C{plus}{plus}20
 及更高版本）。对于`K` =
-`std::iterator_traits<FwdIterator>::value_type`，需满足以下条件之一：`K`
-与 `key_type` 类型相同，或 `Hash::is_transparent` 与
-`Pred::is_transparent` 均为有效的成员类型别名。对于后一种情况，该库假定
-`Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred`
-是透明的。该机制支持异构查找，从而避免了实例化 `Key`
-类型对象所需的开销。
+`std::iterator++_++traits++<++FwdIterator++>++::value++_++type`，需满足以下条件之一：`K`
+与 `key++_++type` 类型相同，或 `Hash::is++_++transparent` 与
+`Pred::is++_++transparent`
+均为有效的成员类型别名。对于后一种情况，该库假定 `Hash` 可同时被 `K` 和
+`Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免了实例化
+`Key` 类型对象所需的开销。
 
 |返回： |被访问的元素数量。
 |===
@@ -999,7 +1007,7 @@ https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward_iterato
 '''''
 
 [[concurrent_node_set_cvisit_all]]
-==== [c]visit_all
+===== ++[++c++]++visit++_++all
 
 [source,highlight]
 ----
@@ -1018,7 +1026,7 @@ template<class F> size_t cvisit_all(F f) const;
 '''''
 
 [[concurrent_node_set_parallel_cvisit_all]]
-==== 并行 [c]visit_all
+===== 并行 ++[++c++]++visit++_++all
 
 [source,highlight]
 ----
@@ -1036,9 +1044,10 @@ template<class ExecutionPolicy, class F> void cvisit_all(ExecutionPolicy&& polic
 `std::terminate`。
 
 |注意： a|
-仅在支持 C++17 并行算法的编译器中可用。 +
+仅在支持 C{plus}{plus}17 并行算法的编译器中可用。 +
 
-仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
+仅当
+`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
 为 `true` 时，这些重载才会参与重载决议。 +
 
 不允许使用无序执行策略。
@@ -1048,7 +1057,7 @@ template<class ExecutionPolicy, class F> void cvisit_all(ExecutionPolicy&& polic
 '''''
 
 [[concurrent_node_set_cvisit_while]]
-==== [c]visit_while
+===== ++[++c++]++visit++_++while
 
 [source,highlight]
 ----
@@ -1068,7 +1077,7 @@ template<class F> bool cvisit_while(F f) const;
 '''''
 
 [[concurrent_node_set_parallel_cvisit_while]]
-==== 并行 [c]visit_while
+===== 并行 ++[++c++]++visit++_++while
 
 [source,highlight]
 ----
@@ -1088,9 +1097,10 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 `std::terminate`。
 
 |注意： a|
-仅在支持 C++17 并行算法的编译器中可用。 +
+仅在支持 C{plus}{plus}17 并行算法的编译器中可用。 +
 
-仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
+仅当
+`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
 为 `true` 时，这些重载才会参与重载决议。 +
 
 不允许使用无序执行策略。 +
@@ -1104,10 +1114,10 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 '''''
 
 [[concurrent_node_set_size_and_capacity]]
-=== 大小与容量
+==== 大小与容量
 
 [[concurrent_node_set_empty]]
-==== 空
+===== 空
 
 [source,highlight]
 ----
@@ -1122,7 +1132,7 @@ template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& pol
 '''''
 
 [[concurrent_node_set_size]]
-==== 大小
+===== 大小
 
 [source,highlight]
 ----
@@ -1143,7 +1153,7 @@ size_type size() const noexcept;
 '''''
 
 [[concurrent_node_set_max_size]]
-==== max_size
+===== max++_++size
 
 [source,highlight]
 ----
@@ -1158,10 +1168,10 @@ size_type max_size() const noexcept;
 '''''
 
 [[concurrent_node_set_modifiers]]
-=== 修改器
+==== 修改器
 
 [[concurrent_node_set_emplace]]
-==== 原地构造
+===== 原地构造
 
 [source,highlight]
 ----
@@ -1173,15 +1183,15 @@ template<class... Args> bool emplace(Args&&... args);
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够由 `args` 构造。
+|要求： |`value++_++type` 必须能够由 `args` 构造。
 |返回： |若插入操作发生，则返回 `true`。
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_copy_insert]]
-==== 复制插入
+===== 复制插入
 
 [source,highlight]
 ----
@@ -1192,19 +1202,19 @@ bool insert(const value_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_move_insert]]
-==== 移动插入
+===== 移动插入
 
 [source,highlight]
 ----
@@ -1215,39 +1225,39 @@ bool insert(value_type&& obj);
 
 [cols=",",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_transparent_insert]]
-==== 透明插入
+===== 透明插入
 
 [source,highlight]
 ----
 template<class K> bool insert(K&& k);
 ----
 
-当且仅当容器中不存在等价键的元素时，插入一个由 `std::forward<K>(k)`
-构造的元素。
+当且仅当容器中不存在等价键的元素时，插入一个由
+`std::forward++<++K++>++(k)` 构造的元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够从 `k` 进行
+|要求： |`value++_++type` 必须能够从 `k` 进行
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |返回： |若插入操作发生，则返回 `true`。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
 均为有效的成员类型别名时，此重载才会参与重载决议。标准库假定 `Hash`
 可同时被 `K` 和 `Key` 调用，且 `Pred`
 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
@@ -1256,7 +1266,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 '''''
 
 [[concurrent_node_set_insert_iterator_range]]
-==== 迭代器范围插入
+===== 迭代器范围插入
 
 [source,highlight]
 ----
@@ -1277,7 +1287,7 @@ template<class InputIterator> size_type insert(InputIterator first, InputIterato
 '''''
 
 [[concurrent_node_set_insert_initializer_list]]
-==== 初始化列表插入
+===== 初始化列表插入
 
 [source,highlight]
 ----
@@ -1298,7 +1308,7 @@ size_type insert(std::initializer_list<value_type> il);
 '''''
 
 [[concurrent_node_set_insert_node]]
-==== 节点插入
+===== 节点插入
 
 [source,highlight]
 ----
@@ -1311,21 +1321,24 @@ insert_return_type insert(node_type&& nh);
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert++_++return++_++type`
+对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
 * 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
 * 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-|并发性： |阻塞于 `*this` 的重哈希。
+
+|并发性： |阻塞于 `++*++this` 的重哈希。
+
 |注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
 '''''
 
 [[concurrent_node_set_emplace_or_cvisit]]
-==== emplace_or_[c]visit
+===== emplace++_++or++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1338,16 +1351,20 @@ template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够由 `args` 构造。
+|要求： |`value++_++type` 必须能够由 `args` 构造。
+
 |返回： |若插入操作发生，则返回 `true`。
-|并发性： |阻塞于 `*this` 的重哈希。
-|注意： |此接口仅为说明，因 C++ 不允许在可变参数包后声明参数 `f`。
+
+|并发性： |阻塞于 `++*++this` 的重哈希。
+
+|注意： |此接口仅为说明，因 C{plus}{plus} 不允许在可变参数包后声明参数
+`f`。
 |===
 
 '''''
 
 [[concurrent_node_set_copy_insert_or_cvisit]]
-==== 复制 insert_or_[c]visit
+===== 复制 insert++_++or++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1360,19 +1377,19 @@ template<class F> bool insert_or_cvisit(const value_type& obj, F f);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_move_insert_or_cvisit]]
-==== 移动 insert_or_[c]visit
+===== 移动 insert++_++or++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1385,19 +1402,19 @@ template<class F> bool insert_or_cvisit(value_type&& obj, F f);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_transparent_insert_or_cvisit]]
-==== 透明 insert_or_[c]visit
+===== 透明 insert++_++or++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1405,20 +1422,21 @@ template<class K, class F> bool insert_or_visit(K&& k, F f);
 template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入由 `std::forward<K>(k)`
+当且仅当容器中不存在具有等效键的元素时，插入由
+`std::forward++<++K++>++(k)`
 构造的元素；否则，使用指向等效元素的常量引用调用 `f`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够从 `k` 进行
+|要求： |`value++_++type` 必须能够从 `k` 进行
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |返回： |若插入操作发生，则返回 `true`。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
 均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash`
 可同时被 `K` 和 `Key` 调用，且 `Pred`
 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
@@ -1427,7 +1445,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 '''''
 
 [[concurrent_node_set_insert_iterator_range_or_visit]]
-==== 迭代器范围插入或访问
+===== 迭代器范围插入或访问
 
 [source,highlight]
 ----
@@ -1451,7 +1469,7 @@ template<class InputIterator,class F>
 '''''
 
 [[concurrent_node_set_insert_initializer_list_or_visit]]
-==== 初始化列表插入或访问
+===== 初始化列表插入或访问
 
 [source,highlight]
 ----
@@ -1473,7 +1491,7 @@ template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> i
 '''''
 
 [[concurrent_node_set_insert_node_or_visit]]
-==== 节点插入或访问
+===== 节点插入或访问
 
 [source,highlight]
 ----
@@ -1488,7 +1506,8 @@ template<class F> insert_return_type insert_or_cvisit(node_type&& nh, F f);
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert++_++return++_++type`
+对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
 * 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
@@ -1497,7 +1516,7 @@ template<class F> insert_return_type insert_or_cvisit(node_type&& nh, F f);
 |抛出： |若异常由调用 `hasher` 或调用 `f`
 以外的操作抛出，则此函数不产生任何效果。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 
 |注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
@@ -1505,7 +1524,7 @@ template<class F> insert_return_type insert_or_cvisit(node_type&& nh, F f);
 '''''
 
 [[concurrent_node_set_emplace_and_cvisit]]
-==== emplace_and_[c]visit
+===== emplace++_++and++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1521,20 +1540,20 @@ template<class... Args, class F1, class F2>
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够由 `args` 构造。
+|要求： |`value++_++type` 必须能够由 `args` 构造。
 
 |返回： |若插入操作发生，则返回 `true`。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 
-|注意： |此接口仅为说明，因为 C++ 不允许在可变参数包后声明参数 `f1` 和
-`f2`。
+|注意： |此接口仅为说明，因为 C{plus}{plus} 不允许在可变参数包后声明参数
+`f1` 和 `f2`。
 |===
 
 '''''
 
 [[concurrent_node_set_copy_insert_and_cvisit]]
-==== 复制 insert_and_[c]visit
+===== 复制 insert++_++and++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1548,19 +1567,19 @@ template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_move_insert_and_cvisit]]
-==== 移动 insert_and_[c]visit
+===== 移动 insert++_++and++_[++c++]++visit
 
 [source,highlight]
 ----
@@ -1574,19 +1593,19 @@ template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_transparent_insert_and_cvisit]]
-==== 透明 insert_and_[c]visit（透明插入并[c]访问）
+===== 透明 insert++_++and++_[++c++]++visit（透明插入并++[++c++]++访问）
 
 [source,highlight]
 ----
@@ -1594,21 +1613,22 @@ template<class K, class F1, class F2> bool insert_and_visit(K&& k, F1 f1, F2 f2)
 template<class K, class F1, class F2> bool insert_and_cvisit(K&& k, F1 f1, F2 f2);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入由 `std::forward<K>(k)`
+当且仅当容器中不存在具有等效键的元素时，插入由
+`std::forward++<++K++>++(k)`
 构造的元素，并使用指向新创建元素的常量引用调用
 `f1`；否则，使用指向等效元素的常量引用调用 `f2`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够从 `k` 进行
+|要求： |`value++_++type` 必须能够从 `k` 进行
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |返回： |若插入操作发生，则返回 `true`。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
 均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash`
 可同时被 `K` 和 `Key` 调用，且 `Pred`
 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
@@ -1617,7 +1637,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 '''''
 
 [[concurrent_node_set_insert_iterator_range_and_visit]]
-==== 迭代器范围插入并访问
+===== 迭代器范围插入并访问
 
 [source,highlight]
 ----
@@ -1641,7 +1661,7 @@ template<class InputIterator,class F1, class F2>
 '''''
 
 [[concurrent_node_set_insert_initializer_list_and_visit]]
-==== 初始化列表插入并访问
+===== 初始化列表插入并访问
 
 [source,highlight]
 ----
@@ -1665,7 +1685,7 @@ template<class F1, class F2>
 '''''
 
 [[concurrent_node_set_insert_node_and_visit]]
-==== 节点插入并访问
+===== 节点插入并访问
 
 [source,highlight]
 ----
@@ -1683,7 +1703,8 @@ template<class F1, class F2>
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert++_++return++_++type`
+对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
 * 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
@@ -1692,7 +1713,7 @@ template<class F1, class F2>
 |抛出： |若异常由调用 `hasher`、`f1` 或 `f2`
 以外的操作抛出，则此函数不产生任何效果。
 
-|并发性： |阻塞于 `*this` 的重哈希。
+|并发性： |阻塞于 `++*++this` 的重哈希。
 
 |注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
@@ -1700,7 +1721,7 @@ template<class F1, class F2>
 '''''
 
 [[concurrent_node_set_erase]]
-==== 擦除
+===== 擦除
 
 [source,highlight]
 ----
@@ -1714,10 +1735,11 @@ template<class K> size_type erase(const K& k);
 |===
 |返回： |被擦除的元素数量（0 或 1）。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
+|抛出： |仅当 `hasher` 或 `key++_++equal`
+抛出异常时，本函数才会抛出异常。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
@@ -1725,7 +1747,7 @@ template<class K> size_type erase(const K& k);
 '''''
 
 [[concurrent_node_set_erase_if_by_key]]
-==== 通过键进行条件擦除
+===== 通过键进行条件擦除
 
 [source,highlight]
 ----
@@ -1739,15 +1761,17 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 |===
 |返回： |被擦除的元素数量（0 或 1）。
 
-|抛出： |仅当 `hasher`、`key_equal` 或 `f`
+|抛出： |仅当 `hasher`、`key++_++equal` 或 `f`
 抛出异常时，本函数才会抛出异常。
 
 |注意： a|
-仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
-为 `false` 时，`template<class K, class F>` 重载才会参与重载决议。 +
+仅当
+`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
+为 `false` 时，`template++<++class K, class F++>++`
+重载才会参与重载决议。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K, class F>`
+仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K, class F++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
@@ -1756,7 +1780,7 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 '''''
 
 [[concurrent_node_set_erase_if]]
-==== 条件擦除
+===== 条件擦除
 
 [source,highlight]
 ----
@@ -1775,7 +1799,7 @@ template<class F> size_type erase_if(F f);
 '''''
 
 [[concurrent_node_set_parallel_erase_if]]
-==== 并行条件擦除
+===== 并行条件擦除
 
 [source,highlight]
 ----
@@ -1791,9 +1815,10 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&& policy
 `std::terminate`。
 
 |注意： a|
-仅在支持 C++17 并行算法的编译器中可用。 +
+仅在支持 C{plus}{plus}17 并行算法的编译器中可用。 +
 
-仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>`
+仅当
+`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
 为 `true` 时，此重载才会参与重载决议。 +
 
 不允许使用无序执行策略。
@@ -1803,7 +1828,7 @@ template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&& policy
 '''''
 
 [[concurrent_node_set_swap]]
-==== 交换
+===== 交换
 
 [source,highlight]
 ----
@@ -1814,21 +1839,22 @@ void swap(concurrent_node_set& other)
 
 交换容器与参数的内容。
 
-若 `Allocator::propagate_on_container_swap`已声明， 且其 `value` 为
+若 `Allocator::propagate++_++on++_++container++_++swap`已声明， 且其
+`value` 为
 `true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非异常由 `key_equal` 或 `hasher`
+|抛出： |除非异常由 `key++_++equal` 或 `hasher`
 在交换时抛出，否则本操作不会抛出任何异常。
 
-|并发性： |阻塞于 `*this` 和 `other`。
+|并发性： |阻塞于 `++*++this` 和 `other`。
 |===
 
 '''''
 
 [[concurrent_node_set_extract]]
-==== extract
+===== extract
 
 [source,highlight]
 ----
@@ -1840,13 +1866,14 @@ template<class K> node_type extract(K&& k);
 
 [cols=",",]
 |===
-|返回： |返回一个包含被提取元素的 `node_type`
+|返回： |返回一个包含被提取元素的 `node++_++type`
 对象，若未提取任何元素则为空。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
+|抛出： |仅当 `hasher` 或 `key++_++equal`
+抛出异常时，本函数才会抛出异常。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
@@ -1854,7 +1881,7 @@ template<class K> node_type extract(K&& k);
 '''''
 
 [[concurrent_node_set_extract_if]]
-==== 条件提取
+===== 条件提取
 
 [source,highlight]
 ----
@@ -1866,13 +1893,14 @@ template<class K, class F> node_type extract_if(K&& k, F f);
 
 [cols=",",]
 |===
-|返回： |返回一个包含被提取元素的 `node_type`
+|返回： |返回一个包含被提取元素的 `node++_++type`
 对象，若未提取任何元素则为空。
 
-|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时，才会抛出异常。
+|抛出： |仅当 `hasher`、`key++_++equal` 或 `f`
+抛出异常时，才会抛出异常。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
@@ -1880,7 +1908,7 @@ template<class K, class F> node_type extract_if(K&& k, F f);
 '''''
 
 [[concurrent_node_set_clear]]
-==== 清空
+===== 清空
 
 [source,highlight]
 ----
@@ -1892,15 +1920,15 @@ void clear() noexcept;
 [cols=",",]
 |===
 |后置条件：
-|`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
+|`size() == 0`，`max++_++load() ++>++= max++_++load++_++factor() ++*++ bucket++_++count()`
 
-|并发性： |阻塞于 `*this`。
+|并发性： |阻塞于 `++*++this`。
 |===
 
 '''''
 
 [[concurrent_node_set_merge]]
-==== 合并
+===== 合并
 
 [source,highlight]
 ----
@@ -1910,22 +1938,22 @@ template<class H2, class P2>
   size_type merge(concurrent_node_set<Key, H2, P2, Allocator>&& source);
 ----
 
-对 `source` 中所有键不在 `*this`
+对 `source` 中所有键不在 `++*++this`
 中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 [cols=",",]
 |===
 |返回： |被插入的元素数量。
-|并发性： |阻塞于 `*this` 和 `source`。
+|并发性： |阻塞于 `++*++this` 和 `source`。
 |===
 
 '''''
 
 [[concurrent_node_set_observers]]
-=== 观察器
+==== 观察器
 
 [[concurrent_node_set_get_allocator]]
-==== get_allocator
+===== get++_++allocator
 
 [source,highlight]
 ----
@@ -1940,7 +1968,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[concurrent_node_set_hash_function]]
-==== 哈希函数
+===== 哈希函数
 
 [source,highlight]
 ----
@@ -1955,7 +1983,7 @@ hasher hash_function() const;
 '''''
 
 [[concurrent_node_set_key_eq]]
-==== key_eq
+===== key++_++eq
 
 [source,highlight]
 ----
@@ -1970,10 +1998,10 @@ key_equal key_eq() const;
 '''''
 
 [[concurrent_node_set_set_operations]]
-=== 集合操作
+==== 集合操作
 
 [[concurrent_node_set_count]]
-==== count
+===== count
 
 [source,highlight]
 ----
@@ -1987,8 +2015,8 @@ template<class K>
 |返回： |键等价于 `k` 的元素数量（0 或 1）。
 
 |注意： a|
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
 
@@ -1999,7 +2027,7 @@ template<class K>
 '''''
 
 [[concurrent_node_set_contains]]
-==== 包含
+===== 包含
 
 [source,highlight]
 ----
@@ -2013,8 +2041,8 @@ template<class K>
 |返回： |返回布尔值，表示容器中是否存在键等于 `k` 的元素。
 
 |注意： a|
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
 
@@ -2025,10 +2053,10 @@ template<class K>
 '''''
 
 [[concurrent_node_set_bucket_interface]]
-=== 桶接口
+==== 桶接口
 
 [[concurrent_node_set_bucket_count]]
-==== bucket_count
+===== bucket++_++count
 
 [source,highlight]
 ----
@@ -2043,10 +2071,10 @@ size_type bucket_count() const noexcept;
 '''''
 
 [[concurrent_node_set_hash_policy]]
-=== 哈希策略
+==== 哈希策略
 
 [[concurrent_node_set_load_factor]]
-==== 负载因子
+===== 负载因子
 
 [source,highlight]
 ----
@@ -2056,14 +2084,14 @@ float load_factor() const noexcept;
 [cols=",",]
 |===
 |返回： |返回
-`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
-`bucket_count() == 0`， 则返回 `0`。
+`static++_++cast++<++float++>++(size())/static++_++cast++<++float++>++(bucket++_++count())`，若
+`bucket++_++count() == 0`， 则返回 `0`。
 |===
 
 '''''
 
 [[concurrent_node_set_max_load_factor]]
-==== max_load_factor（最大负载因子）
+===== max++_++load++_++factor（最大负载因子）
 
 [source,highlight]
 ----
@@ -2078,7 +2106,7 @@ float max_load_factor() const noexcept;
 '''''
 
 [[concurrent_node_set_set_max_load_factor]]
-==== 设置最大负载因子
+===== 设置最大负载因子
 
 [source,highlight]
 ----
@@ -2088,13 +2116,13 @@ void max_load_factor(float z);
 [cols=",",]
 |===
 |效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与
-`boost::unordered_set` 保持兼容。
+`boost::unordered++_++set` 保持兼容。
 |===
 
 '''''
 
 [[concurrent_node_set_max_load]]
-==== max_load（最大负载）
+===== max++_++load（最大负载）
 
 [source,highlight]
 ----
@@ -2108,7 +2136,7 @@ size_type max_load() const noexcept;
 
 |注意： a|
 在构造、重哈希或清空操作后，容器的最大负载至少为
-`max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。 +
+`max++_++load++_++factor() ++*++ bucket++_++count()`。在高负载条件下执行擦除操作时，此数值可能会降低。 +
 
 在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
@@ -2117,7 +2145,7 @@ size_type max_load() const noexcept;
 '''''
 
 [[concurrent_node_set_rehash]]
-==== 重哈希
+===== 重哈希
 
 [source,highlight]
 ----
@@ -2126,7 +2154,7 @@ void rehash(size_type n);
 
 如有必要，将改变桶数组的大小，使其至少包含 `n`
 个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
-`bucket_count()`。
+`bucket++_++count()`。
 
 当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
 
@@ -2136,21 +2164,21 @@ void rehash(size_type n);
 |若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 
 |并发性： a|
-阻塞于 `*this`。
+阻塞于 `++*++this`。
 
 '''''
 
 |===
 
 [[concurrent_node_set_reserve]]
-==== 保留
+===== 保留
 
 [source,highlight]
 ----
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
+等价于 `a.rehash(ceil(n / a.max++_++load++_++factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -2159,16 +2187,16 @@ void reserve(size_type n);
 |抛出：
 |若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 
-|并发性： |阻塞于 `*this`。
+|并发性： |阻塞于 `++*++this`。
 |===
 
 '''''
 
 [[concurrent_node_set_statistics]]
-=== 统计信息
+==== 统计信息
 
 [[concurrent_node_set_get_stats]]
-==== get_stats
+===== get++_++stats
 
 [source,highlight]
 ----
@@ -2186,7 +2214,7 @@ stats get_stats() const;
 '''''
 
 [[concurrent_node_set_reset_stats]]
-==== reset_stats
+===== reset++_++stats
 
 [source,highlight]
 ----
@@ -2204,7 +2232,7 @@ void reset_stats() noexcept;
 '''''
 
 [[concurrent_node_set_deduction_guides]]
-=== 推导指引
+==== 推导指引
 
 如果以下任何一条件为真，则推导指引将不参与重载决议：
 
@@ -2216,11 +2244,11 @@ void reset_stats() noexcept;
 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
 * 该推导指引包含 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
-推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
-`size_type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size++_++type` 参数类型，指向由该推导指引所推导容器类型的
+`size++_++type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[concurrent_node_set_iter_value_type]]
-==== _iter-value-type_
+===== _iter-value-type_
 
 ....
 template<class InputIterator>
@@ -2229,10 +2257,10 @@ template<class InputIterator>
 ....
 
 [[concurrent_node_set_equality_comparisons]]
-=== 相等性比较
+==== 相等性比较
 
 [[concurrent_node_set_operator]]
-==== operator==
+===== operator==
 
 [source,highlight]
 ----
@@ -2254,7 +2282,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 '''''
 
 [[concurrent_node_set_operator_2]]
-==== operator!=
+===== operator!=
 
 [source,highlight]
 ----
@@ -2276,7 +2304,7 @@ template<class Key, class Hash, class Pred, class Alloc>
 '''''
 
 [[concurrent_node_set_swap_2]]
-=== 交换
+==== 交换
 
 [source,highlight]
 ----
@@ -2295,7 +2323,7 @@ x.swap(y);
 '''''
 
 [[concurrent_node_set_erase_if_2]]
-=== 条件擦除
+==== 条件擦除
 
 [source,highlight]
 ----
@@ -2311,21 +2339,23 @@ c.erase_if(pred);
 ....
 
 [[concurrent_node_set_serialization]]
-=== 序列化
+==== 序列化
 
-`concurrent_node_set` 可通过本组件库提供的 API，借助
+`concurrent++_++node++_++set` 可通过本组件库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
 进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[concurrent_node_set_saving_an_concurrent_node_set_to_an_archive]]
-==== 将 concurrent_node_set 保存到归档
+===== 将 concurrent++_++node++_++set 保存到归档
 
-将 `concurrent_node_set` `x` 的所有元素保存至归档（XML 归档）`ar`。
+将 `concurrent++_++node++_++set` `x` 的所有元素保存至归档（XML
+归档）`ar`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持
-Boost.Serialization 的 `save_construct_data`/`load_construct_data`
+|要求： |`value++_++type` 必须可序列化（支持 XML 序列化），且需要支持
+Boost.Serialization 的
+`save++_++construct++_++data`/`load++_++construct++_++data`
 协议（该协议自动支持满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 
 |并发性： |阻塞于 `x`。
@@ -2334,15 +2364,18 @@ Boost.Serialization 的 `save_construct_data`/`load_construct_data`
 '''''
 
 [[concurrent_node_set_loading_an_concurrent_node_set_from_an_archive]]
-==== 从归档加载 concurrent_node_set
+===== 从归档加载 concurrent++_++node++_++set
 
-删除 `concurrent_node_set` 容器 `x` 中所有已存在的元素，并从归档（XML
-归档）`ar` 中插入原始 `concurrent_node_set` 容器 `other`
-的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
+删除 `concurrent++_++node++_++set` 容器 `x`
+中所有已存在的元素，并从归档（XML 归档）`ar` 中插入原始
+`concurrent++_++node++_++set` 容器 `other` 的元素副本，这些副本是从 `ar`
+所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`x.key_equal()` 需要在功能上等价于 `other.key_equal()`。
+|要求： |`x.key++_++equal()` 需要在功能上等价于
+`other.key++_++equal()`。
+
 |并发性： |阻塞于 `x`。
 |===
 

@@ -2,30 +2,31 @@
 
 [[content]]
 [[unordered_flat_set]]
-== 类模板 unordered_flat_set
+=== 类模板 unordered++_++flat++_++set
 
-`boost::unordered_flat_set` ——
+`boost::unordered++_++flat++_++set` ——
 一种使用开放寻址法的无序关联容器，用于存储唯一值。
 
-`boost::unordered_flat_set` 的性能远优于 `boost::unordered_set` 或其他
-`std::unordered_set`
-的实现。与基于节点的标准无序关联容器不同，`boost::unordered_flat_set`
+`boost::unordered++_++flat++_++set` 的性能远优于
+`boost::unordered++_++set` 或其他 `std::unordered++_++set`
+的实现。与基于节点的标准无序关联容器不同，`boost::unordered++_++flat++_++set`
 的元素直接存储在桶数组中，插入到已占用桶中的元素会被重定向到原始位置附近的可用桶中。这种数据布局称为__开放寻址法__。
 
-由于采用开放寻址法，`boost::unordered_flat_set` 的接口在多个方面与
-`boost::unordered_set`/`std::unordered_set` 有所不同：
+由于采用开放寻址法，`boost::unordered++_++flat++_++set`
+的接口在多个方面与 `boost::unordered++_++set`/`std::unordered++_++set`
+有所不同：
 
-* `value_type` 必须支持移动构造。
+* `value++_++type` 必须支持移动构造。
 * 在重哈希的过程中，指针稳定性无法保持。
 * `begin()` 不是常数时间复杂度操作。
-* 未提供用于桶管理（除 `bucket_count` 外）或节点提取/插入的 API。
+* 未提供用于桶管理（除 `bucket++_++count` 外）或节点提取/插入的 API。
 * 容器的最大负载因子由内部管理，用户无法进行设置。
 
-除此之外，`boost::unordered_flat_set`
+除此之外，`boost::unordered++_++flat++_++set`
 几乎可以完全替代基于节点的标准无序关联容器。
 
 [[unordered_flat_set_synopsis]]
-=== 概要
+==== 概要
 
 ....
 // #include <boost/unordered/unordered_flat_set.hpp>
@@ -56,7 +57,7 @@ namespace unordered {
     using iterator             = 实现定义;
     using const_iterator       = 实现定义;
 
-    using stats                = 统计类型; // 如果启用了统计功能\n
+    using stats                = 统计类型; // 如果启用了统计功能\\n
     // 构造/复制/销毁
     unordered_flat_set();
     explicit unordered_flat_set(size_type n,
@@ -235,7 +236,7 @@ namespace unordered {
 '''''
 
 [[unordered_flat_set_description]]
-=== 描述
+==== 描述
 
 *模板参数*
 
@@ -247,7 +248,7 @@ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
-的参数，并返回一个 `std::size_t` 类型的值。
+的参数，并返回一个 `std::size++_++t` 类型的值。
 
 |_谓词_ |二元函数对象，用于在 `Key`
 类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool`
@@ -262,20 +263,20 @@ https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
 `rehash`/`reserve`
 来调整。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
-`max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
+`max++_++load++_++factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
 若
-link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value`
+link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`]`++<++Hash++>++::value`
 为
 `true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
 [[unordered_flat_set_configuration_macros]]
-=== 配置宏
+==== 配置宏
 
 [[unordered_flat_set_boost_unordered_enable_stats]]
-==== `BOOST_UNORDERED_ENABLE_STATS`
+===== `BOOST++_++UNORDERED++_++ENABLE++_++STATS`
 
 全局定义此宏，以启用容器的 link:reference/stats.html#stats[统计计算]
 功能。请注意，此选项会降低许多操作的总体性能。
@@ -283,18 +284,18 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 '''''
 
 [[unordered_flat_set_typedefs]]
-=== 类型定义
+==== 类型定义
 
 [source,highlight]
 ----
 typedef implementation-defined iterator;
 ----
 
-一个常量迭代器，其值类型为 `value_type`。
+一个常量迭代器，其值类型为 `value++_++type`。
 
 迭代器类别至少是前向迭代器。
 
-可转换为 `const_iterator`。
+可转换为 `const++_++iterator`。
 
 '''''
 
@@ -303,36 +304,37 @@ typedef implementation-defined iterator;
 typedef implementation-defined const_iterator;
 ----
 
-一个常量迭代器，其值类型为 `value_type`。
+一个常量迭代器，其值类型为 `value++_++type`。
 
 迭代器类别至少是前向迭代器。
 
 [[unordered_flat_set_constructors]]
-=== 构造函数
+==== 构造函数
 
 [[unordered_flat_set_default_constructor]]
-==== 默认构造函数
+===== 默认构造函数
 
 [source,highlight]
 ----
 unordered_flat_set();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()`
-作为键相等性谓词、以及`allocator_type()` 作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key++_++equal()`
+作为键相等性谓词、以及`allocator++_++type()` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
 
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_bucket_count_constructor]]
-==== 桶数构造函数
+===== 桶数构造函数
 
 [source,highlight]
 ----
@@ -349,14 +351,15 @@ explicit unordered_flat_set(size_type n,
 |===
 |后置条件： |`size() == 0`
 
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_iterator_range_constructor]]
-==== 迭代器范围构造函数
+===== 迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -369,18 +372,20 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
+作为键相等性谓词、`a` 作为分配器，并将区间 `++[++f, l)`
+中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_copy_constructor]]
-==== 复制构造函数
+===== 复制构造函数
 
 [source,highlight]
 ----
@@ -389,18 +394,18 @@ unordered_flat_set(unordered_flat_set const& other);
 
 复制构造函数。复制其所包含的元素、哈希函数、谓词及分配器。
 
-若 `Allocator::select_on_container_copy_construction`
+若 `Allocator::select++_++on++_++container++_++copy++_++construction`
 存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须满足可复制构造要求
+|要求： |`value++_++type` 必须满足可复制构造要求
 |===
 
 '''''
 
 [[unordered_flat_set_move_constructor]]
-==== 移动构造函数
+===== 移动构造函数
 
 [source,highlight]
 ----
@@ -410,12 +415,12 @@ unordered_flat_set(unordered_flat_set&& other);
 移动构造函数。`other`
 的内部桶数组直接转移到新容器。哈希函数、谓词和分配器从 `other`
 移动构造。如果统计功能已link:#unordered_flat_set_boost_unordered_enable_stats[启用]，则同时转移
-`other` 的内部统计信息，并调用 `other.reset_stats()`。
+`other` 的内部统计信息，并调用 `other.reset++_++stats()`。
 
 '''''
 
 [[unordered_flat_set_iterator_range_constructor_with_allocator]]
-==== 带分配器的迭代器范围构造函数
+===== 带分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -424,19 +429,19 @@ template<class InputIterator>
 ----
 
 构造一个空容器，使用 `a`
-作为分配器、以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+作为分配器、以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal`
+|要求： |`hasher` 和 `key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_allocator_constructor]]
-==== 分配器构造函数
+===== 分配器构造函数
 
 [source,highlight]
 ----
@@ -448,7 +453,7 @@ explicit unordered_flat_set(Allocator const& a);
 '''''
 
 [[unordered_flat_set_copy_constructor_with_allocator]]
-==== 带分配器的复制构造函数
+===== 带分配器的复制构造函数
 
 [source,highlight]
 ----
@@ -460,34 +465,35 @@ unordered_flat_set(unordered_flat_set const& other, Allocator const& a);
 '''''
 
 [[unordered_flat_set_move_constructor_with_allocator]]
-==== 带分配器的移动构造函数
+===== 带分配器的移动构造函数
 
 [source,highlight]
 ----
 unordered_flat_set(unordered_flat_set&& other, Allocator const& a);
 ----
 
-如果 `a == other.get_allocator()`，则 `other`
+如果 `a == other.get++_++allocator()`，则 `other`
 的元素直接转移到新容器；否则，元素从 `other`
 的元素移动构造。哈希函数和谓词从 `other` 移动构造，分配器从 `a`
 复制构造。如果统计功能已link:#unordered_flat_set_boost_unordered_enable_stats[启用]，则当
-`a == other.get_allocator()` 时，同时转移其内部统计信息，并始终调用
-`other.reset_stats()`。
+`a == other.get++_++allocator()` 时，同时转移其内部统计信息，并始终调用
+`other.reset++_++stats()`。
 
 '''''
 
 [[unordered_flat_set_move_constructor_from_concurrent_flat_set]]
-==== 从 concurrent_flat_set 的移动构造函数
+===== 从 concurrent++_++flat++_++set 的移动构造函数
 
 [source,highlight]
 ----
 unordered_flat_set(concurrent_flat_set<Key, Hash, Pred, Allocator>&& other);
 ----
 
-从 link:#concurrent_flat_set[`concurrent_flat_set`] 移动构造。`other`
-的内部桶数组直接转移到新容器。哈希函数、谓词和分配器从 `other`
+从 link:#concurrent_flat_set[`concurrent++_++flat++_++set`]
+移动构造。`other` 的内部桶数组直接转移到新容器。哈希函数、谓词和分配器从
+`other`
 移动构造。如果统计功能已link:#unordered_flat_set_boost_unordered_enable_stats[启用]，则同时转移
-`other` 的内部统计信息，并调用 `other.reset_stats()`。
+`other` 的内部统计信息，并调用 `other.reset++_++stats()`。
 
 [cols=",",]
 |===
@@ -498,7 +504,7 @@ unordered_flat_set(concurrent_flat_set<Key, Hash, Pred, Allocator>&& other);
 '''''
 
 [[unordered_flat_set_initializer_list_constructor]]
-==== 初始化列表构造函数
+===== 初始化列表构造函数
 
 [source,highlight]
 ----
@@ -514,14 +520,15 @@ unordered_flat_set(std::initializer_list<value_type> il,
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type`
+|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
+`allocator++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_bucket_count_constructor_with_allocator]]
-==== 带分配器的桶数构造函数
+===== 带分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -535,14 +542,14 @@ unordered_flat_set(size_type n, allocator_type const& a);
 |===
 |后置条件： |`size() == 0`
 
-|要求： |`hasher` 和 `key_equal`
+|要求： |`hasher` 和 `key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_bucket_count_constructor_with_hasher_and_allocator]]
-==== 带哈希函数和分配器的桶数构造函数
+===== 带哈希函数和分配器的桶数构造函数
 
 [source,highlight]
 ----
@@ -556,14 +563,14 @@ unordered_flat_set(size_type n, hasher const& hf, allocator_type const& a);
 |===
 |后置条件： |`size() == 0`
 
-|要求： |`key_equal`
+|要求： |`key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_iterator_range_constructor_with_bucket_count_and_allocator]]
-==== 带桶数和分配器的迭代器范围构造函数
+===== 带桶数和分配器的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -572,19 +579,19 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器、以及默认的哈希函数和键相等性谓词，并将 `[f, l)`
+作为分配器、以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal`
+|要求： |`hasher` 和 `key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_iterator_range_constructor_with_bucket_count_and_hasher]]
-==== 带桶数和哈希函数的迭代器范围构造函数
+===== 带桶数和哈希函数的迭代器范围构造函数
 
 [source,highlight]
 ----
@@ -594,18 +601,19 @@ template<class InputIterator>
 ----
 
 构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
+作为分配器以及默认的键相等性谓词，并将 `++[++f, l)`
+范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key_equal`
+|要求： |`key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_initializer_list_constructor_with_allocator]]
-==== 带分配器的初始化列表构造函数
+===== 带分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -618,14 +626,14 @@ unordered_flat_set(std::initializer_list<value_type> il, const allocator_type& a
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal`
+|要求： |`hasher` 和 `key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_initializer_list_constructor_with_bucket_count_and_allocator]]
-==== 带桶数和分配器的初始化列表构造函数
+===== 带桶数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -637,14 +645,14 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const allo
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal`
+|要求： |`hasher` 和 `key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator]]
-==== 带桶数、哈希函数和分配器的初始化列表构造函数
+===== 带桶数、哈希函数和分配器的初始化列表构造函数
 
 [source,highlight]
 ----
@@ -657,14 +665,14 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const hash
 
 [cols=",",]
 |===
-|要求： |`key_equal`
+|要求： |`key++_++equal`
 需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_destructor]]
-=== 析构函数
+==== 析构函数
 
 [source,highlight]
 ----
@@ -679,10 +687,10 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const hash
 '''''
 
 [[unordered_flat_set_assignment]]
-=== 赋值操作
+==== 赋值操作
 
 [[unordered_flat_set_copy_assignment]]
-==== 复制赋值
+===== 复制赋值
 
 [source,highlight]
 ----
@@ -691,20 +699,21 @@ unordered_flat_set& operator=(unordered_flat_set const& other);
 
 赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
 复制赋值哈希函数与键相等性谓词。若
-`Alloc::propagate_on_container_copy_assignment` 存在，且
-`Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从
-`other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
+`Alloc::propagate++_++on++_++container++_++copy++_++assignment` 存在，且
+`Alloc::propagate++_++on++_++container++_++copy++_++assignment::value`
+为 `true`，则从 `other` 复制赋值分配器，最后插入 `other`
+中所有元素的副本。
 
 [cols=",",]
 |===
-|要求： |`value_type`
+|要求： |`value++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 |===
 
 '''''
 
 [[unordered_flat_set_move_assignment]]
-==== 移动赋值
+===== 移动赋值
 
 [source,highlight]
 ----
@@ -716,18 +725,19 @@ unordered_flat_set& operator=(unordered_flat_set&& other)
 
 移动赋值操作符。该操作会销毁容器中原有的元素，交换 `other`
 的哈希函数与键相等性谓词。若
-`Alloc::propagate_on_container_move_assignment` 存在且
-`Alloc::propagate_on_container_move_assignment::value` 为 `true`，则从
-`other` 移动赋值分配器。若此时分配器与 `other.get_allocator()`
-相等，则直接将 `other` 的内部桶数组转移至当前容器；否则，将插入 `other`
+`Alloc::propagate++_++on++_++container++_++move++_++assignment` 存在且
+`Alloc::propagate++_++on++_++container++_++move++_++assignment::value`
+为 `true`，则从 `other` 移动赋值分配器。若此时分配器与
+`other.get++_++allocator()` 相等，则直接将 `other`
+的内部桶数组转移至当前容器；否则，将插入 `other`
 中元素的移动构造副本。若已启用统计功能，则当且仅当最终分配器与
-`other.get_allocator()` 相等时，同时转移其内部统计信息，并始终调用
-`other.reset_stats()`。
+`other.get++_++allocator()` 相等时，同时转移其内部统计信息，并始终调用
+`other.reset++_++stats()`。
 
 '''''
 
 [[unordered_flat_set_initializer_list_assignment]]
-==== 初始化列表赋值
+===== 初始化列表赋值
 
 [source,highlight]
 ----
@@ -738,15 +748,15 @@ unordered_flat_set& operator=(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|要求： |`value_type`
+|要求： |`value++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 |===
 
 [[unordered_flat_set_iterators]]
-=== 迭代器
+==== 迭代器
 
 [[unordered_flat_set_begin]]
-==== begin
+===== begin
 
 [source,highlight]
 ----
@@ -759,13 +769,13 @@ const_iterator begin() const noexcept;
 |返回：
 |返回一个指向容器第一个元素的迭代器；若容器为空，则返回容器的结束迭代器。
 
-|复杂度： |O(`bucket_count()`)
+|复杂度： |O(`bucket++_++count()`)
 |===
 
 '''''
 
 [[unordered_flat_set_end]]
-==== end
+===== end
 
 [source,highlight]
 ----
@@ -781,7 +791,7 @@ const_iterator end() const noexcept;
 '''''
 
 [[unordered_flat_set_cbegin]]
-==== cbegin
+===== cbegin
 
 [source,highlight]
 ----
@@ -791,15 +801,15 @@ const_iterator cbegin() const noexcept;
 [cols=",",]
 |===
 |返回： |返回一个指向容器第一个元素的
-`const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
+`const++_++iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
 
-|复杂度： |O(`bucket_count()`)
+|复杂度： |O(`bucket++_++count()`)
 |===
 
 '''''
 
 [[unordered_flat_set_cend]]
-==== cend
+===== cend
 
 [source,highlight]
 ----
@@ -808,16 +818,17 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器结束位置的 `const_iterator` （常量迭代器）。
+|返回： |返回一个指向容器结束位置的 `const++_++iterator`
+（常量迭代器）。
 |===
 
 '''''
 
 [[unordered_flat_set_size_and_capacity]]
-=== 大小与容量
+==== 大小与容量
 
 [[unordered_flat_set_empty]]
-==== 空
+===== 空
 
 [source,highlight]
 ----
@@ -832,7 +843,7 @@ const_iterator cend() const noexcept;
 '''''
 
 [[unordered_flat_set_size]]
-==== 大小
+===== 大小
 
 [source,highlight]
 ----
@@ -847,7 +858,7 @@ size_type size() const noexcept;
 '''''
 
 [[unordered_flat_set_max_size]]
-==== max_size
+===== max++_++size
 
 [source,highlight]
 ----
@@ -862,10 +873,10 @@ size_type max_size() const noexcept;
 '''''
 
 [[unordered_flat_set_modifiers]]
-=== 修改器
+==== 修改器
 
 [[unordered_flat_set_emplace]]
-==== 原地构造
+===== 原地构造
 
 [source,highlight]
 ----
@@ -877,7 +888,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须能够通过 `args` 构造函数。
+|要求： |`value++_++type` 必须能够通过 `args` 构造函数。
 
 |返回： a|
 如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
@@ -893,7 +904,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 '''''
 
 [[unordered_flat_set_emplace_hint]]
-==== emplace_hint
+===== emplace++_++hint
 
 [source,highlight]
 ----
@@ -907,7 +918,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须能够通过 `args` 构造函数。
+|要求： |`value++_++type` 必须能够通过 `args` 构造函数。
 
 |返回： a|
 如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
@@ -923,7 +934,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 '''''
 
 [[unordered_flat_set_copy_insert]]
-==== 复制插入
+===== 复制插入
 
 [source,highlight]
 ----
@@ -934,7 +945,7 @@ std::pair<iterator, bool> insert(const value_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
+|要求： |`value++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |返回： a|
@@ -951,7 +962,7 @@ std::pair<iterator, bool> insert(const value_type& obj);
 '''''
 
 [[unordered_flat_set_move_insert]]
-==== 移动插入
+===== 移动插入
 
 [source,highlight]
 ----
@@ -962,7 +973,7 @@ std::pair<iterator, bool> insert(value_type&& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
+|要求： |`value++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
 |返回： a|
@@ -979,7 +990,7 @@ std::pair<iterator, bool> insert(value_type&& obj);
 '''''
 
 [[unordered_flat_set_transparent_insert]]
-==== 透明插入
+===== 透明插入
 
 [source,highlight]
 ----
@@ -991,7 +1002,7 @@ template<class K> std::pair<iterator, bool> insert(K&& k);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须能够从 `k`进行
+|要求： |`value++_++type` 必须能够从 `k`进行
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
 
 |返回： a|
@@ -1004,18 +1015,18 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载大于最大负载时。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，且 `iterator` 和 `const_iterator` 均不能从 `K`
-隐式转换时，此重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和
-`Key` 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化
-`Key` 类型的开销。
+仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，且 `iterator` 和 `const++_++iterator` 均不能从
+`K` 隐式转换时，此重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K`
+和 `Key` 类型调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_flat_set_copy_insert_with_hint]]
-==== 带提示的复制插入
+===== 带提示的复制插入
 
 [source,highlight]
 ----
@@ -1028,7 +1039,7 @@ iterator insert(const_iterator hint, const value_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
+|要求： |`value++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |返回： a|
@@ -1045,7 +1056,7 @@ iterator insert(const_iterator hint, const value_type& obj);
 '''''
 
 [[unordered_flat_set_move_insert_with_hint]]
-==== 带提示的移动插入
+===== 带提示的移动插入
 
 [source,highlight]
 ----
@@ -1058,7 +1069,7 @@ iterator insert(const_iterator hint, value_type&& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type`
+|要求： |`value++_++type`
 需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
 |返回： a|
@@ -1075,7 +1086,7 @@ iterator insert(const_iterator hint, value_type&& obj);
 '''''
 
 [[unordered_flat_set_transparent_insert_with_hint]]
-==== 带提示的透明插入
+===== 带提示的透明插入
 
 [source,highlight]
 ----
@@ -1089,7 +1100,7 @@ template<class K> std::pair<iterator, bool> insert(const_iterator hint, K&& k);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须能够从 `k`进行
+|要求： |`value++_++type` 必须能够从 `k`进行
 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
 
 |返回： a|
@@ -1102,18 +1113,18 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]�
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载大于最大负载时。 +
 
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，且 `iterator` 和 `const_iterator` 均不能从 `K`
-隐式转换时，此重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和
-`Key` 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化
-`Key` 类型的开销。
+仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，且 `iterator` 和 `const++_++iterator` 均不能从
+`K` 隐式转换时，此重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K`
+和 `Key` 类型调用，且 `Pred`
+为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_flat_set_insert_iterator_range]]
-==== 迭代器范围插入
+===== 迭代器范围插入
 
 [source,highlight]
 ----
@@ -1124,7 +1135,7 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须能够通过 `*first`
+|要求： |`value++_++type` 必须能够通过 `++*++first`
 在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
@@ -1138,7 +1149,7 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 '''''
 
 [[unordered_flat_set_insert_initializer_list]]
-==== 初始化列表插入
+===== 初始化列表插入
 
 [source,highlight]
 ----
@@ -1149,7 +1160,7 @@ void insert(std::initializer_list<value_type>);
 
 [cols=",",]
 |===
-|要求： |`value_type` 需满足
+|要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 到容器中的要求。
 
@@ -1163,7 +1174,7 @@ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 '''''
 
 [[unordered_flat_set_erase_by_position]]
-==== 通过位置擦除
+===== 通过位置擦除
 
 [source,highlight]
 ----
@@ -1176,18 +1187,18 @@ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 [cols=",",]
 |===
 |返回： |返回一个不透明对象，该对象可隐式转换为擦除前紧接在 `position`
-之后的 `iterator` 或 `const_iterator`。
+之后的 `iterator` 或 `const++_++iterator`。
 
 |抛出： |无。
 
 |注意： |返回的不透明对象必须被立即丢弃或转换为 `iterator` 或
-`const_iterator`。
+`const++_++iterator`。
 |===
 
 '''''
 
 [[unordered_flat_set_erase_by_key]]
-==== 通过键擦除
+===== 通过键擦除
 
 [source,highlight]
 ----
@@ -1201,19 +1212,19 @@ template<class K> size_type erase(K&& k);
 |===
 |返回： |被擦除的元素数量。
 
-|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
+|抛出： |仅当 `hasher` 或 `key++_++equal` 抛出异常时，才会抛出异常。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K`
-隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash`
-可同时被 `K` 和 `Key` 调用，且 `Pred`
-为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型定义，且 `iterator` 和 `const++_++iterator` 均不能从
+`K` 隐式转换时，`template++<++class K++>++`
+重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
+`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
 
 [[unordered_flat_set_erase_range]]
-==== 范围擦除
+===== 范围擦除
 
 [source,highlight]
 ----
@@ -1227,13 +1238,13 @@ iterator erase(const_iterator first, const_iterator last);
 |返回： |返回被擦除元素之后的迭代器——即 `last`。
 
 |抛出： |在此实现中不抛出任何异常（既不调用 `hasher`， 也不调用
-`key_equal` 对象）。
+`key++_++equal` 对象）。
 |===
 
 '''''
 
 [[unordered_flat_set_swap]]
-==== 交换
+===== 交换
 
 [source,highlight]
 ----
@@ -1244,33 +1255,33 @@ void swap(unordered_flat_set& other)
 
 交换容器与参数的内容。
 
-若 `Allocator::propagate_on_container_swap` 已声明且
-`Allocator::propagate_on_container_swap::value` 为
+若 `Allocator::propagate++_++on++_++container++_++swap` 已声明且
+`Allocator::propagate++_++on++_++container++_++swap::value` 为
 `true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非 `key_equal` 或 `hasher`
+|抛出： |除非 `key++_++equal` 或 `hasher`
 在交换时抛出异常，否则本操作不会抛出任何异常。
 |===
 
 '''''
 
 [[unordered_flat_set_pull]]
-==== pull
+===== pull
 
 [source,highlight]
 ----
 init_type pull(const_iterator position);
 ----
 
-从 `position` 指向的元素移动构造一个 `init_value` 对象
+从 `position` 指向的元素移动构造一个 `init++_++value` 对象
 `x`，擦除该元素并返回 `x`。
 
 '''''
 
 [[unordered_flat_set_clear]]
-==== 清空
+===== 清空
 
 [source,highlight]
 ----
@@ -1282,13 +1293,13 @@ void clear() noexcept;
 [cols=",",]
 |===
 |后置条件：
-|`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
+|`size() == 0`，`max++_++load() ++>++= max++_++load++_++factor() ++*++ bucket++_++count()`
 |===
 
 '''''
 
 [[unordered_flat_set_merge]]
-==== 合并
+===== 合并
 
 [source,highlight]
 ----
@@ -1298,16 +1309,16 @@ template<class H2, class P2>
   void merge(unordered_flat_set<Key, T, H2, P2, Allocator>&& source);
 ----
 
-对 `source` 中所有键不在 `*this`
+对 `source` 中所有键不在 `++*++this`
 中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 '''''
 
 [[unordered_flat_set_observers]]
-=== 观察器
+==== 观察器
 
 [[unordered_flat_set_get_allocator]]
-==== get_allocator
+===== get++_++allocator
 
 [source,highlight]
 ----
@@ -1322,7 +1333,7 @@ allocator_type get_allocator() const noexcept;
 '''''
 
 [[unordered_flat_set_hash_function]]
-==== 哈希函数
+===== 哈希函数
 
 [source,highlight]
 ----
@@ -1337,7 +1348,7 @@ hasher hash_function() const;
 '''''
 
 [[unordered_flat_set_key_eq]]
-==== key_eq
+===== key++_++eq
 
 [source,highlight]
 ----
@@ -1352,10 +1363,10 @@ key_equal key_eq() const;
 '''''
 
 [[unordered_flat_set_lookup]]
-=== 查找
+==== 查找
 
 [[unordered_flat_set_find]]
-==== find
+===== find
 
 [source,highlight]
 ----
@@ -1370,8 +1381,8 @@ template<class K>
 |返回： |返回一个指向键等价于 `k`
 的元素的迭代器；若不存在这样的元素，则返回 `end()`。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
 类型的开销。
@@ -1380,7 +1391,7 @@ template<class K>
 '''''
 
 [[unordered_flat_set_count]]
-==== count
+===== count
 
 [source,highlight]
 ----
@@ -1393,8 +1404,8 @@ template<class K>
 |===
 |返回： |返回键等价于 `k` 的元素数量。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
 类型的开销。
@@ -1403,7 +1414,7 @@ template<class K>
 '''''
 
 [[unordered_flat_set_contains]]
-==== 包含
+===== 包含
 
 [source,highlight]
 ----
@@ -1416,8 +1427,8 @@ template<class K>
 |===
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
 类型的开销。
@@ -1426,7 +1437,7 @@ template<class K>
 '''''
 
 [[unordered_flat_set_equal_range]]
-==== equal_range
+===== equal++_++range
 
 [source,highlight]
 ----
@@ -1442,10 +1453,10 @@ template<class K>
 |===
 |返回： |返回包含所有键等价于 `k`
 的元素的范围。若容器中不存在此类元素，则返回
-`std::make_pair(b.end(), b.end())`。
+`std::make++_++pair(b.end(), b.end())`。
 
-|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent`
-均为有效的成员类型别名时，`template<class K>`
+|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
+均为有效的成员类型别名时，`template++<++class K++>++`
 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key`
 类型调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key`
 类型的开销。
@@ -1454,10 +1465,10 @@ template<class K>
 '''''
 
 [[unordered_flat_set_bucket_interface]]
-=== 桶接口
+==== 桶接口
 
 [[unordered_flat_set_bucket_count]]
-==== bucket_count
+===== bucket++_++count
 
 [source,highlight]
 ----
@@ -1472,10 +1483,10 @@ size_type bucket_count() const noexcept;
 '''''
 
 [[unordered_flat_set_hash_policy]]
-=== 哈希策略
+==== 哈希策略
 
 [[unordered_flat_set_load_factor]]
-==== 负载因子
+===== 负载因子
 
 [source,highlight]
 ----
@@ -1485,14 +1496,14 @@ float load_factor() const noexcept;
 [cols=",",]
 |===
 |返回： |返回
-`static_cast<float>(size())/static_cast<float>(bucket_count())`，若
-`bucket_count() == 0`， 则返回 `0`。
+`static++_++cast++<++float++>++(size())/static++_++cast++<++float++>++(bucket++_++count())`，若
+`bucket++_++count() == 0`， 则返回 `0`。
 |===
 
 '''''
 
 [[unordered_flat_set_max_load_factor]]
-==== max_load_factor（最大负载因子）
+===== max++_++load++_++factor（最大负载因子）
 
 [source,highlight]
 ----
@@ -1507,7 +1518,7 @@ float max_load_factor() const noexcept;
 '''''
 
 [[unordered_flat_set_set_max_load_factor]]
-==== 设置最大负载因子
+===== 设置最大负载因子
 
 [source,highlight]
 ----
@@ -1517,13 +1528,13 @@ void max_load_factor(float z);
 [cols=",",]
 |===
 |效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与
-`boost::unordered_set` 保持兼容。
+`boost::unordered++_++set` 保持兼容。
 |===
 
 '''''
 
 [[unordered_flat_set_max_load]]
-==== max_load（最大负载）
+===== max++_++load（最大负载）
 
 [source,highlight]
 ----
@@ -1536,13 +1547,13 @@ size_type max_load() const noexcept;
 |返回容器在不重哈希的情况下可容纳的最大元素数（假设不再擦除元素）。
 
 |注意： |在构造、重新哈希或清空操作后，容器的最大负载至少为
-`max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。
+`max++_++load++_++factor() ++*++ bucket++_++count()`。在高负载条件下执行擦除操作时，此数值可能会降低。
 |===
 
 '''''
 
 [[unordered_flat_set_rehash]]
-==== 重哈希
+===== 重哈希
 
 [source,highlight]
 ----
@@ -1551,7 +1562,7 @@ void rehash(size_type n);
 
 如有必要，将改变桶数组的大小，使其至少包含 `n`
 个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
-`bucket_count()`。
+`bucket++_++count()`。
 
 当 `size() == 0` 时，`rehash(0)`
 将释放底层桶数组。若使用的分配器采用花式指针，随后会执行默认分配操作。
@@ -1567,14 +1578,14 @@ void rehash(size_type n);
 '''''
 
 [[unordered_flat_set_reserve]]
-==== 保留
+===== 保留
 
 [source,highlight]
 ----
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
+等价于 `a.rehash(ceil(n / a.max++_++load++_++factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1589,10 +1600,10 @@ void reserve(size_type n);
 '''''
 
 [[unordered_flat_set_statistics]]
-=== 统计信息
+==== 统计信息
 
 [[unordered_flat_set_get_stats]]
-==== get_stats
+===== get++_++stats
 
 [source,highlight]
 ----
@@ -1610,7 +1621,7 @@ stats get_stats() const;
 '''''
 
 [[unordered_flat_set_reset_stats]]
-==== reset_stats
+===== reset++_++stats
 
 [source,highlight]
 ----
@@ -1628,7 +1639,7 @@ void reset_stats() noexcept;
 '''''
 
 [[unordered_flat_set_deduction_guides]]
-=== 推导指引
+==== 推导指引
 
 如果以下任何一条件为真，则推导指引将不参与重载决议：
 
@@ -1640,11 +1651,11 @@ void reset_stats() noexcept;
 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
 * 该推导指引包含 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
-推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的
-`size_type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size++_++type` 参数类型，指向由该推导指引所推导容器类型的
+`size++_++type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_flat_set_iter_value_type]]
-==== _iter-value-type_
+===== _iter-value-type_
 
 ....
 template<class InputIterator>
@@ -1653,10 +1664,10 @@ template<class InputIterator>
 ....
 
 [[unordered_flat_set_equality_comparisons]]
-=== 相等性比较
+==== 相等性比较
 
 [[unordered_flat_set_operator]]
-==== operator==
+===== operator==
 
 [source,highlight]
 ----
@@ -1677,7 +1688,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 '''''
 
 [[unordered_flat_set_operator_2]]
-==== operator!=
+===== operator!=
 
 [source,highlight]
 ----
@@ -1696,7 +1707,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 |===
 
 [[unordered_flat_set_swap_2]]
-=== 交换
+==== 交换
 
 [source,highlight]
 ----
@@ -1708,22 +1719,22 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 交换 `x` 与 `y` 的内容。
 
-若 `Allocator::propagate_on_container_swap` 已声明且
-`Allocator::propagate_on_container_swap::value` 为
+若 `Allocator::propagate++_++on++_++container++_++swap` 已声明且
+`Allocator::propagate++_++on++_++container++_++swap::value` 为
 `true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
 |效果： |`x.swap(y)`
 
-|抛出： |除非 `key_equal` 或 `hasher`
+|抛出： |除非 `key++_++equal` 或 `hasher`
 在交换时抛出异常，否则本操作不会抛出任何异常。
 |===
 
 '''''
 
 [[unordered_flat_set_erase_if]]
-=== 条件擦除
+==== 条件擦除
 
 [source,highlight]
 ----
@@ -1756,65 +1767,71 @@ return original_size - c.size();
 |===
 
 [[unordered_flat_set_serialization]]
-=== 序列化
+==== 序列化
 
-`unordered_flat_set` 可通过本库提供的 API，借助
+`unordered++_++flat++_++set` 可通过本库提供的 API，借助
 link:../../../../../serialization/index.html[Boost.Serialization]
 进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[unordered_flat_set_saving_an_unordered_flat_set_to_an_archive]]
-==== 将 unordered_flat_set 保存到归档
+===== 将 unordered++_++flat++_++set 保存到归档
 
-将 `unordered_flat_set` `x` 的所有元素保存到归档（XML 归档）`ar`。
+将 `unordered++_++flat++_++set` `x` 的所有元素保存到归档（XML
+归档）`ar`。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持
-Boost.Serialization 的 `save_construct_data`/`load_construct_data`
+|要求： |`value++_++type` 必须可序列化（支持 XML 序列化），且需要支持
+Boost.Serialization 的
+`save++_++construct++_++data`/`load++_++construct++_++data`
 协议（该协议自动支持满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 |===
 
 '''''
 
 [[unordered_flat_set_loading_an_unordered_flat_set_from_an_archive]]
-==== 从归档加载 unordered_flat_set
+===== 从归档加载 unordered++_++flat++_++set
 
-删除 `unordered_flat_set`容器 `x` 中存在的所有现有元素，并从归档（XML
-归档）`ar` 中插入原始 `unordered_flat_set` 容器 `other`
-的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
+删除 `unordered++_++flat++_++set`容器 `x`
+中存在的所有现有元素，并从归档（XML 归档）`ar` 中插入原始
+`unordered++_++flat++_++set` 容器 `other` 的元素副本，这些副本是从 `ar`
+所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`x.key_equal()` 需要在功能上等价于 `other.key_equal()`。
+|要求： |`x.key++_++equal()` 需要在功能上等价于
+`other.key++_++equal()`。
 |===
 
 '''''
 
 [[unordered_flat_set_saving_an_iteratorconst_iterator_to_an_archive]]
-==== 将迭代器/常量迭代器保存到归档
+===== 将迭代器/常量迭代器保存到归档
 
-将`iterator`（`const_iterator`）常量迭代器 `it`
+将`iterator`（`const++_++iterator`）常量迭代器 `it`
 的位置信息保存到归档（XML 归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
-|要求： |`it` 所指向的 `unordered_flat_set` 容器 `x` 先前已被保存至
-`ar`，且在保存 `x` 与保存 `it` 期间未对 `x` 执行任何修改操作。
+|要求： |`it` 所指向的 `unordered++_++flat++_++set` 容器 `x`
+先前已被保存至 `ar`，且在保存 `x` 与保存 `it` 期间未对 `x`
+执行任何修改操作。
 |===
 
 '''''
 
 [[unordered_flat_set_loading_an_iteratorconst_iterator_from_an_archive]]
-==== 从归档加载迭代器/常量迭代器
+===== 从归档加载迭代器/常量迭代器
 
-使 `iterator`（`const_iterator`）`it` 指向原始
-`iterator`（`const_iterator`）所恢复的位置。该原始迭代器已被保存到由归档（XML
+使 `iterator`（`const++_++iterator`）`it` 指向原始
+`iterator`（`const++_++iterator`）所恢复的位置。该原始迭代器已被保存到由归档（XML
 归档）`ar` 读取的存储中。
 
 [cols=",",]
 |===
-|要求： |如果 `x` 为 `it` 所指向的 `unordered_flat_set`容器，则在加载
-`x` 和加载 `it` 期间未对 `x` 执行任何修改操作。
+|要求： |如果 `x` 为 `it` 所指向的
+`unordered++_++flat++_++set`容器，则在加载 `x` 和加载 `it` 期间未对 `x`
+执行任何修改操作。
 |===
 
 [[footer]]

@@ -4,9 +4,9 @@
 [[content]]
 [[preamble]]
 Boost.Unordered 提供
-`boost::concurrent_node_set`、`boost::concurrent_node_map`、`boost::concurrent_flat_set`
+`boost::concurrent++_++node++_++set`、`boost::concurrent++_++node++_++map`、`boost::concurrent++_++flat++_++set`
 和
-`boost::concurrent_flat_map`，这些哈希表允许不同线程进行并发读写访问，无需用户实现任何同步机制。
+`boost::concurrent++_++flat++_++map`，这些哈希表允许不同线程进行并发读写访问，无需用户实现任何同步机制。
 
 [source,highlight]
 ----
@@ -42,11 +42,11 @@ Boost.Unordered
 CPU 的逻辑核心数）。
 
 [[concurrent_visitation_based_api]]
-== 基于访问的 API
+=== 基于访问的 API
 
 Boost.Unordered
 并发容器的新用户首先会注意到：这些类__不提供迭代器__（它们在技术层面上不符合
-C++
+C{plus}{plus}
 标准中的https://en.cppreference.com/w/cpp/named_req/Container[容器]定义）。因为迭代器本质上是线程不安全的。请参考以下假设代码：
 
 [source,highlight]
@@ -59,9 +59,9 @@ if (it != m.end() ) {
 
 多线程场景中，若其他线程在 A 和 B 之间执行 `m.erase(k)`操作，迭代器 `it`
 可能在 B
-点失效。虽然存在通过锁定指向元素来修复此问题的设计方案，但这种方法容易引发高竞争并可能导致程序死锁。`operator[]`
+点失效。虽然存在通过锁定指向元素来修复此问题的设计方案，但这种方法容易引发高竞争并可能导致程序死锁。`operator++[]++`
 也存在类似并发问题，因此
-`boost::concurrent_flat_map`/`boost::concurrent_node_map`
+`boost::concurrent++_++flat++_++map`/`boost::concurrent++_++node++_++map`
 也未提供该操作。替代方案是通过__访问函数__操作元素：
 
 [source,highlight]
@@ -123,7 +123,7 @@ m.insert_or_visit(x, [](auto& y) {
 的操作将根据
 `m`是否为常量类型，授予访问函数对元素的常量/非常量访问权限。 通过使用
 `cvisit` 重载（如
-`insert_or_cvisit`）可始终显式请求常量访问，这可能提升并行性。而并发集合的访问始终为常量访问。
+`insert++_++or++_++cvisit`）可始终显式请求常量访问，这可能提升并行性。而并发集合的访问始终为常量访问。
 
 尽管预期使用频率较低，并发容器还提供在元素创建后立即进行访问的插入操作（除在已存在等价元素时执行常规访问之外）：
 
@@ -139,15 +139,15 @@ m.insert_or_visit(x, [](auto& y) {
 ----
 
 支持访问功能的完整操作列表请参阅
-link:reference/concurrent_node_set.html#concurrent_node_set[`boost::concurrent_node_set`]、link:reference/concurrent_node_map.html#concurrent_node_map[`boost::concurrent_node_map`]、link:reference/concurrent_flat_set.html#concurrent_flat_set[`boost::concurrent_flat_set`]
+link:reference/concurrent_node_set.html#concurrent_node_set[`boost::concurrent++_++node++_++set`]、link:reference/concurrent_node_map.html#concurrent_node_map[`boost::concurrent++_++node++_++map`]、link:reference/concurrent_flat_set.html#concurrent_flat_set[`boost::concurrent++_++flat++_++set`]
 和
-link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent_flat_map`]
+link:reference/concurrent_flat_map.html#concurrent_flat_map[`boost::concurrent++_++flat++_++map`]
 的参考文档。
 
 [[concurrent_whole_table_visitation]]
-== 全表访问
+=== 全表访问
 
-在缺乏迭代器的情况下，`visit_all` 提供处理容器内全部元素的替代方案：
+在缺乏迭代器的情况下，`visit++_++all` 提供处理容器内全部元素的替代方案：
 
 [source,highlight]
 ----
@@ -156,7 +156,8 @@ m.visit_all([](auto& x) {
 });
 ----
 
-在支持标准并行算法的 C++17 编译器中，全表遍历访问可进行并行化处理：
+在支持标准并行算法的 C{plus}{plus}17
+编译器中，全表遍历访问可进行并行化处理：
 
 [source,highlight]
 ----
@@ -186,7 +187,7 @@ bool found = !m.visit_while([&](const auto& x) {
 if(found) { ... }
 ----
 
-最后一项全表访问操作是 `erase_if`：
+最后一项全表访问操作是 `erase++_++if`：
 
 [source,highlight]
 ----
@@ -195,11 +196,11 @@ m.erase_if([](auto& x) {
 });
 ----
 
-`visit_while` 与 `erase_if`
+`visit++_++while` 与 `erase++_++if`
 同样支持并行化。需要注意的是，为提升执行效率，全表遍历操作在运行期间不会锁定整个容器：这意味着在遍历过程中，其他线程可能同时执行元素的插入、修改或删除操作。建议在程序中避免对并发容器在任意时间点的全局状态做过强的假设。
 
 [[concurrent_bulk_visitation]]
-== 批量访问
+=== 批量访问
 
 假设有一个 `std::array` 存储了需要在并发映射中查找的键：
 
@@ -239,35 +240,43 @@ while(...) { // 处理循环
 map.visit(buffer.begin(), buffer.begin() + i, [](auto& x) { ++x.second; });
 ----
 
-这里存在延迟与吞吐量的权衡：缓冲机制会延长单个键的处理延迟，但每秒处理的键总数（吞吐量）会更高。`bulk_visit_size`
+这里存在延迟与吞吐量的权衡：缓冲机制会延长单个键的处理延迟，但每秒处理的键总数（吞吐量）会更高。`bulk++_++visit++_++size`
 是推荐的缓冲区块大小——过小的缓冲区可能导致性能下降。
 
 [[concurrent_blocking_operations]]
-== 阻塞式操作
+=== 阻塞式操作
 
 并发容器可像其他 Boost.Unordered
 容器一样支持复制、赋值、清空和合并操作。与大多数其他操作不同，这些属于__阻塞式操作__：在执行期间，其他线程将被阻止访问相关容器。该阻塞机制由库自动处理，用户无需采取特殊预防措施，但整体性能可能受到影响。
 
 另一阻塞操作是__重哈希__，该操作可通过 `rehash`/`reserve`
-显式触发，或在插入过程中当容器负载达到 `max_load()`
+显式触发，或在插入过程中当容器负载达到 `max++_++load()`
 时自动执行。与非并发容器类似，在批量插入前预先分配空间通常能加速处理过程。
 
 [[concurrent_interoperability_with_non_concurrent_containers]]
-== 与非并发容器的互操作性
+=== 与非并发容器的互操作性
 
 由于开放寻址容器与并发容器基于相同的内部数据结构，它们可以高效地通过移动构造从其非并发对应容器转换而来，反之亦然。
 
 .表 1. 并发/非并发互操作性
 [width="100%",cols="50%,50%",]
 |===
-|`boost::concurrent_node_set` |`boost::unordered_node_set`
-|`boost::concurrent_node_map` |`boost::unordered_node_map`
-|`boost::concurrent_flat_set` |`boost::unordered_flat_set`
-|`boost::concurrent_flat_map` |`boost::unordered_flat_map`
+|`boost::concurrent++_++node++_++set`
+|`boost::unordered++_++node++_++set`
+
+|`boost::concurrent++_++node++_++map`
+|`boost::unordered++_++node++_++map`
+
+|`boost::concurrent++_++flat++_++set`
+|`boost::unordered++_++flat++_++set`
+
+|`boost::concurrent++_++flat++_++map`
+|`boost::unordered++_++flat++_++map`
 |===
 
 此互操作性适用于多阶段场景：部分数据处理环节需要并行执行，而其他步骤采用非并发（或只读）模式。下例中，我们需要从一个庞大的单词输入向量构建词频统计直方图：填充阶段用
-`boost::concurrent_flat_map` 并行执行，随后将结果转移至最终容器。
+`boost::concurrent++_++flat++_++map`
+并行执行，随后将结果转移至最终容器。
 
 [source,highlight]
 ----

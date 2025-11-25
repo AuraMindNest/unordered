@@ -2,10 +2,10 @@
 
 [[content]]
 [[header_unordered_flat_set]]
-== `<boost/unordered/unordered_flat_set.hpp>` 概要
+=== `++<++boost/unordered/unordered++_++flat++_++set.hpp++>++` 概要
 
 定义
-link:reference/unordered_flat_set.html#unordered_flat_set[`boost::unordered_flat_set`]
+link:reference/unordered_flat_set.html#unordered_flat_set[`boost::unordered++_++flat++_++set`]
 以及相关的函数和别名模板。
 
 ....

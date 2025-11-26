@@ -843,7 +843,7 @@ concurrent_flat_map& operator=(concurrent_flat_map const& other);
 [cols=",",]
 |===
 |要求：
-|`value++_++type`需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+|`value++_++type`需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 
 |并发性： |阻塞于`++*++this`和`other`。
 |===
@@ -892,7 +892,7 @@ concurrent_flat_map& operator=(std::initializer_list<value_type> il);
 [cols=",",]
 |===
 |要求：
-|`value++_++type`需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+|`value++_++type`需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 
 |并发性： |阻塞于`++*++this`。
 |===
@@ -1422,7 +1422,7 @@ template<class... Args, class F1, class F2>
 ----
 
 当容器中不存在等价键的元素时，插入一个用参数`args`构造的对象，然后使用指向新创建元素的非常量引用来调用`f1`。否则，使用指向等价元素的引用来调用`f2`；（当使用
-`emplace++_++and++_++cvisit` 时，该引用为常量引用）
+`emplace++_++and++_++cvisit` 时，该引用为常量引用）.
 
 [width="100%",cols="50%,50%",]
 |===

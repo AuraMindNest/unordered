@@ -763,7 +763,7 @@ unordered_node_set& operator=(unordered_node_set const& other);
 |===
 |要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
+要求
 |===
 
 '''''
@@ -807,7 +807,7 @@ unordered_node_set& operator=(std::initializer_list<value_type> il);
 |===
 |要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
+要求
 |===
 
 [[unordered_node_set_iterators]]
@@ -1597,7 +1597,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
 
 |注意： |仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent`
 均为有效的成员类型别名时，`template++<++class K++>++`
@@ -1787,7 +1787,7 @@ stats get_stats() const;
 |返回： |返回容器直到目前已执行插入和查找操作的统计摘要。
 
 |注意： |仅当 link:reference/stats.html#stats[统计计算] 功能
-link:#unordered_node_set_boost_unordered_enable_stats[启用]时可用
+link:#unordered_node_set_boost_unordered_enable_stats[启用]时可用.
 |===
 
 '''''
@@ -1805,7 +1805,7 @@ void reset_stats() noexcept;
 |效果： |将容器维护的内部统计信息清零。
 
 |注意： |仅当 link:reference/stats.html#stats[统计计算] 功能
-link:#unordered_node_set_boost_unordered_enable_stats[启用]时可用
+link:#unordered_node_set_boost_unordered_enable_stats[启用]时可用.
 |===
 
 '''''

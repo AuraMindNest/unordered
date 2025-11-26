@@ -67,7 +67,7 @@ _h_ ← *high*(_a_) *xor* *low*(_a_),
 = 0xE817FB2Du源自https://arxiv.org/abs/2001.05304[Steele与Vigna
 (2021)]。
 
-当所使用的哈希函数本身已适用于开放寻址时，可通过专用的link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`]
+当所使用的哈希函数本身已适用于开放寻址时，可通过专用的link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`].
 
 [[rationale_platform_interoperability]]
 ==== 平台互操作性

@@ -880,7 +880,7 @@ concurrent_node_set& operator=(concurrent_node_set const& other);
 |===
 |要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
+要求
 
 |并发性： |阻塞于 `++*++this` 和 `other`。
 |===
@@ -929,7 +929,7 @@ concurrent_node_set& operator=(std::initializer_list<value_type> il);
 |===
 |要求： |`value++_++type` 需满足
 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
+要求
 
 |并发性： |阻塞于 `++*++this`。
 |===

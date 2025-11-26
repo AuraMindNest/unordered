@@ -94,7 +94,7 @@ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printer
 ==== 可视化结构
 
 可视化方案与标准无序容器保持一致：映射容器显示键到映射值的关联；集合容器显示从索引到值的关联关系。迭代器可显示为指向的元素内容，或标记为结束迭代器。下图展示了示例`boost::unordered++_++map`、示例`boost::unordered++_++set`
-及其迭代器：
+及其迭代器.
 
 [source,highlight]
 ----
@@ -120,7 +120,7 @@ $6 = 迭代器 = { 结束迭代器 }
 对于启用link:hash_quality.html#hash_quality_container_statistics[容器统计]的开放寻址容器，可在
 GDB 中调用 `get++_++stats()` 方法来获取统计信息。该方法在GDB中被重写为
 https://sourceware.org/gdb/current/onlinedocs/gdb.html/Xmethod-API.html[xmethod]
-实现，因此不会执行任何C{plus}{plus}同步代码。输出格式示例如下：
+实现，因此不会执行任何C{plus}{plus}同步代码。输出格式示例如下.
 
 [source,highlight]
 ----

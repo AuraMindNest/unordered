@@ -40,7 +40,7 @@ namespace unordered {
            class Allocator = std::allocator<Key>>
   class unordered_flat_set {
   public:
-    // 类型
+    // types
     using key_type             = Key;
     using value_type           = Key;
     using init_type            = Key;
@@ -57,7 +57,7 @@ namespace unordered {
     using iterator             = 实现定义;
     using const_iterator       = 实现定义;
 
-    using stats                = 统计类型; // 如果启用了统计功能\\n
+    using stats                = 统计类型; // 如果 启用了统计功能\n
     // 构造/复制/销毁
     unordered_flat_set();
     explicit unordered_flat_set(size_type n,
@@ -78,7 +78,7 @@ namespace unordered {
     unordered_flat_set(const unordered_flat_set& other, const Allocator& a);
     unordered_flat_set(concurrent_flat_set<Key, Hash, Pred, Allocator>&& other);
     unordered_flat_set(std::initializer_list<value_type> il,
-                       size_type n = 实现定义,
+                       size_type n = 实现定义
                        const hasher& hf = hasher(),
                        const key_equal& eql = key_equal(),
                        const allocator_type& a = allocator_type());
@@ -179,7 +179,7 @@ namespace unordered {
     void rehash(size_type n);
     void reserve(size_type n);
 
-    // 统计（如果启用）
+    // 统计（如果启用)
     stats get_stats() const;
     void reset_stats() noexcept;
   };
@@ -189,7 +189,7 @@ namespace unordered {
            class Hash = boost::hash<迭代器值类型<InputIterator>>,
            class Pred = std::equal_to<迭代器值类型<InputIterator>>,
            class Allocator = std::allocator<迭代器值类型<InputIterator>>>
-    unordered_flat_set(InputIterator, InputIterator, typename 见下文::size_type = 见下文,
+    unordered_flat_set(InputIterator, InputIterator, typename see below::size_type = 见下文,
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
       -> unordered_flat_set<迭代器值类型<InputIterator>, Hash, Pred, Allocator>;
 
@@ -707,7 +707,7 @@ unordered_flat_set& operator=(unordered_flat_set const& other);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 |===
 
 '''''
@@ -749,7 +749,7 @@ unordered_flat_set& operator=(std::initializer_list<value_type> il);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 |===
 
 [[unordered_flat_set_iterators]]
@@ -1425,7 +1425,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
 
 |注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
 均为有效的成员类型别名时，`template++<++class K++>++`

@@ -428,7 +428,7 @@ unordered_multiset(const unordered_multiset& other);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须可复制构造。
+|要求： |`value++_++type` 必须可复制构造
 |===
 
 '''''
@@ -730,7 +730,7 @@ unordered_multiset& operator=(const unordered_multiset& other);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须可复制构造。
+|要求： |`value++_++type` 必须可复制构造
 |===
 
 '''''
@@ -1602,7 +1602,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
 
 |注意： |仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent`
 均为有效的成员类型别名时，`template++<++class K++>++`

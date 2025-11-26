@@ -438,7 +438,7 @@ unordered_multimap(const unordered_multimap& other);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足可复制构造要求。
+|要求： |`value++_++type` 需满足可复制构造要求
 |===
 
 '''''
@@ -731,7 +731,7 @@ unordered_multimap& operator=(const unordered_multimap& other);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足可复制构造要求。
+|要求： |`value++_++type` 需满足可复制构造要求
 |===
 
 '''''
@@ -1640,7 +1640,7 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素。
+|返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
 
 |备注： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
 均为有效的成员类型别名时，`template++<++class K++>++`

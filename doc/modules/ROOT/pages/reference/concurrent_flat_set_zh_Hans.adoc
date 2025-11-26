@@ -813,7 +813,7 @@ concurrent_flat_set& operator=(concurrent_flat_set const& other);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 
 |并发性： |阻塞于 `++*++this` 和 `other`。
 |===
@@ -861,7 +861,7 @@ concurrent_flat_set& operator=(std::initializer_list<value_type> il);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 
 |并发性： |阻塞于 `++*++this`。
 |===

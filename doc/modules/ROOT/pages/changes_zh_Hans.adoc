@@ -337,7 +337,7 @@ C{plus}{plus}，优先使用容器库自带的`allocator++_++traits`实现，因
 
 本本次为重大更新：容器已改用 Boost.Move
 的移动操作模拟实现，并显著提升了对 C{plus}{plus}11
-标准的符合性。详见link:compliance.html[标准合规性章节]。
+标准的符合性。详见link:compliance_zh_Hans.adoc[标准合规性章节]。
 
 该容器现满足 C{plus}{plus}11
 的复杂度要求，但为此会占用稍多内存。这意味着`quick++_++erase` 与

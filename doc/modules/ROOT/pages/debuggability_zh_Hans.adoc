@@ -117,7 +117,7 @@ $6 = 迭代器 = { 结束迭代器 }
 
 无论采用 SIMD 还是非 SIMD 实现，均可通过 GDB 美化打印器查看。
 
-对于启用link:hash_quality.html#hash_quality_container_statistics[容器统计]的开放寻址容器，可在
+对于启用link:hash_quality_zh_Hans.adoc#hash_quality_container_statistics[容器统计]的开放寻址容器，可在
 GDB 中调用 `get++_++stats()` 方法来获取统计信息。该方法在GDB中被重写为
 https://sourceware.org/gdb/current/onlinedocs/gdb.html/Xmethod-API.html[xmethod]
 实现，因此不会执行任何C{plus}{plus}同步代码。输出格式示例如下.

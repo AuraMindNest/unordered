@@ -144,7 +144,7 @@ template<class F> size_t visit_all(F f);
 
 `boost::concurrent++_++flat++_++map`/`boost::concurrent++_++node++_++map`
 未提供的一个关键操作是 `operator++[]++`/`at`，该功能可通过
-link:reference/concurrent_flat_map.html#concurrent_flat_map_try_emplace_or_cvisit[`try++_++emplace++_++or++_++visit`]
+link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_try_emplace_or_cvisit[`try++_++emplace++_++or++_++visit`]
 实现替代（该方式更为复杂）。
 
 [[footer]]

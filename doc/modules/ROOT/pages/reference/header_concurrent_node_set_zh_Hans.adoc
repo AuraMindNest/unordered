@@ -5,7 +5,7 @@
 === `++<++boost/unordered/concurrent++_++node++_++set.hpp++>++` 概要
 
 定义
-link:reference/concurrent_node_set.html#concurrent_node_set[`boost::concurrent++_++node++_++set`]
+link:reference/concurrent_node_set_zh_Hans.adoc#concurrent_node_set[`boost::concurrent++_++node++_++set`]
 及其相关函数和别名模板。
 
 ....

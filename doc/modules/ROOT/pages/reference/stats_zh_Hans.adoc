@@ -46,12 +46,12 @@ struct stats-type
 [[stats_insertion_stats_type]]
 ===== _插入统计类型_
 
-提供容器执行的插入操作次数及相关__探查长度__（每次操作访问的link:structures.html#structures_open_addressing_containers[桶组]数量）的统计信息。
+提供容器执行的插入操作次数及相关__探查长度__（每次操作访问的link:structures_zh_Hans.adoc#structures_open_addressing_containers[桶组]数量）的统计信息。
 
 [[stats_lookup_stats_type]]
 ===== _查找统计类型_
 
-对于成功（找到元素）或失败（未找到）查找操作，提供容器执行的操作次数及相关__探查长度__（访问的link:structures.html#structures_open_addressing_containers[桶组]数量）和每次操作的元素比较次数的统计信息。
+对于成功（找到元素）或失败（未找到）查找操作，提供容器执行的操作次数及相关__探查长度__（访问的link:structures_zh_Hans.adoc#structures_open_addressing_containers[桶组]数量）和每次操作的元素比较次数的统计信息。
 
 [[stats_stats_type]]
 ===== _stats-type_

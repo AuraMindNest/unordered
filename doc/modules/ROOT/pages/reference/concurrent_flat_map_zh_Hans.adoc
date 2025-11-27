@@ -425,7 +425,7 @@ link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST++_++
 [[concurrent_flat_map_boost_unordered_enable_stats]]
 ===== `BOOST++_++UNORDERED++_++ENABLE++_++STATS`
 
-全局定义此宏以启用容器的 link:reference/stats.html#stats[统计计算]
+全局定义此宏以启用容器的 link:reference/stats_zh_Hans.adoc#stats[统计计算]
 功能。请注意，此选项会降低多数操作的总体性能。
 
 '''''
@@ -2219,7 +2219,7 @@ stats get_stats() const;
 |返回： |返回容器截至目前所执行的插入与查找操作的统计信息。
 
 |注意：
-|仅当link:reference/stats.html#stats[统计计算]功能被link:#concurrent_flat_map_boost_unordered_enable_stats[启用]时可用。
+|仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能被link:#concurrent_flat_map_boost_unordered_enable_stats[启用]时可用。
 |===
 
 '''''
@@ -2237,7 +2237,7 @@ void reset_stats() noexcept;
 |效果： |将容器所保存的内部统计信息重置为零。
 
 |注意：
-|仅当link:reference/stats.html#stats[统计计算]功能被link:#concurrent_flat_map_boost_unordered_enable_stats[启用]时可用。
+|仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能被link:#concurrent_flat_map_boost_unordered_enable_stats[启用]时可用。
 |===
 
 '''''

@@ -65,7 +65,7 @@ image:fca.png[fca]
 4 比特。
 
 关于 Boost.Unordered
-闭寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale.html#rationale_closed_addressing_containers[相关说明章节]。
+闭寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale_zh_Hans.adoc#rationale_closed_addressing_containers[相关说明章节]。
 
 [[structures_open_addressing_containers]]
 === 开放寻址容器
@@ -115,12 +115,12 @@ image:foa-metadata-interleaving.png[foa元数据位交织]
 图 6. 位交织元数据字结构.
 
 关于 Boost.Unordered
-开放寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/11/inside-boostunorderedflatmap.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale.html#rationale_open_addresing_containers[相关说明章节]。
+开放寻址实现的更详细说明请参阅https://bannalia.blogspot.com/2022/11/inside-boostunorderedflatmap.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale_zh_Hans.adoc#rationale_open_addresing_containers[相关说明章节]。
 
 [[structures_concurrent_containers]]
 === 并发容器
 
-`boost::concurrent++_++flat++_++set`/`boost::concurrent++_++node++_++set`和`boost::concurrent++_++flat++_++map`/`boost::concurrent++_++node++_++map`采用前述link:structures.html#structures_open_addressing_containers[开放寻址布局]，并在此基础上增加了同步机制。
+`boost::concurrent++_++flat++_++set`/`boost::concurrent++_++node++_++set`和`boost::concurrent++_++flat++_++map`/`boost::concurrent++_++node++_++map`采用前述link:structures_zh_Hans.adoc#structures_open_addressing_containers[开放寻址布局]，并在此基础上增加了同步机制。
 
 [[img-cfoa-layout]]
 image:cfoa.png[cfoa]
@@ -145,7 +145,7 @@ image:cfoa.png[cfoa]
 
 该算法在查找和实际插入阶段都具有极低的争用，其代价是：当其他线程从同一初始组开始执行插入操作并成功时，当前线程的计算可能需要重新执行。实际应用中，重启频率极低（部分基准测试中为百万分之一量级）.
 
-如需了解有关实现原理的更多信息，请阅读link:rationale.html#rationale_concurrent_containers[相关说明章节]。
+如需了解有关实现原理的更多信息，请阅读link:rationale_zh_Hans.adoc#rationale_concurrent_containers[相关说明章节]。
 
 [[footer]]
 [[footer-text]]

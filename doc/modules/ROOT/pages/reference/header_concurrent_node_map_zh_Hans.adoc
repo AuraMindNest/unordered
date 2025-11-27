@@ -5,7 +5,7 @@
 === `++<++boost/unordered/concurrent++_++node++_++map.hpp++>++` 概要
 
 定义
-link:reference/concurrent_node_map.html#concurrent_node_map[`boost::concurrent++_++node++_++map`]
+link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map[`boost::concurrent++_++node++_++map`]
 以及相关函数和别名模板。
 
 ....

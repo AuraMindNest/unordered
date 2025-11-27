@@ -11,7 +11,7 @@ Boost.Unordered
 中的同名容器。开放寻址容器（`boost::unordered++_++node++_++set`、`boost::unordered++_++node++_++map`、`boost::unordered++_++flat++_++set`
 和
 `boost::unordered++_++flat++_++map`）的接口与之高度相似，但存在一些细微差异，详见专门的
-link:compliance.html#compliance_open_addressing_containers[标准符合性章节]。
+link:compliance_zh_Hans.adoc#compliance_open_addressing_containers[标准符合性章节]。
 
 对于没有哈希容器经验但熟悉常规关联容器（`std::set`、`std::map`、`std::multiset`
 和 `std::multimap`）的读者，Boost.Unordered 容器的使用方式与之类似：
@@ -46,7 +46,7 @@ one,1
 three,3
 ----
 
-其他差异列于 link:regular.html#comparison[与关联容器的对比] 章节中。
+其他差异列于 link:regular_zh_Hans.adoc#comparison[与关联容器的对比] 章节中。
 
 [[regular_iterator_invalidation]]
 === 迭代器失效
@@ -84,7 +84,7 @@ x.rehash(std::ceil(n / x.max_load_factor()))
 ----
   +
   关于 `rehash`
-  函数的link:reference/unordered_map.html#unordered_map_rehash[详细信息请参阅参考文档]。
+  函数的link:reference/unordered_map_zh_Hans.adoc#unordered_map_rehash[详细信息请参阅参考文档]。
 
 [[comparison]]
 === 与关联容器的对比
@@ -124,7 +124,7 @@ x.rehash(std::ceil(n / x.max_load_factor()))
 |`iterator`与`const++_++iterator` 至少属于前向迭代器类别。
 
 |指向容器元素的迭代器、指针及引用永不失效。
-|link:regular.html#regular_iterator_invalidation[插入或重哈希操作可能引发迭代器失效]。 +
+|link:regular_zh_Hans.adoc#regular_iterator_invalidation[插入或重哈希操作可能引发迭代器失效]。 +
 *基于节点的容器：* 元素的指针和引用永不失效。 +
 *扁平容器：* 当发生重哈希时，元素的指针和引用将失效。
 

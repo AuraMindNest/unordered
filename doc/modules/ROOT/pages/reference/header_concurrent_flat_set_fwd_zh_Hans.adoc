@@ -5,7 +5,7 @@
 === `++<++boost/unordered/concurrent++_++flat++_++set++_++fwd.hpp++>++` 概要
 
 前向声明
-link:reference/header_concurrent_flat_set.html[`++<++boost/unordered/concurrent++_++flat++_++set.hpp++>++`]
+link:reference/header_concurrent_flat_set_zh_Hans.adoc[`++<++boost/unordered/concurrent++_++flat++_++set.hpp++>++`]
 中的所有定义。
 
 [[footer]]

@@ -5,7 +5,7 @@
 === `++<++boost/unordered/unordered++_++node++_++set.hpp++>++` 概要
 
 定义
-link:reference/unordered_node_set.html#unordered_node_set[`boost::unordered++_++node++_++set`]
+link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set[`boost::unordered++_++node++_++set`]
 及其相关函数和别名模板。
 
 ....

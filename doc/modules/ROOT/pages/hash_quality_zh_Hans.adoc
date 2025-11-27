@@ -85,7 +85,7 @@ stats
                                          .deviation
 ----
 
-系统维护三类内部操作的统计信息：插入操作（不考虑先前查找键是否存在的操作）、成功查找及未命中查找（包括插入元素时触发的内部查询）。__探测长度__是指每次操作所访问的link:structures.html#structures_open_addressing_containers[桶组]数量。若哈希函数表现正常：
+系统维护三类内部操作的统计信息：插入操作（不考虑先前查找键是否存在的操作）、成功查找及未命中查找（包括插入元素时触发的内部查询）。__探测长度__是指每次操作所访问的link:structures_zh_Hans.adoc#structures_open_addressing_containers[桶组]数量。若哈希函数表现正常：
 
 * 平均探测长度应接近1.0。
 * 每次成功查找的平均比较次数应接近 1.0（即仅需核对找到的元素本身）。

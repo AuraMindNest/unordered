@@ -89,7 +89,7 @@ Boost.Unordered开放寻址容器所采用的底层数据结构，同样被选�
 * 无论在非并发还是并发场景下，开放寻址方案的性能均优于闭寻址方案。
 * 开放寻址的内存布局极其适合在最小化锁竞争的条件下进行并发访问与修改。具体而言，其元数据数组可实现无锁查找，直至最终执行实际元素比较的阶段。
 * 并发容器与 Boost.Unordered
-扁平容器具有内存布局兼容性，支持其与非并发对应容器之间link:concurrent.html#concurrent_interoperability_with_non_concurrent_containers[快速双向传输]所有元素。
+扁平容器具有内存布局兼容性，支持其与非并发对应容器之间link:concurrent_zh_Hans.adoc#concurrent_interoperability_with_non_concurrent_containers[快速双向传输]所有元素。
 
 [[rationale_hash_function_and_platform_interoperability]]
 ==== 哈希函数与平台互操作性

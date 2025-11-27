@@ -3,7 +3,7 @@
 
 [[content]]
 [[preamble]]
-该容器由若干__桶__组成，每个桶可容纳任意数量的元素。例如，下图展示了一个包含7个桶的link:reference/unordered_set.html#unordered_set[`boost::unordered++_++set`]，其中存储着5个元素（`A`、`B`、`C`、`D`和`E`）（此示意图仅为演示用途，实际容器通常包含更多桶）。
+该容器由若干__桶__组成，每个桶可容纳任意数量的元素。例如，下图展示了一个包含7个桶的link:reference/unordered_set_zh_Hans.adoc#unordered_set[`boost::unordered++_++set`]，其中存储着5个元素（`A`、`B`、`C`、`D`和`E`）（此示意图仅为演示用途，实际容器通常包含更多桶）。
 
 image:buckets.png[桶]
 
@@ -11,12 +11,12 @@ image:buckets.png[桶]
 
 根据指定键检索元素的过程非常简单：首先对键执行相同处理以定位对应桶，随后通过相等性谓词`Pred`将键与桶内元素进行比较以寻找匹配项。若哈希函数表现良好，元素将均匀分布于各桶中，此时仅需检查少量元素即可完成检索。
 
-关于哈希函数与相等性谓词的详细说明请参阅link:hash_equality.html#hash_equality[后续章节]。
+关于哈希函数与相等性谓词的详细说明请参阅link:hash_equality_zh_Hans.adoc#hash_equality[后续章节]。
 
 如图所示，`A`与`D`被置于同一桶内。在此桶内查找元素时最多需要进行 2
 次比对，这会降低检索效率，该现象称为**冲突**。为维持高效运作，我们需尽可能减少冲突的发生。
 
-若使用link:reference/unordered_flat_set.html[`boost::unordered++_++flat++_++set`]替代`boost::unordered++_++set`，其结构示意图将呈现如下形式：
+若使用link:reference/unordered_flat_set_zh_Hans.adoc[`boost::unordered++_++flat++_++set`]替代`boost::unordered++_++set`，其结构示意图将呈现如下形式：
 
 image:buckets-oa.png[开放寻址桶]
 
@@ -104,7 +104,7 @@ image:buckets-oa.png[开放寻址桶]
 |返回容器触发重新哈希前所允许容纳的最大元素数量。
 |===
 
-关于开放寻址与并发容器的`max++_++load`注意事项：在容器创建或执行`rehash`后，最大负载值将保持为`max++_++load++_++factor() ++*++ bucket++_++count()`；但在高负载场景下执行元素删除操作时，该值可能轻微下降。例如，若某个link:reference/unordered_flat_map.html#unordered_flat_map[`boost::unordered++_++flat++_++map`]的`size()`已接近`max++_++load()`阈值，随后删除
+关于开放寻址与并发容器的`max++_++load`注意事项：在容器创建或执行`rehash`后，最大负载值将保持为`max++_++load++_++factor() ++*++ bucket++_++count()`；但在高负载场景下执行元素删除操作时，该值可能轻微下降。例如，若某个link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map[`boost::unordered++_++flat++_++map`]的`size()`已接近`max++_++load()`阈值，随后删除
 1,000
 个元素时，`max++_++load()`可能减少约数十个元素。此机制是Boost.Unordered为保持性能稳定而采取的内部机制，用户在规划无重组插入操作时需予以考虑。
 

@@ -5,7 +5,7 @@
 === `++<++boost/unordered/unordered++_++node++_++map++_++fwd.hpp++>++` 概要
 
 前向声明
-link:reference/header_unordered_node_map.html[`++<++boost/unordered/unordered++_++node++_++map.hpp++>++`]
+link:reference/header_unordered_node_map_zh_Hans.adoc[`++<++boost/unordered/unordered++_++node++_++map.hpp++>++`]
 中的所有定义。
 
 [[footer]]

@@ -5,7 +5,7 @@
 === `++<++boost/unordered/unordered++_++map.hpp++>++` 概要
 
 定义
-link:reference/unordered_map.html#unordered_map[`boost::unordered++_++map`]、link:reference/unordered_multimap.html#unordered_multimap[`boost::unordered++_++multimap`]
+link:reference/unordered_map_zh_Hans.adoc#unordered_map[`boost::unordered++_++map`]、link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap[`boost::unordered++_++multimap`]
 以及相关函数和别名模板。
 
 ....

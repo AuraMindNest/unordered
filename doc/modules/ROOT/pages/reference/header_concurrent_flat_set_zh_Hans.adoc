@@ -5,7 +5,7 @@
 === `++<++boost/unordered/concurrent++_++flat++_++set.hpp++>++` 概要
 
 定义
-link:reference/concurrent_flat_set.html#concurrent_flat_set[`boost::concurrent++_++flat++_++set`]
+link:reference/concurrent_flat_set_zh_Hans.adoc#concurrent_flat_set[`boost::concurrent++_++flat++_++set`]
 及其相关函数和别名模板。
 
 ....

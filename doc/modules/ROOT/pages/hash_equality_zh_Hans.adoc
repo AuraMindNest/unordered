@@ -3,7 +3,7 @@
 
 [[content]]
 [[preamble]]
-关联容器使用排序关系来规定元素的存储方式，而无序关联容器则依赖相等性谓词与哈希函数。例如，link:reference/unordered_map.html[`boost::unordered++_++map`]
+关联容器使用排序关系来规定元素的存储方式，而无序关联容器则依赖相等性谓词与哈希函数。例如，link:reference/unordered_map_zh_Hans.adoc[`boost::unordered++_++map`]
 的声明如下：
 
 [source,highlight]

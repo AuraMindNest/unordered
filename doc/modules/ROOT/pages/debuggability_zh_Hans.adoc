@@ -12,7 +12,7 @@
 
 若要在项目中通过 Natvis 框架实现 Boost.Unordered
 容器的可视化调试，只需将文件
-https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[/extra/boost++_++unordered.natvis]
+ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[/extra/boost++_++unordered.natvis]
 作为"现有项"添加到 Visual Studio 项目中即可。
 
 [[debuggability_visualization_structure]]
@@ -50,7 +50,7 @@ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[
 通过 Natvis
 定制点支持所有类型的花式指针。`boost::interprocess::offset++_++ptr` 已在
 Boost.Interprocess 库中预定义支持，自定义类型支持方法请参阅文件
-https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[/extra/boost++_++unordered.natvis]
+ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered.natvis[/extra/boost++_++unordered.natvis]
 末尾注释。
 
 [[debuggability_gdb_pretty_printers]]
@@ -83,7 +83,7 @@ GDB 时执行，或将其添加到 ".gdbinit" 配置文件中）。
 Boost 库中内嵌的 GDB 美化打印器。
 
 用户可通过外部非嵌入的 Python 脚本加载美化打印器：使用 `source` 命令添加
-https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost++_++unordered++_++printers.py]脚本即可。
+ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost++_++unordered++_++printers.py]脚本即可。
 
 [source,highlight]
 ----
@@ -119,7 +119,7 @@ $6 = 迭代器 = { 结束迭代器 }
 
 对于启用link:hash_quality_zh_Hans.adoc#hash_quality_container_statistics[容器统计]的开放寻址容器，可在
 GDB 中调用 `get++_++stats()` 方法来获取统计信息。该方法在GDB中被重写为
-https://sourceware.org/gdb/current/onlinedocs/gdb.html/Xmethod-API.html[xmethod]
+ https://sourceware.org/gdb/current/onlinedocs/gdb.html/Xmethod-API.html[xmethod]
 实现，因此不会执行任何C{plus}{plus}同步代码。输出格式示例如下.
 
 [source,highlight]
@@ -139,7 +139,7 @@ $1 = [统计] = {[插入] = {[计数] = 5, [探测长度] = {平均值 = 1.0, �
 `boost::interprocess::offset++_++ptr`）时，GDB
 的美化打印器仍可正常工作。虽然这种情况不常见，但 Boost.Unordered
 为美化打印器提供了定制点，以支持任何类型的花式指针。`boost::interprocess::offset++_++ptr`的支持已在Boost.Interprocess库中预先定义，自定义类型支持方法请参阅文件
-https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost++_++unordered++_++printers.py]
+ https://github.com/boostorg/unordered/blob/develop/extra/boost_unordered_printers.py[/extra/boost++_++unordered++_++printers.py]
 的末尾注释。
 
 [[footer]]

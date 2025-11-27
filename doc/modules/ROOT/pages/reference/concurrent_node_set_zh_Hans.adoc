@@ -9,7 +9,7 @@
 
 尽管 `boost::concurrent++_++node++_++set`
 的行为类似于容器，但它并不符合标准 C{plus}{plus}
-https://en.cppreference.com/w/cpp/named_req/Container[容器]
+ https://en.cppreference.com/w/cpp/named_req/Container[容器]
 概念。具体而言，它不提供迭代器及相关操作（如 `begin`、`end`
 等）。元素的访问通过用户提供的 _访问函数_ 实现，这些函数被传递至
 `concurrent++_++node++_++set`
@@ -306,9 +306,9 @@ namespace unordered {
 [width="100%",cols="50%,50%",]
 |===
 |_键_ |`Key` 必须满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 到容器中的要求，且需满足从容器中
-https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
+ https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
 的参数，并返回一个 `std::size++_++t` 类型的值。
@@ -417,7 +417,7 @@ typedef  实现定义  node_type;
 ----
 
 用于保存提取的表元素的类，建模为
-https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
+ https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
 
@@ -473,7 +473,7 @@ concurrent_node_set();
 
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -499,7 +499,7 @@ explicit concurrent_node_set(size_type n,
 
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -526,7 +526,7 @@ template<class InputIterator>
 |===
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -590,7 +590,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 与 `key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -687,7 +687,7 @@ concurrent_node_set(std::initializer_list<value_type> il,
 |===
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -709,7 +709,7 @@ concurrent_node_set(size_type n, allocator_type const& a);
 |后置条件： |`size() == 0`
 
 |要求： |`hasher` 和 `key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -731,7 +731,7 @@ concurrent_node_set(size_type n, hasher const& hf, allocator_type const& a);
 |后置条件： |`size() == 0`
 
 |要求： |`key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -753,7 +753,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 与 `key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -776,7 +776,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 [cols=",",]
 |===
 |要求： |`key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -796,7 +796,7 @@ concurrent_node_set(std::initializer_list<value_type> il, const allocator_type& 
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -816,7 +816,7 @@ concurrent_node_set(std::initializer_list<value_type> il, size_type n, const all
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -837,7 +837,7 @@ concurrent_node_set(std::initializer_list<value_type> il, size_type n, const has
 [cols=",",]
 |===
 |要求： |`key++_++equal` 需满足
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求。
 |===
 
@@ -879,7 +879,7 @@ concurrent_node_set& operator=(concurrent_node_set const& other);
 [cols=",",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求
 
 |并发性： |阻塞于 `++*++this` 和 `other`。
@@ -928,7 +928,7 @@ concurrent_node_set& operator=(std::initializer_list<value_type> il);
 [cols=",",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求
 
 |并发性： |阻塞于 `++*++this`。
@@ -990,9 +990,9 @@ link:#concurrent_node_set_constants[`bulk++_++visit++_++size`]以获得性能提
 [cols=",",]
 |===
 |要求： |`FwdIterator` 需满足
-https://en.cppreference.com/w/cpp/named_req/ForwardIterator[LegacyForwardIterator]
+ https://en.cppreference.com/w/cpp/named_req/ForwardIterator[LegacyForwardIterator]
 要求（C{plus}{plus}11 至 C{plus}{plus}17）或符合
-https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward++_++iterator]规范（C{plus}{plus}20
+ https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward++_++iterator]规范（C{plus}{plus}20
 及更高版本）。对于`K` =
 `std::iterator++_++traits++<++FwdIterator++>++::value++_++type`，需满足以下条件之一：`K`
 与 `key++_++type` 类型相同，或 `Hash::is++_++transparent` 与
@@ -1203,7 +1203,7 @@ bool insert(const value_type& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
@@ -1226,7 +1226,7 @@ bool insert(value_type&& obj);
 [cols=",",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。
@@ -1250,7 +1250,7 @@ template<class K> bool insert(K&& k);
 [cols=",",]
 |===
 |要求： |`value++_++type` 必须能够从 `k` 进行
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |返回： |若插入操作发生，则返回 `true`。
@@ -1378,7 +1378,7 @@ template<class F> bool insert_or_cvisit(const value_type& obj, F f);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
@@ -1403,7 +1403,7 @@ template<class F> bool insert_or_cvisit(value_type&& obj, F f);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
@@ -1429,7 +1429,7 @@ template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 [cols=",",]
 |===
 |要求： |`value++_++type` 必须能够从 `k` 进行
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |返回： |若插入操作发生，则返回 `true`。
@@ -1568,7 +1568,7 @@ template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
@@ -1594,7 +1594,7 @@ template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 要求。
 
 |返回： |若插入操作发生，则返回 `true`。 +
@@ -1621,7 +1621,7 @@ template<class K, class F1, class F2> bool insert_and_cvisit(K&& k, F1 f1, F2 f2
 [cols=",",]
 |===
 |要求： |`value++_++type` 必须能够从 `k` 进行
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |返回： |若插入操作发生，则返回 `true`。
@@ -2356,7 +2356,7 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 |要求： |`value++_++type` 必须可序列化（支持 XML 序列化），且需要支持
 Boost.Serialization 的
 `save++_++construct++_++data`/`load++_++construct++_++data`
-协议（该协议自动支持满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
+协议（该协议自动支持满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 
 |并发性： |阻塞于 `x`。
 |===

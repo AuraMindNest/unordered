@@ -289,11 +289,11 @@ namespace unordered {
 [width="100%",cols="50%,50%",]
 |===
 |_键_ |`Key`
-需满足从容器中https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即
+需满足从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即
 `allocator++_++traits` 能够销毁该对象）。
 
 |_T_ |`T`
-需满足从容器https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]
+需满足从容器 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]
 的要求（即 `allocator++_++traits` 能够销毁该对象）。
 
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
@@ -304,7 +304,7 @@ namespace unordered {
 的参数，并返回一个布尔类型的值。
 
 |_分配器_
-|一种分配器，其值类型与容器的值类型相同，是一种支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|一种分配器，其值类型与容器的值类型相同，是一种支持使用 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
@@ -376,7 +376,7 @@ typedef  实现定义  node_type;
 ----
 
 用于保存已提取容器元素的类，其建模自
-https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
+ https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
 
@@ -423,7 +423,7 @@ unordered_map();
 
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -448,7 +448,7 @@ explicit unordered_map(size_type n,
 
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -474,7 +474,7 @@ template<class InputIterator>
 |===
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -533,7 +533,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -602,7 +602,7 @@ unordered_map(std::initializer_list<value_type> il,
 |===
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -624,7 +624,7 @@ unordered_map(size_type n, allocator_type const& a);
 |后置条件： |`size() == 0`
 
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -646,7 +646,7 @@ unordered_map(size_type n, hasher const& hf, allocator_type const& a);
 |后置条件： |`size() == 0`
 
 |要求： |`key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -667,7 +667,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -689,7 +689,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -708,7 +708,7 @@ unordered_map(std::initializer_list<value_type> il, const allocator_type& a);
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -727,7 +727,7 @@ unordered_map(std::initializer_list<value_type> il, size_type n, const allocator
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -747,7 +747,7 @@ unordered_map(std::initializer_list<value_type> il, size_type n, const hasher& h
 [cols=",",]
 |===
 |要求： |`key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -830,7 +830,7 @@ unordered_map& operator=(std::initializer_list<value_type> il);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器以及https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]的要求。
+必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器以及 https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]的要求。
 |===
 
 [[unordered_map_iterators]]
@@ -966,7 +966,7 @@ template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 必须可从 `args`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
 `X` 中。
 
 |返回： a|
@@ -1006,7 +1006,7 @@ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]�
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 必须可从 `args`
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造]到容器
 `X` 中。
 
 |返回：
@@ -1044,7 +1044,7 @@ std::pair<iterator, bool> insert(const value_type& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |返回： a|
 如果插入操作发生，则返回类型的布尔分量为 true。 +
@@ -1075,7 +1075,7 @@ std::pair<iterator, bool> insert(value_type&& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
 |返回： a|
 如果插入操作发生，则返回类型的布尔分量为 true。 +
@@ -1132,7 +1132,7 @@ iterator insert(const_iterator hint, const value_type& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |返回：
 |如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
@@ -1166,7 +1166,7 @@ iterator insert(const_iterator hint, value_type&& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
 |返回：
 |如果插入操作发生，则迭代器指向新插入的元素；否则，指向具有等价键的元素。
@@ -1231,7 +1231,7 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 必须能够通过 `++*++first`进行
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到
 `X` 中。
 
 |抛出： |当插入单个元素时，如果由调用 `hasher`
@@ -1259,7 +1259,7 @@ void insert(std::initializer_list<value_type>);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 到容器中的要求。
 
 |抛出： |当插入单个元素时，如果由调用 `hasher`
@@ -2500,7 +2500,7 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 必须满足可序列化要求（XML 可序列化），且需要支持 Boost.Serialization 的
 `save++_++construct++_++data`/`load++_++construct++_++data`
 协议（该协议自动支持
-https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
+ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
 要求）。
 |===
 
@@ -2517,7 +2517,7 @@ https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造
 |===
 |要求： |`value++_++type` 必须能够从
 `(std::remove++_++const++<++key++_++type++>++::type&&, std::remove++_++const++<++mapped++_++type++>++::type&&)`
-进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]，且`x.key++_++equal()`
+进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]，且`x.key++_++equal()`
 需要在功能上等价于 `other.key++_++equal()`。
 
 |注意： |若归档文件是使用 Boost 1.84

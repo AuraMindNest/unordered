@@ -6,7 +6,7 @@
 === boost::unordered++_[++multi++]++set
 
 所有基准测试均使用`unordered++_++set++<++unsigned int++>++`(非重复元素）
-和`unordered++_++multiset++<++unsigned int++>++`（重复元素）创建。源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_set[在此处获取]。
+和`unordered++_++multiset++<++unsigned int++>++`（重复元素）创建。源代码可 https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_set[在此处获取]。
 
 插入基准测试会插入`n`个随机值，其中`n`的范围在10,000至300万之间。在重复值测试场景中，同一组随机值会平均重复插入
 5 次。
@@ -386,7 +386,7 @@ non unique 5,width=250]]
 * `boost::unordered++_++flat++_++map++<++uint64++_++t, uint64++_++t++>++`
 * `boost::unordered++_++node++_++map++<++uint64++_++t, uint64++_++t++>++`
 
-源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_flat_map[在此处获取]。
+源代码可 https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_unordered_flat_map[在此处获取]。
 
 插入基准测试的操作将插入`n`个随机值，其中`n`的范围在10,000至1000万之间。
 
@@ -547,9 +547,9 @@ link:_images/benchmarks-flat_map/vs-x86/Scattered%20unsuccessful%20looukp.xlsx.p
 * `boost::concurrent++_++flat++_++map++<++int, int++>++`
 * `boost::concurrent++_++node++_++map++<++int, int++>++`
 
-源代码可https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_concurrent_flat_map[在此处获取]。
+源代码可 https://github.com/boostorg/boost_unordered_benchmarks/tree/boost_concurrent_flat_map[在此处获取]。
 
-基准测试使用__T__个线程（数量1至16之间）并发执行随机选择的操作，这些操作包括**更新**、**成功查找**和**未命中查找**三种类型。操作使用的键遵循https://en.wikipedia.org/wiki/Zipf%27s_law#Formal_definition[齐夫分布]，并采用不同的__偏斜__参数：偏斜值越高，键的分布越集中在取值区间的较低数值区域。
+基准测试使用__T__个线程（数量1至16之间）并发执行随机选择的操作，这些操作包括**更新**、**成功查找**和**未命中查找**三种类型。操作使用的键遵循 https://en.wikipedia.org/wiki/Zipf%27s_law#Formal_definition[齐夫分布]，并采用不同的__偏斜__参数：偏斜值越高，键的分布越集中在取值区间的较低数值区域。
 
 测试对`boost::concurrent++_++flat++_++map`与`boost::concurrent++_++node++_++map`均采用了常规访问与link:concurrent_zh_Hans.adoc#concurrent_bulk_visitation[批量访问]两种模式：对于后者，查找键会先缓存在本地数组中，待缓冲区达到link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_constants[`bulk++_++visit++_++size`]大小时再统一处理。
 

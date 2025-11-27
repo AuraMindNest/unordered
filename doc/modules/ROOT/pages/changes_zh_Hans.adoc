@@ -27,14 +27,14 @@
 及类似操作，这些操作支持在插入元素后立即对其进行访问（而
 `insert++_++or++_++visit(x, f)` 仅在未执行插入时才访问元素）。
 * 在特定 `boost::concurrent++_++flat++_++set`
-操作中启用独占锁访问机制，以支持对元素进行安全的可变修改（https://github.com/boostorg/unordered/pull/265[PR#265]）。
+操作中启用独占锁访问机制，以支持对元素进行安全的可变修改（ https://github.com/boostorg/unordered/pull/265[PR#265]）。
 * 在 Visual Studio Natvis
 中，现支持使用带花式指针分配器的任意容器。只要为花式指针类型编写了相应的
 Natvis 自定义“Intrinsic”函数，即可适用于所有花式指针类型。
 * 为所有容器和迭代器添加 GDB
 美化打印器。对于使用花式指针分配器的容器，需先为花式指针类型编写对应的美化打印器方可正常使用。
 * 修复开放寻址容器中 `std::initializer++_++list`的
-赋值问题（https://github.com/boostorg/unordered/pull/277[PR#277]）。
+赋值问题（ https://github.com/boostorg/unordered/pull/277[PR#277]）。
 * 通过内部将可调用对象的
 `std::reference++_++wrapper`传递给迭代器对重载，现允许向并发容器的`insert++_{++and++|++or}++_[++c++]++visit`
 的 `std::initializer++_++list` 重载传递不可复制的可调用对象。
@@ -64,9 +64,9 @@ Natvis 自定义“Intrinsic”函数，即可适用于所有花式指针类型�
 参数的处理：将对象构造延迟到确认需要插入元素时执行。此优化在映射的`key++_++type`
 可移动构造或`k` 参数为 `key++_++type`类型时生效。
 * 修复对含 `explicit`
-复制构造函数的分配器的支持（https://github.com/boostorg/unordered/pull/234[PR#234]）。
+复制构造函数的分配器的支持（ https://github.com/boostorg/unordered/pull/234[PR#234]）。
 * 修复 `unordered++_++multimap::find(k, hash, eq)` 的 `const`
-版本中的缺陷（https://github.com/boostorg/unordered/pull/238[PR#238]）。
+版本中的缺陷（ https://github.com/boostorg/unordered/pull/238[PR#238]）。
 
 [[changes_release_1_84_0_major_update]]
 === 版本 1.84.0 - 重大更新
@@ -81,7 +81,7 @@ Natvis 自定义“Intrinsic”函数，即可适用于所有花式指针类型�
 * 为所有容器及其（非本地）迭代器类型添加 Boost.Serialization 支持。
 * 为开放寻址容器与并发容器新增对花式指针的支持，此特性支持诸如使用
 Boost.Interprocess 分配器在共享内存中构建容器等应用场景。
-* 修复闭寻址容器局部迭代器的成员指针运算符缺陷（https://github.com/boostorg/unordered/pull/221[PR#221]，致谢
+* 修复闭寻址容器局部迭代器的成员指针运算符缺陷（ https://github.com/boostorg/unordered/pull/221[PR#221]，致谢
 GitHub 用户 vslashg 发现并修复）。
 * 从此版本起，`boost::unordered++_[++multi++]++set` 和
 `boost::unordered++_[++multi++]++map` 仅支持 C{plus}{plus}11
@@ -106,7 +106,7 @@ GitHub 用户 vslashg 发现并修复）。
 * 新增基于节点的开放寻址容器 `boost::unordered++_++node++_++map`
 与`boost::unordered++_++node++_++set`。
 * 根据
-https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363]
+ https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363]
 规范，将异构查找功能扩展至更多成员函数。
 * 采用基于常量扩展乘法的新算法，取代开放寻址容器原有的后混合处理流程。
 * 修复内部 emplace()
@@ -141,7 +141,7 @@ https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363]
 +
 ** 所有容器均已完成升级，支持异构版本的 `erase` 与 `extract` 操作。
 * 更改 `reserve`
-的行为，使其立即分配桶数组空间（https://github.com/boostorg/unordered/pull/59[PR#59]）。
+的行为，使其立即分配桶数组空间（ https://github.com/boostorg/unordered/pull/59[PR#59]）。
 * 测试套件中的多项警告修复。
 * 将内部代码更新为使用 `boost::allocator++_++traits`。
 * 切换至斐波那契哈希算法。
@@ -170,7 +170,7 @@ https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2363r5.html[P2363]
 Boost.Iterator 的依赖。
 * 移除迭代器对 `std::iterator` 的继承（该基类在 C{plus}{plus}17
 中已弃用），感谢 Daniela
-Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
+Engert的贡献（ https://github.com/boostorg/unordered/pull/7[PR#7]）。
 * 停止使用 `BOOST++_++DEDUCED++_++TYPENAME`。
 * 更新部分 Boost 头文件包含路径。
 * 重命名部分内部方法和变量。
@@ -181,7 +181,7 @@ Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
 === 版本 1.66.0
 
 * 更简化的移动构造实现。
-* 文档修正（https://github.com/boostorg/unordered/pull/6[GitHub #6]）。
+* 文档修正（ https://github.com/boostorg/unordered/pull/6[GitHub #6]）。
 
 [[changes_release_1_65_0]]
 === 版本 1.65.0
@@ -214,7 +214,7 @@ Engert的贡献（https://github.com/boostorg/unordered/pull/7[PR#7]）。
 C{plus}{plus} 中字面量字符串的就地构造问题。
 * 修复赋值操作中的异常安全问题。若桶分配过程抛出异常，可能导致哈希函数与相等性判断函数被覆盖，而现有元素仍保留在容器中。这将造成函数对象与容器元素不匹配，进而引发元素错置桶位及等价元素处理错误的问题。
 * 多项参考文档改进。
-* 增强的分配器支持（https://svn.boost.org/trac/boost/ticket/12459[#12459]）。
+* 增强的分配器支持（ https://svn.boost.org/trac/boost/ticket/12459[#12459]）。
 * 将无参构造函数改为隐式声明。
 * 实现缺失的分配器感知构造函数。
 * 修复空容器在设置哈希函数与键值相等性判断函数时存在的问题。
@@ -240,31 +240,31 @@ C{plus}{plus} 中字面量字符串的就地构造问题。
 * 重命名部分迭代器类中私有的 `iterator`
 类型别名，以避免某些特征类产生混淆。
 * 修复当使用具有状态且设置了propagate++_++on++_++container++_++move++_++assign
-的分配器时，移动赋值操作存在的缺陷（https://svn.boost.org/trac/boost/ticket/10777[#10777]）。
+的分配器时，移动赋值操作存在的缺陷（ https://svn.boost.org/trac/boost/ticket/10777[#10777]）。
 * 修复移动赋值操作中一处罕见的异常安全问题。
-* 修复计算待分配桶数量时可能出现的溢出问题（https://github.com/boostorg/unordered/pull/4[GitHub
+* 修复计算待分配桶数量时可能出现的溢出问题（ https://github.com/boostorg/unordered/pull/4[GitHub
 #4]）。
 
 [[changes_release_1_57_0]]
 === 版本 1.57.0
 
 * 修复迭代器中 `pointer`
-类型定义的问题（https://svn.boost.org/trac/boost/ticket/10672[#10672]）。
+类型定义的问题（ https://svn.boost.org/trac/boost/ticket/10672[#10672]）。
 * 修复 Coverity
-警告（https://github.com/boostorg/unordered/pull/2[GitHub #2]）。
+警告（ https://github.com/boostorg/unordered/pull/2[GitHub #2]）。
 
 [[changes_release_1_56_0]]
 === 版本 1.56.0
 
-* 修复部分变量遮蔽警告（https://svn.boost.org/trac/boost/ticket/9377[#9377]）。
-* 修正文档中的分配器用法（https://svn.boost.org/trac/boost/ticket/9719[#9719]）。
-* 对整数键始终采用质数桶数量。此修复解决了插入连续整数时的性能回归问题，但可能会降低其他使用场景的速度（https://svn.boost.org/trac/boost/ticket/9282[#9282]）。
+* 修复部分变量遮蔽警告（ https://svn.boost.org/trac/boost/ticket/9377[#9377]）。
+* 修正文档中的分配器用法（ https://svn.boost.org/trac/boost/ticket/9719[#9719]）。
+* 对整数键始终采用质数桶数量。此修复解决了插入连续整数时的性能回归问题，但可能会降低其他使用场景的速度（ https://svn.boost.org/trac/boost/ticket/9282[#9282]）。
 * 严格遵循 C{plus}{plus}11 标准规定，仅使用分配器构造元素。
 
 [[changes_release_1_55_0]]
 === 版本 1.55.0
 
-* 避免部分警告（https://svn.boost.org/trac/boost/ticket/8851[#8851]、https://svn.boost.org/trac/boost/ticket/8874[#8874]）。
+* 避免部分警告（https://svn.boost.org/trac/boost/ticket/8851[#8851]、 https://svn.boost.org/trac/boost/ticket/8874[#8874]）。
 * 避免通过迭代器上的 ADL 暴露部分细节函数。
 * 遵循标准规范，仅使用分配器的 construct 和 destroy
 方法来构造和析构存储的元素，不将其用于指针等内部数据的操作。
@@ -288,7 +288,7 @@ C{plus}{plus} 中字面量字符串的就地构造问题。
 
 * 加速赋值操作：尽可能复用现有节点进行赋值，而非创建全新节点并执行复制构造。
 * 修复 `erase++_++range`
-方法中的缺陷（https://svn.boost.org/trac/boost/ticket/7471[#7471]）。
+方法中的缺陷（ https://svn.boost.org/trac/boost/ticket/7471[#7471]）。
 * 回退部分关于节点创建机制的内部变更（尤其针对 C{plus}{plus}11
 编译器），使 'construct' 和 'destroy' 对 C{plus}{plus}11 分配器更有效。
 * 简化实现，以提高健壮性。
@@ -297,10 +297,10 @@ C{plus}{plus} 中字面量字符串的就地构造问题。
 === 版本 1.51.0
 
 * 修复当使用 C{plus}{plus}11 编译器搭配 C{plus}{plus}03
-分配器时出现的构造/析构问题（https://svn.boost.org/trac/boost/ticket/7100[#7100]）。
+分配器时出现的构造/析构问题（ https://svn.boost.org/trac/boost/ticket/7100[#7100]）。
 * 移除一段 `try..catch` 代码块以支持无异常编译模式。
 * 调整 SFINAE 的实现方式以兼容 g{plus}{plus}
-3.4（https://svn.boost.org/trac/boost/ticket/7175[#7175]）。
+3.4（ https://svn.boost.org/trac/boost/ticket/7175[#7175]）。
 * 更新为使用新的配置宏。
 
 [[changes_release_1_50_0]]
@@ -371,7 +371,7 @@ true，则会交换分配器本身。
 
 * https://svn.boost.org/trac/boost/ticket/3966[问题单
 3966]：`erase++_++return++_++void` 更名为
-`quick++_++erase`（符合http://home.roadrunner.com/~hinnant/issue_review/lwg-active.html#579[当前迭代器擦除缓慢的解决方案]）。旧方法名出于向后兼容性予以保留，但已被视为弃用接口，将在未来版本中移除。
+`quick++_++erase`（符合 http://home.roadrunner.com/~hinnant/issue_review/lwg-active.html#579[当前迭代器擦除缓慢的解决方案]）。旧方法名出于向后兼容性予以保留，但已被视为弃用接口，将在未来版本中移除。
 * 使用 Boost.Exception。
 * 停止使用已弃用的 `BOOST++_++HAS++_*++` 系列宏。
 
@@ -405,7 +405,7 @@ bool 替代成员指针），容器对象的内存占用得以减小。
 * https://svn.boost.org/trac/boost/ticket/1978[问题单
 1978]：为所有编译器实现 `emplace`。
 * https://svn.boost.org/trac/boost/ticket/2908[问题单
-2908]、https://svn.boost.org/trac/boost/ticket/3096[问题单
+2908]、 https://svn.boost.org/trac/boost/ticket/3096[问题单
 3096]：针对旧版 borland 的变通方案（包括为所有容器添加显式析构函数）。
 * https://svn.boost.org/trac/boost/ticket/3082[问题单 3082]：禁用 Visual
 C{plus}{plus} 编译器的错误警告。
@@ -441,7 +441,7 @@ C{plus}{plus}0x 模式）。
 [[changes_release_1_37_0]]
 === 版本 1.37.0
 
-* 根据http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2008/n2691.pdf[n2691]规范，将带提示的
+* 根据 http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2008/n2691.pdf[n2691]规范，将带提示的
 `emplace` 重载更名为 `emplace++_++hint`。
 * 在 `++<++boost/unordered/unordered++_++map++_++fwd.hpp++>++` 与
 `++<++boost/unordered/unordered++_++set++_++fwd.hpp++>++`路径下提供前向声明头文件。

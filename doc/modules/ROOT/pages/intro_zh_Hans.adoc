@@ -2,12 +2,12 @@
 == 引言
 
 [[content]]
-https://en.wikipedia.org/wiki/Hash_table[哈希表]是一种极其流行的计算机数据结构，几乎在所有编程语言中都能找到其不同形式的存在。红黑树（在
+ https://en.wikipedia.org/wiki/Hash_table[哈希表]是一种极其流行的计算机数据结构，几乎在所有编程语言中都能找到其不同形式的存在。红黑树（在
 C{plus}{plus} 中被 `std::set` 和 `std::map`
 使用）等其他关联结构在插入和查找操作上具有对数时间复杂度，但哈希表若配置得当，这些操作的平均时间复杂度可达到常数级别，并且通常速度更快。
 
 C{plus}{plus}11 标准引入了__无序关联容器__
-`std::unordered++_++set`、`std::unordered++_++map`、`std::unordered++_++multiset`和`std::unordered++_++multimap`，但针对哈希表的研究并未止步：CPU架构的进步（如更强大的缓存、https://en.wikipedia.org/wiki/Single_instruction,_multiple_data[SIMD]指令集以及日益普及的https://en.wikipedia.org/wiki/Multi-core_processor[多核处理器]）为改进基于哈希的数据结构创造了新的可能，这些新应用场景已远超
+`std::unordered++_++set`、`std::unordered++_++map`、`std::unordered++_++multiset`和`std::unordered++_++multimap`，但针对哈希表的研究并未止步：CPU架构的进步（如更强大的缓存、https://en.wikipedia.org/wiki/Single_instruction,_multiple_data[SIMD]指令集以及日益普及的 https://en.wikipedia.org/wiki/Multi-core_processor[多核处理器]）为改进基于哈希的数据结构创造了新的可能，这些新应用场景已远超
 2011 年标准所定义的无序关联容器的能力范围。
 
 Boost.Unordered

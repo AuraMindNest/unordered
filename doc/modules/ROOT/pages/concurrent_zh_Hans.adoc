@@ -47,7 +47,7 @@ CPU 的逻辑核心数）。
 Boost.Unordered
 并发容器的新用户首先会注意到：这些类__不提供迭代器__（它们在技术层面上不符合
 C{plus}{plus}
-标准中的https://en.cppreference.com/w/cpp/named_req/Container[容器]定义）。因为迭代器本质上是线程不安全的。请参考以下假设代码：
+标准中的 https://en.cppreference.com/w/cpp/named_req/Container[容器]定义）。因为迭代器本质上是线程不安全的。请参考以下假设代码：
 
 [source,highlight]
 ----

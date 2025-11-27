@@ -243,9 +243,9 @@ namespace unordered {
 [width="100%",cols="50%,50%",]
 |===
 |_键_ |`Key` 必须满足
-https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
+ https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
 到容器中的要求，且需满足从容器中
-https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
+ https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
 的参数，并返回一个 `std::size++_++t` 类型的值。
@@ -255,7 +255,7 @@ https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
 类型的值。
 
 |_分配器_
-|一种分配器，其值类型与容器的值类型相同，是一种支持使用https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|一种分配器，其值类型与容器的值类型相同，是一种支持使用 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 容器的元素存储在内部的__桶数组__中。元素根据其哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则会使用原始位置附近可用的桶。
@@ -328,7 +328,7 @@ unordered_flat_set();
 
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
@@ -353,7 +353,7 @@ explicit unordered_flat_set(size_type n,
 
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
@@ -379,7 +379,7 @@ template<class InputIterator>
 |===
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
@@ -435,7 +435,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -522,7 +522,7 @@ unordered_flat_set(std::initializer_list<value_type> il,
 |===
 |要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
 `allocator++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造的]要求。
 |===
 
 '''''
@@ -543,7 +543,7 @@ unordered_flat_set(size_type n, allocator_type const& a);
 |后置条件： |`size() == 0`
 
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -564,7 +564,7 @@ unordered_flat_set(size_type n, hasher const& hf, allocator_type const& a);
 |后置条件： |`size() == 0`
 
 |要求： |`key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -585,7 +585,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -607,7 +607,7 @@ template<class InputIterator>
 [cols=",",]
 |===
 |要求： |`key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -627,7 +627,7 @@ unordered_flat_set(std::initializer_list<value_type> il, const allocator_type& a
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -646,7 +646,7 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const allo
 [cols=",",]
 |===
 |要求： |`hasher` 和 `key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -666,7 +666,7 @@ unordered_flat_set(std::initializer_list<value_type> il, size_type n, const hash
 [cols=",",]
 |===
 |要求： |`key++_++equal`
-需满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求。
 |===
 
 '''''
@@ -707,7 +707,7 @@ unordered_flat_set& operator=(unordered_flat_set const& other);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
+需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 |===
 
 '''''
@@ -749,7 +749,7 @@ unordered_flat_set& operator=(std::initializer_list<value_type> il);
 [cols=",",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
+需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求
 |===
 
 [[unordered_flat_set_iterators]]
@@ -946,7 +946,7 @@ std::pair<iterator, bool> insert(const value_type& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |返回： a|
 如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
@@ -974,7 +974,7 @@ std::pair<iterator, bool> insert(value_type&& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
 |返回： a|
 如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
@@ -1003,7 +1003,7 @@ template<class K> std::pair<iterator, bool> insert(K&& k);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 必须能够从 `k`进行
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
 
 |返回： a|
 如果插入操作发生，则返回类型的 bool 分量为 true。 +
@@ -1040,7 +1040,7 @@ iterator insert(const_iterator hint, const value_type& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]要求。
 
 |返回： a|
 如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
@@ -1070,7 +1070,7 @@ iterator insert(const_iterator hint, value_type&& obj);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type`
-需满足https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
+需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]要求。
 
 |返回： a|
 如果插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
@@ -1101,7 +1101,7 @@ template<class K> std::pair<iterator, bool> insert(const_iterator hint, K&& k);
 [width="100%",cols="50%,50%",]
 |===
 |要求： |`value++_++type` 必须能够从 `k`进行
-https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
+ https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]。
 
 |返回： a|
 如果插入操作发生，则返回类型的 bool 分量为 true。 +
@@ -1136,7 +1136,7 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 [cols=",",]
 |===
 |要求： |`value++_++type` 必须能够通过 `++*++first`
-在容器中进行https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
+在容器中进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
 。
 
 |抛出： |在插入单个元素时，若异常由调用 `hasher`
@@ -1161,7 +1161,7 @@ void insert(std::initializer_list<value_type>);
 [cols=",",]
 |===
 |要求： |`value++_++type` 需满足
-https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
+ https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
 到容器中的要求。
 
 |抛出： |在插入单个元素时，若异常由调用 `hasher`
@@ -1784,7 +1784,7 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 |要求： |`value++_++type` 必须可序列化（支持 XML 序列化），且需要支持
 Boost.Serialization 的
 `save++_++construct++_++data`/`load++_++construct++_++data`
-协议（该协议自动支持满足https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
+协议（该协议自动支持满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 |===
 
 '''''

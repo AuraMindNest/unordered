@@ -91,7 +91,7 @@ stats
 * 每次成功查找的平均比较次数应接近 1.0（即仅需核对找到的元素本身）。
 * 每次失败查找的平均比较次数应接近 0.0。
 
-我们提供了一个link:../../../benchmark/string_stats.cpp[示例程序]，用于展示以下哈希函数的容器统计信息：`boost::hash++<++std::string++>++`、https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a
+我们提供了一个link:../../../benchmark/string_stats.cpp[示例程序]，用于展示以下哈希函数的容器统计信息：`boost::hash++<++std::string++>++`、 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a
 哈希算法]的实现，以及两个被错误标记为具备雪崩效应的自定义哈希函数：
 
 ....

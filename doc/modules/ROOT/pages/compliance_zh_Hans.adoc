@@ -9,14 +9,14 @@
 `boost::unordered++_[++multi++]++map` 为
 C{plus}{plus}11（或更高版本）编译器提供了符合最新 C{plus}{plus}
 标准修订版的无序关联容器实现，仅存在文档所述的极微小偏差。这些容器完全满足
-https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
+ https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
 要求，并支持
-https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]。
+ https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]。
 
 [[compliance_deduction_guides]]
 ==== 推导指引
 
-https://en.cppreference.com/w/cpp/language/class_template_argument_deduction[类模板参数推导
+ https://en.cppreference.com/w/cpp/language/class_template_argument_deduction[类模板参数推导
 (CTAD)] 的推导指南仅在 C{plus}{plus}17（或更高版本）编译器中可用。
 
 [[compliance_piecewise_pair_emplacement]]
@@ -65,9 +65,9 @@ C{plus}{plus}
 
 Boost.Unordered 提供的开放寻址容器仅兼容符合
 C{plus}{plus}1（或更高版本）的编译器，且不再对移动语义、变参模板等语言特性进行模拟实现。这些容器完全符合
-https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
+ https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
 规范，并支持
-https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]。
+ https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]。
 
 与 C{plus}{plus} 无序关联容器的主要区别在于：
 
@@ -98,11 +98,11 @@ C{plus}{plus}
 `std::unordered++_++flat++_++map`
 建模，其关键区别在于：由于迭代器在并发场景中存在固有缺陷（高竞争、易死锁），因此不提供迭代器。故
 Boost.Unordered 并发容器技术上不符合
-https://en.cppreference.com/w/cpp/named_req/Container[容器]
+ https://en.cppreference.com/w/cpp/named_req/Container[容器]
 模型，但满足除涉及迭代器之外的所有
-https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
+ https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知]
 容器的要求（包括对
-https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]
+ https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]
 的支持）。
 
 在非并发无序容器中，迭代器主要有两项核心功能：

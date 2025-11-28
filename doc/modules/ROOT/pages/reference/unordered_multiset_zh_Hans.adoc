@@ -35,11 +35,11 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using iterator             = <em>由实现定义</em>;
-    using const_iterator       = <em>由实现定义</em>;
-    using local_iterator       = <em>由实现定义</em>;
-    using const_local_iterator = <em>由实现定义</em>;
-    using node_type            = <em>由实现定义</em>;
+    using iterator             = _由实现定义_;
+    using const_iterator       = _由实现定义_;
+    using local_iterator       = _由实现定义_;
+    using const_local_iterator = _由实现定义_;
+    using node_type            = _由实现定义_;
 
     // 构造/复制/销毁
     link:#unordered_multiset_default_constructor[unordered_multiset]();
@@ -49,7 +49,7 @@ namespace unordered {
                                 const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#unordered_multiset_iterator_range_constructor[unordered_multiset](InputIterator f, InputIterator l,
-                         size_type n = <em>由实现定义</em>,
+                         size_type n = _由实现定义_,
                          const hasher& hf = hasher(),
                          const key_equal& eql = key_equal(),
                          const allocator_type& a = allocator_type());
@@ -61,7 +61,7 @@ namespace unordered {
     link:#unordered_multiset_copy_constructor_with_allocator[unordered_multiset](const unordered_multiset& other, const Allocator& a);
     link:#unordered_multiset_move_constructor_with_allocator[unordered_multiset](unordered_multiset&& other, const Allocator& a);
     link:#unordered_multiset_initializer_list_constructor[unordered_multiset](std::initializer_list<value_type> il,
-                       size_type n = <em>由实现定义</em>,
+                       size_type n = _由实现定义_,
                        const hasher& hf = hasher(),
                        const key_equal& eql = key_equal(),
                        const allocator_type& a = allocator_type());
@@ -190,39 +190,39 @@ namespace unordered {
 
   // 推导指引
   template<class InputIterator,
-           class Hash = boost::hash<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
-           class Pred = std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
-           class Allocator = std::allocator<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>>
-    unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
+           class Hash = boost::hash<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>,
+           class Pred = std::equal_to<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>,
+           class Allocator = std::allocator<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>>
+    unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[_见下文_]::size_type = link:#unordered_multiset_deduction_guides[_见下文_],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>, Hash, Pred, Allocator>;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>, Hash, Pred, Allocator>;
 
   template<class T, class Hash = boost::hash<T>, class Pred = std::equal_to<T>,
            class Allocator = std::allocator<T>>
-    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
+    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[_见下文_]::size_type = link:#unordered_multiset_deduction_guides[_见下文_],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
       -> unordered_multiset<T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
-      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>,
-                            boost::hash<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
-                            std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+    unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[_见下文_]::size_type, Allocator)
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>,
+                            boost::hash<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>,
+                            std::equal_to<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     unordered_multiset(InputIterator, InputIterator, Allocator)
-      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>,
-                            boost::hash<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
-                            std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>,
+                            boost::hash<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>,
+                            std::equal_to<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash,
+    unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[_见下文_]::size_type, Hash,
                        Allocator)
-      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>, Hash,
-                            std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>, Hash,
+                            std::equal_to<link:#unordered_multiset_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class T, class Allocator>
-    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
+    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[_见下文_]::size_type, Allocator)
       -> unordered_multiset<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
   template<class T, class Allocator>
@@ -230,7 +230,7 @@ namespace unordered {
       -> unordered_multiset<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
   template<class T, class Hash, class Allocator>
-    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash, Allocator)
+    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[_见下文_]::size_type, Hash, Allocator)
       -> unordered_multiset<T, Hash, std::equal_to<T>, Allocator>;
 
 } // namespace unordered

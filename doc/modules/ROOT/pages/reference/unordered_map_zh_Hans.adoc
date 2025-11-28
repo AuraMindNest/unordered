@@ -37,12 +37,12 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using iterator             = <em>implementation-defined</em>;
-    using const_iterator       = <em>implementation-defined</em>;
-    using local_iterator       = <em>implementation-defined</em>;
-    using const_local_iterator = <em>implementation-defined</em>;
-    using node_type            = <em>implementation-defined</em>;
-    using insert_return_type   = <em>implementation-defined</em>;
+    using iterator             = _implementation-defined_;
+    using const_iterator       = _implementation-defined_;
+    using local_iterator       = _implementation-defined_;
+    using const_local_iterator = _implementation-defined_;
+    using node_type            = _implementation-defined_;
+    using insert_return_type   = _implementation-defined_;
 
     // construct/copy/destroy
     link:#unordered_map_default_constructor[unordered_map]();
@@ -52,7 +52,7 @@ namespace unordered {
                            const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#unordered_map_iterator_range_constructor[unordered_map](InputIterator f, InputIterator l,
-                    size_type n = <em>implementation-defined</em>,
+                    size_type n = _implementation-defined_,
                     const hasher& hf = hasher(),
                     const key_equal& eql = key_equal(),
                     const allocator_type& a = allocator_type());
@@ -64,7 +64,7 @@ namespace unordered {
     link:#unordered_map_copy_constructor_with_allocator[unordered_map](const unordered_map& other, const Allocator& a);
     link:#unordered_map_move_constructor_with_allocator[unordered_map](unordered_map&& other, const Allocator& a);
     link:#unordered_map_initializer_list_constructor[unordered_map](std::initializer_list<value_type> il,
-                  size_type n = <em>implementation-defined</em>
+                  size_type n = _implementation-defined_
                   const hasher& hf = hasher(),
                   const key_equal& eql = key_equal(),
                   const allocator_type& a = allocator_type());
@@ -228,41 +228,41 @@ namespace unordered {
 
   // Deduction Guides
   template<class InputIterator,
-           class Hash = boost::hash<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>,
-           class Pred = std::equal_to<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>,
-           class Allocator = std::allocator<link:#unordered_map_iter_to_alloc_type[iter-to-alloc-type]<InputIterator>>>
-    unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[see below]::size_type = link:#unordered_map_deduction_guides[see below],
+           class Hash = boost::hash<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>,
+           class Pred = std::equal_to<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>,
+           class Allocator = std::allocator<link:#unordered_map_iter_to_alloc_type[_iter-to-alloc-type_]<InputIterator>>>
+    unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[_see below_]::size_type = link:#unordered_map_deduction_guides[_see below_],
                   Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> unordered_map<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<InputIterator>, Hash, Pred,
+      -> unordered_map<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>, link:#unordered_map_iter_mapped_type[_iter-mapped-type_]<InputIterator>, Hash, Pred,
                        Allocator>;
 
   template<class Key, class T, class Hash = boost::hash<Key>,
            class Pred = std::equal_to<Key>,
            class Allocator = std::allocator<std::pair<const Key, T>>>
     unordered_map(std::initializer_list<std::pair<Key, T>>,
-                  typename link:#unordered_map_deduction_guides[see below]::size_type = link:#unordered_map_deduction_guides[see below], Hash = Hash(),
+                  typename link:#unordered_map_deduction_guides[_see below_]::size_type = link:#unordered_map_deduction_guides[_see below_], Hash = Hash(),
                   Pred = Pred(), Allocator = Allocator())
       -> unordered_map<Key, T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[see below]::size_type, Allocator)
-      -> unordered_map<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<InputIterator>,
-                       boost::hash<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>,
-                       std::equal_to<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>, Allocator>;
+    unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[_see below_]::size_type, Allocator)
+      -> unordered_map<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>, link:#unordered_map_iter_mapped_type[_iter-mapped-type_]<InputIterator>,
+                       boost::hash<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>,
+                       std::equal_to<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     unordered_map(InputIterator, InputIterator, Allocator)
-      -> unordered_map<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<InputIterator>,
-                       boost::hash<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>,
-                       std::equal_to<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>, Allocator>;
+      -> unordered_map<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>, link:#unordered_map_iter_mapped_type[_iter-mapped-type_]<InputIterator>,
+                       boost::hash<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>,
+                       std::equal_to<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[see below]::size_type, Hash, Allocator)
-      -> unordered_map<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<InputIterator>, Hash,
-                       std::equal_to<link:#unordered_map_iter_key_type[iter-key-type]<InputIterator>>, Allocator>;
+    unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[_see below_]::size_type, Hash, Allocator)
+      -> unordered_map<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>, link:#unordered_map_iter_mapped_type[_iter-mapped-type_]<InputIterator>, Hash,
+                       std::equal_to<link:#unordered_map_iter_key_type[_iter-key-type_]<InputIterator>>, Allocator>;
 
   template<class Key, class T, class Allocator>
-    unordered_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_map_deduction_guides[see below]::size_type,
+    unordered_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_map_deduction_guides[_see below_]::size_type,
                   Allocator)
       -> unordered_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
@@ -271,7 +271,7 @@ namespace unordered {
       -> unordered_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
   template<class Key, class T, class Hash, class Allocator>
-    unordered_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_map_deduction_guides[see below]::size_type, Hash,
+    unordered_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_map_deduction_guides[_see below_]::size_type, Hash,
                   Allocator)
       -> unordered_map<Key, T, Hash, std::equal_to<Key>, Allocator>;
 
@@ -2087,8 +2087,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-key-type</em> = std::remove_const_t<
-    std::tuple_element_t<0, link:#unordered_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-key-type_ = std::remove_const_t<
+    std::tuple_element_t<0, link:#unordered_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[unordered_map_iter_mapped_type]]
@@ -2097,8 +2097,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-mapped-type</em> =
-    std::tuple_element_t<1, link:#unordered_map_iter_value_type[iter-value-type]<InputIterator>>;  // 仅用于说明
+  using _iter-mapped-type_ =
+    std::tuple_element_t<1, link:#unordered_map_iter_value_type[_iter-value-type_]<InputIterator>>;  // 仅用于说明
 ----
 
 [[unordered_map_iter_to_alloc_type]]
@@ -2107,9 +2107,9 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-to-alloc-type</em> = std::pair<
-    std::add_const_t<std::tuple_element_t<0, link:#unordered_map_iter_value_type[iter-value-type]<InputIterator>>>,
-    std::tuple_element_t<1, link:#unordered_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-to-alloc-type_ = std::pair<
+    std::add_const_t<std::tuple_element_t<0, link:#unordered_map_iter_value_type[_iter-value-type_]<InputIterator>>>,
+    std::tuple_element_t<1, link:#unordered_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[unordered_map_equality_comparisons]]

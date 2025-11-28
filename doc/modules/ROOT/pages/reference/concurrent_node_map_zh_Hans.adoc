@@ -45,13 +45,13 @@ namespace unordered {
 极简风格>    using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using node_type            = <em>实现定义</em>;
-    using insert_return_type   = <em>实现定义</em>;
+    using node_type            = _实现定义_;
+    using insert_return_type   = _实现定义_;
 
-    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 若统计功能已link:#concurrent_node_map_boost_unordered_enable_stats[启用]
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[_统计类型_]; // 若统计功能已link:#concurrent_node_map_boost_unordered_enable_stats[启用]
 
     // 常量
-    static constexpr size_type link:#concurrent_node_map_constants[bulk_visit_size] = <em>实现定义</em>;
+    static constexpr size_type link:#concurrent_node_map_constants[bulk_visit_size] = _实现定义_;
 
     // 构造/复制/销毁
     link:#concurrent_node_map_default_constructor[concurrent_node_map]();
@@ -61,7 +61,7 @@ namespace unordered {
                                  const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#concurrent_node_map_iterator_range_constructor[concurrent_node_map](InputIterator f, InputIterator l,
-                          size_type n = <em>实现定义</em>,
+                          size_type n = _实现定义_,
                           const hasher& hf = hasher(),
                           const key_equal& eql = key_equal(),
                           const allocator_type& a = allocator_type());
@@ -74,7 +74,7 @@ namespace unordered {
     link:#concurrent_node_map_move_constructor_with_allocator[concurrent_node_map](concurrent_node_map&& other, const Allocator& a);
     link:#concurrent_node_map_move_constructor_from_unordered_node_map[concurrent_node_map](unordered_node_map<Key, T, Hash, Pred, Allocator>&& other);
     link:#concurrent_node_map_initializer_list_constructor[concurrent_node_map](std::initializer_list<value_type> il,
-                        size_type n = <em>实现定义</em>
+                        size_type n = _实现定义_
                         const hasher& hf = hasher(),
                         const key_equal& eql = key_equal(),
                         const allocator_type& a = allocator_type());
@@ -197,7 +197,7 @@ namespace unordered {
 
     template<class... Args> bool link:#concurrent_node_map_try_emplace[try_emplace](const key_type& k, Args&&... args);
     template<class... Args> bool link:#concurrent_node_map_try_emplace[try_emplace](key_type&& k, Args&&... args);
-    template<class K, class... Args> bool link:#concurrent_node_map_ty_emplace</a>(K&& k, Args&&... args);
+    template<class K, class... Args> bool link:#concurrent_node_map_ty_emplace(K&& k, Args&&... args);
 
     template<class... Args, class F>
       bool <a href=[(K&& k, Args&&... args);
@@ -288,42 +288,42 @@ namespace unordered {
 
   // 推导指引
   template<class InputIterator,
-           class Hash = boost::hash<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>,
-           class Pred = std::equal_to<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>,
-           class Allocator = std::allocator<link:#concurrent_node_map_iter_to_alloc_type[迭代器到分配类型]<InputIterator>>>
-    concurrent_node_map(InputIterator, InputIterator, typename link:#concurrent_node_map_deduction_guides[见下文]::size_type = link:#concurrent_node_map_deduction_guides[见下文],
+           class Hash = boost::hash<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+           class Pred = std::equal_to<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+           class Allocator = std::allocator<link:#concurrent_node_map_iter_to_alloc_type[_迭代器到分配类型_]<InputIterator>>>
+    concurrent_node_map(InputIterator, InputIterator, typename link:#concurrent_node_map_deduction_guides[_见下文_]::size_type = link:#concurrent_node_map_deduction_guides[_见下文_],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[迭代器映射类型]<InputIterator>, Hash,
+      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>, Hash,
                              Pred, Allocator>;
 
   template<class Key, class T, class Hash = boost::hash<Key>,
            class Pred = std::equal_to<Key>,
            class Allocator = std::allocator<std::pair<const Key, T>>>
     concurrent_node_map(std::initializer_list<std::pair<Key, T>>,
-                        typename link:#concurrent_node_map_deduction_guides[见下文]::size_type = 见下文, Hash = Hash(),
+                        typename link:#concurrent_node_map_deduction_guides[_见下文_]::size_type = 见下文, Hash = Hash(),
                         Pred = Pred(), Allocator = Allocator())
       -> concurrent_node_map<Key, T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    concurrent_node_map(InputIterator, InputIterator, typename 见下文::size_type, Allocator)
-      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[迭代器映射类型a><InputIterator>,
-                             boost::hash<]<em>link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>,
-                             std::equal_to<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+    concurrent_node_map(InputIterator, InputIterator, typename _见下文_::size_type, Allocator)
+      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[_迭代器映射类型a><InputIterator>,
+                             boost::hash<_]_迭代器键类型_<InputIterator>>,
+                             std::equal_to<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     concurrent_node_map(InputIterator, InputIterator, Allocator)
-      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[迭代器映射类型]<InputIterator>,
-                             boost::hash<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>,
-                             std::equal_to<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>,
+                             boost::hash<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+                             std::equal_to<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    concurrent_node_map(InputIterator, InputIterator, typename link:#concurrent_node_map_deduction_guides[见下文]::size_type, Hash,
+    concurrent_node_map(InputIterator, InputIterator, typename link:#concurrent_node_map_deduction_guides[_见下文_]::size_type, Hash,
                         Allocator)
-      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[迭代器映射类型]<InputIterator>, Hash,
-                             std::equal_to<link:#concurrent_node_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+      -> concurrent_node_map<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_node_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>, Hash,
+                             std::equal_to<link:#concurrent_node_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class Key, class T, class Allocator>
-    concurrent_node_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_node_map_deduction_guides[见下文]::size_type,
+    concurrent_node_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_node_map_deduction_guides[_见下文_]::size_type,
                         Allocator)
       -> concurrent_node_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
@@ -332,12 +332,12 @@ namespace unordered {
       -> concurrent_node_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
   template<class Key, class T, class Hash, class Allocator>
-    concurrent_node_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_node_map_deduction_guides[见下文]::size_type,
+    concurrent_node_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_node_map_deduction_guides[_见下文_]::size_type,
                         Hash, Allocator)
       -> concurrent_node_map<Key, T, Hash, std::equal_to<Key>, Allocator>;
 
 } // namespace unordered
-} // namespace boost</em>
+} // namespace boost
 ----
 
 '''''
@@ -2134,8 +2134,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-key-type</em> = std::remove_const_t<
-    std::tuple_element_t<0, link:#concurrent_node_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-key-type_ = std::remove_const_t<
+    std::tuple_element_t<0, link:#concurrent_node_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[concurrent_node_map_iter_mapped_type]]
@@ -2144,8 +2144,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-mapped-type</em> =
-    std::tuple_element_t<1, link:#concurrent_node_map_iter_value_type[iter-value-type]<InputIterator>>;  // 仅用于说明
+  using _iter-mapped-type_ =
+    std::tuple_element_t<1, link:#concurrent_node_map_iter_value_type[_iter-value-type_]<InputIterator>>;  // 仅用于说明
 ----
 
 [[concurrent_node_map_iter_to_alloc_type]]
@@ -2154,9 +2154,9 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-to-alloc-type</em> = std::pair<
-    std::add_const_t<std::tuple_element_t<0, link:#concurrent_node_map_iter_value_type[iter-value-type]<InputIterator>>>,
-    std::tuple_element_t<1, link:#concurrent_node_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-to-alloc-type_ = std::pair<
+    std::add_const_t<std::tuple_element_t<0, link:#concurrent_node_map_iter_value_type[_iter-value-type_]<InputIterator>>>,
+    std::tuple_element_t<1, link:#concurrent_node_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[concurrent_node_map_equality_comparisons]]

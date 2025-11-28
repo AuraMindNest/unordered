@@ -53,10 +53,10 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using iterator             = <em>由实现定义</em>;
-    using const_iterator       = <em>由实现定义</em>;
+    using iterator             = _由实现定义_;
+    using const_iterator       = _由实现定义_;
 
-    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[_统计类型_]; // 若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]
 
     // 构造/复制/销毁
     link:#unordered_flat_map_default_constructor[unordered_flat_map]();
@@ -66,7 +66,7 @@ namespace unordered {
                                 const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#unordered_flat_map_iterator_range_constructor[unordered_flat_map](InputIterator f, InputIterator l,
-                         size_type n = <em>由实现定义</em>,
+                         size_type n = _由实现定义_,
                          const hasher& hf = hasher(),
                          const key_equal& eql = key_equal(),
                          const allocator_type& a = allocator_type());
@@ -79,7 +79,7 @@ namespace unordered {
     link:#unordered_flat_map_move_constructor_with_allocator[unordered_flat_map](unordered_flat_map&& other, const Allocator& a);
     link:#unordered_flat_map_move_constructor_from_concurrent_flat_map[unordered_flat_map](concurrent_flat_map<Key, T, Hash, Pred, Allocator>&& other);
     link:#unordered_flat_map_initializer_list_constructor[unordered_flat_map](std::initializer_list<value_type> il,
-                       size_type n = <em>由实现定义</em>
+                       size_type n = _由实现定义_
                        const hasher& hf = hasher(),
                        const key_equal& eql = key_equal(),
                        const allocator_type& a = allocator_type());
@@ -156,8 +156,8 @@ namespace unordered {
     template<class K, class M>
       iterator link:#unordered_flat_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, K&& k, M&& obj);
 
-    <em>可转换为迭代器的类型</em>     link:#unordered_flat_map_erase_by_position[erase](iterator position);
-    <em>可转换为迭代器的类型</em>     link:#unordered_flat_map_erase_by_position[erase](const_iterator position);
+    _可转换为迭代器的类型_     link:#unordered_flat_map_erase_by_position[erase](iterator position);
+    _可转换为迭代器的类型_     link:#unordered_flat_map_erase_by_position[erase](const_iterator position);
     size_type                   link:#unordered_flat_map_erase_by_key[erase](const key_type& k);
     template<class K> size_type link:#unordered_flat_map_erase_by_key[erase](K&& k);
     iterator  link:#unordered_flat_map_erase_range[erase](const_iterator first, const_iterator last);
@@ -223,42 +223,42 @@ namespace unordered {
 
   // 推导指引
   template<class InputIterator,
-           class Hash = boost::hash<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-           class Pred = std::equal_to<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-           class Allocator = std::allocator<link:#unordered_flat_map_iter_to_alloc_type[迭代器到分配类型]<InputIterator>>>
-    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type = link:#unordered_flat_map_deduction_guides[见下文],
+           class Hash = boost::hash<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+           class Pred = std::equal_to<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+           class Allocator = std::allocator<link:#unordered_flat_map_iter_to_alloc_type[_迭代器到分配类型_]<InputIterator>>>
+    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[_见下文_]::size_type = link:#unordered_flat_map_deduction_guides[_见下文_],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>, Hash,
+      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>, Hash,
                             Pred, Allocator>;
 
   template<class Key, class T, class Hash = boost::hash<Key>,
            class Pred = std::equal_to<Key>,
            class Allocator = std::allocator<std::pair<const Key, T>>>
     unordered_flat_map(std::initializer_list<std::pair<Key, T>>,
-                       typename link:#unordered_flat_map_deduction_guides[见下文]::size_type = link:#unordered_flat_map_deduction_guides[见下文], Hash = Hash(),
+                       typename link:#unordered_flat_map_deduction_guides[_见下文_]::size_type = link:#unordered_flat_map_deduction_guides[_见下文_], Hash = Hash(),
                        Pred = Pred(), Allocator = Allocator())
       -> unordered_flat_map<Key, T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type, Allocator)
-      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>,
-                            boost::hash<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-                            std::equal_to<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[_见下文_]::size_type, Allocator)
+      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>,
+                            boost::hash<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+                            std::equal_to<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     unordered_flat_map(InputIterator, InputIterator, Allocator)
-      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>,
-                            boost::hash<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-                            std::equal_to<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>,
+                            boost::hash<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+                            std::equal_to<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type, Hash,
+    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[_见下文_]::size_type, Hash,
                        Allocator)
-      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>, Hash,
-                            std::equal_to<link:#unordered_flat_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+      -> unordered_flat_map<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#unordered_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>, Hash,
+                            std::equal_to<link:#unordered_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class Key, class T, class Allocator>
-    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type,
+    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_flat_map_deduction_guides[_见下文_]::size_type,
                        Allocator)
       -> unordered_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
@@ -267,7 +267,7 @@ namespace unordered {
       -> unordered_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
   template<class Key, class T, class Hash, class Allocator>
-    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type,
+    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#unordered_flat_map_deduction_guides[_见下文_]::size_type,
                        Hash, Allocator)
       -> unordered_flat_map<Key, T, Hash, std::equal_to<Key>, Allocator>;
 
@@ -1722,8 +1722,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-key-type</em> = std::remove_const_t<
-    std::tuple_element_t<0, link:#unordered_flat_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-key-type_ = std::remove_const_t<
+    std::tuple_element_t<0, link:#unordered_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[unordered_flat_map_iter_mapped_type]]
@@ -1732,8 +1732,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-mapped-type</em> =
-    std::tuple_element_t<1, link:#unordered_flat_map_iter_value_type[iter-value-type]<InputIterator>>;  // 仅用于说明
+  using _iter-mapped-type_ =
+    std::tuple_element_t<1, link:#unordered_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>;  // 仅用于说明
 ----
 
 [[unordered_flat_map_iter_to_alloc_type]]
@@ -1742,9 +1742,9 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-to-alloc-type</em> = std::pair<
-    std::add_const_t<std::tuple_element_t<0, link:#unordered_flat_map_iter_value_type[iter-value-type]<InputIterator>>>,
-    std::tuple_element_t<1, link:#unordered_flat_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-to-alloc-type_ = std::pair<
+    std::add_const_t<std::tuple_element_t<0, link:#unordered_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>>,
+    std::tuple_element_t<1, link:#unordered_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[unordered_flat_map_equality_comparisons]]

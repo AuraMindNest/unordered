@@ -11,30 +11,30 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-struct link:#stats_stats_summary_type[stats-summary-type]
+struct link:#stats_stats_summary_type[_stats-summary-type_]
 {
   double average;
   double variance;
   double deviation;
 };
 
-struct link:#stats_insertion_stats_type[insertion-stats-type]
+struct link:#stats_insertion_stats_type[_insertion-stats-type_]
 {
   std::size_t        count;
-  link:#stats_stats_summary_type[stats-summary-type] probe_length;
+  link:#stats_stats_summary_type[_stats-summary-type_] probe_length;
 };
 
-struct link:#stats_lookup_stats_type[lookup-stats-type]
+struct link:#stats_lookup_stats_type[_lookup-stats-type_]
 {
   std::size_t        count;
-  link:#stats_stats_summary_type[stats-summary-type] probe_length;
-  link:#stats_stats_summary_type[stats-summary-type] num_comparisons;
+  link:#stats_stats_summary_type[_stats-summary-type_] probe_length;
+  link:#stats_stats_summary_type[_stats-summary-type_] num_comparisons;
 };
 
-struct link:reference/stats_zh_Hans.adoc#stats_stats_type[stats-type]
+struct link:reference/stats_zh_Hans.adoc#stats_stats_type[_stats-type_]
 {
-  link:#stats_insertion_stats_type[insertion-stats-type] insertion;
-  link:#stats_lookup_stats_type[lookup-stats-type]    successful_lookup,
+  link:#stats_insertion_stats_type[_insertion-stats-type_] insertion;
+  link:#stats_lookup_stats_type[_lookup-stats-type_]    successful_lookup,
                        unsuccessful_lookup;
 };
 ----

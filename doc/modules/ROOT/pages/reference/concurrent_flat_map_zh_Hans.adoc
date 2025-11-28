@@ -45,10 +45,10 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 如果启用了link:#concurrent_flat_map_boost_unordered_enable_stats[统计]
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[_统计类型_]; // 如果启用了link:#concurrent_flat_map_boost_unordered_enable_stats[统计]
 
     // 常量
-    static constexpr size_type link:#concurrent_flat_map_constants[bulk_visit_size] = <em>实现定义</em>;
+    static constexpr size_type link:#concurrent_flat_map_constants[bulk_visit_size] = _实现定义_;
 
     // 构造/复制/销毁
     link:#concurrent_flat_map_default_constructor[concurrent_flat_map]();
@@ -58,7 +58,7 @@ namespace unordered {
                                  const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#concurrent_flat_map_iterator_range_constructor[concurrent_flat_map](InputIterator f, InputIterator l,
-                          size_type n = <em>实现定义</em>,
+                          size_type n = _实现定义_,
                           const hasher& hf = hasher(),
                           const key_equal& eql = key_equal(),
                           const allocator_type& a = allocator_type());
@@ -71,7 +71,7 @@ namespace unordered {
     link:#concurrent_flat_map_move_constructor_with_allocator[concurrent_flat_map](concurrent_flat_map&& other, const Allocator& a);
     link:#concurrent_flat_map_move_constructor_from_unordered_flat_map[concurrent_flat_map](unordered_flat_map<Key, T, Hash, Pred, Allocator>&& other);
     link:#concurrent_flat_map_initializer_list_constructor[concurrent_flat_map](std::initializer_list<value_type> il,
-                        size_type n = <em>实现定义</em>
+                        size_type n = _实现定义_
                         const hasher& hf = hasher(),
                         const key_equal& eql = key_equal(),
                         const allocator_type& a = allocator_type());
@@ -267,42 +267,42 @@ namespace unordered {
 
   // 推导指南
   template<class InputIterator,
-           class Hash = boost::hash<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-           class Pred = std::equal_to<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-           class Allocator = std::allocator<link:#concurrent_flat_map_iter_to_alloc_type[迭代器到分配类型]<InputIterator>>>
-    concurrent_flat_map(InputIterator, InputIterator, typename link:#concurrent_flat_map_deduction_guides[见下文]::size_type = link:#concurrent_flat_map_deduction_guides[<极见下文],
+           class Hash = boost::hash<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+           class Pred = std::equal_to<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+           class Allocator = std::allocator<link:#concurrent_flat_map_iter_to_alloc_type[_迭代器到分配类型_]<InputIterator>>>
+    concurrent_flat_map(InputIterator, InputIterator, typename link:#concurrent_flat_map_deduction_guides[_见下文_]::size_type = link:#concurrent_flat_map_deduction_guides[<极见下文],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>, Hash,
+      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>, Hash,
                              Pred, Allocator>;
 
   template<class Key, class T, class Hash = boost::hash<Key>,
            class Pred = std::equal_to<Key>,
            class Allocator = std::allocator<std::pair<const Key, T>>>
     concurrent_flat_map(std::initializer_list<std::pair<Key, T>>,
-                        typename link:#concurrent_flat_map_deduction_guides[见下文]::size_type = link:#concurrent_flat_map_deduction_guides[见下文], Hash = Hash(),
+                        typename link:#concurrent_flat_map_deduction_guides[_见下文_]::size_type = link:#concurrent_flat_map_deduction_guides[_见下文_], Hash = Hash(),
                         Pred = Pred(), Allocator = Allocator())
       -> concurrent_flat_map<Key, T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    concurrent_flat_map(InputIterator, InputIterator, typename link:#concurrent_flat_map_deduction_guides[见下文]::size_type, Allocator)
-      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>,
-                             boost::hash<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-                             std::equal_to<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+    concurrent_flat_map(InputIterator, InputIterator, typename link:#concurrent_flat_map_deduction_guides[_见下文_]::size_type, Allocator)
+      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>,
+                             boost::hash<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+                             std::equal_to<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     concurrent_flat_map(InputIterator, InputIterator, Allocator)
-      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>,
-                             boost::hash<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>,
-                             std::equal_to<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>,
+                             boost::hash<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>,
+                             std::equal_to<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    concurrent_flat_map(InputIterator, InputIterator, typename link:#concurrent_flat_map_deduction_guides[见下文]::size_type, Hash,
+    concurrent_flat_map(InputIterator, InputIterator, typename link:#concurrent_flat_map_deduction_guides[_见下文_]::size_type, Hash,
                         Allocator)
-      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[迭代器映射类型]<InputIterator>, Hash,
-                             std::equal_to<link:#concurrent_flat_map_iter_key_type[迭代器键类型]<InputIterator>>, Allocator>;
+      -> concurrent_flat_map<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>, link:#concurrent_flat_map_iter_mapped_type[_迭代器映射类型_]<InputIterator>, Hash,
+                             std::equal_to<link:#concurrent_flat_map_iter_key_type[_迭代器键类型_]<InputIterator>>, Allocator>;
 
   template<class Key, class T, class Allocator>
-    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_flat_map_deduction_guides[见下文]::size_type,
+    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_flat_map_deduction_guides[_见下文_]::size_type,
                         Allocator)
       -> concurrent_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
@@ -311,7 +311,7 @@ namespace unordered {
       -&极; concurrent_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
   template<class Key, class T, class Hash, class Allocator>
-    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_flat_map_deduction_guides[见下文]::size_type,
+    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename link:#concurrent_flat_map_deduction_guides[_见下文_]::size_type,
                         Hash, Allocator)
       -> concurrent_flat_map<Key, T, Hash, std::equal_to<Key>, Allocator>;
 
@@ -2006,8 +2006,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-key-type</em> = std::remove_const_t<
-    std::tuple_element_t<0, link:#concurrent_flat_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-key-type_ = std::remove_const_t<
+    std::tuple_element_t<0, link:#concurrent_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[concurrent_flat_map_iter_mapped_type]]
@@ -2016,8 +2016,8 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-mapped-type</em> =
-    std::tuple_element_t<1, link:#concurrent_flat_map_iter_value_type[iter-value-type]<InputIterator>>;  // 仅用于说明
+  using _iter-mapped-type_ =
+    std::tuple_element_t<1, link:#concurrent_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>;  // 仅用于说明
 ----
 
 [[concurrent_flat_map_iter_to_alloc_type]]
@@ -2026,9 +2026,9 @@ template<class InputIterator>
 [listing,subs="+macros,+quotes"]
 ----
 template<class InputIterator>
-  using <em>iter-to-alloc-type</em> = std::pair<
-    std::add_const_t<std::tuple_element_t<0, link:#concurrent_flat_map_iter_value_type[iter-value-type]<InputIterator>>>,
-    std::tuple_element_t<1, link:#concurrent_flat_map_iter_value_type[iter-value-type]<InputIterator>>>; // 仅用于说明
+  using _iter-to-alloc-type_ = std::pair<
+    std::add_const_t<std::tuple_element_t<0, link:#concurrent_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>>,
+    std::tuple_element_t<1, link:#concurrent_flat_map_iter_value_type[_iter-value-type_]<InputIterator>>>; // 仅用于说明
 ----
 
 [[concurrent_flat_map_equality_comparisons]]

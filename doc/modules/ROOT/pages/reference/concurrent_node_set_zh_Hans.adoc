@@ -40,13 +40,13 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using node_type            = <em>实现定义</em>;
-    using insert_return_type   = <em>实现定义</em>;
+    using node_type            = _实现定义_;
+    using insert_return_type   = _实现定义_;
 
-    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 若统计功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[_统计类型_]; // 若统计功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]
 
     // 常量
-    static constexpr size_type link:#concurrent_node_set_constants[bulk_visit_size] = <em>实现定义</em>;
+    static constexpr size_type link:#concurrent_node_set_constants[bulk_visit_size] = _实现定义_;
 
     // 构造/复制/销毁
     link:#concurrent_node_set_default_constructor[concurrent_node_set]();
@@ -56,7 +56,7 @@ namespace unordered {
                                  const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#concurrent_node_set_iterator_range_constructor[concurrent_node_set](InputIterator f, InputIterator l,
-                          size_type n = <em>实现定义</em>,
+                          size_type n = _实现定义_,
                           const hasher& hf = hasher(),
                           const key_equal& eql = key_equal(),
                           const allocator_type& a = allocator_type());
@@ -69,7 +69,7 @@ namespace unordered {
     link:#concurrent_node_set_move_constructor_with_allocator[concurrent_node_set](concurrent_node_set&& other, const Allocator& a);
     link:#concurrent_node_set_move_constructor_from_unordered_node_set[concurrent_node_set](unordered_node_set<Key, Hash, Pred, Allocator>&& other);
     link:#concurrent_node_set_initializer_list_constructor[concurrent_node_set](std::initializer_list<value_type> il,
-                        size_type n = <em>实现定义</em>
+                        size_type n = _实现定义_
                         const hasher& hf = hasher(),
                         const key_equal& eql = key_equal(),
                         const allocator_type& a = allocator_type());
@@ -239,39 +239,39 @@ namespace unordered {
 
   // 推导指引
   template<class InputIterator,
-           class Hash = boost::hash<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>,
-           class Pred = std::equal_to<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>,
-           class Allocator = std::allocator<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>>
-    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
+           class Hash = boost::hash<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+           class Pred = std::equal_to<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+           class Allocator = std::allocator<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>>
+    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[_见下文_]::size_type = link:#concurrent_node_set_deduction_guides[_见下文_],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>, Hash, Pred, Allocator>;
+      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>, Hash, Pred, Allocator>;
 
   template<class T, class Hash = boost::hash<T>, class Pred = std::equal_to<T>,
            class Allocator = std::allocator<T>>
-    concurrent_node_set(std::initializer_list<T>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
+    concurrent_node_set(std::initializer_list<T>, typename link:#concurrent_node_set_deduction_guides[_见下文_]::size_type = link:#concurrent_node_set_deduction_guides[_见下文_],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
       -> concurrent_node_set<T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
-      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>,
-                             boost::hash<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>,
-                             std::equal_to<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[_见下文_]::size_type, Allocator)
+      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>,
+                             boost::hash<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+                             std::equal_to<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     concurrent_node_set(InputIterator, InputIterator, Allocator)
-      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>,
-                             boost::hash<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>,
-                             std::equal_to<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>,
+                             boost::hash<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+                             std::equal_to<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash,
+    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[_见下文_]::size_type, Hash,
                         Allocator)
-      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>, Hash,
-                             std::equal_to<link:#concurrent_node_set_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+      -> concurrent_node_set<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>, Hash,
+                             std::equal_to<link:#concurrent_node_set_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class T, class Allocator>
-    concurrent_node_set(std::initializer_list<T>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
+    concurrent_node_set(std::initializer_list<T>, typename link:#concurrent_node_set_deduction_guides[_见下文_]::size_type, Allocator)
       -> concurrent_node_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
   template<class T, class Allocator>
@@ -279,7 +279,7 @@ namespace unordered {
       -> concurrent_node_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
   template<class T, class Hash, class Allocator>
-    concurrent_node_set(std::initializer_list<T>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash, Allocator)
+    concurrent_node_set(std::initializer_list<T>, typename link:#concurrent_node_set_deduction_guides[_见下文_]::size_type, Hash, Allocator)
       -> concurrent_node_set<T, Hash, std::equal_to<T>, Allocator>;
 
 } // namespace unordered

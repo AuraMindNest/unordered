@@ -48,10 +48,10 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using iterator             = <em>实现定义</em>;
-    using const_iterator       = <em>实现定义</em>;
+    using iterator             = _实现定义_;
+    using const_iterator       = _实现定义_;
 
-    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 如果 link:#unordered_flat_set_boost_unordered_enable_stats[启用]了统计功能\n
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[_统计类型_]; // 如果 link:#unordered_flat_set_boost_unordered_enable_stats[启用]了统计功能\n
     // 构造/复制/销毁
     link:#unordered_flat_set_default_constructor[unordered_flat_set]();
     explicit link:#unordered_flat_set_bucket_count_constructor[unordered_flat_set](size_type n,
@@ -60,7 +60,7 @@ namespace unordered {
                                 const allocator_type& a = allocator_type());
     template<class InputIterator>
       link:#unordered_flat_set_iterator_range_constructor[unordered_flat_set](InputIterator f, InputIterator l,
-                         size_type n = <em>实现定义</em>,
+                         size_type n = _实现定义_,
                          const hasher& hf = hasher(),
                          const key_equal& eql = key_equal(),
                          const allocator_type& a = allocator_type());
@@ -72,7 +72,7 @@ namespace unordered {
     link:#unordered_flat_set_copy_constructor_with_allocator[unordered_flat_set](const unordered_flat_set& other, const Allocator& a);
     link:#unordered_flat_set_move_constructor_from_concurrent_flat_set[unordered_flat_set](concurrent_flat_set<Key, Hash, Pred, Allocator>&& other);
     link:#unordered_flat_set_initializer_list_constructor[unordered_flat_set](std::initializer_list<value_type> il,
-                       size_type n = <em>实现定义</em>
+                       size_type n = _实现定义_
                        const hasher& hf = hasher(),
                        const key_equal& eql = key_equal(),
                        const allocator_type& a = allocator_type());
@@ -122,8 +122,8 @@ namespace unordered {
     template<class InputIterator> void link:#unordered_flat_set_insert_iterator_range[insert](InputIterator first, InputIterator last);
     void link:#unordered_flat_set_insert_initializer_list[insert](std::initializer_list<value_type>);
 
-    <em>可转换为迭代器</em>     link:#unordered_flat_set_erase_by_position[erase](iterator position);
-    <em>可转换为迭代器</em>     link:#unordered_flat_set_erase_by_position[erase](const_iterator position);
+    _可转换为迭代器_     link:#unordered_flat_set_erase_by_position[erase](iterator position);
+    _可转换为迭代器_     link:#unordered_flat_set_erase_by_position[erase](const_iterator position);
     size_type                   link:#unordered_flat_set_erase_by_key[erase](const key_type& k);
     template<class K> size_type link:#unordered_flat_set_erase_by_key[erase](K&& k);
     iterator  link:#unordered_flat_set_erase_range[erase](const_iterator first, const_iterator last);
@@ -180,39 +180,39 @@ namespace unordered {
 
   // 推导指引
   template<class InputIterator,
-           class Hash = boost::hash<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>,
-           class Pred = std::equal_to<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>,
-           class Allocator = std::allocator<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>>
-    unordered_flat_set(InputIterator, InputIterator, typename link:#unordered_flat_set_deduction_guides[see below]::size_type = link:#unordered_flat_set_deduction_guides[见下文],
+           class Hash = boost::hash<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+           class Pred = std::equal_to<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+           class Allocator = std::allocator<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>>
+    unordered_flat_set(InputIterator, InputIterator, typename link:#unordered_flat_set_deduction_guides[_see below_]::size_type = link:#unordered_flat_set_deduction_guides[_见下文_],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>, Hash, Pred, Allocator>;
+      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>, Hash, Pred, Allocator>;
 
   template<class T, class Hash = boost::hash<T>, class Pred = std::equal_to<T>,
            class Allocator = std::allocator<T>>
-    unordered_flat_set(std::initializer_list<T>, typename link:#unordered_flat_set_deduction_guides[见下文]::size_type = link:#unordered_flat_set_deduction_guides[见下文],
+    unordered_flat_set(std::initializer_list<T>, typename link:#unordered_flat_set_deduction_guides[_见下文_]::size_type = link:#unordered_flat_set_deduction_guides[_见下文_],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
       -> unordered_flat_set<T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    unordered_flat_set(InputIterator, InputIterator, typename link:#unordered_flat_set_deduction_guides[见下文]::size_type, Allocator)
-      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>,
-                            boost::hash<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>,
-                            std::equal_to<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+    unordered_flat_set(InputIterator, InputIterator, typename link:#unordered_flat_set_deduction_guides[_见下文_]::size_type, Allocator)
+      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>,
+                            boost::hash<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+                            std::equal_to<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     unordered_flat_set(InputIterator, InputIterator, Allocator)
-      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>,
-                            boost::hash<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>,
-                            std::equal_to<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>,
+                            boost::hash<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>,
+                            std::equal_to<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    unordered_flat_set(InputIterator, InputIterator, typename link:#unordered_flat_set_deduction_guides[见下文]::size_type, Hash,
+    unordered_flat_set(InputIterator, InputIterator, typename link:#unordered_flat_set_deduction_guides[_见下文_]::size_type, Hash,
                        Allocator)
-      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>, Hash,
-                            std::equal_to<link:#unordered_flat_set_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
+      -> unordered_flat_set<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>, Hash,
+                            std::equal_to<link:#unordered_flat_set_iter_value_type[_迭代器值类型_]<InputIterator>>, Allocator>;
 
   template<class T, class Allocator>
-    unordered_flat_set(std::initializer_list<T>, typename link:#unordered_flat_set_deduction_guides[见下文]::size_type, Allocator)
+    unordered_flat_set(std::initializer_list<T>, typename link:#unordered_flat_set_deduction_guides[_见下文_]::size_type, Allocator)
       -> unordered_flat_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
   template<class T, class Allocator>
@@ -220,7 +220,7 @@ namespace unordered {
       -> unordered_flat_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
   template<class T, class Hash, class Allocator>
-    unordered_flat_set(std::initializer_list<T>, typename link:#unordered_flat_set_deduction_guides[见下文]::size_type, Hash, Allocator)
+    unordered_flat_set(std::initializer_list<T>, typename link:#unordered_flat_set_deduction_guides[_见下文_]::size_type, Hash, Allocator)
       -> unordered_flat_set<T, Hash, std::equal_to<T>, Allocator>;
 
 } // namespace unordered

@@ -2,38 +2,27 @@
 
 [[content]]
 [[concurrent_node_set]]
-=== 类模板 concurrent++_++node++_++set
+=== 类模板 concurrent_node_set
 
-`boost::concurrent++_++node++_++set` ——
-一种基于节点的哈希表，用于存储唯一值，并允许在无外部同步机制的情况下并发执行元素插入、擦除、查找和访问操作。
+`boost::concurrent_node_set` —— 一种基于节点的哈希表，用于存储唯一值，并允许在无外部同步机制的情况下并发执行元素插入、擦除、查找和访问操作。
 
-尽管 `boost::concurrent++_++node++_++set`
-的行为类似于容器，但它并不符合标准 C{plus}{plus}
- https://en.cppreference.com/w/cpp/named_req/Container[容器]
-概念。具体而言，它不提供迭代器及相关操作（如 `begin`、`end`
-等）。元素的访问通过用户提供的 _访问函数_ 实现，这些函数被传递至
-`concurrent++_++node++_++set`
-的内部操作，并以受控方式执行。这种基于访问的 API
-设计支持低竞争度的并发使用场景。
+尽管 `boost::concurrent_node_set` 的行为类似于容器，但它并不符合标准 C{plus}{plus} https://en.cppreference.com/w/cpp/named_req/Container[容器] 概念。具体而言，它不提供迭代器及相关操作（如 `begin`、`end` 等）。元素的访问通过用户提供的 _访问函数_ 实现，这些函数被传递至 `concurrent_node_set` 的内部操作，并以受控方式执行。这种基于访问的 API 设计支持低竞争度的并发使用场景。
 
-`boost::concurrent++_++node++_++set` 的内部数据结构与
-`boost::unordered++_++node++_++set` 类似。与
-`boost::concurrent++_++flat++_++set`
-不同，它提供了指针稳定性和节点处理功能，但可能以性能降低为代价。
+`boost::concurrent_node_set` 的内部数据结构与 `boost::unordered_node_set` 类似。与 `boost::concurrent_flat_set` 不同，它提供了指针稳定性和节点处理功能，但可能以性能降低为代价。
 
 [[concurrent_node_set_synopsis]]
 ==== 概要
 
-....
-// #include <boost/unordered/concurrent_node_set.hpp>
+[listing,subs="+macros,+quotes"]
+----
+// #include link:reference/header_concurrent_node_set_zh_Hans.adoc[`<boost/unordered/concurrent_node_set.hpp>`]
 
 namespace boost {
 namespace unordered {
 
-  template<class Key,
-           class Hash = boost::hash<Key>,
-           class Pred = std::equal_to<Key>,
-           class Allocator = std::allocator<Key>>
+  template<class class="" hash="boost::hash&lt;Key" key,="">,
+           class Pred = std::equal_to<key>,
+           class Allocator = std::allocator<key>&gt;
   class concurrent_node_set {
   public:
     // 类型
@@ -43,258 +32,257 @@ namespace unordered {
     using hasher               = Hash;
     using key_equal            = Pred;
     using allocator_type       = Allocator;
-    using pointer              = typename std::allocator_traits<Allocator>::pointer;
-    using const_pointer        = typename std::allocator_traits<Allocator>::const_pointer;
-    using reference            = value_type&;
-    using const_reference      = const value_type&;
+    using pointer              = typename std::allocator_traits<allocator>::pointer;
+    using const_pointer        = typename std::allocator_traits<allocator>::const_pointer;
+    using reference            = value_type&amp;;
+    using const_reference      = const value_type&amp;;
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using node_type            = 实现定义;
-    using insert_return_type   = 实现定义;
+    using node_type            = <em>实现定义</em>;
+    using insert_return_type   = <em>实现定义</em>;
 
-    using stats                = 统计类型; // 若统计功能已启用
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 若统计功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]
 
     // 常量
-    static constexpr size_type bulk_visit_size = 实现定义;
+    static constexpr size_type link:#concurrent_node_set_constants[bulk_visit_size] = <em>实现定义</em>;
 
     // 构造/复制/销毁
-    concurrent_node_set();
-    explicit concurrent_node_set(size_type n,
-                                 const hasher& hf = hasher(),
-                                 const key_equal& eql = key_equal(),
-                                 const allocator_type& a = allocator_type());
-    template<class InputIterator>
-      concurrent_node_set(InputIterator f, InputIterator l,
-                          size_type n = 实现定义,
-                          const hasher& hf = hasher(),
-                          const key_equal& eql = key_equal(),
-                          const allocator_type& a = allocator_type());
-    concurrent_node_set(const concurrent_node_set& other);
-    concurrent_node_set(concurrent_node_set&& other);
-    template<class InputIterator>
-      concurrent_node_set(InputIterator f, InputIterator l,const allocator_type& a);
-    explicit concurrent_node_set(const Allocator& a);
-    concurrent_node_set(const concurrent_node_set& other, const Allocator& a);
-    concurrent_node_set(concurrent_node_set&& other, const Allocator& a);
-    concurrent_node_set(unordered_node_set<Key, Hash, Pred, Allocator>&& other);
-    concurrent_node_set(std::initializer_list<value_type> il,
-                        size_type n = 实现定义
-                        const hasher& hf = hasher(),
-                        const key_equal& eql = key_equal(),
-                        const allocator_type& a = allocator_type());
-    concurrent_node_set(size_type n, const allocator_type& a);
-    concurrent_node_set(size_type n, const hasher& hf, const allocator_type& a);
-    template<class InputIterator>
-      concurrent_node_set(InputIterator f, InputIterator l, size_type n,
-                          const allocator_type& a);
-    template<class InputIterator>
-      concurrent_node_set(InputIterator f, InputIterator l, size_type n, const hasher& hf,
-                          const allocator_type& a);
-    concurrent_node_set(std::initializer_list<value_type> il, const allocator_type& a);
-    concurrent_node_set(std::initializer_list<value_type> il, size_type n,
-                        const allocator_type& a);
-    concurrent_node_set(std::initializer_list<value_type> il, size_type n, const hasher& hf,
-                        const allocator_type& a);
-    ~concurrent_node_set();
-    concurrent_node_set& operator=(const concurrent_node_set& other);
-    concurrent_node_set& operator=(concurrent_node_set&& other)
-      noexcept(boost::allocator_traits<Allocator>::is_always_equal::value ||
-              boost::allocator_traits<Allocator>::propagate_on_container_move_assignment::value);
-    concurrent_node_set& operator=(std::initializer_list<value_type>);
-    allocator_type get_allocator() const noexcept;
+    link:#concurrent_node_set_default_constructor[concurrent_node_set]();
+    explicit link:#concurrent_node_set_bucket_count_constructor[concurrent_node_set](size_type n,
+                                 const hasher&amp; hf = hasher(),
+                                 const key_equal&amp; eql = key_equal(),
+                                 const allocator_type&amp; a = allocator_type());
+    template<class inputiterator="">
+link:#concurrent_node_set_iterator_range_constructor[concurrent_node_set](InputIterator f, InputIterator l,
+                          size_type n = <em>实现定义</em>,
+                          const hasher&amp; hf = hasher(),
+                          const key_equal&amp; eql = key_equal(),
+                          const allocator_type&amp; a = allocator_type());
+    link:#concurrent_node_set_copy_constructor[concurrent_node_set](const concurrent_node_set&amp; other);
+    link:#concurrent_node_set_move_constructor[concurrent_node_set](concurrent_node_set&amp;&amp; other);
+    template<class inputiterator="">
+link:#concurrent_node_set_iterator_range_constructor_with_allocator[concurrent_node_set](InputIterator f, InputIterator l,const allocator_type&amp; a);
+    explicit link:#concurrent_node_set_allocator_constructor[concurrent_node_set](const Allocator&amp; a);
+    link:#concurrent_node_set_copy_constructor_with_allocator[concurrent_node_set](const concurrent_node_set&amp; other, const Allocator&amp; a);
+    link:#concurrent_node_set_move_constructor_with_allocator[concurrent_node_set](concurrent_node_set&amp;&amp; other, const Allocator&amp; a);
+    link:#concurrent_node_set_move_constructor_from_unordered_node_set[concurrent_node_set](unordered_node_set<key, allocator="" hash,="" pred,="">&amp;&amp; other);
+    link:#concurrent_node_set_initializer_list_constructor[concurrent_node_set](std::initializer_list<value_type> il,
+                        size_type n = <em>实现定义</em>
+                        const hasher&amp; hf = hasher(),
+                        const key_equal&amp; eql = key_equal(),
+                        const allocator_type&amp; a = allocator_type());
+    link:#concurrent_node_set_bucket_count_constructor_with_allocator[concurrent_node_set](size_type n, const allocator_type&amp; a);
+    link:#concurrent_node_set_bucket_count_constructor_with_hasher_and_allocator[concurrent_node_set](size_type n, const hasher&amp; hf, const allocator_type&amp; a);
+    template<class inputiterator="">
+link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_allocator[concurrent_node_set](InputIterator f, InputIterator l, size_type n,
+                          const allocator_type&amp; a);
+    template<class inputiterator="">
+link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hasher[concurrent_node_set](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
+                          const allocator_type&amp; a);
+    link:#concurrent_node_set_initializer_list_constructor_with_allocator[concurrent_node_set](std::initializer_list<value_type> il, const allocator_type&amp; a);
+    link:#concurrent_node_set_initializer_list_constructor_with_bucket_count_and_allocator[concurrent_node_set](std::initializer_list<value_type> il, size_type n,
+                        const allocator_type&amp; a);
+    link:#concurrent_node_set_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[concurrent_node_set](std::initializer_list<value_type> il, size_type n, const hasher&amp; hf,
+                        const allocator_type&amp; a);
+    link:#concurrent_node_set_destructor[~concurrent_node_set]();
+    concurrent_node_set&amp; link:#concurrent_node_set_copy_assignment[operator=](const concurrent_node_set&amp; other);
+    concurrent_node_set&amp; link:#concurrent_node_set_move_assignment[operator=](concurrent_node_set&amp;&amp; other)
+      noexcept(boost::allocator_traits<allocator>::is_always_equal::value ||
+              boost::allocator_traits<allocator>::propagate_on_container_move_assignment::value);
+    concurrent_node_set&amp; link:#concurrent_node_set_initializer_list_assignment[operator=](std::initializer_list<value_type>);
+    allocator_type link:#concurrent_node_set_get_allocator[get_allocator]() const noexcept;
 
 
     // 访问
-    template<class F> size_t visit(const key_type& k, F f);
-    template<class F> size_t visit(const key_type& k, F f) const;
-    template<class F> size_t cvisit(const key_type& k, F f) const;
-    template<class K, class F> size_t visit(const K& k, F f);
-    template<class K, class F> size_t visit(const K& k, F f) const;
-    template<class K, class F> size_t cvisit(const K& k, F f) const;
+    template<class f=""> size_t link:#concurrent_node_set_cvisit[visit](const key_type&amp; k, F f);
+    template<class f=""> size_t link:#concurrent_node_set_cvisit[visit](const key_type&amp; k, F f) const;
+    template<class f=""> size_t link:#concurrent_node_set_cvisit[cvisit](const key_type&amp; k, F f) const;
+    template<class class="" f="" k,=""> size_t link:#concurrent_node_set_cvisit[visit](const K&amp; k, F f);
+    template<class class="" f="" k,=""> size_t link:#concurrent_node_set_cvisit[visit](const K&amp; k, F f) const;
+    template<class class="" f="" k,=""> size_t link:#concurrent_node_set_cvisit[cvisit](const K&amp; k, F f) const;
 
-    template<class FwdIterator, class F>
-      size_t visit(FwdIterator first, FwdIterator last, F f);
-    template<class FwdIterator, class F>
-      size_t visit(FwdIterator first, FwdIterator last, F f) const;
-    template<class FwdIterator, class F>
-      size_t cvisit(FwdIterator first, FwdIterator last, F f) const;
+    template<class class="" f="" fwditerator,="">
+      size_t link:#concurrent_node_set_bulk_visit[visit](FwdIterator first, FwdIterator last, F f);
+    template<class class="" f="" fwditerator,="">
+      size_t link:#concurrent_node_set_bulk_visit[visit](FwdIterator first, FwdIterator last, F f) const;
+    template<class class="" f="" fwditerator,="">
+      size_t link:#concurrent_node_set_bulk_visit[cvisit](FwdIterator first, FwdIterator last, F f) const;
 
-    template<class F> size_t visit_all(F f);
-    template<class F> size_t visit_all(F f) const;
-    template<class F> size_t cvisit_all(F f) const;
-    template<class ExecutionPolicy, class F>
-      void visit_all(ExecutionPolicy&& policy, F f);
-    template<class ExecutionPolicy, class F>
-      void visit_all(ExecutionPolicy&& policy, F f) const;
-    template<class ExecutionPolicy, class F>
-      void cvisit_all(ExecutionPolicy&& policy, F f) const;
+    template<class f=""> size_t link:#concurrent_node_set_cvisit_all[visit_all](F f);
+    template<class f=""> size_t link:#concurrent_node_set_cvisit_all[visit_all](F f) const;
+    template<class f=""> size_t link:#concurrent_node_set_cvisit_all[cvisit_all](F f) const;
+    template<class class="" executionpolicy,="" f="">
+      void link:#concurrent_node_set_parallel_cvisit_all[visit_all](ExecutionPolicy&amp;&amp; policy, F f);
+    template<class class="" executionpolicy,="" f="">
+      void link:#concurrent_node_set_parallel_cvisit_all[visit_all](ExecutionPolicy&amp;&amp; policy, F f) const;
+    template<class class="" executionpolicy,="" f="">
+      void link:#concurrent_node_set_parallel_cvisit_all[cvisit_all](ExecutionPolicy&amp;&amp; policy, F f) const;
 
-    template<class F> bool visit_while(F f);
-    template<class F> bool visit_while(F f) const;
-    template<class F> bool cvisit_while(F f) const;
-    template<class ExecutionPolicy, class F>
-      bool visit_while(ExecutionPolicy&& policy, F f);
-    template<class ExecutionPolicy, class F>
-      bool visit_while(ExecutionPolicy&& policy, F f) const;
-    template<class ExecutionPolicy, class F>
-      bool cvisit_while(ExecutionPolicy&& policy, F f) const;
+    template<class f=""> bool link:#concurrent_node_set_cvisit_while[visit_while](F f);
+    template<class f=""> bool link:#concurrent_node_set_cvisit_while[visit_while](F f) const;
+    template<class f=""> bool link:#concurrent_node_set_cvisit_while[cvisit_while](F f) const;
+    template<class class="" executionpolicy,="" f="">
+      bool link:#concurrent_node_set_parallel_cvisit_while[visit_while](ExecutionPolicy&amp;&amp; policy, F f);
+    template<class class="" executionpolicy,="" f="">
+      bool link:#concurrent_node_set_parallel_cvisit_while[visit_while](ExecutionPolicy&amp;&amp; policy, F f) const;
+    template<class class="" executionpolicy,="" f="">
+      bool link:#concurrent_node_set_parallel_cvisit_while[cvisit_while](ExecutionPolicy&amp;&amp; policy, F f) const;
 
     // 容量
-    [[nodiscard]] bool empty() const noexcept;
-    size_type size() const noexcept;
-    size_type max_size() const noexcept;
+    [[nodiscard]] bool link:#concurrent_node_set_empty[empty]() const noexcept;
+    size_type link:#concurrent_node_set_size[size]() const noexcept;
+    size_type link:#concurrent_node_set_max_size[max_size]() const noexcept;
 
     // 修改器
-    template<class... Args> bool emplace(Args&&... args);
-    bool insert(const value_type& obj);
-    bool insert(value_type&& obj);
-    template<class K> bool insert(K&& k);
-    template<class InputIterator> size_type insert(InputIterator first, InputIterator last);
-    size_type insert(std::initializer_list<value_type> il);
-    insert_return_type insert(node_type&& nh);
+    template<class... args=""> bool link:#concurrent_node_set_emplace[emplace](Args&amp;&amp;... args);
+    bool link:#concurrent_node_set_copy_insert[insert](const value_type&amp; obj);
+    bool link:#concurrent_node_set_move_insert[insert](value_type&amp;&amp; obj);
+    template<class k=""> bool link:#concurrent_node_set_transparent_insert[insert](K&amp;&amp; k);
+    template<class inputiterator=""> size_type link:#concurrent_node_set_insert_iterator_range[insert](InputIterator first, InputIterator last);
+    size_type link:#concurrent_node_set_insert_initializer_list[insert](std::initializer_list<value_type> il);
+    insert_return_type link:#concurrent_node_set_insert_node[insert](node_type&amp;&amp; nh);
 
-    template<class... Args, class F> bool emplace_or_visit(Args&&... args, F&& f);
-    template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
-    template<class F> bool insert_or_visit(const value_type& obj, F f);
-    template<class F> bool insert_or_cvisit(const value_type& obj, F f);
-    template<class F> bool insert_or_visit(value_type&& obj, F f);
-    template<class F> bool insert_or_cvisit(value_type&& obj, F f);
-    template<class K, class F> bool insert_or_visit(K&& k, F f);
-    template<class K, class F> bool insert_or_cvisit(K&& k, F f);
-    template<class InputIterator,class F>
-      size_type insert_or_visit(InputIterator first, InputIterator last, F f);
-    template<class InputIterator,class F>
-      size_type insert_or_cvisit(InputIterator first, InputIterator last, F f);
-    template<class F> size_type insert_or_visit(std::initializer_list<value_type> il, F f);
-    template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> il, F f);
-    template<class F> insert_return_type insert_or_visit(node_type&& nh, F f);
-    template<class F> insert_return_type insert_or_cvisit(node_type&& nh, F f);
+    template<class... args,="" class="" f=""> bool link:#concurrent_node_set_emplace_or_cvisit[emplace_or_visit](Args&amp;&amp;... args, F&amp;&amp; f);
+    template<class... args,="" class="" f=""> bool link:#concurrent_node_set_emplace_or_cvisit[emplace_or_cvisit](Args&amp;&amp;... args, F&amp;&amp; f);
+    template<class f=""> bool link:#concurrent_node_set_copy_insert_or_cvisit[insert_or_visit](const value_type&amp; obj, F f);
+    template<class f=""> bool link:#concurrent_node_set_copy_insert_or_cvisit[insert_or_cvisit](const value_type&amp; obj, F f);
+    template<class f=""> bool link:#concurrent_node_set_move_insert_or_cvisit[insert_or_visit](value_type&amp;&amp; obj, F f);
+    template<class f=""> bool link:#concurrent_node_set_move_insert_or_cvisit[insert_or_cvisit](value_type&amp;&amp; obj, F f);
+    template<class class="" f="" k,=""> bool link:#concurrent_node_set_transparent_insert_or_cvisit[insert_or_visit](K&amp;&amp; k, F f);
+    template<class class="" f="" k,=""> bool link:#concurrent_node_set_transparent_insert_or_cvisit[insert_or_cvisit](K&amp;&amp; k, F f);
+    template<class f="" inputiterator,class="">
+      size_type link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_visit](InputIterator first, InputIterator last, F f);
+    template<class f="" inputiterator,class="">
+      size_type link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_cvisit](InputIterator first, InputIterator last, F f);
+    template<class f=""> size_type link:#concurrent_node_set_insert_initializer_list_or_visit[insert_or_visit](std::initializer_list<value_type> il, F f);
+    template<class f=""> size_type link:#concurrent_node_set_insert_initializer_list_or_visit[insert_or_cvisit](std::initializer_list<value_type> il, F f);
+    template<class f=""> insert_return_type link:#concurrent_node_set_insert_node_or_visit[insert_or_visit](node_type&amp;&amp; nh, F f);
+    template<class f=""> insert_return_type link:#concurrent_node_set_insert_node_or_visit[insert_or_cvisit](node_type&amp;&amp; nh, F f);
 
-    template<class... Args, class F1, class F2>
-      bool emplace_and_visit(Args&&... args, F1&& f1, F2&& f2);
-    template<class... Args, class F1, class F2>
-      bool emplace_and_cvisit(Args&&... args, F1&& f1, F2&& f2);
-    template<class F1, class F2> bool insert_and_visit(const value_type& obj, F1 f1, F2 f2);
-    template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1, F2 f2);
-    template<class F1, class F2> bool insert_and_visit(value_type&& obj, F1 f1, F2 f2);
-    template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 f2);
-    template<class K, class F1, class F2> bool insert_and_visit(K&& k, F1 f1, F2 f2);
-    template<class K, class F1, class F2> bool insert_and_cvisit(K&& k, F1 f1, F2 f2);
-    template<class InputIterator,class F1, class F2>
-      size_type insert_and_visit(InputIterator first, InputIterator last, F1 f1, F2 f2);
-    template<class InputIterator,class F1, class F2>
-      size_type insert_and_cvisit(InputIterator first, InputIterator last, F1 f1, F2 f2);
-    template<class F1, class F2>
-      size_type insert_and_visit(std::initializer_list<value_type> il, F1 f1, F2 f2);
-    template<class F1, class F2>
-      size_type insert_and_cvisit(std::initializer_list<value_type> il, F1 f1, F2 f2);
-    template<class F1, class F2>
-      insert_return_type insert_and_visit(node_type&& nh, F1 f1, F2 f2);
-    template<class F1, class F2>
-      insert_return_type insert_and_cvisit(node_type&& nh, F1 f1, F2 f2);
+    template<class... args,="" class="" f1,="" f2="">
+      bool link:#concurrent_node_set_emplace_and_cvisit[emplace_and_visit](Args&amp;&amp;... args, F1&amp;&amp; f1, F2&amp;&amp; f2);
+    template<class... args,="" class="" f1,="" f2="">
+      bool link:#concurrent_node_set_emplace_and_cvisit[emplace_and_cvisit](Args&amp;&amp;... args, F1&amp;&amp; f1, F2&amp;&amp; f2);
+    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_copy_insert_and_cvisit[insert_and_visit](const value_type&amp; obj, F1 f1, F2 f2);
+    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_copy_insert_and_cvisit[insert_and_cvisit](const value_type&amp; obj, F1 f1, F2 f2);
+    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_move_insert_and_cvisit[insert_and_visit](value_type&amp;&amp; obj, F1 f1, F2 f2);
+    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_move_insert_and_cvisit[insert_and_cvisit](value_type&amp;&amp; obj, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="" k,=""> bool link:#concurrent_node_set_transparent_insert_and_cvisit[insert_and_visit](K&amp;&amp; k, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="" k,=""> bool link:#concurrent_node_set_transparent_insert_and_cvisit[insert_and_cvisit](K&amp;&amp; k, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="" inputiterator,class="">
+      size_type link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_visit](InputIterator first, InputIterator last, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="" inputiterator,class="">
+      size_type link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_cvisit](InputIterator first, InputIterator last, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="">
+      size_type link:#concurrent_node_set_insert_initializer_list_and_visit[insert_and_visit](std::initializer_list<value_type> il, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="">
+      size_type link:#concurrent_node_set_insert_initializer_list_and_visit[insert_and_cvisit](std::initializer_list<value_type> il, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="">
+      insert_return_type link:#concurrent_node_set_insert_node_and_visit[insert_and_visit](node_type&amp;&amp; nh, F1 f1, F2 f2);
+    template<class class="" f1,="" f2="">
+      insert_return_type link:#concurrent_node_set_insert_node_and_visit[insert_and_cvisit](node_type&amp;&amp; nh, F1 f1, F2 f2);
 
-    size_type erase(const key_type& k);
-    template<class K> size_type erase(const K& k);
+    size_type link:#concurrent_node_set_erase[erase](const key_type&amp; k);
+    template<class k=""> size_type link:#concurrent_node_set_erase[erase](const K&amp; k);
 
-    template<class F> size_type erase_if(const key_type& k, F f);
-    template<class K, class F> size_type erase_if(const K& k, F f);
-    template<class F> size_type erase_if(F f);
-    template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&& policy, F f);
+    template<class f=""> size_type link:#concurrent_node_set_erase_if_by_key[erase_if](const key_type&amp; k, F f);
+    template<class class="" f="" k,=""> size_type link:#concurrent_node_set_erase_if_by_key[erase_if](const K&amp; k, F f);
+    template<class f=""> size_type link:#concurrent_node_set_erase_if[erase_if](F f);
+    template<class class="" executionpolicy,="" f=""> void link:#concurrent_node_set_parallel_erase_if[erase_if](ExecutionPolicy&amp;&amp; policy, F f);
 
-    void      swap(concurrent_node_set& other)
-      noexcept(boost::allocator_traits<Allocator>::is_always_equal::value ||
-               boost::allocator_traits<Allocator>::propagate_on_container_swap::value);
+    void      link:#concurrent_node_set_swap[swap](concurrent_node_set&amp; other)
+      noexcept(boost::allocator_traits<allocator>::is_always_equal::value ||
+               boost::allocator_traits<allocator>::propagate_on_container_swap::value);
 
-    node_type extract(const key_type& k);
-    template<class K> node_type extract(const K& k);
+    node_type link:#concurrent_node_set_extract[extract](const key_type&amp; k);
+    template<class k=""> node_type link:#concurrent_node_set_extract[extract](const K&amp; k);
 
-    template<class F> node_type extract_if(const key_type& k, F f);
-    template<class K, class F> node_type extract_if(const K& k, F f);
+    template<class f=""> node_type link:#concurrent_node_set_extract_if[extract_if](const key_type&amp; k, F f);
+    template<class class="" f="" k,=""> node_type link:#concurrent_node_set_extract[extract_if](const K&amp; k, F f);
 
-    void      clear() noexcept;
+    void      link:#concurrent_node_set_clear[clear]() noexcept;
 
-    template<class H2, class P2>
-      size_type merge(concurrent_node_set<Key, H2, P2, Allocator>& source);
-    template<class H2, class P2>
-      size_type merge(concurrent_node_set<Key, H2, P2, Allocator>&& source);
+    template<class class="" h2,="" p2="">
+      size_type link:#concurrent_node_set_merge[merge](concurrent_node_set<key, allocator="" h2,="" p2,="">&amp; source);
+    template<class class="" h2,="" p2="">
+      size_type link:#concurrent_node_set_merge[merge](concurrent_node_set<key, allocator="" h2,="" p2,="">&amp;&amp; source);
 
     // 观察器
-    hasher hash_function() const;
-    key_equal key_eq() const;
+    hasher link:#concurrent_node_set_hash_function[hash_function]() const;
+    key_equal link:#concurrent_node_set_key_eq[key_eq]() const;
 
     // 集合操作
-    size_type        count(const key_type& k) const;
-    template<class K>
-      size_type      count(const K& k) const;
-    bool             contains(const key_type& k) const;
-    template<class K>
-      bool           contains(const K& k) const;
+    size_type        link:#concurrent_node_set_count[count](const key_type&amp; k) const;
+    template<class k="">
+      size_type      link:#concurrent_node_set_count[count](const K&amp; k) const;
+    bool             link:#concurrent_node_set_contains[contains](const key_type&amp; k) const;
+    template<class k="">
+      bool           link:#concurrent_node_set_contains[contains](const K&amp; k) const;
 
     // 桶接口
-    size_type bucket_count() const noexcept;
+    size_type link:#concurrent_node_set_bucket_count[bucket_count]() const noexcept;
 
     // 哈希策略
-    float load_factor() const noexcept;
-    float max_load_factor() const noexcept;
-    void max_load_factor(float z);
-    size_type max_load() const noexcept;
-    void rehash(size_type n);
-    void reserve(size_type n);
+    float link:#concurrent_node_set_load_factor[load_factor]() const noexcept;
+    float link:#concurrent_node_set_max_load_factor[max_load_factor]() const noexcept;
+    void link:#concurrent_node_set_set_max_load_factor[max_load_factor](float z);
+    size_type link:#concurrent_node_set_max_load[max_load]() const noexcept;
+    void link:#concurrent_node_set_rehash[rehash](size_type n);
+    void link:#concurrent_node_set_reserve[reserve](size_type n);
 
-    // 统计（若已启用）
-    stats get_stats() const;
-    void reset_stats() noexcept;
+    // 统计（若link:#concurrent_node_set_boost_unordered_enable_stats[已启用]）
+    stats link:#concurrent_node_set_get_stats[get_stats]() const;
+    void link:#concurrent_node_set_reset_stats[reset_stats]() noexcept;
   };
 
   // 推导指引
-  template<class InputIterator,
-           class Hash = boost::hash<迭代器值类型<InputIterator>>,
-           class Pred = std::equal_to<迭代器值类型<InputIterator>>,
-           class Allocator = std::allocator<迭代器值类型<InputIterator>>>
-    concurrent_node_set(InputIterator, InputIterator, typename 见下文::size_type = 见下文,
+  template<class class="" hash="boost::hash&lt;&lt;a" href="#concurrent_node_set_iter_value_type" inputiterator,=""><em>迭代器值类型</em><inputiterator>&gt;,
+           class Pred = std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;,
+           class Allocator = std::allocator&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;&gt;
+    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> concurrent_node_set<迭代器值类型<InputIterator>, Hash, Pred, Allocator>;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>, Hash, Pred, Allocator&gt;;
 
-  template<class T, class Hash = boost::hash<T>, class Pred = std::equal_to<T>,
-           class Allocator = std::allocator<T>>
-    concurrent_node_set(std::initializer_list<T>, typename 见下文::size_type = 见下文,
+  template<class class="" hash="boost::hash&lt;T" t,="">, class Pred = std::equal_to<t>,
+           class Allocator = std::allocator<t>&gt;
+    concurrent_node_set(std::initializer_list<t>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> concurrent_node_set<T, Hash, Pred, Allocator>;
+      -&gt; concurrent_node_set<t, allocator="" hash,="" pred,="">;
 
-  template<class InputIterator, class Allocator>
-    concurrent_node_set(InputIterator, InputIterator, typename 见下文::size_type, Allocator)
-      -> concurrent_node_set<迭代器值类型<InputIterator>,
-                             boost::hash<迭代器值类型<InputIterator>>,
-                             std::equal_to<迭代器值类型<InputIterator>>, Allocator>;
+  template<class allocator="" class="" inputiterator,="">
+    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>,
+                             boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;,
+                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
 
-  template<class InputIterator, class Allocator>
+  template<class allocator="" class="" inputiterator,="">
     concurrent_node_set(InputIterator, InputIterator, Allocator)
-      -> concurrent_node_set<迭代器值类型<InputIterator>,
-                             boost::hash<迭代器值类型<InputIterator>>,
-                             std::equal_to<迭代器值类型<InputIterator>>, Allocator>;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>,
+                             boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;,
+                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
 
-  template<class InputIterator, class Hash, class Allocator>
-    concurrent_node_set(InputIterator, InputIterator, typename 见下文::size_type, Hash,
+  template<class allocator="" class="" hash,="" inputiterator,="">
+    concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash,
                         Allocator)
-      -> concurrent_node_set<迭代器值类型<InputIterator>, Hash,
-                             std::equal_to<迭代器值类型<InputIterator>>, Allocator>;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>, Hash,
+                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
 
-  template<class T, class Allocator>
-    concurrent_node_set(std::initializer_list<T>, typename 见下文::size_type, Allocator)
-      -> concurrent_node_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
+  template<class allocator="" class="" t,="">
+    concurrent_node_set(std::initializer_list<t>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
+      -&gt; concurrent_node_set<t, boost::hash<t="">, std::equal_to<t>, Allocator&gt;;
 
-  template<class T, class Allocator>
-    concurrent_node_set(std::initializer_list<T>, Allocator)
-      -> concurrent_node_set<T, boost::hash<T>, std::equal_to<T>, Allocator>;
+  template<class allocator="" class="" t,="">
+    concurrent_node_set(std::initializer_list<t>, Allocator)
+      -&gt; concurrent_node_set<t, boost::hash<t="">, std::equal_to<t>, Allocator&gt;;
 
-  template<class T, class Hash, class Allocator>
-    concurrent_node_set(std::initializer_list<T>, typename 见下文::size_type, Hash, Allocator)
-      -> concurrent_node_set<T, Hash, std::equal_to<T>, Allocator>;
+  template<class allocator="" class="" hash,="" t,="">
+    concurrent_node_set(std::initializer_list<t>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash, Allocator)
+      -&gt; concurrent_node_set<t, hash,="" std::equal_to<t="">, Allocator&gt;;
 
 } // namespace unordered
-} // namespace boost
-....
+} // namespace boost</t,></t></class></t></t,></t></class></t></t,></t></class></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></class></t,></t></t></t></class></inputiterator></inputiterator></inputiterator></inputiterator></class></class></class></key,></class></key,></class></class></class></class></allocator></allocator></class></class></class></class></class></class></class></value_type></class></value_type></class></class></class></class></class></class></class></class></class></class...></class...></class></class></value_type></class></value_type></class></class></class></class></class></class></class></class></class></class...></class...></value_type></class></class></class...></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></value_type></allocator></allocator></value_type></value_type></value_type></class></class></value_type></key,></class></class></allocator></allocator></key></key></class>
+----
 
 '''''
 
@@ -305,84 +293,51 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key` 必须满足
- https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
-到容器中的要求，且需满足从容器中
- https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
-
-|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
-的参数，并返回一个 `std::size++_++t` 类型的值。
-
-|_谓词_ |二元函数对象，用于在 `Key`
-类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool`
-类型的值。
-
-|_分配器_
-|一种分配器，其值类型与容器的值类型相同。`std::allocator++_++traits++<++Allocator++>++::pointer`
-和 `std::allocator++_++traits++<++Allocator++>++::const++_++pointer`
-必须可分别转换为 `value++_++type++*++` 和
-`const value++_++type++*++`，且可从这些类型转换而来。
+|_键_ |`Key` 必须满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 到容器中的要求，且需满足从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求。
+|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个 `std::size_t` 类型的值。
+|_谓词_ |二元函数对象，用于在 `Key` 类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool` 类型的值。
+|_分配器_ |一种分配器，其值类型与容器的值类型相同。`std::allocator_traits<Allocator>::pointer` 和 `std::allocator_traits<Allocator>::const_pointer` 必须可分别转换为 `value_type*` 和 `const value_type*`，且可从这些类型转换而来。
 |===
 
 容器的元素节点存储在内部的__桶数组__中。节点根据其元素的哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则会使用原始位置附近可用的桶。
 
-桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
-`rehash`/`reserve`
-进行调整。容器的__负载因子__（元素数量与桶数量的比值）永远不会超过
-`max++_++load++_++factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
+桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用 `rehash`/`reserve` 进行调整。容器的__负载因子__（元素数量与桶数量的比值）永远不会超过 `max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
-若
-link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`]`++<++Hash++>++::value`
-为
-`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
+若 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value` 为 `true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
 [[concurrent_node_set_concurrency_requirements_and_guarantees]]
 ==== 并发要求与保证
 
-要求对同一 `Hash` 或 `Pred` 常量实例并发调用 `operator()`
-时不得引入数据竞争。对于 `Alloc`（即 `Allocator`
-或其重绑定后的任意分配器类型），在同一实例 `al`
-上并发调用以下操作时不得引入数据竞争：
+要求对同一 `Hash` 或 `Pred` 常量实例并发调用 `operator()` 时不得引入数据竞争。对于 `Alloc`（即 `Allocator` 或其重绑定后的任意分配器类型），在同一实例 `al` 上并发调用以下操作时不得引入数据竞争：
 
 * 从 `al` 复制构造重新绑定的分配器
-* `std::allocator++_++traits++<++Alloc++>++::allocate`
-* `std::allocator++_++traits++<++Alloc++>++::deallocate`
-* `std::allocator++_++traits++<++Alloc++>++::construct`
-* `std::allocator++_++traits++<++Alloc++>++::destroy`
+* `std::allocator_traits<Alloc>::allocate`
+* `std::allocator_traits<Alloc>::deallocate`
+* `std::allocator_traits<Alloc>::construct`
+* `std::allocator_traits<Alloc>::destroy`
 
-通常而言，若 `Hash`、`Pred` 和 `Allocator`
-这些类型不包含状态，或其操作仅涉及对内部数据成员的常量访问，即可满足上述要求。
+通常而言，若 `Hash`、`Pred` 和 `Allocator` 这些类型不包含状态，或其操作仅涉及对内部数据成员的常量访问，即可满足上述要求。
 
-除析构操作外，对同一 `concurrent++_++node++_++set`
-实例并发调用任何操作均不会引入数据竞争——即这些操作是线程安全的。
+除析构操作外，对同一 `concurrent_node_set` 实例并发调用任何操作均不会引入数据竞争——即这些操作是线程安全的。
 
-若某个操作 *op* 被显式指定为__阻塞于__ `x`（其中 `x` 为
-`boost::concurrent++_++node++_++set` 实例），则先前对 `x` 的阻塞操作将与
-*op* 同步。因此，在多线程场景中，对同一 `concurrent++_++node++_++set`
-的阻塞操作将按顺序执行。
+若某个操作 *op* 被显式指定为__阻塞于__ `x`（其中 `x` 为 `boost::concurrent_node_set` 实例），则先前对 `x` 的阻塞操作将与 *op* 同步。因此，在多线程场景中，对同一 `concurrent_node_set` 的阻塞操作将按顺序执行。
 
-若某个操作仅在触发内部重哈希时才会阻塞于 _`x`_，则称该操作__阻塞于 _`x`_
-的重哈希过程__。
+若某个操作仅在触发内部重哈希时才会阻塞于 _`x`_，则称该操作__阻塞于 _`x`_ 的重哈希过程__。
 
-当由 `boost::concurrent++_++node++_++set`
-内部执行时，用户提供的访问函数对传递的元素执行以下操作不会引入数据竞争：
+当由 `boost::concurrent_node_set` 内部执行时，用户提供的访问函数对传递的元素执行以下操作不会引入数据竞争：
 
 * 对元素的读取访问。
 * 对元素的非可变修改。
 * 对元素的可变修改：
 +
 ** 在容器接受两个访问函数的操作中，此条件始终适用于第一个访问函数。
-** 在名称不包含 `cvisit`
-的非常量容器函数中，此条件适用于最后一个（或唯一一个）访问函数。
+** 在名称不包含 `cvisit` 的非常量容器函数中，此条件适用于最后一个（或唯一一个）访问函数。
 
-任何插入或修改元素 `e` 的 `boost::concurrent++_++node++_++set`
-操作均与在 `e` 上内部调用的访问函数同步。
+任何插入或修改元素 `e` 的 `boost::concurrent_node_set` 操作均与在 `e` 上内部调用的访问函数同步。
 
-由 `boost::concurrent++_++node++_++set` `x` 执行的访问函数不得调用 `x`
-上的任何操作；仅当对另一 `boost::concurrent++_++node++_++set` 实例 `y`
-的并发未完成操作不直接或间接访问 `x` 时，才允许调用 `y` 上的操作。
+由 `boost::concurrent_node_set` `x` 执行的访问函数不得调用 `x` 上的任何操作；仅当对另一 `boost::concurrent_node_set` 实例 `y` 的并发未完成操作不直接或间接访问 `x` 时，才允许调用 `y` 上的操作。
 
 '''''
 
@@ -390,21 +345,16 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 ==== 配置宏
 
 [[concurrent_node_set_boost_unordered_disable_reentrancy_check]]
-===== `BOOST++_++UNORDERED++_++DISABLE++_++REENTRANCY++_++CHECK`
+===== `BOOST_UNORDERED_DISABLE_REENTRANCY_CHECK`
 
-在调试版本中（更准确地说，当未定义
-link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST++_++ASSERT++_++IS++_++VOID`]
-时），系统会检测__容器重入__行为（即在访问 `m` 元素的函数内部非法调用
-`m` 上的操作），并通过 `BOOST++_++ASSERT++_++MSG`
-发出信号。若需关注运行时速度，可通过全局定义此宏来禁用该功能。
+在调试版本中（更准确地说，当未定义 link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST_ASSERT_IS_VOID`] 时），系统会检测__容器重入__行为（即在访问 `m` 元素的函数内部非法调用 `m` 上的操作），并通过 `BOOST_ASSERT_MSG` 发出信号。若需关注运行时速度，可通过全局定义此宏来禁用该功能。
 
 '''''
 
 [[concurrent_node_set_boost_unordered_enable_stats]]
-===== `BOOST++_++UNORDERED++_++ENABLE++_++STATS`
+===== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏以启用容器的 link:reference/stats_zh_Hans.adoc#stats[统计计算]
-功能。请注意，此选项会降低多数操作的总体性能。
+全局定义此宏以启用容器的 link:reference/stats_zh_Hans.adoc#stats[统计计算] 功能。请注意，此选项会降低多数操作的总体性能。
 
 '''''
 
@@ -416,8 +366,7 @@ link:../../../../../assert/doc/html/assert.html#boost_assert_is_void[`BOOST++_++
 typedef  实现定义  node_type;
 ----
 
-用于保存提取的表元素的类，建模为
- https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
+用于保存提取的表元素的类，建模为 https://en.cppreference.com/w/cpp/container/node_handle[NodeHandle]。
 
 '''''
 
@@ -438,7 +387,7 @@ struct insert_return_type // 名称仅用于说明
 };
 ----
 
-其中 `NodeType` = `node++_++type`。
+其中 `NodeType` = `node_type`。
 
 '''''
 
@@ -450,8 +399,7 @@ struct insert_return_type // 名称仅用于说明
 static constexpr size_type bulk_visit_size;
 ----
 
-在 link:#concurrent_node_set_bulk_visit[批量访问]
-操作中内部使用的数据块大小。
+在 link:#concurrent_node_set_bulk_visit[批量访问] 操作中内部使用的数据块大小。
 
 [[concurrent_node_set_constructors]]
 ==== 构造函数
@@ -464,17 +412,12 @@ static constexpr size_type bulk_visit_size;
 concurrent_node_set();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数，`key++_++equal()`
-作为键相等性谓词，`allocator++_++type()` 作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()` 作为键相等性谓词，`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -490,17 +433,12 @@ explicit concurrent_node_set(size_type n,
                              const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、`a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -518,16 +456,11 @@ template<class InputIterator>
                       const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、`a` 作为分配器，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -542,12 +475,11 @@ concurrent_node_set(concurrent_node_set const& other);
 
 复制构造函数。复制其所包含的元素、哈希函数、谓词及分配器。
 
-若 `Allocator::select++_++on++_++container++_++copy++_++construction`
-存在且签名正确，则将根据其结果来构造分配器。
+若 `Allocator::select_on_container_copy_construction` 存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须满足可复制构造要求
+|要求： |`value_type` 必须满足可复制构造要求
 |并发性： |阻塞于 `other`。
 |===
 
@@ -561,11 +493,7 @@ concurrent_node_set(concurrent_node_set const& other);
 concurrent_node_set(concurrent_node_set&& other);
 ----
 
-移动构造函数。`other`
-的内部桶数组直接转移至新容器。哈希函数、谓词及分配器均从 `other`
-移动构造。若统计功能以
-link:#concurrent_node_set_boost_unordered_enable_stats[启用]
-，则同时转移 `other` 的内部统计信息，并调用 `other.reset++_++stats()`。
+移动构造函数。`other` 的内部桶数组直接转移至新容器。哈希函数、谓词及分配器均从 `other` 移动构造。若统计功能以 link:#concurrent_node_set_boost_unordered_enable_stats[启用] ，则同时转移 `other` 的内部统计信息，并调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
@@ -583,15 +511,11 @@ template<class InputIterator>
   concurrent_node_set(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-构造一个空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 与 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 与 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -633,12 +557,7 @@ concurrent_node_set(concurrent_node_set const& other, Allocator const& a);
 concurrent_node_set(concurrent_node_set&& other, Allocator const& a);
 ----
 
-若 `a == other.get++_++allocator()`，则 `other`
-的元素直接转移至新容器；否则，元素从 `other` 移动构造。哈希函数和谓词从
-`other` 移动构造，分配器从 `a` 复制构造。若统计功能已
-link:#concurrent_node_set_boost_unordered_enable_stats[启用]
-，则当且仅当 `a == other.get++_++allocator()` 时，同时转移 `other`
-的内部统计信息，并始终调用 `other.reset++_++stats()`。
+若 `a == other.get_allocator()`，则 `other` 的元素直接转移至新容器；否则，元素从 `other` 移动构造。哈希函数和谓词从 `other` 移动构造，分配器从 `a` 复制构造。若统计功能已 link:#concurrent_node_set_boost_unordered_enable_stats[启用] ，则当且仅当 `a == other.get_allocator()` 时，同时转移 `other` 的内部统计信息，并始终调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
@@ -648,22 +567,18 @@ link:#concurrent_node_set_boost_unordered_enable_stats[启用]
 '''''
 
 [[concurrent_node_set_move_constructor_from_unordered_node_set]]
-===== 从 unordered++_++node++_++set 的移动构造函数
+===== 从 unordered_node_set 的移动构造函数
 
 [source,highlight]
 ----
 concurrent_node_set(unordered_node_set<Key, Hash, Pred, Allocator>&& other);
 ----
 
-从 link:#unordered_node_set[`unordered++_++node++_++set`]
-移动构造。`other`
-的内部桶数组直接转移至新容器。哈希函数、谓词及分配器均从 `other`
-移动构造。若统计功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]，则同时转移
-`other` 的内部统计信息，并调用 `other.reset++_++stats()`。
+从 link:#unordered_node_set[`unordered_node_set`] 移动构造。`other` 的内部桶数组直接转移至新容器。哈希函数、谓词及分配器均从 `other` 移动构造。若统计功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]，则同时转移 `other` 的内部统计信息，并调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
-|复杂度： |O(`bucket++_++count()`)
+|复杂度： |O(`bucket_count()`)
 |===
 
 '''''
@@ -680,15 +595,11 @@ concurrent_node_set(std::initializer_list<value_type> il,
                     const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、`a` 作为分配器，并 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -701,16 +612,12 @@ concurrent_node_set(std::initializer_list<value_type> il,
 concurrent_node_set(size_type n, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |`hasher` 和 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -723,16 +630,12 @@ concurrent_node_set(size_type n, allocator_type const& a);
 concurrent_node_set(size_type n, hasher const& hf, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的键相等性谓词、以及 `a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、以及 `a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -746,15 +649,11 @@ template<class InputIterator>
   concurrent_node_set(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器以及默认的哈希函数和键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 与 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 与 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -769,15 +668,11 @@ template<class InputIterator>
                           const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a` 作为分配器以及默认的键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -790,14 +685,11 @@ template<class InputIterator>
 concurrent_node_set(std::initializer_list<value_type> il, const allocator_type& a);
 ----
 
-构造一个空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -810,14 +702,11 @@ concurrent_node_set(std::initializer_list<value_type> il, const allocator_type& 
 concurrent_node_set(std::initializer_list<value_type> il, size_type n, const allocator_type& a);
 ----
 
-构造一个空容器，使用 `a`
-作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -831,14 +720,11 @@ concurrent_node_set(std::initializer_list<value_type> il, size_type n, const has
                     const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a` 作为分配器以及默认的键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -869,20 +755,12 @@ concurrent_node_set(std::initializer_list<value_type> il, size_type n, const has
 concurrent_node_set& operator=(concurrent_node_set const& other);
 ----
 
-赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
-复制赋值哈希函数与键相等性谓词。若
-`Alloc::propagate++_++on++_++container++_++copy++_++assignment` 存在，且
-`Alloc::propagate++_++on++_++container++_++copy++_++assignment::value`
-为 `true`，则从 `other` 复制赋值分配器，最后插入 `other`
-中所有元素的副本。
+赋值操作符。该操作会销毁容器中原有的元素，并从 `other` 复制赋值哈希函数与键相等性谓词。若 `Alloc::propagate_on_container_copy_assignment` 存在，且 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从 `other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求
-
-|并发性： |阻塞于 `++*++this` 和 `other`。
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求
+|并发性： |阻塞于 `*this` 和 `other`。
 |===
 
 '''''
@@ -897,20 +775,11 @@ concurrent_node_set& operator=(concurrent_node_set&& other)
            boost::allocator_traits<Allocator>::propagate_on_container_move_assignment::value);
 ----
 
-移动赋值操作符。该操作会销毁容器中原有的元素，并交换 `other`
-的哈希函数与键相等性谓词。若
-`Alloc::propagate++_++on++_++container++_++move++_++assignment` 存在且
-`Alloc::propagate++_++on++_++container++_++move++_++assignment::value`
-为 `true`，则从 `other` 移动赋值分配器。若此时分配器与
-`other.get++_++allocator()` 相等，则直接将 `other` 的内部桶数组转移至
-`++*++this`；否则，将插入 `other` 中元素的移动构造副本。若统计功能
-link:#concurrent_node_set_boost_unordered_enable_stats[已启用]
-，则当且仅当最终分配器与 `other.get++_++allocator()`
-相等时，同时转移其内部统计信息，并始终调用 `other.reset++_++stats()`。
+移动赋值操作符。该操作会销毁容器中原有的元素，并交换 `other` 的哈希函数与键相等性谓词。若 `Alloc::propagate_on_container_move_assignment` 存在且 `Alloc::propagate_on_container_move_assignment::value` 为 `true`，则从 `other` 移动赋值分配器。若此时分配器与 `other.get_allocator()` 相等，则直接将 `other` 的内部桶数组转移至 `*this`；否则，将插入 `other` 中元素的移动构造副本。若统计功能 link:#concurrent_node_set_boost_unordered_enable_stats[已启用] ，则当且仅当最终分配器与 `other.get_allocator()` 相等时，同时转移其内部统计信息，并始终调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
-|并发性： |阻塞于 `++*++this` 和 `other`。
+|并发性： |阻塞于 `*this` 和 `other`。
 |===
 
 '''''
@@ -927,11 +796,8 @@ concurrent_node_set& operator=(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求
-
-|并发性： |阻塞于 `++*++this`。
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求
+|并发性： |阻塞于 `*this`。
 |===
 
 '''''
@@ -940,7 +806,7 @@ concurrent_node_set& operator=(std::initializer_list<value_type> il);
 ==== 访问操作
 
 [[concurrent_node_set_cvisit]]
-===== ++[++c++]++visit（++[++c++]++访问）
+===== [c]visit（[c]访问）
 
 [source,highlight]
 ----
@@ -957,11 +823,7 @@ template<class K, class F> size_t cvisit(const K& k, F f) const;
 [cols=",",]
 |===
 |返回： |被访问的元素数量（0 或 1）。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K, class F++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K, class F>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -979,35 +841,20 @@ template<class FwdIterator, class F>
   size_t cvisit(FwdIterator first, FwdIterator last, F f) const;
 ----
 
-对范围 ++[++`first`, `last`) 内的每个元素 `k`，若容器中存在键等价于 `k`
-的元素 `x`，则使用指向 `x` 的常量引用调用 `f`。
+对范围 [`first`, `last`) 内的每个元素 `k`，若容器中存在键等价于 `k` 的元素 `x`，则使用指向 `x` 的常量引用调用 `f`。
 
-尽管批量访问在功能上等效于对每个键单独调用
-link:#concurrent_node_set_cvisit[`++[++c++]++visit`]，但该操作因内部流线化优化而通常表现更优。建议
-`std::distance(first,last)` 至少达到
-link:#concurrent_node_set_constants[`bulk++_++visit++_++size`]以获得性能提升：超过此规模后，性能预计不会进一步增长。
+尽管批量访问在功能上等效于对每个键单独调用 link:#concurrent_node_set_cvisit[`[c]visit`]，但该操作因内部流线化优化而通常表现更优。建议 `std::distance(first,last)` 至少达到 link:#concurrent_node_set_constants[`bulk_visit_size`]以获得性能提升：超过此规模后，性能预计不会进一步增长。
 
 [cols=",",]
 |===
-|要求： |`FwdIterator` 需满足
- https://en.cppreference.com/w/cpp/named_req/ForwardIterator[LegacyForwardIterator]
-要求（C{plus}{plus}11 至 C{plus}{plus}17）或符合
- https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward++_++iterator]规范（C{plus}{plus}20
-及更高版本）。对于`K` =
-`std::iterator++_++traits++<++FwdIterator++>++::value++_++type`，需满足以下条件之一：`K`
-与 `key++_++type` 类型相同，或 `Hash::is++_++transparent` 与
-`Pred::is++_++transparent`
-均为有效的成员类型别名。对于后一种情况，该库假定 `Hash` 可同时被 `K` 和
-`Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免了实例化
-`Key` 类型对象所需的开销。
-
+|要求： |`FwdIterator` 需满足 https://en.cppreference.com/w/cpp/named_req/ForwardIterator[LegacyForwardIterator] 要求（C{plus}{plus}11 至 C{plus}{plus}17）或符合 https://en.cppreference.com/w/cpp/iterator/forward_iterator[std::forward_iterator]规范（C{plus}{plus}20 及更高版本）。对于`K` = `std::iterator_traits<FwdIterator>::value_type`，需满足以下条件之一：`K` 与 `key_type` 类型相同，或 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名。对于后一种情况，该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key` 类型对象所需的开销。
 |返回： |被访问的元素数量。
 |===
 
 '''''
 
 [[concurrent_node_set_cvisit_all]]
-===== ++[++c++]++visit++_++all
+===== [c]visit_all
 
 [source,highlight]
 ----
@@ -1026,7 +873,7 @@ template<class F> size_t cvisit_all(F f) const;
 '''''
 
 [[concurrent_node_set_parallel_cvisit_all]]
-===== 并行 ++[++c++]++visit++_++all
+===== 并行 [c]visit_all
 
 [source,highlight]
 ----
@@ -1035,20 +882,15 @@ template<class ExecutionPolicy, class F> void visit_all(ExecutionPolicy&& policy
 template<class ExecutionPolicy, class F> void cvisit_all(ExecutionPolicy&& policy, F f) const;
 ----
 
-根据指定的执行策略语义并行化执行操作；使用指向容器中各元素的常量引用调用
-`f`。
+根据指定的执行策略语义并行化执行操作；使用指向容器中各元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
-|抛出： |根据所用执行策略的异常处理机制，若在 `f` 内抛出异常，可能会调用
-`std::terminate`。
-
+|抛出： |根据所用执行策略的异常处理机制，若在 `f` 内抛出异常，可能会调用 `std::terminate`。
 |注意： a|
 仅在支持 C{plus}{plus}17 并行算法的编译器中可用。 +
 
-仅当
-`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
-为 `true` 时，这些重载才会参与重载决议。 +
+仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `true` 时，这些重载才会参与重载决议。 +
 
 不允许使用无序执行策略。
 
@@ -1057,7 +899,7 @@ template<class ExecutionPolicy, class F> void cvisit_all(ExecutionPolicy&& polic
 '''''
 
 [[concurrent_node_set_cvisit_while]]
-===== ++[++c++]++visit++_++while
+===== [c]visit_while
 
 [source,highlight]
 ----
@@ -1066,8 +908,7 @@ template<class F> bool visit_while(F f) const;
 template<class F> bool cvisit_while(F f) const;
 ----
 
-依次使用指向容器中每个元素的常量引用调用 `f`，直到 `f` 返回 `false`
-，或所有元素均被访问。
+依次使用指向容器中每个元素的常量引用调用 `f`，直到 `f` 返回 `false` ，或所有元素均被访问。
 
 [cols=",",]
 |===
@@ -1077,7 +918,7 @@ template<class F> bool cvisit_while(F f) const;
 '''''
 
 [[concurrent_node_set_parallel_cvisit_while]]
-===== 并行 ++[++c++]++visit++_++while
+===== 并行 [c]visit_while
 
 [source,highlight]
 ----
@@ -1086,28 +927,20 @@ template<class ExecutionPolicy, class F> bool visit_while(ExecutionPolicy&& poli
 template<class ExecutionPolicy, class F> bool cvisit_while(ExecutionPolicy&& policy, F f) const;
 ----
 
-根据指定的执行策略语义并行化执行操作；使用指向容器中各元素的常量引用调用
-`f`，直到 `f` 返回 `false` 或所有元素均被访问完毕。
+根据指定的执行策略语义并行化执行操作；使用指向容器中各元素的常量引用调用 `f`，直到 `f` 返回 `false` 或所有元素均被访问完毕。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： |当且仅当 `f` 曾返回 `false` 时，本函数返回 `false`。
-
-|抛出： |根据所用执行策略的异常处理机制，若在 `f` 内抛出异常，可能会调用
-`std::terminate`。
-
+|抛出： |根据所用执行策略的异常处理机制，若在 `f` 内抛出异常，可能会调用 `std::terminate`。
 |注意： a|
 仅在支持 C{plus}{plus}17 并行算法的编译器中可用。 +
 
-仅当
-`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
-为 `true` 时，这些重载才会参与重载决议。 +
+仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `true` 时，这些重载才会参与重载决议。 +
 
 不允许使用无序执行策略。 +
 
-并行化意味着执行不一定会因 `f` 返回 `false`
-而立即结束，因此系统可能继续使用其他元素调用 `f`（即使其返回值同样为
-`false`）。
+并行化意味着执行不一定会因 `f` 返回 `false` 而立即结束，因此系统可能继续使用其他元素调用 `f`（即使其返回值同样为 `false`）。
 
 |===
 
@@ -1146,14 +979,13 @@ size_type size() const noexcept;
 
 [cols=",",]
 |===
-|注意：
-|在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实大小。
+|注意： |在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实大小。
 |===
 
 '''''
 
 [[concurrent_node_set_max_size]]
-===== max++_++size
+===== max_size
 
 [source,highlight]
 ----
@@ -1178,14 +1010,13 @@ size_type max_size() const noexcept;
 template<class... Args> bool emplace(Args&&... args);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入一个由参数 `args`
-构造的对象。
+当且仅当容器中不存在具有等效键的元素时，插入一个由参数 `args` 构造的对象。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够由 `args` 构造。
+|要求： |`value_type` 必须能够由 `args` 构造。
 |返回： |若插入操作发生，则返回 `true`。
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
@@ -1202,13 +1033,9 @@ bool insert(const value_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： |若插入操作发生，则返回 `true`。 +
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
@@ -1225,13 +1052,9 @@ bool insert(value_type&& obj);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： |若插入操作发生，则返回 `true`。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
@@ -1244,23 +1067,14 @@ bool insert(value_type&& obj);
 template<class K> bool insert(K&& k);
 ----
 
-当且仅当容器中不存在等价键的元素时，插入一个由
-`std::forward++<++K++>++(k)` 构造的元素。
+当且仅当容器中不存在等价键的元素时，插入一个由 `std::forward<K>(k)` 构造的元素。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够从 `k` 进行
- https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
-。
-
+|要求： |`value_type` 必须能够从 `k` 进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造] 。
 |返回： |若插入操作发生，则返回 `true`。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，此重载才会参与重载决议。标准库假定 `Hash`
-可同时被 `K` 和 `Key` 调用，且 `Pred`
-为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|并发性： |阻塞于 `*this` 的重哈希。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，此重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1275,9 +1089,10 @@ template<class InputIterator> size_type insert(InputIterator first, InputIterato
 
 等价于：
 
-....
-  while(first != last) this->emplace(*first++);
-....
+[listing,subs="+macros,+quotes"]
+----
+  while(first != last) this->link:#concurrent_node_set_emplace[emplace](*first++);
+----
 
 [cols=",",]
 |===
@@ -1296,9 +1111,10 @@ size_type insert(std::initializer_list<value_type> il);
 
 等价于：
 
-....
-  this->insert(il.begin(), il.end());
-....
+[listing,subs="+macros,+quotes"]
+----
+  this->link:#concurrent_node_set_insert_iterator_range[insert](il.begin(), il.end());
+----
 
 [cols=",",]
 |===
@@ -1315,30 +1131,26 @@ size_type insert(std::initializer_list<value_type> il);
 insert_return_type insert(node_type&& nh);
 ----
 
-若 `nh` 非空，则当且仅当容器中不存在与 `nh.value()`
-等效的键时，插入其关联的元素。函数返回时 `nh` 为空。
+若 `nh` 非空，则当且仅当容器中不存在与 `nh.value()` 等效的键时，插入其关联的元素。函数返回时 `nh` 为空。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-返回一个基于 `inserted` 和 `node` 构造的 `insert++_++return++_++type`
-对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
 * 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
 * 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
+|并发性： |阻塞于 `*this` 的重哈希。
 |注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
 '''''
 
 [[concurrent_node_set_emplace_or_cvisit]]
-===== emplace++_++or++_[++c++]++visit
+===== emplace_or_[c]visit
 
 [source,highlight]
 ----
@@ -1346,25 +1158,20 @@ template<class... Args, class F> bool emplace_or_visit(Args&&... args, F&& f);
 template<class... Args, class F> bool emplace_or_cvisit(Args&&... args, F&& f);
 ----
 
-当容器中不存在具有等效键的元素时，插入一个由参数 `args`
-构造的对象；否则，使用指向等效元素的常量引用调用 `f`。
+当容器中不存在具有等效键的元素时，插入一个由参数 `args` 构造的对象；否则，使用指向等效元素的常量引用调用 `f`。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够由 `args` 构造。
-
+|要求： |`value_type` 必须能够由 `args` 构造。
 |返回： |若插入操作发生，则返回 `true`。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
-|注意： |此接口仅为说明，因 C{plus}{plus} 不允许在可变参数包后声明参数
-`f`。
+|并发性： |阻塞于 `*this` 的重哈希。
+|注意： |此接口仅为说明，因 C{plus}{plus} 不允许在可变参数包后声明参数 `f`。
 |===
 
 '''''
 
 [[concurrent_node_set_copy_insert_or_cvisit]]
-===== 复制 insert++_++or++_[++c++]++visit
+===== 复制 insert_or_[c]visit
 
 [source,highlight]
 ----
@@ -1372,24 +1179,19 @@ template<class F> bool insert_or_visit(const value_type& obj, F f);
 template<class F> bool insert_or_cvisit(const value_type& obj, F f);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入
-`obj`；否则，使用指向等效元素的常量引用调用 `f`。
+当且仅当容器中不存在具有等效键的元素时，插入 `obj`；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： |若插入操作发生，则返回 `true`。 +
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_move_insert_or_cvisit]]
-===== 移动 insert++_++or++_[++c++]++visit
+===== 移动 insert_or_[c]visit
 
 [source,highlight]
 ----
@@ -1397,24 +1199,19 @@ template<class F> bool insert_or_visit(value_type&& obj, F f);
 template<class F> bool insert_or_cvisit(value_type&& obj, F f);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入
-`obj`；否则，使用指向等效元素的常量引用调用 `f`。
+当且仅当容器中不存在具有等效键的元素时，插入 `obj`；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： |若插入操作发生，则返回 `true`。 +
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_transparent_insert_or_cvisit]]
-===== 透明 insert++_++or++_[++c++]++visit
+===== 透明 insert_or_[c]visit
 
 [source,highlight]
 ----
@@ -1422,24 +1219,14 @@ template<class K, class F> bool insert_or_visit(K&& k, F f);
 template<class K, class F> bool insert_or_cvisit(K&& k, F f);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入由
-`std::forward++<++K++>++(k)`
-构造的元素；否则，使用指向等效元素的常量引用调用 `f`。
+当且仅当容器中不存在具有等效键的元素时，插入由 `std::forward<K>(k)` 构造的元素；否则，使用指向等效元素的常量引用调用 `f`。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够从 `k` 进行
- https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
-。
-
+|要求： |`value_type` 必须能够从 `k` 进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造] 。
 |返回： |若插入操作发生，则返回 `true`。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash`
-可同时被 `K` 和 `Key` 调用，且 `Pred`
-为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|并发性： |阻塞于 `*this` 的重哈希。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1457,9 +1244,10 @@ template<class InputIterator,class F>
 
 等价于：
 
-....
-  while(first != last) this->emplace_or_[c]visit(*first++, f);
-....
+[listing,subs="+macros,+quotes"]
+----
+  while(first != last) this->link:#concurrent_node_set_emplace_or_cvisit[emplace_or_[c]visit](*first++, f);
+----
 
 [cols=",",]
 |===
@@ -1479,9 +1267,10 @@ template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> i
 
 等价于：
 
-....
-  this->insert_or_[c]visit(il.begin(), il.end(), std::ref(f));
-....
+[listing,subs="+macros,+quotes"]
+----
+  this->link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_[c]visit](il.begin(), il.end(), std::ref(f));
+----
 
 [cols=",",]
 |===
@@ -1499,32 +1288,26 @@ template<class F> insert_return_type insert_or_visit(node_type&& nh, F f);
 template<class F> insert_return_type insert_or_cvisit(node_type&& nh, F f);
 ----
 
-若 `nh` 为空，则不执行任何操作；否则，当且仅当容器中不存在与
-`nh.value()`
-等效的键时，插入其关联的元素；否则，使用指向等效元素的常量引用调用 `f`。
+若 `nh` 为空，则不执行任何操作；否则，当且仅当容器中不存在与 `nh.value()` 等效的键时，插入其关联的元素；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-返回一个基于 `inserted` 和 `node` 构造的 `insert++_++return++_++type`
-对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
 * 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
 * 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
-|抛出： |若异常由调用 `hasher` 或调用 `f`
-以外的操作抛出，则此函数不产生任何效果。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
+|抛出： |若异常由调用 `hasher` 或调用 `f` 以外的操作抛出，则此函数不产生任何效果。
+|并发性： |阻塞于 `*this` 的重哈希。
 |注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
 '''''
 
 [[concurrent_node_set_emplace_and_cvisit]]
-===== emplace++_++and++_[++c++]++visit
+===== emplace_and_[c]visit
 
 [source,highlight]
 ----
@@ -1534,26 +1317,20 @@ template<class... Args, class F1, class F2>
   bool emplace_and_cvisit(Args&&... args, F1&& f1, F2&& f2);
 ----
 
-当容器中不存在具有等效键的元素时，插入由参数 `args`
-构造的对象，并使用指向新创建元素的常量引用调用
-`f1`；否则，使用指向等效元素的常量引用调用 `f2`。
+当容器中不存在具有等效键的元素时，插入由参数 `args` 构造的对象，并使用指向新创建元素的常量引用调用 `f1`；否则，使用指向等效元素的常量引用调用 `f2`。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够由 `args` 构造。
-
+|要求： |`value_type` 必须能够由 `args` 构造。
 |返回： |若插入操作发生，则返回 `true`。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
-|注意： |此接口仅为说明，因为 C{plus}{plus} 不允许在可变参数包后声明参数
-`f1` 和 `f2`。
+|并发性： |阻塞于 `*this` 的重哈希。
+|注意： |此接口仅为说明，因为 C{plus}{plus} 不允许在可变参数包后声明参数 `f1` 和 `f2`。
 |===
 
 '''''
 
 [[concurrent_node_set_copy_insert_and_cvisit]]
-===== 复制 insert++_++and++_[++c++]++visit
+===== 复制 insert_and_[c]visit
 
 [source,highlight]
 ----
@@ -1561,25 +1338,19 @@ template<class F1, class F2> bool insert_and_visit(const value_type& obj, F1 f1,
 template<class F1, class F2> bool insert_and_cvisit(const value_type& obj, F1 f1, F2 f2);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入 `obj`
-并使用指向新创建元素的常量引用调用
-`f1`；否则，使用指向等效元素的常量引用调用 `f`。
+当且仅当容器中不存在具有等效键的元素时，插入 `obj` 并使用指向新创建元素的常量引用调用 `f1`；否则，使用指向等效元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： |若插入操作发生，则返回 `true`。 +
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_move_insert_and_cvisit]]
-===== 移动 insert++_++and++_[++c++]++visit
+===== 移动 insert_and_[c]visit
 
 [source,highlight]
 ----
@@ -1587,25 +1358,19 @@ template<class F1, class F2> bool insert_and_visit(value_type&& obj, F1 f1, F2 f
 template<class F1, class F2> bool insert_and_cvisit(value_type&& obj, F1 f1, F2 f2);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入 `obj`
-并使用指向新创建元素的常量引用调用
-`f1`；否则，使用指向等价元素的常量引用调用 `f`。
+当且仅当容器中不存在具有等效键的元素时，插入 `obj` 并使用指向新创建元素的常量引用调用 `f1`；否则，使用指向等价元素的常量引用调用 `f`。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： |若插入操作发生，则返回 `true`。 +
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
+|并发性： |阻塞于 `*this` 的重哈希。
 |===
 
 '''''
 
 [[concurrent_node_set_transparent_insert_and_cvisit]]
-===== 透明 insert++_++and++_[++c++]++visit（透明插入并++[++c++]++访问）
+===== 透明 insert_and_[c]visit（透明插入并[c]访问）
 
 [source,highlight]
 ----
@@ -1613,25 +1378,14 @@ template<class K, class F1, class F2> bool insert_and_visit(K&& k, F1 f1, F2 f2)
 template<class K, class F1, class F2> bool insert_and_cvisit(K&& k, F1 f1, F2 f2);
 ----
 
-当且仅当容器中不存在具有等效键的元素时，插入由
-`std::forward++<++K++>++(k)`
-构造的元素，并使用指向新创建元素的常量引用调用
-`f1`；否则，使用指向等效元素的常量引用调用 `f2`。
+当且仅当容器中不存在具有等效键的元素时，插入由 `std::forward<K>(k)` 构造的元素，并使用指向新创建元素的常量引用调用 `f1`；否则，使用指向等效元素的常量引用调用 `f2`。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够从 `k` 进行
- https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
-。
-
+|要求： |`value_type` 必须能够从 `k` 进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造] 。
 |返回： |若插入操作发生，则返回 `true`。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash`
-可同时被 `K` 和 `Key` 调用，且 `Pred`
-为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|并发性： |阻塞于 `*this` 的重哈希。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，这些重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1649,9 +1403,10 @@ template<class InputIterator,class F1, class F2>
 
 等价于：
 
-....
-  while(first != last) this->emplace_and_[c]visit(*first++, f1, f2);
-....
+[listing,subs="+macros,+quotes"]
+----
+  while(first != last) this->link:#concurrent_node_set_emplace_and_cvisit[emplace_and_[c]visit](*first++, f1, f2);
+----
 
 [cols=",",]
 |===
@@ -1673,9 +1428,10 @@ template<class F1, class F2>
 
 等价于：
 
-....
-  this->insert_and_[c]visit(il.begin(), il.end(), std::ref(f1), std::ref(f2));
-....
+[listing,subs="+macros,+quotes"]
+----
+  this->link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_[c]visit](il.begin(), il.end(), std::ref(f1), std::ref(f2));
+----
 
 [cols=",",]
 |===
@@ -1695,26 +1451,19 @@ template<class F1, class F2>
   insert_return_type insert_and_cvisit(node_type&& nh, F1 f1, F2 f2);
 ----
 
-若 `nh` 为空，则不执行任何操作；否则，当且仅当容器中不存在与
-`nh.value()`
-等效的键时，插入其关联的元素，并使用指向新插入元素的常量引用调用
-`f1`；否则，使用指向等效元素的常量引用调用 `f2`。
+若 `nh` 为空，则不执行任何操作；否则，当且仅当容器中不存在与 `nh.value()` 等效的键时，插入其关联的元素，并使用指向新插入元素的常量引用调用 `f1`；否则，使用指向等效元素的常量引用调用 `f2`。
 
 [width="100%",cols="50%,50%",]
 |===
 |返回： a|
-返回一个基于 `inserted` 和 `node` 构造的 `insert++_++return++_++type`
-对象： +
+返回一个基于 `inserted` 和 `node` 构造的 `insert_return_type` 对象： +
 
 * 若 `nh` 为空，则 `inserted` 为 `false` 且 `node` 为空。
 * 若插入操作成功，则 `inserted` 为 true， 且 `node` 为空。
 * 若插入操作失败，则 `inserted` 为 false ，且 `node` 保留 `nh` 的原值。
 
-|抛出： |若异常由调用 `hasher`、`f1` 或 `f2`
-以外的操作抛出，则此函数不产生任何效果。
-
-|并发性： |阻塞于 `++*++this` 的重哈希。
-
+|抛出： |若异常由调用 `hasher`、`f1` 或 `f2` 以外的操作抛出，则此函数不产生任何效果。
+|并发性： |阻塞于 `*this` 的重哈希。
 |注意： |若 `nh` 非空，且其分配器与容器的分配器不相等，则行为未定义。
 |===
 
@@ -1734,14 +1483,8 @@ template<class K> size_type erase(const K& k);
 [cols=",",]
 |===
 |返回： |被擦除的元素数量（0 或 1）。
-
-|抛出： |仅当 `hasher` 或 `key++_++equal`
-抛出异常时，本函数才会抛出异常。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1760,20 +1503,11 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 [width="100%",cols="50%,50%",]
 |===
 |返回： |被擦除的元素数量（0 或 1）。
-
-|抛出： |仅当 `hasher`、`key++_++equal` 或 `f`
-抛出异常时，本函数才会抛出异常。
-
+|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时，本函数才会抛出异常。
 |注意： a|
-仅当
-`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
-为 `false` 时，`template++<++class K, class F++>++`
-重载才会参与重载决议。 +
+仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `false` 时，`template<class K, class F>` 重载才会参与重载决议。 +
 
-仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K, class F++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K, class F>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1787,8 +1521,7 @@ template<class K, class F> size_type erase_if(const K& k, F f);
 template<class F> size_type erase_if(F f);
 ----
 
-依次使用指向容器中各元素的引用调用 `f`，并擦除其中使 `f` 返回 `true`
-的元素。
+依次使用指向容器中各元素的引用调用 `f`，并擦除其中使 `f` 返回 `true` 的元素。
 
 [cols=",",]
 |===
@@ -1806,20 +1539,15 @@ template<class F> size_type erase_if(F f);
 template<class ExecutionPolicy, class  F> void erase_if(ExecutionPolicy&& policy, F f);
 ----
 
-使用指向容器中每个元素的引用调用 `f`，并擦除其中使 `f` 返回 `true`
-的元素。该执行根据指定的执行策略语义并行化。
+使用指向容器中每个元素的引用调用 `f`，并擦除其中使 `f` 返回 `true` 的元素。该执行根据指定的执行策略语义并行化。
 
 [width="100%",cols="50%,50%",]
 |===
-|抛出： |根据所用执行策略的异常处理机制，若在 `f` 内抛出异常，可能会调用
-`std::terminate`。
-
+|抛出： |根据所用执行策略的异常处理机制，若在 `f` 内抛出异常，可能会调用 `std::terminate`。
 |注意： a|
 仅在支持 C{plus}{plus}17 并行算法的编译器中可用。 +
 
-仅当
-`std::is++_++execution++_++policy++_++v++<++std::remove++_++cvref++_++t++<++ExecutionPolicy++>>++`
-为 `true` 时，此重载才会参与重载决议。 +
+仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `true` 时，此重载才会参与重载决议。 +
 
 不允许使用无序执行策略。
 
@@ -1839,16 +1567,12 @@ void swap(concurrent_node_set& other)
 
 交换容器与参数的内容。
 
-若 `Allocator::propagate++_++on++_++container++_++swap`已声明， 且其
-`value` 为
-`true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
+若 `Allocator::propagate_on_container_swap`已声明， 且其 `value` 为 `true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非异常由 `key++_++equal` 或 `hasher`
-在交换时抛出，否则本操作不会抛出任何异常。
-
-|并发性： |阻塞于 `++*++this` 和 `other`。
+|抛出： |除非异常由 `key_equal` 或 `hasher` 在交换时抛出，否则本操作不会抛出任何异常。
+|并发性： |阻塞于 `*this` 和 `other`。
 |===
 
 '''''
@@ -1866,16 +1590,9 @@ template<class K> node_type extract(K&& k);
 
 [cols=",",]
 |===
-|返回： |返回一个包含被提取元素的 `node++_++type`
-对象，若未提取任何元素则为空。
-
-|抛出： |仅当 `hasher` 或 `key++_++equal`
-抛出异常时，本函数才会抛出异常。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|返回： |返回一个包含被提取元素的 `node_type` 对象，若未提取任何元素则为空。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，本函数才会抛出异常。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1893,16 +1610,9 @@ template<class K, class F> node_type extract_if(K&& k, F f);
 
 [cols=",",]
 |===
-|返回： |返回一个包含被提取元素的 `node++_++type`
-对象，若未提取任何元素则为空。
-
-|抛出： |仅当 `hasher`、`key++_++equal` 或 `f`
-抛出异常时，才会抛出异常。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|返回： |返回一个包含被提取元素的 `node_type` 对象，若未提取任何元素则为空。
+|抛出： |仅当 `hasher`、`key_equal` 或 `f` 抛出异常时，才会抛出异常。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1919,10 +1629,8 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件：
-|`size() == 0`，`max++_++load() ++>++= max++_++load++_++factor() ++*++ bucket++_++count()`
-
-|并发性： |阻塞于 `++*++this`。
+|后置条件： |`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
+|并发性： |阻塞于 `*this`。
 |===
 
 '''''
@@ -1938,13 +1646,12 @@ template<class H2, class P2>
   size_type merge(concurrent_node_set<Key, H2, P2, Allocator>&& source);
 ----
 
-对 `source` 中所有键不在 `++*++this`
-中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
+对 `source` 中所有键不在 `*this` 中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 [cols=",",]
 |===
 |返回： |被插入的元素数量。
-|并发性： |阻塞于 `++*++this` 和 `source`。
+|并发性： |阻塞于 `*this` 和 `source`。
 |===
 
 '''''
@@ -1953,7 +1660,7 @@ template<class H2, class P2>
 ==== 观察器
 
 [[concurrent_node_set_get_allocator]]
-===== get++_++allocator
+===== get_allocator
 
 [source,highlight]
 ----
@@ -1983,7 +1690,7 @@ hasher hash_function() const;
 '''''
 
 [[concurrent_node_set_key_eq]]
-===== key++_++eq
+===== key_eq
 
 [source,highlight]
 ----
@@ -2013,12 +1720,8 @@ template<class K>
 [width="100%",cols="50%,50%",]
 |===
 |返回： |键等价于 `k` 的元素数量（0 或 1）。
-
 |注意： a|
-仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
 
 在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
@@ -2039,12 +1742,8 @@ template<class K>
 [width="100%",cols="50%,50%",]
 |===
 |返回： |返回布尔值，表示容器中是否存在键等于 `k` 的元素。
-
 |注意： a|
-仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。 +
 
 在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
@@ -2056,7 +1755,7 @@ template<class K>
 ==== 桶接口
 
 [[concurrent_node_set_bucket_count]]
-===== bucket++_++count
+===== bucket_count
 
 [source,highlight]
 ----
@@ -2083,15 +1782,13 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回
-`static++_++cast++<++float++>++(size())/static++_++cast++<++float++>++(bucket++_++count())`，若
-`bucket++_++count() == 0`， 则返回 `0`。
+|返回： |返回 `static_cast<float>(size())/static_cast<float>(bucket_count())`，若 `bucket_count() == 0`， 则返回 `0`。
 |===
 
 '''''
 
 [[concurrent_node_set_max_load_factor]]
-===== max++_++load++_++factor（最大负载因子）
+===== max_load_factor（最大负载因子）
 
 [source,highlight]
 ----
@@ -2115,14 +1812,13 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与
-`boost::unordered++_++set` 保持兼容。
+|效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与 `boost::unordered_set` 保持兼容。
 |===
 
 '''''
 
 [[concurrent_node_set_max_load]]
-===== max++_++load（最大负载）
+===== max_load（最大负载）
 
 [source,highlight]
 ----
@@ -2131,12 +1827,9 @@ size_type max_load() const noexcept;
 
 [width="100%",cols="50%,50%",]
 |===
-|返回：
-|返回容器在无需重哈希的情况下所能容纳的最大元素数量（假设后续无元素被删除）。
-
+|返回： |返回容器在无需重哈希的情况下所能容纳的最大元素数量（假设后续无元素被删除）。
 |注意： a|
-在构造、重哈希或清空操作后，容器的最大负载至少为
-`max++_++load++_++factor() ++*++ bucket++_++count()`。在高负载条件下执行擦除操作时，此数值可能会降低。 +
+在构造、重哈希或清空操作后，容器的最大负载至少为 `max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。 +
 
 在存在并发插入操作的情况下，返回值可能无法准确反映执行完成后容器的真实状态。
 
@@ -2152,19 +1845,15 @@ size_type max_load() const noexcept;
 void rehash(size_type n);
 ----
 
-如有必要，将改变桶数组的大小，使其至少包含 `n`
-个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
-`bucket++_++count()`。
+如有必要，将改变桶数组的大小，使其至少包含 `n` 个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的 `bucket_count()`。
 
 当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
 
 [width="100%",cols="50%,50%",]
 |===
-|抛出：
-|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
-
+|抛出： |若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |并发性： a|
-阻塞于 `++*++this`。
+阻塞于 `*this`。
 
 '''''
 
@@ -2178,16 +1867,14 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max++_++load++_++factor()))`。
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
 [cols=",",]
 |===
-|抛出：
-|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
-
-|并发性： |阻塞于 `++*++this`。
+|抛出： |若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
+|并发性： |阻塞于 `*this`。
 |===
 
 '''''
@@ -2196,7 +1883,7 @@ void reserve(size_type n);
 ==== 统计信息
 
 [[concurrent_node_set_get_stats]]
-===== get++_++stats
+===== get_stats
 
 [source,highlight]
 ----
@@ -2206,15 +1893,13 @@ stats get_stats() const;
 [cols=",",]
 |===
 |返回： |返回容器截至目前所执行的插入与查找操作的统计信息。
-
-|注意：
-|仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]时可用。
+|注意： |仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]时可用。
 |===
 
 '''''
 
 [[concurrent_node_set_reset_stats]]
-===== reset++_++stats
+===== reset_stats
 
 [source,highlight]
 ----
@@ -2224,9 +1909,7 @@ void reset_stats() noexcept;
 [cols=",",]
 |===
 |效果： |将容器所保存的内部统计信息重置为零。
-
-|注意：
-|仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]时可用。
+|注意： |仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#concurrent_node_set_boost_unordered_enable_stats[已启用]时可用。
 |===
 
 '''''
@@ -2236,16 +1919,12 @@ void reset_stats() noexcept;
 
 如果以下任何一条件为真，则推导指引将不参与重载决议：
 
-* 该推导指引包含 `InputIterator`
-模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
-* 该推导指引包含 `Allocator`
-模板参数，且为该参数推导出的类型不符合分配器要求。
-* 该推导指引包含 `Hash`
-模板参数，且为该参数推导出的类型为整型或符合分配器要求。
+* 该推导指引包含 `InputIterator` 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
+* 该推导指引包含 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
+* 该推导指引包含 `Hash` 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
 * 该推导指引包含 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
-推导指引中的 `size++_++type` 参数类型，指向由该推导指引所推导容器类型的
-`size++_++type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的 `size_type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[concurrent_node_set_iter_value_type]]
 ===== _iter-value-type_
@@ -2269,9 +1948,7 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const concurrent_node_set<Key, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() == y.size()` ，且对于 `x` 中的每个元素，`y`
-中均存在一个具有相同键和相等值的元素（使用 `operator==`
-比较值类型），则返回 `true`。
+若 `x.size() == y.size()` ，且对于 `x` 中的每个元素，`y` 中均存在一个具有相同键和相等值的元素（使用 `operator==` 比较值类型），则返回 `true`。
 
 [cols=",",]
 |===
@@ -2291,9 +1968,7 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const concurrent_node_set<Key, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() == y.size()`，并且对于 `x` 中的每个元素，`y`
-中均存在一个具有相同键和相等值的元素（使用`operator==`比较值类型），则返回
-`false`。
+若 `x.size() == y.size()`，并且对于 `x` 中的每个元素，`y` 中均存在一个具有相同键和相等值的元素（使用`operator==`比较值类型），则返回 `false`。
 
 [cols=",",]
 |===
@@ -2316,9 +1991,10 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 等价于：
 
-....
-x.swap(y);
-....
+[listing,subs="+macros,+quotes"]
+----
+x.link:#concurrent_node_set_swap[swap](y);
+----
 
 '''''
 
@@ -2334,48 +2010,37 @@ template<class K, class H, class P, class A, class Predicate>
 
 等价于：
 
-....
-c.erase_if(pred);
-....
+[listing,subs="+macros,+quotes"]
+----
+c.link:#concurrent_node_set_erase_if[erase_if](pred);
+----
 
 [[concurrent_node_set_serialization]]
 ==== 序列化
 
-`concurrent++_++node++_++set` 可通过本组件库提供的 API，借助
-link:../../../../../serialization/index.html[Boost.Serialization]
-进行归档/检索。支持常规归档与 XML 归档两种格式。
+`concurrent_node_set` 可通过本组件库提供的 API，借助 link:../../../../../serialization/index.html[Boost.Serialization] 进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[concurrent_node_set_saving_an_concurrent_node_set_to_an_archive]]
-===== 将 concurrent++_++node++_++set 保存到归档
+===== 将 concurrent_node_set 保存到归档
 
-将 `concurrent++_++node++_++set` `x` 的所有元素保存至归档（XML
-归档）`ar`。
+将 `concurrent_node_set` `x` 的所有元素保存至归档（XML 归档）`ar`。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须可序列化（支持 XML 序列化），且需要支持
-Boost.Serialization 的
-`save++_++construct++_++data`/`load++_++construct++_++data`
-协议（该协议自动支持满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
-
+|要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持 Boost.Serialization 的 `save_construct_data`/`load_construct_data` 协议（该协议自动支持满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 |并发性： |阻塞于 `x`。
 |===
 
 '''''
 
 [[concurrent_node_set_loading_an_concurrent_node_set_from_an_archive]]
-===== 从归档加载 concurrent++_++node++_++set
+===== 从归档加载 concurrent_node_set
 
-删除 `concurrent++_++node++_++set` 容器 `x`
-中所有已存在的元素，并从归档（XML 归档）`ar` 中插入原始
-`concurrent++_++node++_++set` 容器 `other` 的元素副本，这些副本是从 `ar`
-所读取的存储中恢复的。
+删除 `concurrent_node_set` 容器 `x` 中所有已存在的元素，并从归档（XML 归档）`ar` 中插入原始 `concurrent_node_set` 容器 `other` 的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`x.key++_++equal()` 需要在功能上等价于
-`other.key++_++equal()`。
-
+|要求： |`x.key_equal()` 需要在功能上等价于 `other.key_equal()`。
 |并发性： |阻塞于 `x`。
 |===
 

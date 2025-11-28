@@ -9,34 +9,35 @@
 [[stats_synopsis]]
 ==== 概要
 
-....
-struct stats-summary-type
+[listing,subs="+macros,+quotes"]
+----
+struct link:#stats_stats_summary_type[stats-summary-type]
 {
   double average;
   double variance;
   double deviation;
 };
 
-struct insertion-stats-type
+struct link:#stats_insertion_stats_type[insertion-stats-type]
 {
   std::size_t        count;
-  stats-summary-type probe_length;
+  link:#stats_stats_summary_type[stats-summary-type] probe_length;
 };
 
-struct lookup-stats-type
+struct link:#stats_lookup_stats_type[lookup-stats-type]
 {
   std::size_t        count;
-  stats-summary-type probe_length;
-  stats-summary-type num_comparisons;
+  link:#stats_stats_summary_type[stats-summary-type] probe_length;
+  link:#stats_stats_summary_type[stats-summary-type] num_comparisons;
 };
 
-struct stats-type
+struct link:reference/stats_zh_Hans.adoc#stats_stats_type[stats-type]
 {
-  insertion-stats-type insertion;
-  lookup-stats-type    successful_lookup,
+  link:#stats_insertion_stats_type[insertion-stats-type] insertion;
+  link:#stats_lookup_stats_type[lookup-stats-type]    successful_lookup,
                        unsuccessful_lookup;
 };
-....
+----
 
 [[stats_stats_summary_type]]
 ===== _统计摘要类型_

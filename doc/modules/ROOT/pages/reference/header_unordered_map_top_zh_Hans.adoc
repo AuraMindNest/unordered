@@ -2,11 +2,12 @@
 
 [[content]]
 [[header_unordered_map_fwd_top]]
-=== `++<++boost/unordered++_++map.hpp++>++` 概要
+=== `<boost/unordered_map.hpp>` 概要
 
-....
-#include <boost/unordered/unordered_map.hpp>
-....
+[listing,subs="+macros,+quotes"]
+----
+#include link:reference/header_unordered_map_zh_Hans.adoc[<boost/unordered/unordered_map.hpp>]
+----
 
 [[footer]]
 [[footer-text]]

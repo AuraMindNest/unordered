@@ -2,87 +2,76 @@
 
 [[content]]
 [[header_unordered_map]]
-=== `++<++boost/unordered/unordered++_++map.hpp++>++` 概要
+=== `<boost/unordered/unordered_map.hpp>` 概要
 
-定义
-link:reference/unordered_map_zh_Hans.adoc#unordered_map[`boost::unordered++_++map`]、link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap[`boost::unordered++_++multimap`]
-以及相关函数和别名模板。
+定义 link:reference/unordered_map_zh_Hans.adoc#unordered_map[`boost::unordered_map`]、link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap[`boost::unordered_multimap`] 以及相关函数和别名模板。
 
-....
+[listing,subs="+macros,+quotes"]
+----
 namespace boost {
 namespace unordered {
 
-  template<class Key,
-           class T,
-           class Hash = boost::hash<Key>,
-           class Pred = std::equal_to<Key>,
-           class Allocator = std::allocator<std::pair<const Key, T>>>
-  class unordered_map;
+  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+           class Pred = std::equal_to<key>,
+           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
+  class link:reference/unordered_map_zh_Hans.adoc#unordered_map[unordered_map];
 
   // 相等比较
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool operator==(const unordered_map<Key, T, Hash, Pred, Alloc>& x,
-                    const unordered_map<Key, T, Hash, Pred, Alloc>& y);
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    bool link:reference/unordered_map_zh_Hans.adoc#unordered_map_operator_2[operator==](const unordered_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+                    const unordered_map<key, alloc="" hash,="" pred,="" t,="">&amp; y);
 
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool operator!=(const unordered_map<Key, T, Hash, Pred, Alloc>& x,
-                    const unordered_map<Key, T, Hash, Pred, Alloc>& y);
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    bool link:reference/unordered_map_zh_Hans.adoc#unordered_map_operator_3[operator!=](const unordered_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+                    const unordered_map<key, alloc="" hash,="" pred,="" t,="">&amp; y);
 
   // 交换
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    void swap(unordered_map<Key, T, Hash, Pred, Alloc>& x,
-              unordered_map<Key, T, Hash, Pred, Alloc>& y)
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    void link:reference/unordered_map_zh_Hans.adoc#unordered_map_swap_2[swap](unordered_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+              unordered_map<key, alloc="" hash,="" pred,="" t,="">&amp; y)
       noexcept(noexcept(x.swap(y)));
 
   // 擦除
-  template<class K, class T, class H, class P, class A, class Predicate>
-    typename unordered_map<K, T, H, P, A>::size_type
-      erase_if(unordered_map<K, T, H, P, A>& c, Predicate pred);
+  template<class a,="" class="" h,="" k,="" p,="" predicate="" t,="">
+    typename unordered_map<k, a="" h,="" p,="" t,="">::size_type
+      link:reference/unordered_map_zh_Hans.adoc#unordered_map_erase_if[erase_if](unordered_map<k, a="" h,="" p,="" t,="">&amp; c, Predicate pred);
 
-  template<class Key,
-           class T,
-           class Hash = boost::hash<Key>,
-           class Pred = std::equal_to<Key>,
-           class Allocator = std::allocator<std::pair<const Key, T>>>
-  class unordered_multimap;
+  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+           class Pred = std::equal_to<key>,
+           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
+  class link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap[unordered_multimap];
 
   // 相等比较
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool operator==(const unordered_multimap<Key, T, Hash, Pred, Alloc>& x,
-                    const unordered_multimap<Key, T, Hash, Pred, Alloc>& y);
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    bool link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap_operator[operator==](const unordered_multimap<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+                    const unordered_multimap<key, alloc="" hash,="" pred,="" t,="">&amp; y);
 
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool operator!=(const unordered_multimap<Key, T, Hash, Pred, Alloc>& x,
-                    const unordered_multimap<Key, T, Hash, Pred, Alloc>& y);
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    bool link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap_operator_2[operator!=](const unordered_multimap<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+                    const unordered_multimap<key, alloc="" hash,="" pred,="" t,="">&amp; y);
 
   // 交换
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    void swap(unordered_multimap<Key, T, Hash, Pred, Alloc>& x,
-              unordered_multimap<Key, T, Hash, Pred, Alloc>& y)
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    void link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap_swap_2[swap](unordered_multimap<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+              unordered_multimap<key, alloc="" hash,="" pred,="" t,="">&amp; y)
       noexcept(noexcept(x.swap(y)));
 
   // 擦除
-  template<class K, class T, class H, class P, class A, class Predicate>
-    typename unordered_multimap<K, T, H, P, A>::size_type
-      erase_if(unordered_multimap<K, T, H, P, A>& c, Predicate pred);
+  template<class a,="" class="" h,="" k,="" p,="" predicate="" t,="">
+    typename unordered_multimap<k, a="" h,="" p,="" t,="">::size_type
+      link:reference/unordered_multimap_zh_Hans.adoc#unordered_multimap_erase_if[erase_if](unordered_multimap<k, a="" h,="" p,="" t,="">&amp; c, Predicate pred);
 
   // Pmr别名（C++17及以上）
   namespace pmr {
-    template<class Key,
-             class T,
-             class Hash = boost::hash<Key>,
-             class Pred = std::equal_to<Key>>
+    template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+             class Pred = std::equal_to<key>&gt;
     using unordered_map =
-      boost::unordered::unordered_map<Key, T, Hash, Pred,
-        std::pmr::polymorphic_allocator<std::pair<const Key, T>>>;
+      boost::unordered::unordered_map<key, hash,="" key,="" pred,="" std::pmr::polymorphic_allocator<std::pair<const="" t="" t,="">&gt;&gt;;
 
-    template<class Key,
-             class T,
-             class Hash = boost::hash<Key>,
-             class Pred = std::equal_to<Key>>
+    template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+             class Pred = std::equal_to<key>&gt;
     using unordered_multimap =
-      boost::unordered::unordered_multimap<Key, T, Hash, Pred,
-        std::pmr::polymorphic_allocator<std::pair<const Key, T>>>;
+      boost::unordered::unordered_multimap<key, hash,="" key,="" pred,="" std::pmr::polymorphic_allocator<std::pair<const="" t="" t,="">&gt;&gt;;
   } // 命名空间 pmr
 
 } // 命名空间 unordered
@@ -90,8 +79,8 @@ namespace unordered {
 using unordered::unordered_map;
 using unordered::unordered_multimap;
 
-} // 命名空间 boost
-....
+} // 命名空间 boost</key,></key></class></key,></key></class></k,></k,></class></key,></key,></class></key,></key,></class></key,></key,></class></std::pair<const></key></class></k,></k,></class></key,></key,></class></key,></key,></class></key,></key,></class></std::pair<const></key></class>
+----
 
 [[footer]]
 [[footer-text]]

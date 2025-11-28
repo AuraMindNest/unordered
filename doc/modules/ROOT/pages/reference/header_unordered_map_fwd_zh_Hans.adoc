@@ -4,9 +4,7 @@
 [[header_unordered_map_fwd]]
 === `++<++boost/unordered/unordered++_++map++_++fwd.hpp++>++` 概要
 
-前向声明
-link:reference/header_unordered_map_zh_Hans.adoc[`++<++boost/unordered/unordered++_++map.hpp++>++`]
-中的所有定义。
+前向声明 link:reference/header_unordered_map_zh_Hans.adoc[`++<++boost/unordered/unordered++_++map.hpp++>++`] 中的所有定义。
 
 [[footer]]
 [[footer-text]]

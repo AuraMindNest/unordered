@@ -5,8 +5,7 @@
 [[preamble]]
 为了正常工作，哈希表要求提供的哈希函数具有__高质量__，这大致意味着它应尽可能均匀地使用其`std::size++_++t`输出空间，就像随机数生成器那样——当然，不同之处在于哈希函数的值并非随机，而是由其输入参数严格决定。
 
-Boost.Unordered
-中的闭寻址容器对质量不理想的哈希函数具有较好的鲁棒性，但开放寻址和并发容器对此因素更为敏感。如果哈希函数选择不当，其性能会出现显著下降。通常，使用由link:../../../../container_hash/index.html[Boost.Hash]提供或生成的函数可确保质量达标，但在使用其他哈希算法时则需要特别谨慎。
+Boost.Unordered 中的闭寻址容器对质量不理想的哈希函数具有较好的鲁棒性，但开放寻址和并发容器对此因素更为敏感。如果哈希函数选择不当，其性能会出现显著下降。通常，使用由link:../../../../container_hash/index.html[Boost.Hash]提供或生成的函数可确保质量达标，但在使用其他哈希算法时则需要特别谨慎。
 
 本节剩余的内容仅适用于开放寻址容器与并发容器。
 
@@ -91,8 +90,7 @@ stats
 * 每次成功查找的平均比较次数应接近 1.0（即仅需核对找到的元素本身）。
 * 每次失败查找的平均比较次数应接近 0.0。
 
-我们提供了一个link:../../../benchmark/string_stats.cpp[示例程序]，用于展示以下哈希函数的容器统计信息：`boost::hash++<++std::string++>++`、 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a
-哈希算法]的实现，以及两个被错误标记为具备雪崩效应的自定义哈希函数：
+我们提供了一个link:../../../benchmark/string_stats.cpp[示例程序]，用于展示以下哈希函数的容器统计信息：`boost::hash++<++std::string++>++`、 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a 哈希算法]的实现，以及两个被错误标记为具备雪崩效应的自定义哈希函数：
 
 ....
                    boost::unordered_flat_map:   319 ms

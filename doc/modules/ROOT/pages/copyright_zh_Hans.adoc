@@ -16,8 +16,7 @@
 
 版权所有 © 2024 布雷登·加涅茨基 (Braden Ganetsky)
 
-根据Boost软件许可证1.0版分发。（详见随附文件 LICENSE++_++1++_++0.txt
-或访问 http://www.boost.org/LICENSE_1_0.txt获取副本。）
+根据Boost软件许可证1.0版分发。（详见随附文件 LICENSE++_++1++_++0.txt 或访问 http://www.boost.org/LICENSE_1_0.txt获取副本。）
 
 [[footer]]
 [[footer-text]]

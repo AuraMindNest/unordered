@@ -13,8 +13,7 @@ image:buckets.png[桶]
 
 关于哈希函数与相等性谓词的详细说明请参阅link:hash_equality_zh_Hans.adoc#hash_equality[后续章节]。
 
-如图所示，`A`与`D`被置于同一桶内。在此桶内查找元素时最多需要进行 2
-次比对，这会降低检索效率，该现象称为**冲突**。为维持高效运作，我们需尽可能减少冲突的发生。
+如图所示，`A`与`D`被置于同一桶内。在此桶内查找元素时最多需要进行 2 次比对，这会降低检索效率，该现象称为**冲突**。为维持高效运作，我们需尽可能减少冲突的发生。
 
 若使用link:reference/unordered_flat_set_zh_Hans.adoc[`boost::unordered++_++flat++_++set`]替代`boost::unordered++_++set`，其结构示意图将呈现如下形式：
 
@@ -26,34 +25,18 @@ image:buckets-oa.png[开放寻址桶]
 [width="100%",cols="50%,50%",]
 |===
 |*所有容器* |
-
 |*方法* |*描述*
-
 |`size++_++type bucket++_++count() const` |桶的数量。
-
 |*仅限闭寻址容器* |
-
 |*方法* |*描述*
-
 |`size++_++type max++_++bucket++_++count() const` |桶数量的上限。
-
-|`size++_++type bucket++_++size(size++_++type n) const` |返回桶 `n`
-中的元素数量。
-
-|`size++_++type bucket(key++_++type const& k) const`
-|返回键`k`所对应的桶的索引。
-
-|`local++_++iterator begin(size++_++type n)`
-|返回编号为`n`的桶的起始与末尾迭代器。
-
+|`size++_++type bucket++_++size(size++_++type n) const` |返回桶 `n` 中的元素数量。
+|`size++_++type bucket(key++_++type const& k) const` |返回键`k`所对应的桶的索引。
+|`local++_++iterator begin(size++_++type n)` |返回编号为`n`的桶的起始与末尾迭代器。
 |`local++_++iterator end(size++_++type n)` |
-
 |`const++_++local++_++iterator begin(size++_++type n) const` |
-
 |`const++_++local++_++iterator end(size++_++type n) const` |
-
 |`const++_++local++_++iterator cbegin(size++_++type n) const` |
-
 |`const++_++local++_++iterator cend(size++_++type n) const` |
 |===
 
@@ -67,8 +50,7 @@ image:buckets-oa.png[开放寻址桶]
 用户无法直接控制桶的数量，但可通过以下两种方式间接调控：
 
 * 用户可在构造容器或调用`rehash`方法时指定桶数量的最小值。
-* 用户可通过调用`max++_++load++_++factor`
-方法来设定最大负载因子的建议值。
+* 用户可通过调用`max++_++load++_++factor` 方法来设定最大负载因子的建议值。
 
 `max++_++load++_++factor`并不允许用户自行设定最大负载因子，该方法仅用于提供__提示__。即便如此，标准也并未强制要求容器必须严格遵守该数值。唯一强制要求负载因子必须小于最大值的场景是在调用`rehash`方法之后。但大多数实现会尝试将元素数量维持在最大负载因子以下，并将最大负载因子设定为与提示值相同或接近——除非用户提供的提示值过小或过大。
 
@@ -76,37 +58,20 @@ image:buckets-oa.png[开放寻址桶]
 [width="100%",cols="50%,50%",]
 |===
 |*所有容器* |
-
 |*方法* |*描述*
-
-|`X(size++_++type n)`
-|构造一个至少包含`n`个桶的空容器（`X`表示容器类型）。
-
-|`X(InputIterator i, InputIterator j, size++_++type n)`
-|构造一个至少包含`n`个桶的空容器，并插入范围`++[++i, j)`中的元素（`X`表示容器类型）。
-
+|`X(size++_++type n)` |构造一个至少包含`n`个桶的空容器（`X`表示容器类型）。
+|`X(InputIterator i, InputIterator j, size++_++type n)` |构造一个至少包含`n`个桶的空容器，并插入范围`++[++i, j)`中的元素（`X`表示容器类型）。
 |`float load++_++factor() const` |返回每个桶的平均元素数量。
-
 |`float max++_++load++_++factor() const` |返回当前的最大负载因子。
-
-|`float max++_++load++_++factor(float z)`
-|以`z`作为提示值来更改容器的最大负载因子。 +
+|`float max++_++load++_++factor(float z)` |以`z`作为提示值来更改容器的最大负载因子。 +
 **开放寻址与并发容器：**此函数无效，用户不允许更改最大负载因子。
-
-|`void rehash(size++_++type n)`
-|调整桶的数量，使其至少为`n`，并确保负载因子小于最大负载因子。
-
+|`void rehash(size++_++type n)` |调整桶的数量，使其至少为`n`，并确保负载因子小于最大负载因子。
 |*仅限开放寻址与并发容器* |
-
 |*方法* |*描述*
-
-|`size++_++type max++_++load() const`
-|返回容器触发重新哈希前所允许容纳的最大元素数量。
+|`size++_++type max++_++load() const` |返回容器触发重新哈希前所允许容纳的最大元素数量。
 |===
 
-关于开放寻址与并发容器的`max++_++load`注意事项：在容器创建或执行`rehash`后，最大负载值将保持为`max++_++load++_++factor() ++*++ bucket++_++count()`；但在高负载场景下执行元素删除操作时，该值可能轻微下降。例如，若某个link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map[`boost::unordered++_++flat++_++map`]的`size()`已接近`max++_++load()`阈值，随后删除
-1,000
-个元素时，`max++_++load()`可能减少约数十个元素。此机制是Boost.Unordered为保持性能稳定而采取的内部机制，用户在规划无重组插入操作时需予以考虑。
+关于开放寻址与并发容器的`max++_++load`注意事项：在容器创建或执行`rehash`后，最大负载值将保持为`max++_++load++_++factor() ++*++ bucket++_++count()`；但在高负载场景下执行元素删除操作时，该值可能轻微下降。例如，若某个link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map[`boost::unordered++_++flat++_++map`]的`size()`已接近`max++_++load()`阈值，随后删除 1,000 个元素时，`max++_++load()`可能减少约数十个元素。此机制是Boost.Unordered为保持性能稳定而采取的内部机制，用户在规划无重组插入操作时需予以考虑。
 
 [[footer]]
 [[footer-text]]

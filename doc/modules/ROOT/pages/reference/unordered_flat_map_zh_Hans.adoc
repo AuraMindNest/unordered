@@ -2,284 +2,275 @@
 
 [[content]]
 [[unordered_flat_map]]
-=== 类模板 unordered++_++flat++_++map
+=== 类模板 unordered_flat_map
 
-`boost::unordered++_++flat++_++map` ——
-一种开放寻址的无序关联容器，用于将唯一键与另一个值关联。
+`boost::unordered_flat_map` —— 一种开放寻址的无序关联容器，用于将唯一键与另一个值关联。
 
-`boost::unordered++_++flat++_++map` 的性能远优于
-`boost::unordered++_++map` 或其他 `std::unordered++_++map`
-的实现。与基于节点的标准无序关联容器不同，`boost::unordered++_++flat++_++map`
-的元素直接存储在桶数组中，且当元素被插入到已被占用的桶时，会将其重定向到原始位置附近的可用桶。这种数据布局类型称为__开放寻址法__。
+`boost::unordered_flat_map` 的性能远优于 `boost::unordered_map` 或其他 `std::unordered_map` 的实现。与基于节点的标准无序关联容器不同，`boost::unordered_flat_map` 的元素直接存储在桶数组中，且当元素被插入到已被占用的桶时，会将其重定向到原始位置附近的可用桶。这种数据布局类型称为__开放寻址法__。
 
-由于采用开放寻址法，`boost::unordered++_++flat++_++map`
-的接口在多个方面与 `boost::unordered++_++map`/`std::unordered++_++map`
-不同：
+由于采用开放寻址法，`boost::unordered_flat_map` 的接口在多个方面与 `boost::unordered_map`/`std::unordered_map` 不同：
 
-* `value++_++type` 必须支持移动构造。
+* `value_type` 必须支持移动构造。
 * 在重哈希的过程中，指针稳定性无法保持。
 * `begin()` 不是常数时间复杂度操作。
-* 未提供用于桶管理（除 `bucket++_++count` 外）或节点提取/插入的 API。
+* 未提供用于桶管理（除 `bucket_count` 外）或节点提取/插入的 API。
 * 容器的最大负载因子由内部管理，用户无法进行设置。
 
-除此之外，`boost::unordered++_++flat++_++map`
-基本可完全替代基于节点的标准无序关联容器。
+除此之外，`boost::unordered_flat_map` 基本可完全替代基于节点的标准无序关联容器。
 
 [[unordered_flat_map_synopsis]]
 ==== 概要
 
-....
-// #include <boost/unordered/unordered_flat_map.hpp>
+[listing,subs="+macros,+quotes"]
+----
+// #include link:reference/header_unordered_flat_map_zh_Hans.adoc[`<boost/unordered/unordered_flat_map.hpp>`]
 
 namespace boost {
 namespace unordered {
 
-  template<class Key,
-           class T,
-           class Hash = boost::hash<Key>,
-           class Pred = std::equal_to<Key>,
-           class Allocator = std::allocator<std::pair<const Key, T>>>
+  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+           class Pred = std::equal_to<key>,
+           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
   class unordered_flat_map {
   public:
     // 类型定义
     using key_type             = Key;
     using mapped_type          = T;
-    using value_type           = std::pair<const Key, T>;
-    using init_type            = std::pair<
-                                   typename std::remove_const<Key>::type,
-                                   typename std::remove_const<T>::type
-                                 >;
+    using value_type           = std::pair<const key,="" t="">;
+    using init_type            = std::pair&lt;
+                                   typename std::remove_const<key>::type,
+                                   typename std::remove_const<t>::type
+                                 &gt;;
     using hasher               = Hash;
     using key_equal            = Pred;
     using allocator_type       = Allocator;
-    using pointer              = typename std::allocator_traits<Allocator>::pointer;
-    using const_pointer        = typename std::allocator_traits<Allocator>::const_pointer;
-    using reference            = value_type&;
-    using const_reference      = const value_type&;
+    using pointer              = typename std::allocator_traits<allocator>::pointer;
+    using const_pointer        = typename std::allocator_traits<allocator>::const_pointer;
+    using reference            = value_type&amp;;
+    using const_reference      = const value_type&amp;;
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using iterator             = 由实现定义;
-    using const_iterator       = 由实现定义;
+    using iterator             = <em>由实现定义</em>;
+    using const_iterator       = <em>由实现定义</em>;
 
-    using stats                = 统计类型; // 若统计功能已启用
+    using stats                = link:reference/stats_zh_Hans.adoc#stats_stats_type[统计类型]; // 若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]
 
     // 构造/复制/销毁
-    unordered_flat_map();
-    explicit unordered_flat_map(size_type n,
-                                const hasher& hf = hasher(),
-                                const key_equal& eql = key_equal(),
-                                const allocator_type& a = allocator_type());
-    template<class InputIterator>
-      unordered_flat_map(InputIterator f, InputIterator l,
-                         size_type n = 由实现定义,
-                         const hasher& hf = hasher(),
-                         const key_equal& eql = key_equal(),
-                         const allocator_type& a = allocator_type());
-    unordered_flat_map(const unordered_flat_map& other);
-    unordered_flat_map(unordered_flat_map&& other);
-    template<class InputIterator>
-      unordered_flat_map(InputIterator f, InputIterator l, const allocator_type& a);
-    explicit unordered_flat_map(const Allocator& a);
-    unordered_flat_map(const unordered_flat_map& other, const Allocator& a);
-    unordered_flat_map(unordered_flat_map&& other, const Allocator& a);
-    unordered_flat_map(concurrent_flat_map<Key, T, Hash, Pred, Allocator>&& other);
-    unordered_flat_map(std::initializer_list<value_type> il,
-                       size_type n = 由实现定义
-                       const hasher& hf = hasher(),
-                       const key_equal& eql = key_equal(),
-                       const allocator_type& a = allocator_type());
-    unordered_flat_map(size_type n, const allocator_type& a);
-    unordered_flat_map(size_type n, const hasher& hf, const allocator_type& a);
-    template<class InputIterator>
-      unordered_flat_map(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
-    template<class InputIterator>
-      unordered_flat_map(InputIterator f, InputIterator l, size_type n, const hasher& hf,
-                         const allocator_type& a);
-    unordered_flat_map(std::initializer_list<value_type> il, const allocator_type& a);
-    unordered_flat_map(std::initializer_list<value_type> il, size_type n,
-                       const allocator_type& a);
-    unordered_flat_map(std::initializer_list<value_type> il, size_type n, const hasher& hf,
-                       const allocator_type& a);
-    ~unordered_flat_map();
-    unordered_flat_map& operator=(const unordered_flat_map& other);
-    unordered_flat_map& operator=(unordered_flat_map&& other) noexcept(
-      (boost::allocator_traits<Allocator>::is_always_equal::value ||
-       boost::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) &&
-       std::is_same<pointer, value_type*>::value);
-    unordered_flat_map& operator=(std::initializer_list<value_type>);
-    allocator_type get_allocator() const noexcept;
+    link:#unordered_flat_map_default_constructor[unordered_flat_map]();
+    explicit link:#unordered_flat_map_bucket_count_constructor[unordered_flat_map](size_type n,
+                                const hasher&amp; hf = hasher(),
+                                const key_equal&amp; eql = key_equal(),
+                                const allocator_type&amp; a = allocator_type());
+    template<class inputiterator="">
+link:#unordered_flat_map_iterator_range_constructor[unordered_flat_map](InputIterator f, InputIterator l,
+                         size_type n = <em>由实现定义</em>,
+                         const hasher&amp; hf = hasher(),
+                         const key_equal&amp; eql = key_equal(),
+                         const allocator_type&amp; a = allocator_type());
+    link:#unordered_flat_map_copy_constructor[unordered_flat_map](const unordered_flat_map&amp; other);
+    link:#unordered_flat_map_move_constructor[unordered_flat_map](unordered_flat_map&amp;&amp; other);
+    template<class inputiterator="">
+link:#unordered_flat_map_iterator_range_constructor_with_allocator[unordered_flat_map](InputIterator f, InputIterator l, const allocator_type&amp; a);
+    explicit link:#unordered_flat_map_allocator_constructor[unordered_flat_map](const Allocator&amp; a);
+    link:#unordered_flat_map_copy_constructor_with_allocator[unordered_flat_map](const unordered_flat_map&amp; other, const Allocator&amp; a);
+    link:#unordered_flat_map_move_constructor_with_allocator[unordered_flat_map](unordered_flat_map&amp;&amp; other, const Allocator&amp; a);
+    link:#unordered_flat_map_move_constructor_from_concurrent_flat_map[unordered_flat_map](concurrent_flat_map<key, allocator="" hash,="" pred,="" t,="">&amp;&amp; other);
+    link:#unordered_flat_map_initializer_list_constructor[unordered_flat_map](std::initializer_list<value_type> il,
+                       size_type n = <em>由实现定义</em>
+                       const hasher&amp; hf = hasher(),
+                       const key_equal&amp; eql = key_equal(),
+                       const allocator_type&amp; a = allocator_type());
+    link:#unordered_flat_map_bucket_count_constructor_with_allocator[unordered_flat_map](size_type n, const allocator_type&amp; a);
+    link:#unordered_flat_map_bucket_count_constructor_with_hasher_and_allocator[unordered_flat_map](size_type n, const hasher&amp; hf, const allocator_type&amp; a);
+    template<class inputiterator="">
+link:#unordered_flat_map_iterator_range_constructor_with_bucket_count_and_allocator[unordered_flat_map](InputIterator f, InputIterator l, size_type n, const allocator_type&amp; a);
+    template<class inputiterator="">
+link:#unordered_flat_map_iterator_range_constructor_with_bucket_count_and_hasher[unordered_flat_map](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
+                         const allocator_type&amp; a);
+    link:#unordered_flat_map_initializer_list_constructor_with_allocator[unordered_flat_map](std::initializer_list<value_type> il, const allocator_type&amp; a);
+    link:#unordered_flat_map_initializer_list_constructor_with_bucket_count_and_allocator[unordered_flat_map](std::initializer_list<value_type> il, size_type n,
+                       const allocator_type&amp; a);
+    link:#unordered_flat_map_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_flat_map](std::initializer_list<value_type> il, size_type n, const hasher&amp; hf,
+                       const allocator_type&amp; a);
+    link:#unordered_flat_map_destructor[~unordered_flat_map]();
+    unordered_flat_map&amp; link:#unordered_flat_map_copy_assignment[operator=](const unordered_flat_map&amp; other);
+    unordered_flat_map&amp; link:#unordered_flat_map_move_assignment[operator=](unordered_flat_map&amp;&amp; other) noexcept(
+      (boost::allocator_traits<allocator>::is_always_equal::value ||
+       boost::allocator_traits<allocator>::propagate_on_container_move_assignment::value) &amp;&amp;
+       std::is_same<pointer, value_type*="">::value);
+    unordered_flat_map&amp; link:#unordered_flat_map_initializer_list_assignment[operator=](std::initializer_list<value_type>);
+    allocator_type link:#unordered_flat_map_get_allocator[get_allocator]() const noexcept;
 
     // 迭代器
-    iterator       begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator       end() noexcept;
-    const_iterator end() const noexcept;
-    const_iterator cbegin() const noexcept;
-    const_iterator cend() const noexcept;
+    iterator       link:#unordered_flat_map_begin[begin]() noexcept;
+    const_iterator link:#unordered_flat_map_begin[begin]() const noexcept;
+    iterator       link:#unordered_flat_map_end[end]() noexcept;
+    const_iterator link:#unordered_flat_map_end[end]() const noexcept;
+    const_iterator link:#unordered_flat_map_cbegin[cbegin]() const noexcept;
+    const_iterator link:#unordered_flat_map_cend[cend]() const noexcept;
 
     // 容量
-    [[nodiscard]] bool empty() const noexcept;
-    size_type size() const noexcept;
-    size_type max_size() const noexcept;
+    [[nodiscard]] bool link:#unordered_flat_map_empty[empty]() const noexcept;
+    size_type link:#unordered_flat_map_size[size]() const noexcept;
+    size_type link:#unordered_flat_map_max_size[max_size]() const noexcept;
 
     // 修改器
-    template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
-    template<class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
-    std::pair<iterator, bool> insert(const value_type& obj);
-    std::pair<iterator, bool> insert(const init_type& obj);
-    std::pair<iterator, bool> insert(value_type&& obj);
-    std::pair<iterator, bool> insert(init_type&& obj);
-    iterator       insert(const_iterator hint, const value_type& obj);
-    iterator       insert(const_iterator hint, const init_type& obj);
-    iterator       insert(const_iterator hint, value_type&& obj);
-    iterator       insert(const_iterator hint, init_type&& obj);
-    template<class InputIterator> void insert(InputIterator first, InputIterator last);
-    void insert(std::initializer_list<value_type>);
+    template<class... args=""> std::pair<iterator, bool=""> link:#unordered_flat_map_emplace[emplace](Args&amp;&amp;... args);
+    template<class... args=""> iterator link:#unordered_flat_map_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
+    std::pair<iterator, bool=""> link:#unordered_flat_map_copy_insert[insert](const value_type&amp; obj);
+    std::pair<iterator, bool=""> link:#unordered_flat_map_copy_insert[insert](const init_type&amp; obj);
+    std::pair<iterator, bool=""> link:#unordered_flat_map_move_insert[insert](value_type&amp;&amp; obj);
+    std::pair<iterator, bool=""> link:#unordered_flat_map_move_insert[insert](init_type&amp;&amp; obj);
+    iterator       link:#unordered_flat_map_copy_insert_with_hint[insert](const_iterator hint, const value_type&amp; obj);
+    iterator       link:#unordered_flat_map_copy_insert_with_hint[insert](const_iterator hint, const init_type&amp; obj);
+    iterator       link:#unordered_flat_map_move_insert_with_hint[insert](const_iterator hint, value_type&amp;&amp; obj);
+    iterator       link:#unordered_flat_map_copy_insert_with_hint[insert](const_iterator hint, init_type&amp;&amp; obj);
+    template<class inputiterator=""> void link:#unordered_flat_map_insert_iterator_range[insert](InputIterator first, InputIterator last);
+    void link:#unordered_flat_map_insert_initializer_list[insert](std::initializer_list<value_type>);
 
-    template<class... Args>
-      std::pair<iterator, bool> try_emplace(const key_type& k, Args&&... args);
-    template<class... Args>
-      std::pair<iterator, bool> try_emplace(key_type&& k, Args&&... args);
-    template<class K, class... Args>
-      std::pair<iterator, bool> try_emplace(K&& k, Args&&... args);
-    template<class... Args>
-      iterator try_emplace(const_iterator hint, const key_type& k, Args&&... args);
-    template<class... Args>
-      iterator try_emplace(const_iterator hint, key_type&& k, Args&&... args);
-    template<class K, class... Args>
-      iterator try_emplace(const_iterator hint, K&& k, Args&&... args);
-    template<class M>
-      std::pair<iterator, bool> insert_or_assign(const key_type& k, M&& obj);
-    template<class M>
-      std::pair<iterator, bool> insert_or_assign(key_type&& k, M&& obj);
-    template<class K, class M>
-      std::pair<iterator, bool> insert_or_assign(K&& k, M&& obj);
-    template<class M>
-      iterator insert_or_assign(const_iterator hint, const key_type& k, M&& obj);
-    template<class M>
-      iterator insert_or_assign(const_iterator hint, key_type&& k, M&& obj);
-    template<class K, class M>
-      iterator insert_or_assign(const_iterator hint, K&& k, M&& obj);
+    template<class... args="">
+      std::pair<iterator, bool=""> link:#unordered_flat_map_try_emplace[try_emplace](const key_type&amp; k, Args&amp;&amp;... args);
+    template<class... args="">
+      std::pair<iterator, bool=""> link:#unordered_flat_map_try_emplace[try_emplace](key_type&amp;&amp; k, Args&amp;&amp;... args);
+    template<class args="" class...="" k,="">
+      std::pair<iterator, bool=""> link:#unordered_flat_map_try_emplace[try_emplace](K&amp;&amp; k, Args&amp;&amp;... args);
+    template<class... args="">
+      iterator link:#unordered_flat_map_try_emplace_with_hint[try_emplace](const_iterator hint, const key_type&amp; k, Args&amp;&amp;... args);
+    template<class... args="">
+      iterator link:#unordered_flat_map_try_emplace_with_hint[try_emplace](const_iterator hint, key_type&amp;&amp; k, Args&amp;&amp;... args);
+    template<class args="" class...="" k,="">
+      iterator link:#unordered_flat_map_try_emplace_with_hint[try_emplace](const_iterator hint, K&amp;&amp; k, Args&amp;&amp;... args);
+    template<class m="">
+      std::pair<iterator, bool=""> link:#unordered_flat_map_insert_or_assign[insert_or_assign](const key_type&amp; k, M&amp;&amp; obj);
+    template<class m="">
+      std::pair<iterator, bool=""> link:#unordered_flat_map_insert_or_assign[insert_or_assign](key_type&amp;&amp; k, M&amp;&amp; obj);
+    template<class class="" k,="" m="">
+      std::pair<iterator, bool=""> link:#unordered_flat_map_insert_or_assign[insert_or_assign](K&amp;&amp; k, M&amp;&amp; obj);
+    template<class m="">
+      iterator link:#unordered_flat_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, const key_type&amp; k, M&amp;&amp; obj);
+    template<class m="">
+      iterator link:#unordered_flat_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, key_type&amp;&amp; k, M&amp;&amp; obj);
+    template<class class="" k,="" m="">
+      iterator link:#unordered_flat_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, K&amp;&amp; k, M&amp;&amp; obj);
 
-    可转换为迭代器的类型     erase(iterator position);
-    可转换为迭代器的类型     erase(const_iterator position);
-    size_type                   erase(const key_type& k);
-    template<class K> size_type erase(K&& k);
-    iterator  erase(const_iterator first, const_iterator last);
-    void      swap(unordered_flat_map& other)
-      noexcept(boost::allocator_traits<Allocator>::is_always_equal::value ||
-               boost::allocator_traits<Allocator>::propagate_on_container_swap::value);
-    init_type pull(const_iterator position);
-    void      clear() noexcept;
+    <em>可转换为迭代器的类型</em> link:#unordered_flat_map_erase_by_position[erase](iterator position);
+    <em>可转换为迭代器的类型</em> link:#unordered_flat_map_erase_by_position[erase](const_iterator position);
+    size_type                   link:#unordered_flat_map_erase_by_key[erase](const key_type&amp; k);
+    template<class k=""> size_type link:#unordered_flat_map_erase_by_key[erase](K&amp;&amp; k);
+    iterator  link:#unordered_flat_map_erase_range[erase](const_iterator first, const_iterator last);
+    void      link:#unordered_flat_map_swap[swap](unordered_flat_map&amp; other)
+      noexcept(boost::allocator_traits<allocator>::is_always_equal::value ||
+               boost::allocator_traits<allocator>::propagate_on_container_swap::value);
+    init_type link:#unordered_flat_map_pull[pull](const_iterator position);
+    void      link:#unordered_flat_map_clear[clear]() noexcept;
 
-    template<class H2, class P2>
-      void merge(unordered_flat_map<Key, T, H2, P2, Allocator>& source);
-    template<class H2, class P2>
-      void merge(unordered_flat_map<Key, T, H2, P2, Allocator>&& source);
+    template<class class="" h2,="" p2="">
+      void link:#unordered_flat_map_merge[merge](unordered_flat_map<key, allocator="" h2,="" p2,="" t,="">&amp; source);
+    template<class class="" h2,="" p2="">
+      void link:#unordered_flat_map_merge[merge](unordered_flat_map<key, allocator="" h2,="" p2,="" t,="">&amp;&amp; source);
 
     // 观察器
-    hasher hash_function() const;
-    key_equal key_eq() const;
+    hasher link:#unordered_flat_map_hash_function[hash_function]() const;
+    key_equal link:#unordered_flat_map_key_eq[key_eq]() const;
 
     // 映射操作
-    iterator         find(const key_type& k);
-    const_iterator   find(const key_type& k) const;
-    template<class K>
-      iterator       find(const K& k);
-    template<class K>
-      const_iterator find(const K& k) const;
-    size_type        count(const key_type& k) const;
-    template<class K>
-      size_type      count(const K& k) const;
-    bool             contains(const key_type& k) const;
-    template<class K>
-      bool           contains(const K& k) const;
-    std::pair<iterator, iterator>               equal_range(const key_type& k);
-    std::pair<const_iterator, const_iterator>   equal_range(const key_type& k) const;
-    template<class K>
-      std::pair<iterator, iterator>             equal_range(const K& k);
-    template<class K>
-      std::pair<const_iterator, const_iterator> equal_range(const K& k) const;
+    iterator         link:#unordered_flat_map_find[find](const key_type&amp; k);
+    const_iterator   link:#unordered_flat_map_find[find](const key_type&amp; k) const;
+    template<class k="">
+      iterator       link:#unordered_flat_map_find[find](const K&amp; k);
+    template<class k="">
+      const_iterator link:#unordered_flat_map_find[find](const K&amp; k) const;
+    size_type        link:#unordered_flat_map_count[count](const key_type&amp; k) const;
+    template<class k="">
+      size_type      link:#unordered_flat_map_count[count](const K&amp; k) const;
+    bool             link:#unordered_flat_map_contains[contains](const key_type&amp; k) const;
+    template<class k="">
+      bool           link:#unordered_flat_map_contains[contains](const K&amp; k) const;
+    std::pair<iterator, iterator=""> link:#unordered_flat_map_equal_range[equal_range](const key_type&amp; k);
+    std::pair<const_iterator, const_iterator=""> link:#unordered_flat_map_equal_range[equal_range](const key_type&amp; k) const;
+    template<class k="">
+      std::pair<iterator, iterator=""> link:#unordered_flat_map_equal_range[equal_range](const K&amp; k);
+    template<class k="">
+      std::pair<const_iterator, const_iterator=""> link:#unordered_flat_map_equal_range[equal_range](const K&amp; k) const;
 
     // 元素访问
-    mapped_type& operator[](const key_type& k);
-    mapped_type& operator[](key_type&& k);
-    template<class K> mapped_type& operator[](K&& k);
-    mapped_type& at(const key_type& k);
-    const mapped_type& at(const key_type& k) const;
-    template<class K> mapped_type& at(const K& k);
-    template<class K> const mapped_type& at(const K& k) const;
+    mapped_type&amp; link:#unordered_flat_map_operator[operator[]](const key_type&amp; k);
+    mapped_type&amp; link:#unordered_flat_map_operator[operator[]](key_type&amp;&amp; k);
+    template<class k=""> mapped_type&amp; link:#unordered_flat_map_operator[operator[]](K&amp;&amp; k);
+    mapped_type&amp; link:#unordered_flat_map_at[at](const key_type&amp; k);
+    const mapped_type&amp; link:#unordered_flat_map_at[at](const key_type&amp; k) const;
+    template<class k=""> mapped_type&amp; link:#unordered_flat_map_at[at](const K&amp; k);
+    template<class k=""> const mapped_type&amp; link:#unordered_flat_map_at[at](const K&amp; k) const;
 
     // 桶接口
-    size_type bucket_count() const noexcept;
+    size_type link:#unordered_flat_map_bucket_count[bucket_count]() const noexcept;
 
     // 哈希策略
-    float load_factor() const noexcept;
-    float max_load_factor() const noexcept;
-    void max_load_factor(float z);
-    size_type max_load() const noexcept;
-    void rehash(size_type n);
-    void reserve(size_type n);
+    float link:#unordered_flat_map_load_factor[load_factor]() const noexcept;
+    float link:#unordered_flat_map_max_load_factor[max_load_factor]() const noexcept;
+    void link:#unordered_flat_map_set_max_load_factor[max_load_factor](float z);
+    size_type link:#unordered_flat_map_max_load[max_load]() const noexcept;
+    void link:#unordered_flat_map_rehash[rehash](size_type n);
+    void link:#unordered_flat_map_reserve[reserve](size_type n);
 
-    // 统计（若已启用）
-    stats get_stats() const;
-    void reset_stats() noexcept;
+    // 统计（若link:#unordered_flat_map_boost_unordered_enable_stats[已启用]）
+    stats link:#unordered_flat_map_get_stats[get_stats]() const;
+    void link:#unordered_flat_map_reset_stats[reset_stats]() noexcept;
   };
 
   // 推导指引
-  template<class InputIterator,
-           class Hash = boost::hash<迭代器键类型<InputIterator>>,
-           class Pred = std::equal_to<迭代器键类型<InputIterator>>,
-           class Allocator = std::allocator<迭代器到分配类型<InputIterator>>>
-    unordered_flat_map(InputIterator, InputIterator, typename 见下文::size_type = 见下文,
+  template<class class="" hash="boost::hash&lt;&lt;a" href="#unordered_flat_map_iter_key_type" inputiterator,=""><em>迭代器键类型</em><inputiterator>&gt;,
+           class Pred = std::equal_to&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>&gt;,
+           class Allocator = std::allocator&lt;link:#unordered_flat_map_iter_to_alloc_type[迭代器到分配类型]<inputiterator>&gt;&gt;
+    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type = link:#unordered_flat_map_deduction_guides[见下文],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> unordered_flat_map<迭代器键类型<InputIterator>, 迭代器映射类型<InputIterator>, Hash,
-                            Pred, Allocator>;
+      -&gt; unordered_flat_map&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<inputiterator>, Hash,
+                            Pred, Allocator&gt;;
 
-  template<class Key, class T, class Hash = boost::hash<Key>,
-           class Pred = std::equal_to<Key>,
-           class Allocator = std::allocator<std::pair<const Key, T>>>
-    unordered_flat_map(std::initializer_list<std::pair<Key, T>>,
-                       typename 见下文::size_type = 见下文, Hash = Hash(),
+  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+           class Pred = std::equal_to<key>,
+           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
+    unordered_flat_map(std::initializer_list<std::pair<key, t="">&gt;,
+                       typename link:#unordered_flat_map_deduction_guides[见下文]::size_type = link:#unordered_flat_map_deduction_guides[见下文], Hash = Hash(),
                        Pred = Pred(), Allocator = Allocator())
-      -> unordered_flat_map<Key, T, Hash, Pred, Allocator>;
+      -&gt; unordered_flat_map<key, allocator="" hash,="" pred,="" t,="">;
 
-  template<class InputIterator, class Allocator>
-    unordered_flat_map(InputIterator, InputIterator, typename 见下文::size_type, Allocator)
-      -> unordered_flat_map<迭代器键类型<InputIterator>, 迭代器映射类型<InputIterator>,
-                            boost::hash<迭代器键类型<InputIterator>>,
-                            std::equal_to<迭代器键类型<InputIterator>>, Allocator>;
+  template<class allocator="" class="" inputiterator,="">
+    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type, Allocator)
+      -&gt; unordered_flat_map&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<inputiterator>,
+                            boost::hash&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>&gt;,
+                            std::equal_to&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>&gt;, Allocator&gt;;
 
-  template<class InputIterator, class Allocator>
+  template<class allocator="" class="" inputiterator,="">
     unordered_flat_map(InputIterator, InputIterator, Allocator)
-      -> unordered_flat_map<迭代器键类型<InputIterator>, 迭代器映射类型<InputIterator>,
-                            boost::hash<迭代器键类型<InputIterator>>,
-                            std::equal_to<迭代器键类型<InputIterator>>, Allocator>;
+      -&gt; unordered_flat_map&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<inputiterator>,
+                            boost::hash&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>&gt;,
+                            std::equal_to&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>&gt;, Allocator&gt;;
 
-  template<class InputIterator, class Hash, class Allocator>
-    unordered_flat_map(InputIterator, InputIterator, typename 见下文::size_type, Hash,
+  template<class allocator="" class="" hash,="" inputiterator,="">
+    unordered_flat_map(InputIterator, InputIterator, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type, Hash,
                        Allocator)
-      -> unordered_flat_map<迭代器键类型<InputIterator>, 迭代器映射类型<InputIterator>, Hash,
-                            std::equal_to<迭代器键类型<InputIterator>>, Allocator>;
+      -&gt; unordered_flat_map&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>, link:#unordered_flat_map_iter_mapped_type[迭代器映射类型]<inputiterator>, Hash,
+                            std::equal_to&lt;link:#unordered_flat_map_iter_key_type[迭代器键类型]<inputiterator>&gt;, Allocator&gt;;
 
-  template<class Key, class T, class Allocator>
-    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, typename 见下文::size_type,
+  template<class allocator="" class="" key,="" t,="">
+    unordered_flat_map(std::initializer_list<std::pair<key, t="">&gt;, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type,
                        Allocator)
-      -> unordered_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
+      -&gt; unordered_flat_map<key, boost::hash<key="" t,="">, std::equal_to<key>, Allocator&gt;;
 
-  template<class Key, class T, class Allocator>
-    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, Allocator)
-      -> unordered_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
+  template<class allocator="" class="" key,="" t,="">
+    unordered_flat_map(std::initializer_list<std::pair<key, t="">&gt;, Allocator)
+      -&gt; unordered_flat_map<key, boost::hash<key="" t,="">, std::equal_to<key>, Allocator&gt;;
 
-  template<class Key, class T, class Hash, class Allocator>
-    unordered_flat_map(std::initializer_list<std::pair<Key, T>>, typename 见下文::size_type,
+  template<class allocator="" class="" hash,="" key,="" t,="">
+    unordered_flat_map(std::initializer_list<std::pair<key, t="">&gt;, typename link:#unordered_flat_map_deduction_guides[见下文]::size_type,
                        Hash, Allocator)
-      -> unordered_flat_map<Key, T, Hash, std::equal_to<Key>, Allocator>;
+      -&gt; unordered_flat_map<key, hash,="" std::equal_to<key="" t,="">, Allocator&gt;;
 
 } // namespace unordered
-} // namespace boost
-....
+} // namespace boost</key,></std::pair<key,></class></key></key,></std::pair<key,></class></key></key,></std::pair<key,></class></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></inputiterator></class></key,></std::pair<key,></std::pair<const></key></class></inputiterator></inputiterator></inputiterator></inputiterator></inputiterator></class></class></class></class></const_iterator,></class></iterator,></class></const_iterator,></iterator,></class></class></class></class></key,></class></key,></class></allocator></allocator></class></class></class></class></iterator,></class></iterator,></class></iterator,></class></class></class...></class...></iterator,></class></iterator,></class...></iterator,></class...></value_type></class></iterator,></iterator,></iterator,></iterator,></class...></iterator,></class...></value_type></pointer,></allocator></allocator></value_type></value_type></value_type></class></class></value_type></key,></class></class></allocator></allocator></t></key></const></std::pair<const></key></class>
+----
 
 '''''
 
@@ -290,35 +281,18 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key` 和 `T`
-必须满足 https://en.cppreference.com/w/cpp/named_req/MoveConstructible[可移动构造]要求。容器中的
-`std::pair++<++const Key, T++>++` 必须可从任何可转换为它的 `std::pair`
-对象https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]，且必须可从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
-
+|_键_ |`Key` 和 `T` 必须满足 https://en.cppreference.com/w/cpp/named_req/MoveConstructible[可移动构造]要求。容器中的 `std::pair<const Key, T>` 必须可从任何可转换为它的 `std::pair` 对象https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]，且必须可从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
 |_T_ |
-
-|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
-的参数，并返回一个 `std::size++_++t` 类型的值。
-
-|_谓词_ |二元函数对象，用于在 `Key`
-类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool`
-类型的值。
-
-|_分配器_
-|一种分配器，其值类型与容器的值类型相同，是一种支持使用 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
+|_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个 `std::size_t` 类型的值。
+|_谓词_ |二元函数对象，用于在 `Key` 类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool` 类型的值。
+|_分配器_ |一种分配器，其值类型与容器的值类型相同，是一种支持使用 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
 |===
 
 容器的元素存储在内部的__桶数组__中。元素根据其哈希码被插入到对应的桶中，但如果该桶已被占用（即发生__冲突__），则会使用原始位置附近可用的桶。
 
-桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用
-`rehash`/`reserve`
-来调整。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过
-`max++_++load++_++factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
+桶数组的大小可通过调用 `insert`/`emplace` 自动增加，也可通过调用 `rehash`/`reserve` 来调整。容器的__负载因子__（元素数量与桶数量的比值）始终不会超过 `max_load_factor()`，但在小规模数据情况下，实现可能允许更高的负载因子。
 
-若
-link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`]`++<++Hash++>++::value`
-为
-`true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
+若 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash_is_avalanching`]`<Hash>::value` 为 `true`，则直接使用哈希函数；否则，会添加一个位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 '''''
 
@@ -326,10 +300,9 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 ==== 配置宏
 
 [[unordered_flat_map_boost_unordered_enable_stats]]
-===== `BOOST++_++UNORDERED++_++ENABLE++_++STATS`
+===== `BOOST_UNORDERED_ENABLE_STATS`
 
-全局定义此宏，以启用容器的 link:reference/stats_zh_Hans.adoc#stats[统计计算]
-功能。请注意，此选项会降低许多操作的总体性能。
+全局定义此宏，以启用容器的 link:reference/stats_zh_Hans.adoc#stats[统计计算] 功能。请注意，此选项会降低许多操作的总体性能。
 
 '''''
 
@@ -341,11 +314,11 @@ link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghas
 typedef implementation-defined iterator;
 ----
 
-一种迭代器，其值类型为 `value++_++type`。
+一种迭代器，其值类型为 `value_type`。
 
 迭代器类别至少为前向迭代器。
 
-可转换为 `const++_++iterator`。
+可转换为 `const_iterator`。
 
 '''''
 
@@ -354,7 +327,7 @@ typedef implementation-defined iterator;
 typedef implementation-defined const_iterator;
 ----
 
-一种常量迭代器，其值类型为 `value++_++type`。
+一种常量迭代器，其值类型为 `value_type`。
 
 迭代器类别至少为前向迭代器。
 
@@ -369,17 +342,12 @@ typedef implementation-defined const_iterator;
 unordered_flat_map();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数、`key++_++equal()`
-作为键相等性谓词、以及`allocator++_++type()` 作为分配器。
+构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()` 作为键相等性谓词、以及`allocator_type()` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -395,17 +363,12 @@ explicit unordered_flat_map(size_type n,
                             const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、以及`a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、以及`a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -423,16 +386,11 @@ template<class InputIterator>
                      const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、`a` 作为分配器，并将区间 `++[++f, l)`
-中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、`a` 作为分配器，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -447,12 +405,11 @@ unordered_flat_map(unordered_flat_map const& other);
 
 复制构造函数。复制其所包含的元素、哈希函数、谓词及分配器。
 
-若 `Allocator::select++_++on++_++container++_++copy++_++construction`
-存在且签名正确，则将根据其结果来构造分配器。
+若 `Allocator::select_on_container_copy_construction` 存在且签名正确，则将根据其结果来构造分配器。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须满足可复制构造要求
+|要求： |`value_type` 必须满足可复制构造要求
 |===
 
 '''''
@@ -465,10 +422,7 @@ unordered_flat_map(unordered_flat_map const& other);
 unordered_flat_map(unordered_flat_map&& other);
 ----
 
-移动构造函数。`other`
-的内部桶数组直接转移至新容器。哈希函数、谓词和分配器均从 `other`
-移动构造。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则转移
-`other` 的内部统计信息，并调用 `other.reset++_++stats()`。
+移动构造函数。`other` 的内部桶数组直接转移至新容器。哈希函数、谓词和分配器均从 `other` 移动构造。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则转移 `other` 的内部统计信息，并调用 `other.reset_stats()`。
 
 '''''
 
@@ -481,15 +435,11 @@ template<class InputIterator>
   unordered_flat_map(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-构造一个空容器，使用 `a`
-作为分配器、以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器、以及默认的哈希函数和键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher`、`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -526,28 +476,19 @@ unordered_flat_map(unordered_flat_map const& other, Allocator const& a);
 unordered_flat_map(unordered_flat_map&& other, Allocator const& a);
 ----
 
-若 `a == other.get++_++allocator()`，则 `other`
-的元素直接转移至新容器；否则，元素从 `other`
-的元素移动构造。哈希函数和谓词从 `other` 移动构造，分配器从 `a`
-复制构造。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则当且仅当
-`a == other.get++_++allocator()` 时，转移 `other`
-的内部统计信息，并始终调用 `other.reset++_++stats()`。
+若 `a == other.get_allocator()`，则 `other` 的元素直接转移至新容器；否则，元素从 `other` 的元素移动构造。哈希函数和谓词从 `other` 移动构造，分配器从 `a` 复制构造。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则当且仅当 `a == other.get_allocator()` 时，转移 `other` 的内部统计信息，并始终调用 `other.reset_stats()`。
 
 '''''
 
 [[unordered_flat_map_move_constructor_from_concurrent_flat_map]]
-===== 从 concurrent++_++flat++_++map 的移动构造函数
+===== 从 concurrent_flat_map 的移动构造函数
 
 [source,highlight]
 ----
 unordered_flat_map(concurrent_flat_map<Key, T, Hash, Pred, Allocator>&& other);
 ----
 
-从 link:#concurrent_flat_map[`concurrent++_++flat++_++map`]
-移动构造。`other`
-的内部桶数组直接转移至新容器。哈希函数、谓词和分配器均从 `other`
-移动构造。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则转移
-`other` 的内部统计信息，并调用 `other.reset++_++stats()`。
+从 link:#concurrent_flat_map[`concurrent_flat_map`] 移动构造。`other` 的内部桶数组直接转移至新容器。哈希函数、谓词和分配器均从 `other` 移动构造。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则转移 `other` 的内部统计信息，并调用 `other.reset_stats()`。
 
 [cols=",",]
 |===
@@ -569,15 +510,11 @@ unordered_flat_map(std::initializer_list<value_type> il,
               const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql`
-作为键相等性谓词、以及`a` 作为分配器，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、以及`a` 作为分配器，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key++_++equal` 和
-`allocator++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -590,16 +527,12 @@ unordered_flat_map(std::initializer_list<value_type> il,
 unordered_flat_map(size_type n, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |`hasher` 和 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -612,16 +545,12 @@ unordered_flat_map(size_type n, allocator_type const& a);
 unordered_flat_map(size_type n, hasher const& hf, allocator_type const& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf`
-作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词以及 `a` 作为分配器。
 
 [cols=",",]
 |===
 |后置条件： |`size() == 0`
-
-|要求： |`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -635,15 +564,11 @@ template<class InputIterator>
   unordered_flat_map(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器、以及默认的哈希函数和键相等性谓词，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器、以及默认的哈希函数和键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher`、`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -658,15 +583,11 @@ template<class InputIterator>
                          const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器以及默认的键相等性谓词，并将 `++[++f, l)`
-范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a` 作为分配器以及默认的键相等性谓词，并将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -679,15 +600,11 @@ template<class InputIterator>
 unordered_flat_map(std::initializer_list<value_type> il, const allocator_type& a);
 ----
 
-构造一个空容器，使用 `a`
-作为分配器、以及默认的哈希函数和键相等性谓词，并将 `il`
-中的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器、以及默认的哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -700,14 +617,11 @@ unordered_flat_map(std::initializer_list<value_type> il, const allocator_type& a
 unordered_flat_map(std::initializer_list<value_type> il, size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `a`
-作为分配器、默认哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器、默认哈希函数和键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -721,14 +635,11 @@ unordered_flat_map(std::initializer_list<value_type> il, size_type n, const hash
                    const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a`
-作为分配器、默认键相等性谓词，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a` 作为分配器、默认键相等性谓词，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key++_++equal` 需满足
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求。
+|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -759,18 +670,11 @@ unordered_flat_map(std::initializer_list<value_type> il, size_type n, const hash
 unordered_flat_map& operator=(unordered_flat_map const& other);
 ----
 
-赋值操作符。该操作会销毁容器中原有的元素，并从 `other`
-复制赋值哈希函数与键相等性谓词。若
-`Alloc::propagate++_++on++_++container++_++copy++_++assignment` 存在，且
-`Alloc::propagate++_++on++_++container++_++copy++_++assignment::value`
-为 `true`，则从 `other` 复制赋值分配器，最后插入 `other`
-中所有元素的副本。
+赋值操作符。该操作会销毁容器中原有的元素，并从 `other` 复制赋值哈希函数与键相等性谓词。若 `Alloc::propagate_on_container_copy_assignment` 存在，且 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则从 `other` 复制赋值分配器，最后插入 `other` 中所有元素的副本。
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求
 |===
 
 '''''
@@ -786,16 +690,7 @@ unordered_flat_map& operator=(unordered_flat_map&& other)
             std::is_same<pointer, value_type*>::value);
 ----
 
-移动赋值操作符。该操作会销毁容器中原有的元素，并交换 `other`
-的哈希函数和谓词，若
-`Alloc::propagate++_++on++_++container++_++move++_++assignment` 存在且
-`Alloc::propagate++_++on++_++container++_++move++_++assignment::value`
-为 `true`，则从 `other` 移动赋值分配器。若此时分配器等于
-`other.get++_++allocator()`，则 `other`
-的内部桶数组直接转移至新容器；否则，插入 `other`
-元素的移动构造副本。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则当且仅当最终分配器等于
-`other.get++_++allocator()` 时，转移 `other` 的内部统计信息，并始终调用
-`other.reset++_++stats()`。
+移动赋值操作符。该操作会销毁容器中原有的元素，并交换 `other` 的哈希函数和谓词，若 `Alloc::propagate_on_container_move_assignment` 存在且 `Alloc::propagate_on_container_move_assignment::value` 为 `true`，则从 `other` 移动赋值分配器。若此时分配器等于 `other.get_allocator()`，则 `other` 的内部桶数组直接转移至新容器；否则，插入 `other` 元素的移动构造副本。若统计功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]，则当且仅当最终分配器等于 `other.get_allocator()` 时，转移 `other` 的内部统计信息，并始终调用 `other.reset_stats()`。
 
 '''''
 
@@ -811,9 +706,7 @@ unordered_flat_map& operator=(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求
 |===
 
 [[unordered_flat_map_iterators]]
@@ -830,10 +723,8 @@ const_iterator begin() const noexcept;
 
 [cols=",",]
 |===
-|返回：
-|返回一个指向容器第一个元素的迭代器；若容器为空，则返回容器的结束迭代器。
-
-|复杂度： |O(`bucket++_++count()`)
+|返回： |返回一个指向容器第一个元素的迭代器；若容器为空，则返回容器的结束迭代器。
+|复杂度： |O(`bucket_count()`)
 |===
 
 '''''
@@ -864,10 +755,8 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器第一个元素的
-`const++_++iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
-
-|复杂度： |O(`bucket++_++count()`)
+|返回： |返回一个指向容器第一个元素的 `const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
+|复杂度： |O(`bucket_count()`)
 |===
 
 '''''
@@ -882,8 +771,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器结束位置的 `const++_++iterator`
-（常量迭代器）。
+|返回： |返回一个指向容器结束位置的 `const_iterator` （常量迭代器）。
 |===
 
 '''''
@@ -922,7 +810,7 @@ size_type size() const noexcept;
 '''''
 
 [[unordered_flat_map_max_size]]
-===== max++_++size
+===== max_size
 
 [source,highlight]
 ----
@@ -947,61 +835,51 @@ size_type max_size() const noexcept;
 template<class... Args> std::pair<iterator, bool> emplace(Args&&... args);
 ----
 
-当且仅当容器中不存在具有等价键的元素时，使用参数 `args`
-原地构造一个对象并插入容器。
+当且仅当容器中不存在具有等价键的元素时，使用参数 `args` 原地构造一个对象并插入容器。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 必须可从 `args` 构造。
-
+|要求： |`value_type` 必须可从 `args` 构造。
 |返回： a|
 若插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-若 `args…​` 的格式为
-`k,v`，该实现会延迟构造完整对象，直到确认需要插入元素时为止，在此期间仅使用参数
-`k` 进行检查。
+若 `args…​` 的格式为 `k,v`，该实现会延迟构造完整对象，直到确认需要插入元素时为止，在此期间仅使用参数 `k` 进行检查。
 
 |===
 
 '''''
 
 [[unordered_flat_map_emplace_hint]]
-===== emplace++_++hint
+===== emplace_hint
 
 [source,highlight]
 ----
     template<class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
 ----
 
-当且仅当容器中不存在具有等价键的元素时，使用参数 `args`
-原地构造一个对象并插入容器。
+当且仅当容器中不存在具有等价键的元素时，使用参数 `args` 原地构造一个对象并插入容器。
 
 `position` 是一个关于元素插入位置的提示，本实现将忽略该提示。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type` 必须可从 `args` 构造。
-
+|要求： |`value_type` 必须可从 `args` 构造。
 |返回： a|
 若插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-若 `args…​` 的格式为
-`k,v`，该实现会延迟构造完整对象，直到确认需要插入元素时为止，在此期间仅使用参数
-`k` 进行检查。
+若 `args…​` 的格式为 `k,v`，该实现会延迟构造完整对象，直到确认需要插入元素时为止，在此期间仅使用参数 `k` 进行检查。
 
 |===
 
@@ -1020,22 +898,17 @@ std::pair<iterator, bool> insert(const init_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type`
-需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： a|
 若插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-对于 `insert(x)`
-形式的调用（其中`x`可同等地转换为`const value++_++type&`和`const init++_++type&`），该调用不会产生歧义，并选择`init++_++type`重载。
+对于 `insert(x)` 形式的调用（其中`x`可同等地转换为`const value_type&`和`const init_type&`），该调用不会产生歧义，并选择`init_type`重载。
 
 |===
 
@@ -1054,23 +927,17 @@ std::pair<iterator, bool> insert(init_type&& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type`
-需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： a|
 若插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-对于 `insert(x)`
-形式的调用（其中`x`可同等地转换为`const value++_++type&` 和
-`const init++_++type&`），不会产生歧义，并选择`init++_++type`重载。
+对于 `insert(x)` 形式的调用（其中`x`可同等地转换为`const value_type&` 和 `const init_type&`），不会产生歧义，并选择`init_type`重载。
 
 |===
 
@@ -1091,24 +958,17 @@ iterator insert(const_iterator hint, const init_type& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type`
-需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： a|
 若插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-对于 `insert(hint, x)` 形式的调用（其中 `x` 可同等地转换为
-`const value++_++type&` 和
-`const init++_++type&`），该调用不会产生歧义，并会选择 `init++_++type`
-重载版本。
+对于 `insert(hint, x)` 形式的调用（其中 `x` 可同等地转换为 `const value_type&` 和 `const init_type&`），该调用不会产生歧义，并会选择 `init_type` 重载版本。
 
 |===
 
@@ -1129,23 +989,17 @@ iterator insert(const_iterator hint, init_type&& obj);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value++_++type`
-需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入]
-要求。
-
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： a|
 若插入操作发生，则返回类型的 `bool` 分量为 `true`。 +
 
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-对于 `insert(hint, x)` 形式的调用（其中 `x` 可同等地转换为
-`value++_++type&&` 和 `init++_++type&&`），该调用不会产生歧义，并会选择
-`init++_++type` 重载版本。
+对于 `insert(hint, x)` 形式的调用（其中 `x` 可同等地转换为 `value_type&&` 和 `init_type&&`），该调用不会产生歧义，并会选择 `init_type` 重载版本。
 
 |===
 
@@ -1163,15 +1017,9 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 必须能够通过 `++*++first`
-在容器中进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]
-。
-
-|抛出： |在插入单个元素时，若异常由调用 `hasher`
-以外的操作抛出，则此函数不产生任何效果。
-
-|注意：
-|可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。
+|要求： |`value_type` 必须能够通过 `*first` 在容器中进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造] 。
+|抛出： |在插入单个元素时，若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
+|注意： |可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。
 |===
 
 '''''
@@ -1188,21 +1036,15 @@ void insert(std::initializer_list<value_type>);
 
 [cols=",",]
 |===
-|要求： |`value++_++type` 需满足
- https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]
-到容器中的要求。
-
-|抛出： |在插入单个元素时，若异常由调用 `hasher`
-以外的操作抛出，则此函数不产生任何效果。
-
-|注意：
-|可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。
+|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 到容器中的要求。
+|抛出： |在插入单个元素时，若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
+|注意： |可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。
 |===
 
 '''''
 
 [[unordered_flat_map_try_emplace]]
-===== try++_++emplace
+===== try_emplace
 
 [source,highlight]
 ----
@@ -1226,11 +1068,8 @@ template<class K, class... Args>
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
-此函数与 link:#unordered_flat_map_emplace[emplace]
-类似，区别在于：若已存在具有等效键的元素，则不会构造任何
-`value++_++type` 对象；否则，将按以下形式构造： +
+此函数与 link:#unordered_flat_map_emplace[emplace] 类似，区别在于：若已存在具有等效键的元素，则不会构造任何 `value_type` 对象；否则，将按以下形式构造： +
 
 [source,highlight]
 ----
@@ -1245,24 +1084,18 @@ value_type(std::piecewise_construct,
            std::forward_as_tuple(std::forward<Args>(args)...))
 ----
 
-而非像 link:#unordered_flat_map_emplace[emplace]
-只是简单地将所有参数转发给 `value++_++type` 的构造函数。
+而非像 link:#unordered_flat_map_emplace[emplace] 只是简单地将所有参数转发给 `value_type` 的构造函数。
 
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。
 
-仅当 `Hash::is++_++transparent` 和
-`Pred::is++_++transparent`均为有效的成员类型定义，且 `iterator` 和
-`const++_++iterator` 均不能从 `K`
-隐式转换时，`template++<++class K, class... Args++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent`均为有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K, class... Args>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_flat_map_try_emplace_with_hint]]
-===== 带提示的 try++_++emplace
+===== 带提示的 try_emplace
 
 [source,highlight]
 ----
@@ -1282,15 +1115,10 @@ template<class K, class... Args>
 
 [width="100%",cols="50%,50%",]
 |===
-|返回：
-|若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
-
+|返回： |若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
-此函数与 link:#unordered_flat_map_emplace_hint[emplace++_++hint]
-类似，区别在于：若已存在具有等效键的元素，则不会构造任何
-`value++_++type` 对象；否则，将按以下形式构造： +
+此函数与 link:#unordered_flat_map_emplace_hint[emplace_hint] 类似，区别在于：若已存在具有等效键的元素，则不会构造任何 `value_type` 对象；否则，将按以下形式构造： +
 
 [source,highlight]
 ----
@@ -1305,24 +1133,18 @@ value_type(std::piecewise_construct,
            std::forward_as_tuple(std::forward<Args>(args)...))
 ----
 
-而非像 link:#unordered_flat_map_emplace_hint[emplace++_++hint]
-只是简单地将所有参数转发给 `value++_++type` 的构造函数。
+而非像 link:#unordered_flat_map_emplace_hint[emplace_hint] 只是简单地将所有参数转发给 `value_type` 的构造函数。
 
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。
 
-仅当 `Hash::is++_++transparent` 和
-`Pred::is++_++transparent`均为有效的成员类型定义，且 `iterator` 和
-`const++_++iterator` 均不能从 `K`
-隐式转换时，`template++<++class K, class... Args++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent`均为有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K, class... Args>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_flat_map_insert_or_assign]]
-===== insert++_++or++_++assign
+===== insert_or_assign
 
 [source,highlight]
 ----
@@ -1336,8 +1158,7 @@ template<class K, class M>
 
 向容器中插入新元素，或通过赋值给已存在的元素值来更新该元素。
 
-若存在键为 `k` 的元素，则通过赋值 `std::forward++<++M++>++(obj)`
-更新该元素。
+若存在键为 `k` 的元素，则通过赋值 `std::forward<M>(obj)` 更新该元素。
 
 若不存在该元素，则将其以如下方式添加到容器中：
 
@@ -1362,21 +1183,17 @@ value_type(std::piecewise_construct,
 若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K, class M++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K, class M>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
 '''''
 
 [[unordered_flat_map_insert_or_assign_with_hint]]
-===== 带提示的 insert++_++or++_++assign
+===== 带提示的 insert_or_assign
 
 [source,highlight]
 ----
@@ -1390,8 +1207,7 @@ template<class K, class M>
 
 向容器中插入新元素，或通过赋值给已存在的元素值来更新该元素。
 
-若存在键为 `k` 的元素，则通过赋值 `std::forward++<++M++>++(obj)`
-更新该元素。
+若存在键为 `k` 的元素，则通过赋值 `std::forward<M>(obj)` 更新该元素。
 
 若不存在该元素，则将其以如下方式添加到容器中：
 
@@ -1412,18 +1228,12 @@ value_type(std::piecewise_construct,
 
 [width="100%",cols="50%,50%",]
 |===
-|返回：
-|若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
-
+|返回： |若插入操作发生，则迭代器指向新插入的元素；否则指向具有等价键的元素。
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K, class M++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K, class M>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1442,13 +1252,9 @@ value_type(std::piecewise_construct,
 
 [cols=",",]
 |===
-|返回： |返回一个不透明对象，该对象可隐式转换为擦除前紧接在 `position`
-之后的 `iterator` 或 `const++_++iterator`。
-
+|返回： |返回一个不透明对象，该对象可隐式转换为擦除前紧接在 `position` 之后的 `iterator` 或 `const_iterator`。
 |抛出： |无。
-
-|注意： |返回的不透明对象必须被立即丢弃或转换为 `iterator` 或
-`const++_++iterator`。
+|注意： |返回的不透明对象必须被立即丢弃或转换为 `iterator` 或 `const_iterator`。
 |===
 
 '''''
@@ -1467,14 +1273,8 @@ template<class K> size_type erase(K&& k);
 [cols=",",]
 |===
 |返回： |被擦除的元素数量。
-
-|抛出： |仅当 `hasher` 或 `key++_++equal` 抛出异常时，才会抛出异常。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型定义，且 `iterator` 和 `const++_++iterator` 均不能从
-`K` 隐式转换时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时，才会抛出异常。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1492,9 +1292,7 @@ iterator erase(const_iterator first, const_iterator last);
 [cols=",",]
 |===
 |返回： |返回被擦除元素之后的迭代器——即 `last`。
-
-|抛出： |在此实现中不抛出任何异常（既不调用 `hasher`， 也不调用
-`key++_++equal` 对象）。
+|抛出： |在此实现中不抛出任何异常（既不调用 `hasher`， 也不调用 `key_equal` 对象）。
 |===
 
 '''''
@@ -1511,14 +1309,11 @@ void swap(unordered_flat_map& other)
 
 交换容器与参数的内容。
 
-若 `Allocator::propagate++_++on++_++container++_++swap` 已声明且
-`Allocator::propagate++_++on++_++container++_++swap::value` 为
-`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
+若 `Allocator::propagate_on_container_swap` 已声明且 `Allocator::propagate_on_container_swap::value` 为 `true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|抛出： |除非 `key++_++equal` 或 `hasher`
-在交换时抛出异常，否则不抛出任何异常。
+|抛出： |除非 `key_equal` 或 `hasher` 在交换时抛出异常，否则不抛出任何异常。
 |===
 
 '''''
@@ -1531,8 +1326,7 @@ void swap(unordered_flat_map& other)
 init_type pull(const_iterator position);
 ----
 
-从 `position` 指向的元素移动构造一个 `init++_++value` 对象
-`x`，擦除该元素并返回 `x`。
+从 `position` 指向的元素移动构造一个 `init_value` 对象 `x`，擦除该元素并返回 `x`。
 
 '''''
 
@@ -1548,8 +1342,7 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件：
-|`size() == 0`，`max++_++load() ++>++= max++_++load++_++factor() ++*++ bucket++_++count()`
+|后置条件： |`size() == 0`，`max_load() >= max_load_factor() * bucket_count()`
 |===
 
 '''''
@@ -1565,8 +1358,7 @@ template<class H2, class P2>
   void merge(unordered_flat_map<Key, T, H2, P2, Allocator>&& source);
 ----
 
-对 `source` 中所有键不在 `++*++this`
-中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
+对 `source` 中所有键不在 `*this` 中的元素执行移动插入操作，并将这些元素从 `source` 中擦除。
 
 '''''
 
@@ -1574,7 +1366,7 @@ template<class H2, class P2>
 ==== 观察器
 
 [[unordered_flat_map_get_allocator]]
-===== get++_++allocator
+===== get_allocator
 
 [source,highlight]
 ----
@@ -1604,7 +1396,7 @@ hasher hash_function() const;
 '''''
 
 [[unordered_flat_map_key_eq]]
-===== key++_++eq
+===== key_eq
 
 [source,highlight]
 ----
@@ -1634,14 +1426,8 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回一个指向键等价于 `k`
-的元素的迭代器；若不存在这样的元素，则返回 `end()`。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key`
-类型对象所需的开销。
+|返回： |返回一个指向键等价于 `k` 的元素的迭代器；若不存在这样的元素，则返回 `end()`。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1659,11 +1445,7 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回键等价于 `k` 的元素数量。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
@@ -1681,17 +1463,13 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 |===
 
 '''''
 
 [[unordered_flat_map_equal_range]]
-===== equal++_++range
+===== equal_range
 
 [source,highlight]
 ----
@@ -1705,21 +1483,14 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回包含所有键等价于 `k`
-的元素的范围。若容器中不存在此类元素，则返回
-`std::make++_++pair(b.end(), b.end())`。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key`
-类型对象所需的开销。
+|返回： |返回包含所有键等价于 `k` 的元素的范围。若容器中不存在此类元素，则返回 `std::make_pair(b.end(), b.end())`。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
 
 [[unordered_flat_map_operator]]
-===== operator++[]++
+===== operator[]
 
 [source,highlight]
 ----
@@ -1730,21 +1501,13 @@ template<class K> mapped_type& operator[](K&& k);
 
 [width="100%",cols="50%,50%",]
 |===
-|效果： |若容器中尚不存在键等价于 `k` 的元素，则插入值
-`std::pair++<++key++_++type const, mapped++_++type++>++(k, mapped++_++type())`。
-
-|返回： |返回一个引用，该引用指向容器中已存在的键等于 `k` 的元素 `x` 的
-`x.second` 成员；若元素不存在，则指向新插入元素的该成员。
-
+|效果： |若容器中尚不存在键等价于 `k` 的元素，则插入值 `std::pair<key_type const, mapped_type>(k, mapped_type())`。
+|返回： |返回一个引用，该引用指向容器中已存在的键等于 `k` 的元素 `x` 的 `x.second` 成员；若元素不存在，则指向新插入元素的该成员。
 |抛出： |若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
-
 |注意： a|
 可能会导致迭代器、指针和引用失效，但仅当插入操作导致负载因子超过最大负载因子时才会发生。 +
 
-仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 |===
 
@@ -1763,17 +1526,9 @@ template<class K> const mapped_type& at(const K& k) const;
 
 [cols=",",]
 |===
-|返回： |返回一个引用，该引用指向键等价于 `k` 的（唯一）元素 `x`
-的`x.second`成员。
-
-|抛出： |如果不存在这样的元素，则抛出类型为 `std::out++_++of++_++range`
-的异常对象。
-
-|注意： |仅当 `Hash::is++_++transparent` 和 `Pred::is++_++transparent`
-均为有效的成员类型别名时，`template++<++class K++>++`
-重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且
-`Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key`
-类型对象所需的开销。
+|返回： |返回一个引用，该引用指向键等价于 `k` 的（唯一）元素 `x` 的`x.second`成员。
+|抛出： |如果不存在这样的元素，则抛出类型为 `std::out_of_range` 的异常对象。
+|注意： |仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免了实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1782,7 +1537,7 @@ template<class K> const mapped_type& at(const K& k) const;
 ==== 桶接口
 
 [[unordered_flat_map_bucket_count]]
-===== bucket++_++count
+===== bucket_count
 
 [source,highlight]
 ----
@@ -1809,15 +1564,13 @@ float load_factor() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回
-`static++_++cast++<++float++>++(size())/static++_++cast++<++float++>++(bucket++_++count())`，若
-`bucket++_++count() == 0`， 则返回 `0`。
+|返回： |返回 `static_cast<float>(size())/static_cast<float>(bucket_count())`，若 `bucket_count() == 0`， 则返回 `0`。
 |===
 
 '''''
 
 [[unordered_flat_map_max_load_factor]]
-===== max++_++load++_++factor（最大负载因子）
+===== max_load_factor（最大负载因子）
 
 [source,highlight]
 ----
@@ -1841,14 +1594,13 @@ void max_load_factor(float z);
 
 [cols=",",]
 |===
-|效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与
-`boost::unordered++_++map` 保持兼容。
+|效果： |不执行任何操作，因为用户不允许修改此参数。保留此接口是为了与 `boost::unordered_map` 保持兼容。
 |===
 
 '''''
 
 [[unordered_flat_map_max_load]]
-===== max++_++load（最大负载）
+===== max_load（最大负载）
 
 [source,highlight]
 ----
@@ -1857,11 +1609,8 @@ size_type max_load() const noexcept;
 
 [cols=",",]
 |===
-|返回：
-|返回容器在不重哈希的情况下可容纳的最大元素数（假设不再擦除元素）。
-
-|注意： |在构造、重新哈希或清空操作后，容器的最大负载至少为
-`max++_++load++_++factor() ++*++ bucket++_++count()`。在高负载条件下执行擦除操作时，此数值可能会降低。
+|返回： |返回容器在不重哈希的情况下可容纳的最大元素数（假设不再擦除元素）。
+|注意： |在构造、重新哈希或清空操作后，容器的最大负载至少为 `max_load_factor() * bucket_count()`。在高负载条件下执行擦除操作时，此数值可能会降低。
 |===
 
 '''''
@@ -1874,19 +1623,15 @@ size_type max_load() const noexcept;
 void rehash(size_type n);
 ----
 
-如有必要，将改变桶数组的大小，使其至少包含 `n`
-个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的
-`bucket++_++count()`。
+如有必要，将改变桶数组的大小，使其至少包含 `n` 个桶，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器的 `bucket_count()`。
 
-当 `size() == 0` 时，`rehash(0)`
-将释放底层桶数组。若使用的分配器采用花式指针，随后会执行默认分配操作。
+当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。若使用的分配器采用花式指针，随后会执行默认分配操作。
 
 使迭代器、指针和引用失效，并改变元素顺序。
 
 [cols=",",]
 |===
-|抛出：
-|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
+|抛出： |若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1899,7 +1644,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max++_++load++_++factor()))`。
+等价于 `a.rehash(ceil(n / a.max_load_factor()))`。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1907,8 +1652,7 @@ void reserve(size_type n);
 
 [cols=",",]
 |===
-|抛出：
-|若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
+|抛出： |若发生异常，除非异常由容器的哈希函数或比较函数抛出，否则此函数不产生任何效果。
 |===
 
 '''''
@@ -1917,7 +1661,7 @@ void reserve(size_type n);
 ==== 统计信息
 
 [[unordered_flat_map_get_stats]]
-===== get++_++stats
+===== get_stats
 
 [source,highlight]
 ----
@@ -1927,15 +1671,13 @@ stats get_stats() const;
 [cols=",",]
 |===
 |返回： |返回容器直到目前已执行插入和查找操作的统计摘要。
-
-|注意：
-|仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]时可用。
+|注意： |仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]时可用。
 |===
 
 '''''
 
 [[unordered_flat_map_reset_stats]]
-===== reset++_++stats
+===== reset_stats
 
 [source,highlight]
 ----
@@ -1945,9 +1687,7 @@ void reset_stats() noexcept;
 [cols=",",]
 |===
 |效果： |将容器维护的内部统计信息清零。
-
-|注意：
-|仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]时可用。
+|注意： |仅当link:reference/stats_zh_Hans.adoc#stats[统计计算]功能link:#unordered_flat_map_boost_unordered_enable_stats[已启用]时可用。
 |===
 
 '''''
@@ -1957,16 +1697,12 @@ void reset_stats() noexcept;
 
 如果以下任何一条件为真，则推导指引将不参与重载决议：
 
-* 该推导指引包含 `InputIterator`
-模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
-* 该推导指引包含 `Allocator`
-模板参数，且为该参数推导出的类型不符合分配器要求。
-* 该推导指引包含 `Hash`
-模板参数，且为该参数推导出的类型为整型或符合分配器要求。
+* 该推导指引包含 `InputIterator` 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
+* 该推导指引包含 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
+* 该推导指引包含 `Hash` 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
 * 该推导指引包含 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
-推导指引中的 `size++_++type` 参数类型，指向由该推导指引所推导容器类型的
-`size++_++type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size_type` 参数类型，指向由该推导指引所推导容器类型的 `size_type` 成员类型。其默认值与所选构造函数的默认值一致。
 
 [[unordered_flat_map_iter_value_type]]
 ===== _iter-value-type_
@@ -1980,30 +1716,33 @@ template<class InputIterator>
 [[unordered_flat_map_iter_key_type]]
 ===== _iter-key-type_
 
-....
-template<class InputIterator>
-  using iter-key-type = std::remove_const_t<
-    std::tuple_element_t<0, iter-value-type<InputIterator>>>; // 仅用于说明
-....
+[listing,subs="+macros,+quotes"]
+----
+template<class inputiterator="">
+  using <em>iter-key-type</em> = std::remove_const_t&lt;
+    std::tuple_element_t&lt;0, link:#unordered_flat_map_iter_value_type[iter-value-type]<inputiterator>&gt;&gt;; // 仅用于说明</inputiterator></class>
+----
 
 [[unordered_flat_map_iter_mapped_type]]
 ===== _iter-mapped-type_
 
-....
-template<class InputIterator>
-  using iter-mapped-type =
-    std::tuple_element_t<1, iter-value-type<InputIterator>>;  // 仅用于说明
-....
+[listing,subs="+macros,+quotes"]
+----
+template<class inputiterator="">
+  using <em>iter-mapped-type</em> =
+    std::tuple_element_t&lt;1, link:#unordered_flat_map_iter_value_type[iter-value-type]<inputiterator>&gt;;  // 仅用于说明</inputiterator></class>
+----
 
 [[unordered_flat_map_iter_to_alloc_type]]
 ===== _iter-to-alloc-type_
 
-....
-template<class InputIterator>
-  using iter-to-alloc-type = std::pair<
-    std::add_const_t<std::tuple_element_t<0, iter-value-type<InputIterator>>>,
-    std::tuple_element_t<1, iter-value-type<InputIterator>>>; // 仅用于说明
-....
+[listing,subs="+macros,+quotes"]
+----
+template<class inputiterator="">
+  using <em>iter-to-alloc-type</em> = std::pair&lt;
+    std::add_const_t<std::tuple_element_t<0, <a="" href="#unordered_flat_map_iter_value_type"><em>iter-value-type</em><inputiterator>&gt;&gt;,
+    std::tuple_element_t&lt;1, link:#unordered_flat_map_iter_value_type[iter-value-type]<inputiterator>&gt;&gt;; // 仅用于说明</inputiterator></inputiterator></std::tuple_element_t<0,></class>
+----
 
 [[unordered_flat_map_equality_comparisons]]
 ==== 相等性比较
@@ -2018,9 +1757,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_flat_map<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y`
-中均存在一个具有相同键和相等值（使用 `operator==`
-比较值类型）的元素，则返回 `true`。
+若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y` 中均存在一个具有相同键和相等值（使用 `operator==` 比较值类型）的元素，则返回 `true`。
 
 [cols=",",]
 |===
@@ -2039,9 +1776,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
                   const unordered_flat_map<Key, T, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` ，且对于 `x` 中的每个元素，在 `y`
-中均存在一个具有相同键且值相等的元素（使用 `operator==`
-比较值类型），则返回 `false`。
+如果 `x.size() == y.size()` ，且对于 `x` 中的每个元素，在 `y` 中均存在一个具有相同键且值相等的元素（使用 `operator==` 比较值类型），则返回 `false`。
 
 [cols=",",]
 |===
@@ -2061,16 +1796,12 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 交换 `x` 与 `y` 的内容。
 
-若 `Allocator::propagate++_++on++_++container++_++swap` 已声明且
-`Allocator::propagate++_++on++_++container++_++swap::value` 为
-`true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
+若 `Allocator::propagate_on_container_swap` 已声明且 `Allocator::propagate_on_container_swap::value` 为 `true`，则交换容器的分配器。否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
 |效果： |`x.swap(y)`
-
-|抛出： |除非 `key++_++equal` 或 `hasher`
-在交换时抛出异常，否则不抛出任何异常。
+|抛出： |除非 `key_equal` 或 `hasher` 在交换时抛出异常，否则不抛出任何异常。
 |===
 
 '''''
@@ -2100,7 +1831,7 @@ for (auto i = c.begin(), last = c.end(); i != last; ) {
   if (pred(*i)) {
     i = c.erase(i);
   } else {
-    ++i;
+    i;
   }
 }
 return original_size - c.size();
@@ -2113,41 +1844,28 @@ return original_size - c.size();
 [[unordered_flat_map_serialization]]
 ==== 序列化
 
-`unordered++_++flat++_++map` 可通过本组件库提供的 API，借助
-link:../../../../../serialization/index.html[Boost.Serialization]
-进行归档/检索。支持常规归档与 XML 归档两种格式。
+`unordered_flat_map` 可通过本组件库提供的 API，借助 link:../../../../../serialization/index.html[Boost.Serialization] 进行归档/检索。支持常规归档与 XML 归档两种格式。
 
 [[unordered_flat_map_saving_an_unordered_flat_map_to_an_archive]]
-===== 将 unordered++_++flat++_++map 保存到归档
+===== 将 unordered_flat_map 保存到归档
 
-将 `unordered++_++flat++_++map` `x` 的所有元素保存到归档（XML
-归档）`ar`。
+将 `unordered_flat_map` `x` 的所有元素保存到归档（XML 归档）`ar`。
 
 [cols=",",]
 |===
-|要求： |`std::remove++_++const++<++key++_++type++>++::type` 和
-`std::remove++_++const++<++mapped++_++type++>++::type`
-必须满足可序列化要求（XML 可序列化），且需要支持 Boost.Serialization 的
-`save++_++construct++_++data`/`load++_++construct++_++data`
-协议（该协议自动支持
- https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]
-要求）。
+|要求： |`std::remove_const<key_type>::type` 和 `std::remove_const<mapped_type>::type` 必须满足可序列化要求（XML 可序列化），且需要支持 Boost.Serialization 的 `save_construct_data`/`load_construct_data` 协议（该协议自动支持 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求）。
 |===
 
 '''''
 
 [[unordered_flat_map_loading_an_unordered_flat_map_from_an_archive]]
-===== 从归档加载 unordered++_++flat++_++map
+===== 从归档加载 unordered_flat_map
 
-删除 `unordered++_++flat++_++map` 容器 `x`
-中所有已存在的元素，并从归档（XML 归档）`ar` 中插入原始
-`unordered++_++flat++_++map` 容器 `other` 的元素副本，这些副本是从 `ar`
-所读取的存储中恢复的。
+删除 `unordered_flat_map` 容器 `x` 中所有已存在的元素，并从归档（XML 归档）`ar` 中插入原始 `unordered_flat_map` 容器 `other` 的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`x.key++_++equal()` 需要在功能上等价于
-`other.key++_++equal()`。
+|要求： |`x.key_equal()` 需要在功能上等价于 `other.key_equal()`。
 |===
 
 '''''
@@ -2155,14 +1873,11 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 [[unordered_flat_map_saving_an_iteratorconst_iterator_to_an_archive]]
 ===== 将迭代器/常量迭代器保存到归档
 
-将`iterator`（`const++_++iterator`）常量迭代器 `it`
-的位置信息保存到归档（XML 归档）`ar` 中。`it` 可以是 `end()` 迭代器。
+将`iterator`（`const_iterator`）常量迭代器 `it` 的位置信息保存到归档（XML 归档）`ar` 中。`it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
-|要求： |`it` 所指向的 `unordered++_++flat++_++map` 容器 `x`
-必须先前已保存至 `ar`，且在保存 `x` 与保存 `it` 期间不得对 `x`
-执行任何修改操作。
+|要求： |`it` 所指向的 `unordered_flat_map` 容器 `x` 必须先前已保存至 `ar`，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 '''''
@@ -2170,14 +1885,11 @@ link:../../../../../serialization/index.html[Boost.Serialization]
 [[unordered_flat_map_loading_an_iteratorconst_iterator_from_an_archive]]
 ===== 从归档加载迭代器/常量迭代器
 
-使 `iterator`（`const++_++iterator`）`it` 指向原始
-`iterator`（`const++_++iterator`）所恢复的位置。该原始迭代器已被保存到由归档（XML
-归档）`ar` 读取的存储中。
+使 `iterator`（`const_iterator`）`it` 指向原始 `iterator`（`const_iterator`）所恢复的位置。该原始迭代器已被保存到由归档（XML 归档）`ar` 读取的存储中。
 
 [cols=",",]
 |===
-|要求： |若 `x` 是 `it` 所指向的 `unordered++_++flat++_++map`
-容器，则在加载 `x` 与加载 `it` 期间不得对 `x` 执行任何修改操作。
+|要求： |若 `x` 是 `it` 所指向的 `unordered_flat_map` 容器，则在加载 `x` 与加载 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 [[footer]]

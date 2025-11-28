@@ -4,9 +4,7 @@
 [[header_concurrent_node_set_fwd]]
 === `++<++boost/unordered/concurrent++_++node++_++set++_++fwd.hpp++>++` 概要
 
-前向声明
-link:reference/header_concurrent_node_set_zh_Hans.adoc[`++<++boost/unordered/concurrent++_++node++_++set.hpp++>++`]
-中的所有定义。
+前向声明 link:reference/header_concurrent_node_set_zh_Hans.adoc[`++<++boost/unordered/concurrent++_++node++_++set.hpp++>++`] 中的所有定义。
 
 [[footer]]
 [[footer-text]]

@@ -2,60 +2,54 @@
 
 [[content]]
 [[header_concurrent_node_map]]
-=== `++<++boost/unordered/concurrent++_++node++_++map.hpp++>++` 概要
+=== `<boost/unordered/concurrent_node_map.hpp>` 概要
 
-定义
-link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map[`boost::concurrent++_++node++_++map`]
-以及相关函数和别名模板。
+定义 link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map[`boost::concurrent_node_map`] 以及相关函数和别名模板。
 
-....
+[listing,subs="+macros,+quotes"]
+----
 namespace boost {
 namespace unordered {
 
-  template<class Key,
-           class T,
-           class Hash = boost::hash<Key>,
-           class Pred = std::equal_to<Key>,
-           class Allocator = std::allocator<std::pair<const Key, T>>>
-  class concurrent_node_map;
+  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+           class Pred = std::equal_to<key>,
+           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
+  class link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map[concurrent_node_map];
 
   // 相等比较
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool operator==(const concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
-                    const concurrent_node_map<Key, T, Hash, Pred, Alloc>& y);
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    bool link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map_operator[operator==](const concurrent_node_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+                    const concurrent_node_map<key, alloc="" hash,="" pred,="" t,="">&amp; y);
 
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool operator!=(const concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
-                    const concurrent_node_map<Key, T, Hash, Pred, Alloc>& y);
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    bool link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map_operator_2[operator!=](const concurrent_node_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+                    const concurrent_node_map<key, alloc="" hash,="" pred,="" t,="">&amp; y);
 
   // 交换
-  template<class Key, class T, class Hash, class Pred, class Alloc>
-    void swap(concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
-              concurrent_node_map<Key, T, Hash, Pred, Alloc>& y)
+  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
+    void link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map_swap_2[swap](concurrent_node_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
+              concurrent_node_map<key, alloc="" hash,="" pred,="" t,="">&amp; y)
       noexcept(noexcept(x.swap(y)));
 
   // 擦除
-  template<class K, class T, class H, class P, class A, class Predicate>
-    typename concurrent_node_map<K, T, H, P, A>::size_type
-      erase_if(concurrent_node_map<K, T, H, P, A>& c, Predicate pred);
+  template<class a,="" class="" h,="" k,="" p,="" predicate="" t,="">
+    typename concurrent_node_map<k, a="" h,="" p,="" t,="">::size_type
+      link:reference/concurrent_node_map_zh_Hans.adoc#concurrent_node_map_erase_if[erase_if](concurrent_node_map<k, a="" h,="" p,="" t,="">&amp; c, Predicate pred);
 
   // Pmr别名（C++17及以上）
   namespace pmr {
-    template<class Key,
-             class T,
-             class Hash = boost::hash<Key>,
-             class Pred = std::equal_to<Key>>
+    template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
+             class Pred = std::equal_to<key>&gt;
     using concurrent_node_map =
-      boost::unordered::concurrent_node_map<Key, T, Hash, Pred,
-        std::pmr::polymorphic_allocator<std::pair<const Key, T>>>;
+      boost::unordered::concurrent_node_map<key, hash,="" key,="" pred,="" std::pmr::polymorphic_allocator<std::pair<const="" t="" t,="">&gt;&gt;;
   } // 命名空间 pmr
 
 } // 命名空间 unordered
 
 using unordered::concurrent_node_map;
 
-} // 命名空间 boost
-....
+} // 命名空间 boost</key,></key></class></k,></k,></class></key,></key,></class></key,></key,></class></key,></key,></class></std::pair<const></key></class>
+----
 
 [[footer]]
 [[footer-text]]

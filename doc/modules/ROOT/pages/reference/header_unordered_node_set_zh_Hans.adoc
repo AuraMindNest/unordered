@@ -11,44 +11,47 @@
 namespace boost {
 namespace unordered {
 
-  template<class class="" hash="boost::hash&lt;Key" key,="">,
-           class Pred = std::equal_to<key>,
-           class Allocator = std::allocator<key>&gt;
+  template&lt;class Key,
+           class Hash = boost::hash&lt;Key&gt;,
+           class Pred = std::equal_to&lt;Key&gt;,
+           class Allocator = std::allocator&lt;Key&gt;&gt;
   class link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set[unordered_node_set];
 
   // 相等比较
-  template<class alloc="" class="" hash,="" key,="" pred,="">
-    bool link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_operator[operator==](const unordered_node_set<key, alloc="" hash,="" pred,="">&amp; x,
-                    const unordered_node_set<key, alloc="" hash,="" pred,="">&amp; y);
+  template&lt;class Key, class Hash, class Pred, class Alloc&gt;
+    bool link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_operator[operator==](const unordered_node_set&lt;Key, Hash, Pred, Alloc&gt;&amp; x,
+                    const unordered_node_set&lt;Key, Hash, Pred, Alloc&gt;&amp; y);
 
-  template<class alloc="" class="" hash,="" key,="" pred,="">
-    bool link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_operator_2[operator!=](const unordered_node_set<key, alloc="" hash,="" pred,="">&amp; x,
-                    const unordered_node_set<key, alloc="" hash,="" pred,="">&amp; y);
+  template&lt;class Key, class Hash, class Pred, class Alloc&gt;
+    bool link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_operator_2[operator!=](const unordered_node_set&lt;Key, Hash, Pred, Alloc&gt;&amp; x,
+                    const unordered_node_set&lt;Key, Hash, Pred, Alloc&gt;&amp; y);
 
   // 交换
-  template<class alloc="" class="" hash,="" key,="" pred,="">
-    void link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_swap_2[swap](unordered_node_set<key, alloc="" hash,="" pred,="">&amp; x,
-              unordered_node_set<key, alloc="" hash,="" pred,="">&amp; y)
+  template&lt;class Key, class Hash, class Pred, class Alloc&gt;
+    void link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_swap_2[swap](unordered_node_set&lt;Key, Hash, Pred, Alloc&gt;&amp; x,
+              unordered_node_set&lt;Key, Hash, Pred, Alloc&gt;&amp; y)
       noexcept(noexcept(x.swap(y)));
 
   // 擦除
-  template<class a,="" class="" h,="" k,="" p,="" predicate="">
-    typename unordered_node_set<k, a="" h,="" p,="">::size_type
-      link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_erase_if[erase_if](unordered_node_set<k, a="" h,="" p,="">&amp; c, Predicate pred);
+  template&lt;class K, class H, class P, class A, class Predicate&gt;
+    typename unordered_node_set&lt;K, H, P, A&gt;::size_type
+      link:reference/unordered_node_set_zh_Hans.adoc#unordered_node_set_erase_if[erase_if](unordered_node_set&lt;K, H, P, A&gt;&amp; c, Predicate pred);
 
   // Pmr别名（C++17及以上）
   namespace pmr {
-    template<class class="" hash="boost::hash&lt;Key" key,="">,
-             class Pred = std::equal_to<key>&gt;
+    template&lt;class Key,
+             class Hash = boost::hash&lt;Key&gt;,
+             class Pred = std::equal_to&lt;Key&gt;&gt;
     using unordered_node_set =
-      boost::unordered::unordered_node_set<key, hash,="" pred,="" std::pmr::polymorphic_allocator<key="">&gt;;
+      boost::unordered::unordered_node_set&lt;Key, Hash, Pred,
+        std::pmr::polymorphic_allocator&lt;Key&gt;&gt;;
   } // 命名空间 pmr
 
 } // 命名空间 unordered
 
 using unordered::unordered_node_set;
 
-} // 命名空间 boost</key,></key></class></k,></k,></class></key,></key,></class></key,></key,></class></key,></key,></class></key></key></class>
+} // 命名空间 boost
 ----
 
 [[footer]]

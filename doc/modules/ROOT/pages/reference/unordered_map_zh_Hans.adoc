@@ -11,25 +11,27 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-// #include link:reference/header_unordered_map_zh_Hans.adoc[<boost/unordered/unordered_map.hpp>]
+// #include link:reference/header_unordered_map_zh_Hans.adoc[&lt;boost/unordered/unordered_map.hpp&gt;]
 
 namespace boost {
 namespace unordered {
 
-  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
-           class Pred = std::equal_to<key>,
-           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
+  template&lt;class Key,
+           class T,
+           class Hash = boost::hash&lt;Key&gt;,
+           class Pred = std::equal_to&lt;Key&gt;,
+           class Allocator = std::allocator&lt;std::pair&lt;const Key, T&gt;&gt;&gt;
   class unordered_map {
   public:
     // types
     using key_type             = Key;
     using mapped_type          = T;
-    using value_type           = std::pair<const key,="" t="">;
+    using value_type           = std::pair&lt;const Key, T&gt;;
     using hasher               = Hash;
     using key_equal            = Pred;
     using allocator_type       = Allocator;
-    using pointer              = typename std::allocator_traits<allocator>::pointer;
-    using const_pointer        = typename std::allocator_traits<allocator>::const_pointer;
+    using pointer              = typename std::allocator_traits&lt;Allocator&gt;::pointer;
+    using const_pointer        = typename std::allocator_traits&lt;Allocator&gt;::const_pointer;
     using reference            = value_type&amp;;
     using const_reference      = const value_type&amp;;
     using size_type            = std::size_t;
@@ -48,42 +50,42 @@ namespace unordered {
                            const hasher&amp; hf = hasher(),
                            const key_equal&amp; eql = key_equal(),
                            const allocator_type&amp; a = allocator_type());
-    template<class inputiterator="">
-link:#unordered_map_iterator_range_constructor[unordered_map](InputIterator f, InputIterator l,
+    template&lt;class InputIterator&gt;
+      link:#unordered_map_iterator_range_constructor[unordered_map](InputIterator f, InputIterator l,
                     size_type n = <em>implementation-defined</em>,
                     const hasher&amp; hf = hasher(),
                     const key_equal&amp; eql = key_equal(),
                     const allocator_type&amp; a = allocator_type());
     link:#unordered_map_copy_constructor[unordered_map](const unordered_map&amp; other);
     link:#unordered_map_move_constructor[unordered_map](unordered_map&amp;&amp; other);
-    template<class inputiterator="">
-link:#unordered_map_iterator_range_constructor_with_allocator[unordered_map](InputIterator f, InputIterator l, const allocator_type&amp; a);
+    template&lt;class InputIterator&gt;
+      link:#unordered_map_iterator_range_constructor_with_allocator[unordered_map](InputIterator f, InputIterator l, const allocator_type&amp; a);
     explicit link:#unordered_map_allocator_constructor[unordered_map](const Allocator&amp; a);
     link:#unordered_map_copy_constructor_with_allocator[unordered_map](const unordered_map&amp; other, const Allocator&amp; a);
     link:#unordered_map_move_constructor_with_allocator[unordered_map](unordered_map&amp;&amp; other, const Allocator&amp; a);
-    link:#unordered_map_initializer_list_constructor[unordered_map](std::initializer_list<value_type> il,
+    link:#unordered_map_initializer_list_constructor[unordered_map](std::initializer_list&lt;value_type&gt; il,
                   size_type n = <em>implementation-defined</em>
                   const hasher&amp; hf = hasher(),
                   const key_equal&amp; eql = key_equal(),
                   const allocator_type&amp; a = allocator_type());
     link:#unordered_map_bucket_count_constructor_with_allocator[unordered_map](size_type n, const allocator_type&amp; a);
     link:#unordered_map_bucket_count_constructor_with_hasher_and_allocator[unordered_map](size_type n, const hasher&amp; hf, const allocator_type&amp; a);
-    template<class inputiterator="">
-link:#unordered_map_iterator_range_constructor_with_bucket_count_and_allocator[unordered_map](InputIterator f, InputIterator l, size_type n, const allocator_type&amp; a);
-    template<class inputiterator="">
-link:#unordered_map_iterator_range_constructor_with_bucket_count_and_hasher[unordered_map](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
+    template&lt;class InputIterator&gt;
+      link:#unordered_map_iterator_range_constructor_with_bucket_count_and_allocator[unordered_map](InputIterator f, InputIterator l, size_type n, const allocator_type&amp; a);
+    template&lt;class InputIterator&gt;
+      link:#unordered_map_iterator_range_constructor_with_bucket_count_and_hasher[unordered_map](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
                     const allocator_type&amp; a);
-    link:#unordered_map_initializer_list_constructor_with_allocator[unordered_map](std::initializer_list<value_type> il, const allocator_type&amp; a);
-    link:#unordered_map_initializer_list_constructor_with_bucket_count_and_allocator[unordered_map](std::initializer_list<value_type> il, size_type n, const allocator_type&amp; a);
-    link:#unordered_map_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_map](std::initializer_list<value_type> il, size_type n, const hasher&amp; hf,
+    link:#unordered_map_initializer_list_constructor_with_allocator[unordered_map](std::initializer_list&lt;value_type&gt; il, const allocator_type&amp; a);
+    link:#unordered_map_initializer_list_constructor_with_bucket_count_and_allocator[unordered_map](std::initializer_list&lt;value_type&gt; il, size_type n, const allocator_type&amp; a);
+    link:#unordered_map_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_map](std::initializer_list&lt;value_type&gt; il, size_type n, const hasher&amp; hf,
                   const allocator_type&amp; a);
     link:#unordered_map_destructor[~unordered_map]();
     unordered_map&amp; link:#unordered_map_copy_assignment[operator=](const unordered_map&amp; other);
     unordered_map&amp; link:#unordered_map_move_assignment[operator=](unordered_map&amp;&amp; other)
-      noexcept(boost::allocator_traits<allocator>::is_always_equal::value &amp;&amp;
-               boost::is_nothrow_move_assignable_v<hash> &amp;&amp;
-               boost::is_nothrow_move_assignable_v<pred>);
-    unordered_map&amp; link:#unordered_map_initializer_list_assignment[operator=](std::initializer_list<value_type>);
+      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value &amp;&amp;
+               boost::is_nothrow_move_assignable_v&lt;Hash&gt; &amp;&amp;
+               boost::is_nothrow_move_assignable_v&lt;Pred&gt;);
+    unordered_map&amp; link:#unordered_map_initializer_list_assignment[operator=](std::initializer_list&lt;value_type&gt;);
     allocator_type link:#unordered_map_get_allocator[get_allocator]() const noexcept;
 
     // iterators
@@ -100,69 +102,69 @@ link:#unordered_map_iterator_range_constructor_with_bucket_count_and_hasher[unor
     size_type link:#unordered_map_max_size[max_size]() const noexcept;
 
     // modifiers
-    template<class... args=""> std::pair<iterator, bool=""> link:#unordered_map_emplace[emplace](Args&amp;&amp;... args);
-    template<class... args=""> iterator link:#unordered_map_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
-    std::pair<iterator, bool=""> link:#unordered_map_copy_insert[insert](const value_type&amp; obj);
-    std::pair<iterator, bool=""> link:#unordered_map_move_insert[insert](value_type&amp;&amp; obj);
-    template<class p=""> std::pair<iterator, bool=""> link:#unordered_map_emplace_insert[insert](P&amp;&amp; obj);
+    template&lt;class... Args&gt; std::pair&lt;iterator, bool&gt; link:#unordered_map_emplace[emplace](Args&amp;&amp;... args);
+    template&lt;class... Args&gt; iterator link:#unordered_map_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
+    std::pair&lt;iterator, bool&gt; link:#unordered_map_copy_insert[insert](const value_type&amp; obj);
+    std::pair&lt;iterator, bool&gt; link:#unordered_map_move_insert[insert](value_type&amp;&amp; obj);
+    template&lt;class P&gt; std::pair&lt;iterator, bool&gt; link:#unordered_map_emplace_insert[insert](P&amp;&amp; obj);
     iterator       link:#unordered_map_copy_insert_with_hint[insert](const_iterator hint, const value_type&amp; obj);
     iterator       link:#unordered_map_move_insert_with_hint[insert](const_iterator hint, value_type&amp;&amp; obj);
-    template<class p=""> iterator link:#unordered_map_emplace_insert_with_hint[insert](const_iterator hint, P&amp;&amp; obj);
-    template<class inputiterator=""> void link:#unordered_map_insert_iterator_range[insert](InputIterator first, InputIterator last);
-    void link:#unordered_map_insert_initializer_list[insert](std::initializer_list<value_type>);
+    template&lt;class P&gt; iterator link:#unordered_map_emplace_insert_with_hint[insert](const_iterator hint, P&amp;&amp; obj);
+    template&lt;class InputIterator&gt; void link:#unordered_map_insert_iterator_range[insert](InputIterator first, InputIterator last);
+    void link:#unordered_map_insert_initializer_list[insert](std::initializer_list&lt;value_type&gt;);
 
-    template<class... args="">
-      std::pair<iterator, bool=""> link:#unordered_map_try_emplace[try_emplace](const key_type&amp; k, Args&amp;&amp;... args);
-    template<class... args="">
-      std::pair<iterator, bool=""> link:#unordered_map_try_emplace[try_emplace](key_type&amp;&amp; k, Args&amp;&amp;... args);
-    template<class args="" class...="" k,="">
-      std::pair<iterator, bool=""> link:#unordered_map_try_emplace[try_emplace](K&amp;&amp; k, Args&amp;&amp;... args);
-    template<class... args="">
+    template&lt;class... Args&gt;
+      std::pair&lt;iterator, bool&gt; link:#unordered_map_try_emplace[try_emplace](const key_type&amp; k, Args&amp;&amp;... args);
+    template&lt;class... Args&gt;
+      std::pair&lt;iterator, bool&gt; link:#unordered_map_try_emplace[try_emplace](key_type&amp;&amp; k, Args&amp;&amp;... args);
+    template&lt;class K, class... Args&gt;
+      std::pair&lt;iterator, bool&gt; link:#unordered_map_try_emplace[try_emplace](K&amp;&amp; k, Args&amp;&amp;... args);
+    template&lt;class... Args&gt;
       iterator link:#unordered_map_try_emplace_with_hint[try_emplace](const_iterator hint, const key_type&amp; k, Args&amp;&amp;... args);
-    template<class... args="">
+    template&lt;class... Args&gt;
       iterator link:#unordered_map_try_emplace_with_hint[try_emplace](const_iterator hint, key_type&amp;&amp; k, Args&amp;&amp;... args);
-    template<class args="" class...="" k,="">
+    template&lt;class K, class... Args&gt;
       iterator link:#unordered_map_try_emplace_with_hint[try_emplace](const_iterator hint, K&amp;&amp; k, Args&amp;&amp;... args);
-    template<class m="">
-      std::pair<iterator, bool=""> link:#unordered_map_insert_or_assign[insert_or_assign](const key_type&amp; k, M&amp;&amp; obj);
-    template<class m="">
-      std::pair<iterator, bool=""> link:#unordered_map_insert_or_assign[insert_or_assign](key_type&amp;&amp; k, M&amp;&amp; obj);
-    template<class class="" k,="" m="">
-      std::pair<iterator, bool=""> link:#unordered_map_insert_or_assign[insert_or_assign](K&amp;&amp; k, M&amp;&amp; obj);
-    template<class m="">
+    template&lt;class M&gt;
+      std::pair&lt;iterator, bool&gt; link:#unordered_map_insert_or_assign[insert_or_assign](const key_type&amp; k, M&amp;&amp; obj);
+    template&lt;class M&gt;
+      std::pair&lt;iterator, bool&gt; link:#unordered_map_insert_or_assign[insert_or_assign](key_type&amp;&amp; k, M&amp;&amp; obj);
+    template&lt;class K, class M&gt;
+      std::pair&lt;iterator, bool&gt; link:#unordered_map_insert_or_assign[insert_or_assign](K&amp;&amp; k, M&amp;&amp; obj);
+    template&lt;class M&gt;
       iterator link:#unordered_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, const key_type&amp; k, M&amp;&amp; obj);
-    template<class m="">
+    template&lt;class M&gt;
       iterator link:#unordered_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, key_type&amp;&amp; k, M&amp;&amp; obj);
-    template<class class="" k,="" m="">
+    template&lt;class K, class M&gt;
       iterator link:#unordered_map_insert_or_assign_with_hint[insert_or_assign](const_iterator hint, K&amp;&amp; k, M&amp;&amp; obj);
 
     node_type link:#unordered_map_extract_by_iterator[extract](const_iterator position);
     node_type link:#unordered_map_extract_by_key[extract](const key_type&amp; k);
-    template<class k=""> node_type link:#unordered_map_extract_by_key[extract](K&amp;&amp; k);
+    template&lt;class K&gt; node_type link:#unordered_map_extract_by_key[extract](K&amp;&amp; k);
     insert_return_type link:#unordered_map_insert_with_node_handle[insert](node_type&amp;&amp; nh);
     iterator           link:#unordered_map_insert_with_hint_and_node_handle[insert](const_iterator hint, node_type&amp;&amp; nh);
 
     iterator  link:#unordered_map_erase_by_position[erase](iterator position);
     iterator  link:#unordered_map_erase_by_position[erase](const_iterator position);
     size_type link:#unordered_map_erase_by_key[erase](const key_type&amp; k);
-    template<class k=""> size_type link:#unordered_map_erase_by_key[erase](K&amp;&amp; k);
+    template&lt;class K&gt; size_type link:#unordered_map_erase_by_key[erase](K&amp;&amp; k);
     iterator  link:#unordered_map_erase_range[erase](const_iterator first, const_iterator last);
     void      link:#unordered_map_quick_erase[quick_erase](const_iterator position);
     void      link:#unordered_map_erase_return_void[erase_return_void](const_iterator position);
     void      link:#unordered_map_swap[swap](unordered_map&amp; other)
-      noexcept(boost::allocator_traits<allocator>::is_always_equal::value &amp;&amp;
-               boost::is_nothrow_swappable_v<hash> &amp;&amp;
-               boost::is_nothrow_swappable_v<pred>);
+      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value &amp;&amp;
+               boost::is_nothrow_swappable_v&lt;Hash&gt; &amp;&amp;
+               boost::is_nothrow_swappable_v&lt;Pred&gt;);
     void      link:#unordered_map_clear[clear]() noexcept;
 
-    template<class class="" h2,="" p2="">
-      void link:#unordered_map_merge[merge](unordered_map<key, allocator="" h2,="" p2,="" t,="">&amp; source);
-    template<class class="" h2,="" p2="">
-      void link:#unordered_map_merge[merge](unordered_map<key, allocator="" h2,="" p2,="" t,="">&amp;&amp; source);
-    template<class class="" h2,="" p2="">
-      void link:#unordered_map_merge[merge](unordered_multimap<key, allocator="" h2,="" p2,="" t,="">&amp; source);
-    template<class class="" h2,="" p2="">
-      void link:#unordered_map_merge[merge](unordered_multimap<key, allocator="" h2,="" p2,="" t,="">&amp;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_map_merge[merge](unordered_map&lt;Key, T, H2, P2, Allocator&gt;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_map_merge[merge](unordered_map&lt;Key, T, H2, P2, Allocator&gt;&amp;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_map_merge[merge](unordered_multimap&lt;Key, T, H2, P2, Allocator&gt;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_map_merge[merge](unordered_multimap&lt;Key, T, H2, P2, Allocator&gt;&amp;&amp; source);
 
     // observers
     hasher link:#unordered_map_hash_function[hash_function]() const;
@@ -171,44 +173,44 @@ link:#unordered_map_iterator_range_constructor_with_bucket_count_and_hasher[unor
     // map operations
     iterator         link:#unordered_map_find[find](const key_type&amp; k);
     const_iterator   link:#unordered_map_find[find](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       iterator       link:#unordered_map_find[find](const K&amp; k);
-    template<class k="">
+    template&lt;class K&gt;
       const_iterator link:#unordered_map_find[find](const K&amp; k) const;
-    template<typename compatiblehash,="" compatiblekey,="" compatiblepredicate="" typename="">
+    template&lt;typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate&gt;
       iterator       link:#unordered_map_find[find](CompatibleKey const&amp; k, CompatibleHash const&amp; hash,
                           CompatiblePredicate const&amp; eq);
-    template<typename compatiblehash,="" compatiblekey,="" compatiblepredicate="" typename="">
+    template&lt;typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate&gt;
       const_iterator link:#unordered_map_find[find](CompatibleKey const&amp; k, CompatibleHash const&amp; hash,
                           CompatiblePredicate const&amp; eq) const;
     size_type        link:#unordered_map_count[count](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       size_type      link:#unordered_map_count[count](const K&amp; k) const;
     bool             link:#unordered_map_contains[contains](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       bool           link:#unordered_map_contains[contains](const K&amp; k) const;
-    std::pair<iterator, iterator=""> link:#unordered_map_equal_range[equal_range](const key_type&amp; k);
-    std::pair<const_iterator, const_iterator=""> link:#unordered_map_equal_range[equal_range](const key_type&amp; k) const;
-    template<class k="">
-      std::pair<iterator, iterator=""> link:#unordered_map_equal_range[equal_range](const K&amp; k);
-    template<class k="">
-      std::pair<const_iterator, const_iterator=""> link:#unordered_map_equal_range[equal_range](const K&amp; k) const;
+    std::pair&lt;iterator, iterator&gt;               link:#unordered_map_equal_range[equal_range](const key_type&amp; k);
+    std::pair&lt;const_iterator, const_iterator&gt;   link:#unordered_map_equal_range[equal_range](const key_type&amp; k) const;
+    template&lt;class K&gt;
+      std::pair&lt;iterator, iterator&gt;             link:#unordered_map_equal_range[equal_range](const K&amp; k);
+    template&lt;class K&gt;
+      std::pair&lt;const_iterator, const_iterator&gt; link:#unordered_map_equal_range[equal_range](const K&amp; k) const;
 
     // element access
-    mapped_type&amp; link:#unordered_map_operator[operator[]](const key_type&amp; k);
-    mapped_type&amp; link:#unordered_map_operator[operator[]](key_type&amp;&amp; k);
-    template<class k=""> mapped_type&amp; link:#unordered_map_operator[operator[]](K&amp;&amp; k);
+    mapped_type&amp; link:#unordered_map_operator[operator\[\]](const key_type&amp; k);
+    mapped_type&amp; link:#unordered_map_operator[operator\[\]](key_type&amp;&amp; k);
+    template&lt;class K&gt; mapped_type&amp; link:#unordered_map_operator[operator\[\]](K&amp;&amp; k);
     mapped_type&amp; link:#unordered_map_at[at](const key_type&amp; k);
     const mapped_type&amp; link:#unordered_map_at[at](const key_type&amp; k) const;
-    template<class k=""> mapped_type&amp; link:#unordered_map_at[at](const K&amp; k);
-    template<class k=""> const mapped_type&amp; link:#unordered_map_at[at](const K&amp; k) const;
+    template&lt;class K&gt; mapped_type&amp; link:#unordered_map_at[at](const K&amp; k);
+    template&lt;class K&gt; const mapped_type&amp; link:#unordered_map_at[at](const K&amp; k) const;
 
     // bucket interface
     size_type link:#unordered_map_bucket_count[bucket_count]() const noexcept;
     size_type link:#unordered_map_max_bucket_count[max_bucket_count]() const noexcept;
     size_type link:#unordered_map_bucket_size[bucket_size](size_type n) const;
     size_type link:#unordered_map_bucket[bucket](const key_type&amp; k) const;
-    template<class k=""> size_type link:#unordered_map_bucket[bucket](const K&amp; k) const;
+    template&lt;class K&gt; size_type link:#unordered_map_bucket[bucket](const K&amp; k) const;
     local_iterator link:#unordered_map_begin_2[begin](size_type n);
     const_local_iterator link:#unordered_map_begin_2[begin](size_type n) const;
     local_iterator link:#unordered_map_end_2[end](size_type n);
@@ -225,55 +227,56 @@ link:#unordered_map_iterator_range_constructor_with_bucket_count_and_hasher[unor
   };
 
   // Deduction Guides
-  template<class class="" hash="boost::hash&lt;&lt;a" href="#unordered_map_iter_key_type" inputiterator,=""><em>iter-key-type</em><inputiterator>&gt;,
-           class Pred = std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>&gt;,
-           class Allocator = std::allocator&lt;link:#unordered_map_iter_to_alloc_type[iter-to-alloc-type]<inputiterator>&gt;&gt;
+  template&lt;class InputIterator,
+           class Hash = boost::hash&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;,
+           class Pred = std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;,
+           class Allocator = std::allocator&lt;link:#unordered_map_iter_to_alloc_type[iter-to-alloc-type]&lt;InputIterator&gt;&gt;&gt;
     unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[see below]::size_type = link:#unordered_map_deduction_guides[see below],
                   Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<inputiterator>, Hash, Pred,
+      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;, link:#unordered_map_iter_mapped_type[iter-mapped-type]&lt;InputIterator&gt;, Hash, Pred,
                        Allocator&gt;;
 
-  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
-           class Pred = std::equal_to<key>,
-           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
-    unordered_map(std::initializer_list<std::pair<key, t="">&gt;,
+  template&lt;class Key, class T, class Hash = boost::hash&lt;Key&gt;,
+           class Pred = std::equal_to&lt;Key&gt;,
+           class Allocator = std::allocator&lt;std::pair&lt;const Key, T&gt;&gt;&gt;
+    unordered_map(std::initializer_list&lt;std::pair&lt;Key, T&gt;&gt;,
                   typename link:#unordered_map_deduction_guides[see below]::size_type = link:#unordered_map_deduction_guides[see below], Hash = Hash(),
                   Pred = Pred(), Allocator = Allocator())
-      -&gt; unordered_map<key, allocator="" hash,="" pred,="" t,="">;
+      -&gt; unordered_map&lt;Key, T, Hash, Pred, Allocator&gt;;
 
-  template<class allocator="" class="" inputiterator,="">
+  template&lt;class InputIterator, class Allocator&gt;
     unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[see below]::size_type, Allocator)
-      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<inputiterator>,
-                       boost::hash&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>&gt;,
-                       std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;, link:#unordered_map_iter_mapped_type[iter-mapped-type]&lt;InputIterator&gt;,
+                       boost::hash&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;,
+                       std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" inputiterator,="">
+  template&lt;class InputIterator, class Allocator&gt;
     unordered_map(InputIterator, InputIterator, Allocator)
-      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<inputiterator>,
-                       boost::hash&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>&gt;,
-                       std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;, link:#unordered_map_iter_mapped_type[iter-mapped-type]&lt;InputIterator&gt;,
+                       boost::hash&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;,
+                       std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" hash,="" inputiterator,="">
+  template&lt;class InputIterator, class Hash, class Allocator&gt;
     unordered_map(InputIterator, InputIterator, typename link:#unordered_map_deduction_guides[see below]::size_type, Hash, Allocator)
-      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>, link:#unordered_map_iter_mapped_type[iter-mapped-type]<inputiterator>, Hash,
-                       std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; unordered_map&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;, link:#unordered_map_iter_mapped_type[iter-mapped-type]&lt;InputIterator&gt;, Hash,
+                       std::equal_to&lt;link:#unordered_map_iter_key_type[iter-key-type]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" key,="" t,="">
-    unordered_map(std::initializer_list<std::pair<key, t="">&gt;, typename link:#unordered_map_deduction_guides[see below]::size_type,
+  template&lt;class Key, class T, class Allocator&gt;
+    unordered_map(std::initializer_list&lt;std::pair&lt;Key, T&gt;&gt;, typename link:#unordered_map_deduction_guides[see below]::size_type,
                   Allocator)
-      -&gt; unordered_map<key, boost::hash<key="" t,="">, std::equal_to<key>, Allocator&gt;;
+      -&gt; unordered_map&lt;Key, T, boost::hash&lt;Key&gt;, std::equal_to&lt;Key&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" key,="" t,="">
-    unordered_map(std::initializer_list<std::pair<key, t="">&gt;, Allocator)
-      -&gt; unordered_map<key, boost::hash<key="" t,="">, std::equal_to<key>, Allocator&gt;;
+  template&lt;class Key, class T, class Allocator&gt;
+    unordered_map(std::initializer_list&lt;std::pair&lt;Key, T&gt;&gt;, Allocator)
+      -&gt; unordered_map&lt;Key, T, boost::hash&lt;Key&gt;, std::equal_to&lt;Key&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" hash,="" key,="" t,="">
-    unordered_map(std::initializer_list<std::pair<key, t="">&gt;, typename link:#unordered_map_deduction_guides[see below]::size_type, Hash,
+  template&lt;class Key, class T, class Hash, class Allocator&gt;
+    unordered_map(std::initializer_list&lt;std::pair&lt;Key, T&gt;&gt;, typename link:#unordered_map_deduction_guides[see below]::size_type, Hash,
                   Allocator)
-      -&gt; unordered_map<key, hash,="" std::equal_to<key="" t,="">, Allocator&gt;;
+      -&gt; unordered_map&lt;Key, T, Hash, std::equal_to&lt;Key&gt;, Allocator&gt;;
 
 } // namespace unordered
-} // namespace boost</key,></std::pair<key,></class></key></key,></std::pair<key,></class></key></key,></std::pair<key,></class></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></inputiterator></class></key,></std::pair<key,></std::pair<const></key></class></inputiterator></inputiterator></inputiterator></inputiterator></inputiterator></class></class></class></class></class></const_iterator,></class></iterator,></class></const_iterator,></iterator,></class></class></typename></typename></class></class></key,></class></key,></class></key,></class></key,></class></pred></hash></allocator></class></class></class></class></class></iterator,></class></iterator,></class></iterator,></class></class></class...></class...></iterator,></class></iterator,></class...></iterator,></class...></value_type></class></class></iterator,></class></iterator,></iterator,></class...></iterator,></class...></value_type></pred></hash></allocator></value_type></value_type></value_type></class></class></value_type></class></class></allocator></allocator></const></std::pair<const></key></class>
+} // namespace boost
 ----
 
 '''''
@@ -2083,9 +2086,9 @@ template<class InputIterator>
 
 [listing,subs="+macros,+quotes"]
 ----
-template<class inputiterator="">
+template&lt;class InputIterator&gt;
   using <em>iter-key-type</em> = std::remove_const_t&lt;
-    std::tuple_element_t&lt;0, link:#unordered_map_iter_value_type[iter-value-type]<inputiterator>&gt;&gt;; // 仅用于说明</inputiterator></class>
+    std::tuple_element_t&lt;0, link:#unordered_map_iter_value_type[iter-value-type]&lt;InputIterator&gt;&gt;&gt;; // 仅用于说明
 ----
 
 [[unordered_map_iter_mapped_type]]
@@ -2093,9 +2096,9 @@ template<class inputiterator="">
 
 [listing,subs="+macros,+quotes"]
 ----
-template<class inputiterator="">
+template&lt;class InputIterator&gt;
   using <em>iter-mapped-type</em> =
-    std::tuple_element_t&lt;1, link:#unordered_map_iter_value_type[iter-value-type]<inputiterator>&gt;;  // 仅用于说明</inputiterator></class>
+    std::tuple_element_t&lt;1, link:#unordered_map_iter_value_type[iter-value-type]&lt;InputIterator&gt;&gt;;  // 仅用于说明
 ----
 
 [[unordered_map_iter_to_alloc_type]]
@@ -2103,10 +2106,10 @@ template<class inputiterator="">
 
 [listing,subs="+macros,+quotes"]
 ----
-template<class inputiterator="">
+template&lt;class InputIterator&gt;
   using <em>iter-to-alloc-type</em> = std::pair&lt;
-    std::add_const_t<std::tuple_element_t<0, <a="" href="#unordered_map_iter_value_type"><em>iter-value-type</em><inputiterator>&gt;&gt;,
-    std::tuple_element_t&lt;1, link:#unordered_map_iter_value_type[iter-value-type]<inputiterator>&gt;&gt;; // 仅用于说明</inputiterator></inputiterator></std::tuple_element_t<0,></class>
+    std::add_const_t&lt;std::tuple_element_t&lt;0, link:#unordered_map_iter_value_type[iter-value-type]&lt;InputIterator&gt;&gt;&gt;,
+    std::tuple_element_t&lt;1, link:#unordered_map_iter_value_type[iter-value-type]&lt;InputIterator&gt;&gt;&gt;; // 仅用于说明
 ----
 
 [[unordered_map_equality_comparisons]]

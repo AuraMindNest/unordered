@@ -6,7 +6,7 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-#include link:reference/header_unordered_set_zh_Hans.adoc[<boost/unordered/unordered_set.hpp>]
+#include link:reference/header_unordered_set_zh_Hans.adoc[&lt;boost/unordered/unordered_set.hpp&gt;]
 ----
 
 [[footer]]

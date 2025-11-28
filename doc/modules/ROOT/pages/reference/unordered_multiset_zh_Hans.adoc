@@ -11,14 +11,15 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-// #include link:reference/header_unordered_set_zh_Hans.adoc[<boost/unordered/unordered_set.hpp>]
+// #include link:reference/header_unordered_set_zh_Hans.adoc[&lt;boost/unordered/unordered_set.hpp&gt;]
 
 namespace boost {
 namespace unordered {
 
-  template<class class="" hash="boost::hash&lt;Key" key,="">,
-           class Pred = std::equal_to<key>,
-           class Allocator = std::allocator<key>&gt;
+  template&lt;class Key,
+           class Hash = boost::hash&lt;Key&gt;,
+           class Pred = std::equal_to&lt;Key&gt;,
+           class Allocator = std::allocator&lt;Key&gt;&gt;
   class unordered_multiset {
   public:
     // 类型
@@ -27,8 +28,8 @@ namespace unordered {
     using hasher               = Hash;
     using key_equal            = Pred;
     using allocator_type       = Allocator;
-    using pointer              = typename std::allocator_traits<allocator>::pointer;
-    using const_pointer        = typename std::allocator_traits<allocator>::const_pointer;
+    using pointer              = typename std::allocator_traits&lt;Allocator&gt;::pointer;
+    using const_pointer        = typename std::allocator_traits&lt;Allocator&gt;::const_pointer;
     using reference            = value_type&amp;;
     using const_reference      = const value_type&amp;;
     using size_type            = std::size_t;
@@ -46,43 +47,43 @@ namespace unordered {
                                 const hasher&amp; hf = hasher(),
                                 const key_equal&amp; eql = key_equal(),
                                 const allocator_type&amp; a = allocator_type());
-    template<class inputiterator="">
-link:#unordered_multiset_iterator_range_constructor[unordered_multiset](InputIterator f, InputIterator l,
+    template&lt;class InputIterator&gt;
+      link:#unordered_multiset_iterator_range_constructor[unordered_multiset](InputIterator f, InputIterator l,
                          size_type n = <em>由实现定义</em>,
                          const hasher&amp; hf = hasher(),
                          const key_equal&amp; eql = key_equal(),
                          const allocator_type&amp; a = allocator_type());
     link:#unordered_multiset_copy_constructor[unordered_multiset](const unordered_multiset&amp; other);
     link:#unordered_multiset_move_constructor[unordered_multiset](unordered_multiset&amp;&amp; other);
-    template<class inputiterator="">
-link:#unordered_multiset_iterator_range_constructor_with_allocator[unordered_multiset](InputIterator f, InputIterator l, const allocator_type&amp; a);
+    template&lt;class InputIterator&gt;
+      link:#unordered_multiset_iterator_range_constructor_with_allocator[unordered_multiset](InputIterator f, InputIterator l, const allocator_type&amp; a);
     explicit link:#unordered_multiset_allocator_constructor[unordered_multiset](const Allocator&amp; a);
     link:#unordered_multiset_copy_constructor_with_allocator[unordered_multiset](const unordered_multiset&amp; other, const Allocator&amp; a);
     link:#unordered_multiset_move_constructor_with_allocator[unordered_multiset](unordered_multiset&amp;&amp; other, const Allocator&amp; a);
-    link:#unordered_multiset_initializer_list_constructor[unordered_multiset](std::initializer_list<value_type> il,
+    link:#unordered_multiset_initializer_list_constructor[unordered_multiset](std::initializer_list&lt;value_type&gt; il,
                        size_type n = <em>由实现定义</em>,
                        const hasher&amp; hf = hasher(),
                        const key_equal&amp; eql = key_equal(),
                        const allocator_type&amp; a = allocator_type());
     link:#unordered_multiset_bucket_count_constructor_with_allocator[unordered_multiset](size_type n, const allocator_type&amp; a);
     link:#unordered_multiset_bucket_count_constructor_with_hasher_and_allocator[unordered_multiset](size_type n, const hasher&amp; hf, const allocator_type&amp; a);
-    template<class inputiterator="">
-link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_allocator[unordered_multiset](InputIterator f, InputIterator l, size_type n, const allocator_type&amp; a);
-    template<class inputiterator="">
-link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher[unordered_multiset](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
+    template&lt;class InputIterator&gt;
+      link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_allocator[unordered_multiset](InputIterator f, InputIterator l, size_type n, const allocator_type&amp; a);
+    template&lt;class InputIterator&gt;
+      link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher[unordered_multiset](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
                          const allocator_type&amp; a);
-    link:#unordered_multiset_initializer_list_constructor_with_allocator[unordered_multiset](std::initializer_list<value_type> il, const allocator_type&amp; a);
-    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_allocator[unordered_multiset](std::initializer_list<value_type> il, size_type n,
+    link:#unordered_multiset_initializer_list_constructor_with_allocator[unordered_multiset](std::initializer_list&lt;value_type&gt; il, const allocator_type&amp; a);
+    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_allocator[unordered_multiset](std::initializer_list&lt;value_type&gt; il, size_type n,
                        const allocator_type&amp; a)
-    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_multiset](std::initializer_list<value_type> il, size_type n, const hasher&amp; hf,
+    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_multiset](std::initializer_list&lt;value_type&gt; il, size_type n, const hasher&amp; hf,
                        const allocator_type&amp; a);
     link:#unordered_multiset_destructor[~unordered_multiset()];
     unordered_multiset&amp; link:#unordered_multiset_copy_assignment[operator=](const unordered_multiset&amp; other);
     unordered_multiset&amp; link:#unordered_multiset_move_assignment[operator=](unordered_multiset&amp;&amp; other)
-      noexcept(boost::allocator_traits<allocator>::is_always_equal::value &amp;&amp;
-               boost::is_nothrow_move_assignable_v<hash> &amp;&amp;
-               boost::is_nothrow_move_assignable_v<pred>);
-    unordered_multiset&amp; link:#unordered_multiset_initializer_list_assignment[operator=](std::initializer_list<value_type> il);
+      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value &amp;&amp;
+               boost::is_nothrow_move_assignable_v&lt;Hash&gt; &amp;&amp;
+               boost::is_nothrow_move_assignable_v&lt;Pred&gt;);
+    unordered_multiset&amp; link:#unordered_multiset_initializer_list_assignment[operator=](std::initializer_list&lt;value_type&gt; il);
     allocator_type link:#unordered_multiset_get_allocator[get_allocator]() const noexcept;
 
     // 迭代器
@@ -99,42 +100,42 @@ link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher
     size_type link:#unordered_multiset_max_size[max_size]() const noexcept;
 
     // 修改器
-    template<class... args=""> iterator link:#unordered_multiset_emplace[emplace](Args&amp;&amp;... args);
-    template<class... args=""> iterator link:#unordered_multiset_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
+    template&lt;class... Args&gt; iterator link:#unordered_multiset_emplace[emplace](Args&amp;&amp;... args);
+    template&lt;class... Args&gt; iterator link:#unordered_multiset_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
     iterator link:#unordered_multiset_copy_insert[insert](const value_type&amp; obj);
     iterator link:#unordered_multiset_move_insert[insert](value_type&amp;&amp; obj);
     iterator link:#unordered_multiset_copy_insert_with_hint[insert](const_iterator hint, const value_type&amp; obj);
     iterator link:#unordered_multiset_move_insert_with_hint[insert](const_iterator hint, value_type&amp;&amp; obj);
-    template<class inputiterator=""> void link:#unordered_multiset_insert_iterator_range[insert](InputIterator first, InputIterator last);
-    void link:#unordered_multiset_insert_initializer_list[insert](std::initializer_list<value_type> il);
+    template&lt;class InputIterator&gt; void link:#unordered_multiset_insert_iterator_range[insert](InputIterator first, InputIterator last);
+    void link:#unordered_multiset_insert_initializer_list[insert](std::initializer_list&lt;value_type&gt; il);
 
     node_type link:#unordered_multiset_extract_by_iterator[extract](const_iterator position);
     node_type link:#unordered_multiset_extract_by_value[extract](const key_type&amp; k);
-    template<class k=""> node_type link:#unordered_multiset_extract_by_value[extract](K&amp;&amp; k);
+    template&lt;class K&gt; node_type link:#unordered_multiset_extract_by_value[extract](K&amp;&amp; k);
     iterator link:#unordered_multiset_insert_with_node_handle[insert](node_type&amp;&amp; nh);
     iterator link:#unordered_multiset_insert_with_hint_and_node_handle[insert](const_iterator hint, node_type&amp;&amp; nh);
 
     iterator  link:#unordered_multiset_erase_by_position[erase](iterator position);
     iterator  link:#unordered_multiset_erase_by_position[erase](const_iterator position);
     size_type link:#unordered_multiset_erase_by_value[erase](const key_type&amp; k);
-    template<class k=""> size_type link:#unordered_multiset_erase_by_value[erase](K&amp;&amp; x);
+    template&lt;class K&gt; size_type link:#unordered_multiset_erase_by_value[erase](K&amp;&amp; x);
     iterator  link:#unordered_multiset_erase_range[erase](const_iterator first, const_iterator last);
     void      link:#unordered_multiset_quick_erase[quick_erase](const_iterator position);
     void      link:#unordered_multiset_erase_return_void[erase_return_void](const_iterator position);
     void      link:#unordered_multiset_swap[swap](unordered_multiset&amp;)
-      noexcept(boost::allocator_traits<allocator>::is_always_equal::value &amp;&amp;
-               boost::is_nothrow_swappable_v<hash> &amp;&amp;
-               boost::is_nothrow_swappable_v<pred>);
+      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value &amp;&amp;
+               boost::is_nothrow_swappable_v&lt;Hash&gt; &amp;&amp;
+               boost::is_nothrow_swappable_v&lt;Pred&gt;);
     void      link:#unordered_multiset_clear[clear]() noexcept;
 
-    template<class class="" h2,="" p2="">
-      void link:#unordered_multiset_merge[merge](unordered_multiset<key, allocator="" h2,="" p2,="">&amp; source);
-    template<class class="" h2,="" p2="">
-      void link:#unordered_multiset_merge[merge](unordered_multiset<key, allocator="" h2,="" p2,="">&amp;&amp; source);
-    template<class class="" h2,="" p2="">
-      void link:#unordered_multiset_merge[merge](unordered_set<key, allocator="" h2,="" p2,="">&amp; source);
-    template<class class="" h2,="" p2="">
-      void link:#unordered_multiset_merge[merge](unordered_set<key, allocator="" h2,="" p2,="">&amp;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_multiset_merge[merge](unordered_multiset&lt;Key, H2, P2, Allocator&gt;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_multiset_merge[merge](unordered_multiset&lt;Key, H2, P2, Allocator&gt;&amp;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_multiset_merge[merge](unordered_set&lt;Key, H2, P2, Allocator&gt;&amp; source);
+    template&lt;class H2, class P2&gt;
+      void link:#unordered_multiset_merge[merge](unordered_set&lt;Key, H2, P2, Allocator&gt;&amp;&amp; source);
 
     // 观察器
     hasher link:#unordered_multiset_hash_function[hash_function]() const;
@@ -143,35 +144,35 @@ link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher
     // 集合操作
     iterator         link:#unordered_multiset_find[find](const key_type&amp; k);
     const_iterator   link:#unordered_multiset_find[find](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       iterator       link:#unordered_multiset_find[find](const K&amp; k);
-    template<class k="">
+    template&lt;class K&gt;
       const_iterator link:#unordered_multiset_find[find](const K&amp; k) const;
-    template<typename compatiblehash,="" compatiblekey,="" compatiblepredicate="" typename="">
+    template&lt;typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate&gt;
       iterator       link:#unordered_multiset_find[find](CompatibleKey const&amp;, CompatibleHash const&amp;,
                           CompatiblePredicate const&amp;);
-    template<typename compatiblehash,="" compatiblekey,="" compatiblepredicate="" typename="">
+    template&lt;typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate&gt;
       const_iterator  link:#unordered_multiset_find[find](CompatibleKey const&amp;, CompatibleHash const&amp;,
                            CompatiblePredicate const&amp;) const;
     size_type        link:#unordered_multiset_count[count](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       size_type      link:#unordered_multiset_count[count](const K&amp; k) const;
     bool             link:#unordered_multiset_contains[contains](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       bool           link:#unordered_multiset_contains[contains](const K&amp; k) const;
-    std::pair<iterator, iterator=""> link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k);
-    std::pair<const_iterator, const_iterator=""> link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k) const;
-    template<class k="">
-      std::pair<iterator, iterator=""> link:#unordered_multiset_equal_range[equal_range](const K&amp; k);
-    template<class k="">
-      std::pair<const_iterator, const_iterator=""> link:#unordered_multiset_equal_range[equal_range](const K&amp; k) const;
+    std::pair&lt;iterator, iterator&gt;               link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k);
+    std::pair&lt;const_iterator, const_iterator&gt;   link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k) const;
+    template&lt;class K&gt;
+      std::pair&lt;iterator, iterator&gt;             link:#unordered_multiset_equal_range[equal_range](const K&amp; k);
+    template&lt;class K&gt;
+      std::pair&lt;const_iterator, const_iterator&gt; link:#unordered_multiset_equal_range[equal_range](const K&amp; k) const;
 
     // 桶接口
     size_type link:#unordered_multiset_bucket_count[bucket_count]() const noexcept;
     size_type link:#unordered_multiset_max_bucket_count[max_bucket_count]() const noexcept;
     size_type link:#unordered_multiset_bucket_size[bucket_size](size_type n) const;
     size_type link:#unordered_multiset_bucket[bucket](const key_type&amp; k) const;
-    template<class k=""> size_type link:#unordered_multiset_bucket[bucket](const K&amp; k) const;
+    template&lt;class K&gt; size_type link:#unordered_multiset_bucket[bucket](const K&amp; k) const;
     local_iterator link:#unordered_multiset_begin_2[begin](size_type n);
     const_local_iterator link:#unordered_multiset_begin_2[begin](size_type n) const;
     local_iterator link:#unordered_multiset_end_2[end](size_type n);
@@ -188,51 +189,52 @@ link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher
   };
 
   // 推导指引
-  template<class class="" hash="boost::hash&lt;&lt;a" href="#unordered_multiset_iter_value_type" inputiterator,=""><em>迭代器值类型</em><inputiterator>&gt;,
-           class Pred = std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;,
-           class Allocator = std::allocator&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;&gt;
+  template&lt;class InputIterator,
+           class Hash = boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+           class Pred = std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+           class Allocator = std::allocator&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;&gt;
     unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>, Hash, Pred, Allocator&gt;;
+      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;, Hash, Pred, Allocator&gt;;
 
-  template<class class="" hash="boost::hash&lt;T" t,="">, class Pred = std::equal_to<t>,
-           class Allocator = std::allocator<t>&gt;
-    unordered_multiset(std::initializer_list<t>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
+  template&lt;class T, class Hash = boost::hash&lt;T&gt;, class Pred = std::equal_to&lt;T&gt;,
+           class Allocator = std::allocator&lt;T&gt;&gt;
+    unordered_multiset(std::initializer_list&lt;T&gt;, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; unordered_multiset<t, allocator="" hash,="" pred,="">;
+      -&gt; unordered_multiset&lt;T, Hash, Pred, Allocator&gt;;
 
-  template<class allocator="" class="" inputiterator,="">
+  template&lt;class InputIterator, class Allocator&gt;
     unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>,
-                            boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;,
-                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;,
+                            boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" inputiterator,="">
+  template&lt;class InputIterator, class Allocator&gt;
     unordered_multiset(InputIterator, InputIterator, Allocator)
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>,
-                            boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;,
-                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;,
+                            boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" hash,="" inputiterator,="">
+  template&lt;class InputIterator, class Hash, class Allocator&gt;
     unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash,
                        Allocator)
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>, Hash,
-                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;, Hash,
+                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" t,="">
-    unordered_multiset(std::initializer_list<t>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
-      -&gt; unordered_multiset<t, boost::hash<t="">, std::equal_to<t>, Allocator&gt;;
+  template&lt;class T, class Allocator&gt;
+    unordered_multiset(std::initializer_list&lt;T&gt;, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
+      -&gt; unordered_multiset&lt;T, boost::hash&lt;T&gt;, std::equal_to&lt;T&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" t,="">
-    unordered_multiset(std::initializer_list<t>, Allocator)
-      -&gt; unordered_multiset<t, boost::hash<t="">, std::equal_to<t>, Allocator&gt;;
+  template&lt;class T, class Allocator&gt;
+    unordered_multiset(std::initializer_list&lt;T&gt;, Allocator)
+      -&gt; unordered_multiset&lt;T, boost::hash&lt;T&gt;, std::equal_to&lt;T&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" hash,="" t,="">
-    unordered_multiset(std::initializer_list<t>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash, Allocator)
-      -&gt; unordered_multiset<t, hash,="" std::equal_to<t="">, Allocator&gt;;
+  template&lt;class T, class Hash, class Allocator&gt;
+    unordered_multiset(std::initializer_list&lt;T&gt;, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash, Allocator)
+      -&gt; unordered_multiset&lt;T, Hash, std::equal_to&lt;T&gt;, Allocator&gt;;
 
 } // namespace unordered
-} // namespace boost</t,></t></class></t></t,></t></class></t></t,></t></class></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></class></t,></t></t></t></class></inputiterator></inputiterator></inputiterator></inputiterator></class></class></const_iterator,></class></iterator,></class></const_iterator,></iterator,></class></class></typename></typename></class></class></key,></class></key,></class></key,></class></key,></class></pred></hash></allocator></class></class></value_type></class></class...></class...></value_type></pred></hash></allocator></value_type></value_type></value_type></class></class></value_type></class></class></allocator></allocator></key></key></class>
+} // namespace boost
 ----
 
 '''''

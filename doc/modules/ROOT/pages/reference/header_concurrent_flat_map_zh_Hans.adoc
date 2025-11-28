@@ -11,44 +11,49 @@
 namespace boost {
 namespace unordered {
 
-  template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
-           class Pred = std::equal_to<key>,
-           class Allocator = std::allocator<std::pair<const key,="" t="">&gt;&gt;
+  template&lt;class Key,
+           class T,
+           class Hash = boost::hash&lt;Key&gt;,
+           class Pred = std::equal_to&lt;Key&gt;,
+           class Allocator = std::allocator&lt;std::pair&lt;const Key, T&gt;&gt;&gt;
   class link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map[concurrent_flat_map];
 
   // 相等比较
-  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
-    bool link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_operator[operator==](const concurrent_flat_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
-                    const concurrent_flat_map<key, alloc="" hash,="" pred,="" t,="">&amp; y);
+  template&lt;class Key, class T, class Hash, class Pred, class Alloc&gt;
+    bool link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_operator[operator==](const concurrent_flat_map&lt;Key, T, Hash, Pred, Alloc&gt;&amp; x,
+                    const concurrent_flat_map&lt;Key, T, Hash, Pred, Alloc&gt;&amp; y);
 
-  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
-    bool link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_operator_2[operator!=](const concurrent_flat_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
-                    const concurrent_flat_map<key, alloc="" hash,="" pred,="" t,="">&amp; y);
+  template&lt;class Key, class T, class Hash, class Pred, class Alloc&gt;
+    bool link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_operator_2[operator!=](const concurrent_flat_map&lt;Key, T, Hash, Pred, Alloc&gt;&amp; x,
+                    const concurrent_flat_map&lt;Key, T, Hash, Pred, Alloc&gt;&amp; y);
 
   // 交换
-  template<class alloc="" class="" hash,="" key,="" pred,="" t,="">
-    void link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_swap_2[swap](concurrent_flat_map<key, alloc="" hash,="" pred,="" t,="">&amp; x,
-              concurrent_flat_map<key, alloc="" hash,="" pred,="" t,="">&amp; y)
+  template&lt;class Key, class T, class Hash, class Pred, class Alloc&gt;
+    void link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_swap_2[swap](concurrent_flat_map&lt;Key, T, Hash, Pred, Alloc&gt;&amp; x,
+              concurrent_flat_map&lt;Key, T, Hash, Pred, Alloc&gt;&amp; y)
       noexcept(noexcept(x.swap(y)));
 
   // 擦除
-  template<class a,="" class="" h,="" k,="" p,="" predicate="" t,="">
-    typename concurrent_flat_map<k, a="" h,="" p,="" t,="">::size_type
-      link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_erase_if[erase_if](concurrent_flat_map<k, a="" h,="" p,="" t,="">&amp; c, Predicate pred);
+  template&lt;class K, class T, class H, class P, class A, class Predicate&gt;
+    typename concurrent_flat_map&lt;K, T, H, P, A&gt;::size_type
+      link:reference/concurrent_flat_map_zh_Hans.adoc#concurrent_flat_map_erase_if[erase_if](concurrent_flat_map&lt;K, T, H, P, A&gt;&amp; c, Predicate pred);
 
   // Pmr 别名 (C++17及以上版本)
   namespace pmr {
-    template<class class="" hash="boost::hash&lt;Key" key,="" t,="">,
-             class Pred = std::equal_to<key>&gt;
+    template&lt;class Key,
+             class T,
+             class Hash = boost::hash&lt;Key&gt;,
+             class Pred = std::equal_to&lt;Key&gt;&gt;
     using concurrent_flat_map =
-      boost::unordered::concurrent_flat_map<key, hash,="" key,="" pred,="" std::pmr::polymorphic_allocator<std::pair<const="" t="" t,="">&gt;&gt;;
+      boost::unordered::concurrent_flat_map&lt;Key, T, Hash, Pred,
+        std::pmr::polymorphic_allocator&lt;std::pair&lt;const Key, T&gt;&gt;&gt;;
   } // 命名空间 pmr擦除
 
 } // 命名空间 unordered
 
 using unordered::concurrent_flat_map;
 
-} // 命名空间 boost</key,></key></class></k,></k,></class></key,></key,></class></key,></key,></class></key,></key,></class></std::pair<const></key></class>
+} // 命名空间 boost
 ----
 
 [[footer]]

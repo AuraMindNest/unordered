@@ -15,14 +15,15 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-// #include link:reference/header_concurrent_node_set_zh_Hans.adoc[`<boost/unordered/concurrent_node_set.hpp>`]
+// #include link:reference/header_concurrent_node_set_zh_Hans.adoc[`&lt;boost/unordered/concurrent_node_set.hpp&gt;`]
 
 namespace boost {
 namespace unordered {
 
-  template<class class="" hash="boost::hash&lt;Key" key,="">,
-           class Pred = std::equal_to<key>,
-           class Allocator = std::allocator<key>&gt;
+  template&lt;class Key,
+           class Hash = boost::hash&lt;Key&gt;,
+           class Pred = std::equal_to&lt;Key&gt;,
+           class Allocator = std::allocator&lt;Key&gt;&gt;
   class concurrent_node_set {
   public:
     // 类型
@@ -32,8 +33,8 @@ namespace unordered {
     using hasher               = Hash;
     using key_equal            = Pred;
     using allocator_type       = Allocator;
-    using pointer              = typename std::allocator_traits<allocator>::pointer;
-    using const_pointer        = typename std::allocator_traits<allocator>::const_pointer;
+    using pointer              = typename std::allocator_traits&lt;Allocator&gt;::pointer;
+    using const_pointer        = typename std::allocator_traits&lt;Allocator&gt;::const_pointer;
     using reference            = value_type&amp;;
     using const_reference      = const value_type&amp;;
     using size_type            = std::size_t;
@@ -53,80 +54,80 @@ namespace unordered {
                                  const hasher&amp; hf = hasher(),
                                  const key_equal&amp; eql = key_equal(),
                                  const allocator_type&amp; a = allocator_type());
-    template<class inputiterator="">
-link:#concurrent_node_set_iterator_range_constructor[concurrent_node_set](InputIterator f, InputIterator l,
+    template&lt;class InputIterator&gt;
+      link:#concurrent_node_set_iterator_range_constructor[concurrent_node_set](InputIterator f, InputIterator l,
                           size_type n = <em>实现定义</em>,
                           const hasher&amp; hf = hasher(),
                           const key_equal&amp; eql = key_equal(),
                           const allocator_type&amp; a = allocator_type());
     link:#concurrent_node_set_copy_constructor[concurrent_node_set](const concurrent_node_set&amp; other);
     link:#concurrent_node_set_move_constructor[concurrent_node_set](concurrent_node_set&amp;&amp; other);
-    template<class inputiterator="">
-link:#concurrent_node_set_iterator_range_constructor_with_allocator[concurrent_node_set](InputIterator f, InputIterator l,const allocator_type&amp; a);
+    template&lt;class InputIterator&gt;
+      link:#concurrent_node_set_iterator_range_constructor_with_allocator[concurrent_node_set](InputIterator f, InputIterator l,const allocator_type&amp; a);
     explicit link:#concurrent_node_set_allocator_constructor[concurrent_node_set](const Allocator&amp; a);
     link:#concurrent_node_set_copy_constructor_with_allocator[concurrent_node_set](const concurrent_node_set&amp; other, const Allocator&amp; a);
     link:#concurrent_node_set_move_constructor_with_allocator[concurrent_node_set](concurrent_node_set&amp;&amp; other, const Allocator&amp; a);
-    link:#concurrent_node_set_move_constructor_from_unordered_node_set[concurrent_node_set](unordered_node_set<key, allocator="" hash,="" pred,="">&amp;&amp; other);
-    link:#concurrent_node_set_initializer_list_constructor[concurrent_node_set](std::initializer_list<value_type> il,
+    link:#concurrent_node_set_move_constructor_from_unordered_node_set[concurrent_node_set](unordered_node_set&lt;Key, Hash, Pred, Allocator&gt;&amp;&amp; other);
+    link:#concurrent_node_set_initializer_list_constructor[concurrent_node_set](std::initializer_list&lt;value_type&gt; il,
                         size_type n = <em>实现定义</em>
                         const hasher&amp; hf = hasher(),
                         const key_equal&amp; eql = key_equal(),
                         const allocator_type&amp; a = allocator_type());
     link:#concurrent_node_set_bucket_count_constructor_with_allocator[concurrent_node_set](size_type n, const allocator_type&amp; a);
     link:#concurrent_node_set_bucket_count_constructor_with_hasher_and_allocator[concurrent_node_set](size_type n, const hasher&amp; hf, const allocator_type&amp; a);
-    template<class inputiterator="">
-link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_allocator[concurrent_node_set](InputIterator f, InputIterator l, size_type n,
+    template&lt;class InputIterator&gt;
+      link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_allocator[concurrent_node_set](InputIterator f, InputIterator l, size_type n,
                           const allocator_type&amp; a);
-    template<class inputiterator="">
-link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hasher[concurrent_node_set](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
+    template&lt;class InputIterator&gt;
+      link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hasher[concurrent_node_set](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
                           const allocator_type&amp; a);
-    link:#concurrent_node_set_initializer_list_constructor_with_allocator[concurrent_node_set](std::initializer_list<value_type> il, const allocator_type&amp; a);
-    link:#concurrent_node_set_initializer_list_constructor_with_bucket_count_and_allocator[concurrent_node_set](std::initializer_list<value_type> il, size_type n,
+    link:#concurrent_node_set_initializer_list_constructor_with_allocator[concurrent_node_set](std::initializer_list&lt;value_type&gt; il, const allocator_type&amp; a);
+    link:#concurrent_node_set_initializer_list_constructor_with_bucket_count_and_allocator[concurrent_node_set](std::initializer_list&lt;value_type&gt; il, size_type n,
                         const allocator_type&amp; a);
-    link:#concurrent_node_set_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[concurrent_node_set](std::initializer_list<value_type> il, size_type n, const hasher&amp; hf,
+    link:#concurrent_node_set_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[concurrent_node_set](std::initializer_list&lt;value_type&gt; il, size_type n, const hasher&amp; hf,
                         const allocator_type&amp; a);
     link:#concurrent_node_set_destructor[~concurrent_node_set]();
     concurrent_node_set&amp; link:#concurrent_node_set_copy_assignment[operator=](const concurrent_node_set&amp; other);
     concurrent_node_set&amp; link:#concurrent_node_set_move_assignment[operator=](concurrent_node_set&amp;&amp; other)
-      noexcept(boost::allocator_traits<allocator>::is_always_equal::value ||
-              boost::allocator_traits<allocator>::propagate_on_container_move_assignment::value);
-    concurrent_node_set&amp; link:#concurrent_node_set_initializer_list_assignment[operator=](std::initializer_list<value_type>);
+      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value ||
+              boost::allocator_traits&lt;Allocator&gt;::propagate_on_container_move_assignment::value);
+    concurrent_node_set&amp; link:#concurrent_node_set_initializer_list_assignment[operator=](std::initializer_list&lt;value_type&gt;);
     allocator_type link:#concurrent_node_set_get_allocator[get_allocator]() const noexcept;
 
 
     // 访问
-    template<class f=""> size_t link:#concurrent_node_set_cvisit[visit](const key_type&amp; k, F f);
-    template<class f=""> size_t link:#concurrent_node_set_cvisit[visit](const key_type&amp; k, F f) const;
-    template<class f=""> size_t link:#concurrent_node_set_cvisit[cvisit](const key_type&amp; k, F f) const;
-    template<class class="" f="" k,=""> size_t link:#concurrent_node_set_cvisit[visit](const K&amp; k, F f);
-    template<class class="" f="" k,=""> size_t link:#concurrent_node_set_cvisit[visit](const K&amp; k, F f) const;
-    template<class class="" f="" k,=""> size_t link:#concurrent_node_set_cvisit[cvisit](const K&amp; k, F f) const;
+    template&lt;class F&gt; size_t link:#concurrent_node_set_cvisit[visit](const key_type&amp; k, F f);
+    template&lt;class F&gt; size_t link:#concurrent_node_set_cvisit[visit](const key_type&amp; k, F f) const;
+    template&lt;class F&gt; size_t link:#concurrent_node_set_cvisit[cvisit](const key_type&amp; k, F f) const;
+    template&lt;class K, class F&gt; size_t link:#concurrent_node_set_cvisit[visit](const K&amp; k, F f);
+    template&lt;class K, class F&gt; size_t link:#concurrent_node_set_cvisit[visit](const K&amp; k, F f) const;
+    template&lt;class K, class F&gt; size_t link:#concurrent_node_set_cvisit[cvisit](const K&amp; k, F f) const;
 
-    template<class class="" f="" fwditerator,="">
+    template&lt;class FwdIterator, class F&gt;
       size_t link:#concurrent_node_set_bulk_visit[visit](FwdIterator first, FwdIterator last, F f);
-    template<class class="" f="" fwditerator,="">
+    template&lt;class FwdIterator, class F&gt;
       size_t link:#concurrent_node_set_bulk_visit[visit](FwdIterator first, FwdIterator last, F f) const;
-    template<class class="" f="" fwditerator,="">
+    template&lt;class FwdIterator, class F&gt;
       size_t link:#concurrent_node_set_bulk_visit[cvisit](FwdIterator first, FwdIterator last, F f) const;
 
-    template<class f=""> size_t link:#concurrent_node_set_cvisit_all[visit_all](F f);
-    template<class f=""> size_t link:#concurrent_node_set_cvisit_all[visit_all](F f) const;
-    template<class f=""> size_t link:#concurrent_node_set_cvisit_all[cvisit_all](F f) const;
-    template<class class="" executionpolicy,="" f="">
+    template&lt;class F&gt; size_t link:#concurrent_node_set_cvisit_all[visit_all](F f);
+    template&lt;class F&gt; size_t link:#concurrent_node_set_cvisit_all[visit_all](F f) const;
+    template&lt;class F&gt; size_t link:#concurrent_node_set_cvisit_all[cvisit_all](F f) const;
+    template&lt;class ExecutionPolicy, class F&gt;
       void link:#concurrent_node_set_parallel_cvisit_all[visit_all](ExecutionPolicy&amp;&amp; policy, F f);
-    template<class class="" executionpolicy,="" f="">
+    template&lt;class ExecutionPolicy, class F&gt;
       void link:#concurrent_node_set_parallel_cvisit_all[visit_all](ExecutionPolicy&amp;&amp; policy, F f) const;
-    template<class class="" executionpolicy,="" f="">
+    template&lt;class ExecutionPolicy, class F&gt;
       void link:#concurrent_node_set_parallel_cvisit_all[cvisit_all](ExecutionPolicy&amp;&amp; policy, F f) const;
 
-    template<class f=""> bool link:#concurrent_node_set_cvisit_while[visit_while](F f);
-    template<class f=""> bool link:#concurrent_node_set_cvisit_while[visit_while](F f) const;
-    template<class f=""> bool link:#concurrent_node_set_cvisit_while[cvisit_while](F f) const;
-    template<class class="" executionpolicy,="" f="">
+    template&lt;class F&gt; bool link:#concurrent_node_set_cvisit_while[visit_while](F f);
+    template&lt;class F&gt; bool link:#concurrent_node_set_cvisit_while[visit_while](F f) const;
+    template&lt;class F&gt; bool link:#concurrent_node_set_cvisit_while[cvisit_while](F f) const;
+    template&lt;class ExecutionPolicy, class F&gt;
       bool link:#concurrent_node_set_parallel_cvisit_while[visit_while](ExecutionPolicy&amp;&amp; policy, F f);
-    template<class class="" executionpolicy,="" f="">
+    template&lt;class ExecutionPolicy, class F&gt;
       bool link:#concurrent_node_set_parallel_cvisit_while[visit_while](ExecutionPolicy&amp;&amp; policy, F f) const;
-    template<class class="" executionpolicy,="" f="">
+    template&lt;class ExecutionPolicy, class F&gt;
       bool link:#concurrent_node_set_parallel_cvisit_while[cvisit_while](ExecutionPolicy&amp;&amp; policy, F f) const;
 
     // 容量
@@ -135,78 +136,78 @@ link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hashe
     size_type link:#concurrent_node_set_max_size[max_size]() const noexcept;
 
     // 修改器
-    template<class... args=""> bool link:#concurrent_node_set_emplace[emplace](Args&amp;&amp;... args);
+    template&lt;class... Args&gt; bool link:#concurrent_node_set_emplace[emplace](Args&amp;&amp;... args);
     bool link:#concurrent_node_set_copy_insert[insert](const value_type&amp; obj);
     bool link:#concurrent_node_set_move_insert[insert](value_type&amp;&amp; obj);
-    template<class k=""> bool link:#concurrent_node_set_transparent_insert[insert](K&amp;&amp; k);
-    template<class inputiterator=""> size_type link:#concurrent_node_set_insert_iterator_range[insert](InputIterator first, InputIterator last);
-    size_type link:#concurrent_node_set_insert_initializer_list[insert](std::initializer_list<value_type> il);
+    template&lt;class K&gt; bool link:#concurrent_node_set_transparent_insert[insert](K&amp;&amp; k);
+    template&lt;class InputIterator&gt; size_type link:#concurrent_node_set_insert_iterator_range[insert](InputIterator first, InputIterator last);
+    size_type link:#concurrent_node_set_insert_initializer_list[insert](std::initializer_list&lt;value_type&gt; il);
     insert_return_type link:#concurrent_node_set_insert_node[insert](node_type&amp;&amp; nh);
 
-    template<class... args,="" class="" f=""> bool link:#concurrent_node_set_emplace_or_cvisit[emplace_or_visit](Args&amp;&amp;... args, F&amp;&amp; f);
-    template<class... args,="" class="" f=""> bool link:#concurrent_node_set_emplace_or_cvisit[emplace_or_cvisit](Args&amp;&amp;... args, F&amp;&amp; f);
-    template<class f=""> bool link:#concurrent_node_set_copy_insert_or_cvisit[insert_or_visit](const value_type&amp; obj, F f);
-    template<class f=""> bool link:#concurrent_node_set_copy_insert_or_cvisit[insert_or_cvisit](const value_type&amp; obj, F f);
-    template<class f=""> bool link:#concurrent_node_set_move_insert_or_cvisit[insert_or_visit](value_type&amp;&amp; obj, F f);
-    template<class f=""> bool link:#concurrent_node_set_move_insert_or_cvisit[insert_or_cvisit](value_type&amp;&amp; obj, F f);
-    template<class class="" f="" k,=""> bool link:#concurrent_node_set_transparent_insert_or_cvisit[insert_or_visit](K&amp;&amp; k, F f);
-    template<class class="" f="" k,=""> bool link:#concurrent_node_set_transparent_insert_or_cvisit[insert_or_cvisit](K&amp;&amp; k, F f);
-    template<class f="" inputiterator,class="">
+    template&lt;class... Args, class F&gt; bool link:#concurrent_node_set_emplace_or_cvisit[emplace_or_visit](Args&amp;&amp;... args, F&amp;&amp; f);
+    template&lt;class... Args, class F&gt; bool link:#concurrent_node_set_emplace_or_cvisit[emplace_or_cvisit](Args&amp;&amp;... args, F&amp;&amp; f);
+    template&lt;class F&gt; bool link:#concurrent_node_set_copy_insert_or_cvisit[insert_or_visit](const value_type&amp; obj, F f);
+    template&lt;class F&gt; bool link:#concurrent_node_set_copy_insert_or_cvisit[insert_or_cvisit](const value_type&amp; obj, F f);
+    template&lt;class F&gt; bool link:#concurrent_node_set_move_insert_or_cvisit[insert_or_visit](value_type&amp;&amp; obj, F f);
+    template&lt;class F&gt; bool link:#concurrent_node_set_move_insert_or_cvisit[insert_or_cvisit](value_type&amp;&amp; obj, F f);
+    template&lt;class K, class F&gt; bool link:#concurrent_node_set_transparent_insert_or_cvisit[insert_or_visit](K&amp;&amp; k, F f);
+    template&lt;class K, class F&gt; bool link:#concurrent_node_set_transparent_insert_or_cvisit[insert_or_cvisit](K&amp;&amp; k, F f);
+    template&lt;class InputIterator,class F&gt;
       size_type link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_visit](InputIterator first, InputIterator last, F f);
-    template<class f="" inputiterator,class="">
+    template&lt;class InputIterator,class F&gt;
       size_type link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_cvisit](InputIterator first, InputIterator last, F f);
-    template<class f=""> size_type link:#concurrent_node_set_insert_initializer_list_or_visit[insert_or_visit](std::initializer_list<value_type> il, F f);
-    template<class f=""> size_type link:#concurrent_node_set_insert_initializer_list_or_visit[insert_or_cvisit](std::initializer_list<value_type> il, F f);
-    template<class f=""> insert_return_type link:#concurrent_node_set_insert_node_or_visit[insert_or_visit](node_type&amp;&amp; nh, F f);
-    template<class f=""> insert_return_type link:#concurrent_node_set_insert_node_or_visit[insert_or_cvisit](node_type&amp;&amp; nh, F f);
+    template&lt;class F&gt; size_type link:#concurrent_node_set_insert_initializer_list_or_visit[insert_or_visit](std::initializer_list&lt;value_type&gt; il, F f);
+    template&lt;class F&gt; size_type link:#concurrent_node_set_insert_initializer_list_or_visit[insert_or_cvisit](std::initializer_list&lt;value_type&gt; il, F f);
+    template&lt;class F&gt; insert_return_type link:#concurrent_node_set_insert_node_or_visit[insert_or_visit](node_type&amp;&amp; nh, F f);
+    template&lt;class F&gt; insert_return_type link:#concurrent_node_set_insert_node_or_visit[insert_or_cvisit](node_type&amp;&amp; nh, F f);
 
-    template<class... args,="" class="" f1,="" f2="">
+    template&lt;class... Args, class F1, class F2&gt;
       bool link:#concurrent_node_set_emplace_and_cvisit[emplace_and_visit](Args&amp;&amp;... args, F1&amp;&amp; f1, F2&amp;&amp; f2);
-    template<class... args,="" class="" f1,="" f2="">
+    template&lt;class... Args, class F1, class F2&gt;
       bool link:#concurrent_node_set_emplace_and_cvisit[emplace_and_cvisit](Args&amp;&amp;... args, F1&amp;&amp; f1, F2&amp;&amp; f2);
-    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_copy_insert_and_cvisit[insert_and_visit](const value_type&amp; obj, F1 f1, F2 f2);
-    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_copy_insert_and_cvisit[insert_and_cvisit](const value_type&amp; obj, F1 f1, F2 f2);
-    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_move_insert_and_cvisit[insert_and_visit](value_type&amp;&amp; obj, F1 f1, F2 f2);
-    template<class class="" f1,="" f2=""> bool link:#concurrent_node_set_move_insert_and_cvisit[insert_and_cvisit](value_type&amp;&amp; obj, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="" k,=""> bool link:#concurrent_node_set_transparent_insert_and_cvisit[insert_and_visit](K&amp;&amp; k, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="" k,=""> bool link:#concurrent_node_set_transparent_insert_and_cvisit[insert_and_cvisit](K&amp;&amp; k, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="" inputiterator,class="">
+    template&lt;class F1, class F2&gt; bool link:#concurrent_node_set_copy_insert_and_cvisit[insert_and_visit](const value_type&amp; obj, F1 f1, F2 f2);
+    template&lt;class F1, class F2&gt; bool link:#concurrent_node_set_copy_insert_and_cvisit[insert_and_cvisit](const value_type&amp; obj, F1 f1, F2 f2);
+    template&lt;class F1, class F2&gt; bool link:#concurrent_node_set_move_insert_and_cvisit[insert_and_visit](value_type&amp;&amp; obj, F1 f1, F2 f2);
+    template&lt;class F1, class F2&gt; bool link:#concurrent_node_set_move_insert_and_cvisit[insert_and_cvisit](value_type&amp;&amp; obj, F1 f1, F2 f2);
+    template&lt;class K, class F1, class F2&gt; bool link:#concurrent_node_set_transparent_insert_and_cvisit[insert_and_visit](K&amp;&amp; k, F1 f1, F2 f2);
+    template&lt;class K, class F1, class F2&gt; bool link:#concurrent_node_set_transparent_insert_and_cvisit[insert_and_cvisit](K&amp;&amp; k, F1 f1, F2 f2);
+    template&lt;class InputIterator,class F1, class F2&gt;
       size_type link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_visit](InputIterator first, InputIterator last, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="" inputiterator,class="">
+    template&lt;class InputIterator,class F1, class F2&gt;
       size_type link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_cvisit](InputIterator first, InputIterator last, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="">
-      size_type link:#concurrent_node_set_insert_initializer_list_and_visit[insert_and_visit](std::initializer_list<value_type> il, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="">
-      size_type link:#concurrent_node_set_insert_initializer_list_and_visit[insert_and_cvisit](std::initializer_list<value_type> il, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="">
+    template&lt;class F1, class F2&gt;
+      size_type link:#concurrent_node_set_insert_initializer_list_and_visit[insert_and_visit](std::initializer_list&lt;value_type&gt; il, F1 f1, F2 f2);
+    template&lt;class F1, class F2&gt;
+      size_type link:#concurrent_node_set_insert_initializer_list_and_visit[insert_and_cvisit](std::initializer_list&lt;value_type&gt; il, F1 f1, F2 f2);
+    template&lt;class F1, class F2&gt;
       insert_return_type link:#concurrent_node_set_insert_node_and_visit[insert_and_visit](node_type&amp;&amp; nh, F1 f1, F2 f2);
-    template<class class="" f1,="" f2="">
+    template&lt;class F1, class F2&gt;
       insert_return_type link:#concurrent_node_set_insert_node_and_visit[insert_and_cvisit](node_type&amp;&amp; nh, F1 f1, F2 f2);
 
     size_type link:#concurrent_node_set_erase[erase](const key_type&amp; k);
-    template<class k=""> size_type link:#concurrent_node_set_erase[erase](const K&amp; k);
+    template&lt;class K&gt; size_type link:#concurrent_node_set_erase[erase](const K&amp; k);
 
-    template<class f=""> size_type link:#concurrent_node_set_erase_if_by_key[erase_if](const key_type&amp; k, F f);
-    template<class class="" f="" k,=""> size_type link:#concurrent_node_set_erase_if_by_key[erase_if](const K&amp; k, F f);
-    template<class f=""> size_type link:#concurrent_node_set_erase_if[erase_if](F f);
-    template<class class="" executionpolicy,="" f=""> void link:#concurrent_node_set_parallel_erase_if[erase_if](ExecutionPolicy&amp;&amp; policy, F f);
+    template&lt;class F&gt; size_type link:#concurrent_node_set_erase_if_by_key[erase_if](const key_type&amp; k, F f);
+    template&lt;class K, class F&gt; size_type link:#concurrent_node_set_erase_if_by_key[erase_if](const K&amp; k, F f);
+    template&lt;class F&gt; size_type link:#concurrent_node_set_erase_if[erase_if](F f);
+    template&lt;class ExecutionPolicy, class  F&gt; void link:#concurrent_node_set_parallel_erase_if[erase_if](ExecutionPolicy&amp;&amp; policy, F f);
 
     void      link:#concurrent_node_set_swap[swap](concurrent_node_set&amp; other)
-      noexcept(boost::allocator_traits<allocator>::is_always_equal::value ||
-               boost::allocator_traits<allocator>::propagate_on_container_swap::value);
+      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value ||
+               boost::allocator_traits&lt;Allocator&gt;::propagate_on_container_swap::value);
 
     node_type link:#concurrent_node_set_extract[extract](const key_type&amp; k);
-    template<class k=""> node_type link:#concurrent_node_set_extract[extract](const K&amp; k);
+    template&lt;class K&gt; node_type link:#concurrent_node_set_extract[extract](const K&amp; k);
 
-    template<class f=""> node_type link:#concurrent_node_set_extract_if[extract_if](const key_type&amp; k, F f);
-    template<class class="" f="" k,=""> node_type link:#concurrent_node_set_extract[extract_if](const K&amp; k, F f);
+    template&lt;class F&gt; node_type link:#concurrent_node_set_extract_if[extract_if](const key_type&amp; k, F f);
+    template&lt;class K, class F&gt; node_type link:#concurrent_node_set_extract[extract_if](const K&amp; k, F f);
 
     void      link:#concurrent_node_set_clear[clear]() noexcept;
 
-    template<class class="" h2,="" p2="">
-      size_type link:#concurrent_node_set_merge[merge](concurrent_node_set<key, allocator="" h2,="" p2,="">&amp; source);
-    template<class class="" h2,="" p2="">
-      size_type link:#concurrent_node_set_merge[merge](concurrent_node_set<key, allocator="" h2,="" p2,="">&amp;&amp; source);
+    template&lt;class H2, class P2&gt;
+      size_type link:#concurrent_node_set_merge[merge](concurrent_node_set&lt;Key, H2, P2, Allocator&gt;&amp; source);
+    template&lt;class H2, class P2&gt;
+      size_type link:#concurrent_node_set_merge[merge](concurrent_node_set&lt;Key, H2, P2, Allocator&gt;&amp;&amp; source);
 
     // 观察器
     hasher link:#concurrent_node_set_hash_function[hash_function]() const;
@@ -214,10 +215,10 @@ link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hashe
 
     // 集合操作
     size_type        link:#concurrent_node_set_count[count](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       size_type      link:#concurrent_node_set_count[count](const K&amp; k) const;
     bool             link:#concurrent_node_set_contains[contains](const key_type&amp; k) const;
-    template<class k="">
+    template&lt;class K&gt;
       bool           link:#concurrent_node_set_contains[contains](const K&amp; k) const;
 
     // 桶接口
@@ -237,51 +238,52 @@ link:#concurrent_node_set_iterator_range_constructor_with_bucket_count_and_hashe
   };
 
   // 推导指引
-  template<class class="" hash="boost::hash&lt;&lt;a" href="#concurrent_node_set_iter_value_type" inputiterator,=""><em>迭代器值类型</em><inputiterator>&gt;,
-           class Pred = std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;,
-           class Allocator = std::allocator&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;&gt;
+  template&lt;class InputIterator,
+           class Hash = boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+           class Pred = std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+           class Allocator = std::allocator&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;&gt;
     concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>, Hash, Pred, Allocator&gt;;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;, Hash, Pred, Allocator&gt;;
 
-  template<class class="" hash="boost::hash&lt;T" t,="">, class Pred = std::equal_to<t>,
-           class Allocator = std::allocator<t>&gt;
-    concurrent_node_set(std::initializer_list<t>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
+  template&lt;class T, class Hash = boost::hash&lt;T&gt;, class Pred = std::equal_to&lt;T&gt;,
+           class Allocator = std::allocator&lt;T&gt;&gt;
+    concurrent_node_set(std::initializer_list&lt;T&gt;, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type = link:#concurrent_node_set_deduction_guides[见下文],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; concurrent_node_set<t, allocator="" hash,="" pred,="">;
+      -&gt; concurrent_node_set&lt;T, Hash, Pred, Allocator&gt;;
 
-  template<class allocator="" class="" inputiterator,="">
+  template&lt;class InputIterator, class Allocator&gt;
     concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
-      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>,
-                             boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;,
-                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;,
+                             boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" inputiterator,="">
+  template&lt;class InputIterator, class Allocator&gt;
     concurrent_node_set(InputIterator, InputIterator, Allocator)
-      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>,
-                             boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;,
-                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;,
+                             boost::hash&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
+                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" hash,="" inputiterator,="">
+  template&lt;class InputIterator, class Hash, class Allocator&gt;
     concurrent_node_set(InputIterator, InputIterator, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash,
                         Allocator)
-      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>, Hash,
-                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]<inputiterator>&gt;, Allocator&gt;;
+      -&gt; concurrent_node_set&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;, Hash,
+                             std::equal_to&lt;link:#concurrent_node_set_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" t,="">
-    concurrent_node_set(std::initializer_list<t>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
-      -&gt; concurrent_node_set<t, boost::hash<t="">, std::equal_to<t>, Allocator&gt;;
+  template&lt;class T, class Allocator&gt;
+    concurrent_node_set(std::initializer_list&lt;T&gt;, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Allocator)
+      -&gt; concurrent_node_set&lt;T, boost::hash&lt;T&gt;, std::equal_to&lt;T&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" t,="">
-    concurrent_node_set(std::initializer_list<t>, Allocator)
-      -&gt; concurrent_node_set<t, boost::hash<t="">, std::equal_to<t>, Allocator&gt;;
+  template&lt;class T, class Allocator&gt;
+    concurrent_node_set(std::initializer_list&lt;T&gt;, Allocator)
+      -&gt; concurrent_node_set&lt;T, boost::hash&lt;T&gt;, std::equal_to&lt;T&gt;, Allocator&gt;;
 
-  template<class allocator="" class="" hash,="" t,="">
-    concurrent_node_set(std::initializer_list<t>, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash, Allocator)
-      -&gt; concurrent_node_set<t, hash,="" std::equal_to<t="">, Allocator&gt;;
+  template&lt;class T, class Hash, class Allocator&gt;
+    concurrent_node_set(std::initializer_list&lt;T&gt;, typename link:#concurrent_node_set_deduction_guides[见下文]::size_type, Hash, Allocator)
+      -&gt; concurrent_node_set&lt;T, Hash, std::equal_to&lt;T&gt;, Allocator&gt;;
 
 } // namespace unordered
-} // namespace boost</t,></t></class></t></t,></t></class></t></t,></t></class></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></class></inputiterator></inputiterator></inputiterator></class></t,></t></t></t></class></inputiterator></inputiterator></inputiterator></inputiterator></class></class></class></key,></class></key,></class></class></class></class></allocator></allocator></class></class></class></class></class></class></class></value_type></class></value_type></class></class></class></class></class></class></class></class></class></class...></class...></class></class></value_type></class></value_type></class></class></class></class></class></class></class></class></class></class...></class...></value_type></class></class></class...></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></class></value_type></allocator></allocator></value_type></value_type></value_type></class></class></value_type></key,></class></class></allocator></allocator></key></key></class>
+} // namespace boost
 ----
 
 '''''
@@ -1091,7 +1093,7 @@ template<class InputIterator> size_type insert(InputIterator first, InputIterato
 
 [listing,subs="+macros,+quotes"]
 ----
-  while(first != last) this->link:#concurrent_node_set_emplace[emplace](*first++);
+  while(first != last) this-&gt;link:#concurrent_node_set_emplace[emplace](*first++);
 ----
 
 [cols=",",]
@@ -1113,7 +1115,7 @@ size_type insert(std::initializer_list<value_type> il);
 
 [listing,subs="+macros,+quotes"]
 ----
-  this->link:#concurrent_node_set_insert_iterator_range[insert](il.begin(), il.end());
+  this-&gt;link:#concurrent_node_set_insert_iterator_range[insert](il.begin(), il.end());
 ----
 
 [cols=",",]
@@ -1246,7 +1248,7 @@ template<class InputIterator,class F>
 
 [listing,subs="+macros,+quotes"]
 ----
-  while(first != last) this->link:#concurrent_node_set_emplace_or_cvisit[emplace_or_[c]visit](*first++, f);
+  while(first != last) this-&gt;link:#concurrent_node_set_emplace_or_cvisit[emplace_or_\[c\]visit](*first++, f);
 ----
 
 [cols=",",]
@@ -1269,7 +1271,7 @@ template<class F> size_type insert_or_cvisit(std::initializer_list<value_type> i
 
 [listing,subs="+macros,+quotes"]
 ----
-  this->link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_[c]visit](il.begin(), il.end(), std::ref(f));
+  this-&gt;link:#concurrent_node_set_insert_iterator_range_or_visit[insert_or_\[c\]visit](il.begin(), il.end(), std::ref(f));
 ----
 
 [cols=",",]
@@ -1405,7 +1407,7 @@ template<class InputIterator,class F1, class F2>
 
 [listing,subs="+macros,+quotes"]
 ----
-  while(first != last) this->link:#concurrent_node_set_emplace_and_cvisit[emplace_and_[c]visit](*first++, f1, f2);
+  while(first != last) this-&gt;link:#concurrent_node_set_emplace_and_cvisit[emplace_and_\[c\]visit](*first++, f1, f2);
 ----
 
 [cols=",",]
@@ -1430,7 +1432,7 @@ template<class F1, class F2>
 
 [listing,subs="+macros,+quotes"]
 ----
-  this->link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_[c]visit](il.begin(), il.end(), std::ref(f1), std::ref(f2));
+  this-&gt;link:#concurrent_node_set_insert_iterator_range_and_visit[insert_and_\[c\]visit](il.begin(), il.end(), std::ref(f1), std::ref(f2));
 ----
 
 [cols=",",]

@@ -6,7 +6,7 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-#include link:reference/header_unordered_map_zh_Hans.adoc[<boost/unordered/unordered_map.hpp>]
+#include link:reference/header_unordered_map_zh_Hans.adoc[&lt;boost/unordered/unordered_map.hpp&gt;]
 ----
 
 [[footer]]

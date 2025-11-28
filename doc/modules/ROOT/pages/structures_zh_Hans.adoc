@@ -12,7 +12,7 @@ image:bucket-groups.png[桶组]
 
 图1. 基础桶组实现方案
 
-系统分配一个"桶"数组，其中每个桶分别指向其专属的链表。这种结构使得桶迭代能直接满足标准要求。但采用此布局进行整体容器迭代通常较慢，因为需检查每个桶的占用状态，其时间复杂度为`O(bucket++_++count() {plus} size())`，而标准要求复杂度应为`O(size())`。
+系统分配一个"桶"数组，其中每个桶分别指向其专属的链表。这种结构使得桶迭代能直接满足标准要求。但采用此布局进行整体容器迭代通常较慢，因为需检查每个桶的占用状态，其时间复杂度为 `O(bucket++_++count() {plus} size())` ，而标准要求复杂度应为 `O(size())` 。
 
 典型的标准库实现最终会形成如下图所示的结构：
 
@@ -47,21 +47,21 @@ if (n) {
 }
 ----
 
-实际上，这种额外的间接访问会对常见操作（如 `insert`、`find` 和 `erase`）产生显著的性能影响。但为了保持容器迭代的高效性，Boost.Unordered 引入了一种新颖的数据结构——“桶组”。桶组是桶数组某个分区的定宽视图，它包含一个位掩码（`std::size++_++t` 类型）用于跟踪桶的占用状态，并包含两个指针以形成非空组之间的双向链表。其结构示例如下：
+实际上，这种额外的间接访问会对常见操作（如 `insert` 、 `find` 和 `erase` ）产生显著的性能影响。但为了保持容器迭代的高效性，Boost.Unordered 引入了一种新颖的数据结构——“桶组”。桶组是桶数组某个分区的定宽视图，它包含一个位掩码（ `std::size++_++t` 类型）用于跟踪桶的占用状态，并包含两个指针以形成非空组之间的双向链表。其结构示例如下：
 
 [[img-fca-layout]]
 image:fca.png[fca]
 
 图 3. Boost 采用的新布局结构
 
-过将容器全局迭代转换为遍历非空桶组（该操作具有常数时间复杂度），系统将整体时间复杂度恢复至 `O(size())`。每个桶组仅占用 4 个机器字长的空间，其管理的桶数量为 `sizeof(std::size++_++t) ++*++ CHAR++_++BIT`，这意味着在所有常见实现架构中，桶组为每个桶引入的空间开销仅为 4 比特。
+过将容器全局迭代转换为遍历非空桶组（该操作具有常数时间复杂度），系统将整体时间复杂度恢复至 `O(size())` 。每个桶组仅占用 4 个机器字长的空间，其管理的桶数量为 `sizeof(std::size++_++t) ++*++ CHAR++_++BIT` ，这意味着在所有常见实现架构中，桶组为每个桶引入的空间开销仅为 4 比特。
 
 关于 Boost.Unordered 闭寻址实现的更详细说明请参阅 https://bannalia.blogspot.com/2022/06/advancing-state-of-art-for.html[外部文章]。若需了解实现原理的更多信息，请参阅link:rationale_zh_Hans.adoc#rationale_closed_addressing_containers[相关说明章节]。
 
 [[structures_open_addressing_containers]]
 === 开放寻址容器
 
-下图展示`boost::unordered++_++flat++_++set`/`unordered++_++node++_++set`及`boost:unordered++_++flat++_++map`/`unordered++_++node++_++map`的基础内部布局.
+下图展示 `boost::unordered++_++flat++_++set` / `unordered++_++node++_++set` 及 `boost:unordered++_++flat++_++map` / `unordered++_++node++_++map` 的基础内部布局.
 
 [[img-foa-layout]]
 image:foa.png[foa]
@@ -81,7 +81,7 @@ image:foa-metadata.png[foa元数据]
 * 1 用于表示一种特殊的空桶（称为__哨兵桶__），该机制在容器完全遍历时内部用于终止迭代。
 * 若桶已被占用，则存储从元素哈希值推导出的__缩减哈希值__。
 
-当用哈希值__h__查找元素时，https://en.wikipedia.org/wiki/SSE2[SSE2]和 https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(Neon)[Neon]等SIMD技术能以少量CPU指令快速扫描整个元数据字：不匹配桶立即排除，缩减哈希值匹配的桶需与对应元素进行完整比对。若未找到目标元素，则检查溢出字节：
+当用哈希值__h__查找元素时， https://en.wikipedia.org/wiki/SSE2[SSE2]和 https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(Neon)[Neon]等SIMD技术能以少量CPU指令快速扫描整个元数据字：不匹配桶立即排除，缩减哈希值匹配的桶需与对应元素进行完整比对。若未找到目标元素，则检查溢出字节：
 
 * 若位置 _h_ mod 8 的比特位为零，则查找终止（确认元素不存在）。
 * 若该比特位为1（表示该组已__溢出__），则通过 https://en.wikipedia.org/wiki/Quadratic_probing[_二次探查法_]检查后续组，并重复此过程。
@@ -100,7 +100,7 @@ image:foa-metadata-interleaving.png[foa元数据位交织]
 [[structures_concurrent_containers]]
 === 并发容器
 
-`boost::concurrent++_++flat++_++set`/`boost::concurrent++_++node++_++set`和`boost::concurrent++_++flat++_++map`/`boost::concurrent++_++node++_++map`采用前述link:structures_zh_Hans.adoc#structures_open_addressing_containers[开放寻址布局]，并在此基础上增加了同步机制。
+`boost::concurrent++_++flat++_++set` / `boost::concurrent++_++node++_++set` 和 `boost::concurrent++_++flat++_++map` / `boost::concurrent++_++node++_++map` 采用前述link:structures_zh_Hans.adoc#structures_open_addressing_containers[开放寻址布局]，并在此基础上增加了同步机制。
 
 [[img-cfoa-layout]]
 image:cfoa.png[cfoa]
@@ -119,9 +119,9 @@ image:cfoa.png[cfoa]
 
 插入操作采用如下__乐观算法__：
 
-* 在探查序列的初始组中，插入计数器的值会被本地记录（我们称此值为`c0`）。
+* 在探查序列的初始组中，插入计数器的值会被本地记录（我们称此值为 `c0` ）。
 * 查找操作按上述方式执行。若查找未发现相等元素，则会在探查序列中依次锁定/解锁各个分组来搜索可用插槽。
-* 当定位到可用插槽时，会抢先占用该插槽（设置其缩减哈希值）并原子地递增插入计数器：若在整个操作期间没有其他线程递增过该计数器（通过与`c0`比对确认），则操作成功并完成插入；否则回滚并重新开始。
+* 当定位到可用插槽时，会抢先占用该插槽（设置其缩减哈希值）并原子地递增插入计数器：若在整个操作期间没有其他线程递增过该计数器（通过与 `c0` 比对确认），则操作成功并完成插入；否则回滚并重新开始。
 
 该算法在查找和实际插入阶段都具有极低的争用，其代价是：当其他线程从同一初始组开始执行插入操作并成功时，当前线程的计算可能需要重新执行。实际应用中，重启频率极低（部分基准测试中为百万分之一量级）.
 

@@ -11,15 +11,15 @@
 
 [listing,subs="+macros,+quotes"]
 ----
-// #include link:reference/header_unordered_set_zh_Hans.adoc[&lt;boost/unordered/unordered_set.hpp&gt;]
+// #include link:reference/header_unordered_set_zh_Hans.adoc[<boost/unordered/unordered_set.hpp>]
 
 namespace boost {
 namespace unordered {
 
-  template&lt;class Key,
-           class Hash = boost::hash&lt;Key&gt;,
-           class Pred = std::equal_to&lt;Key&gt;,
-           class Allocator = std::allocator&lt;Key&gt;&gt;
+  template<class Key,
+           class Hash = boost::hash<Key>,
+           class Pred = std::equal_to<Key>,
+           class Allocator = std::allocator<Key>>
   class unordered_multiset {
   public:
     // 类型
@@ -28,8 +28,8 @@ namespace unordered {
     using hasher               = Hash;
     using key_equal            = Pred;
     using allocator_type       = Allocator;
-    using pointer              = typename std::allocator_traits&lt;Allocator&gt;::pointer;
-    using const_pointer        = typename std::allocator_traits&lt;Allocator&gt;::const_pointer;
+    using pointer              = typename std::allocator_traits<Allocator>::pointer;
+    using const_pointer        = typename std::allocator_traits<Allocator>::const_pointer;
     using reference            = value_type&amp;;
     using const_reference      = const value_type&amp;;
     using size_type            = std::size_t;
@@ -47,7 +47,7 @@ namespace unordered {
                                 const hasher&amp; hf = hasher(),
                                 const key_equal&amp; eql = key_equal(),
                                 const allocator_type&amp; a = allocator_type());
-    template&lt;class InputIterator&gt;
+    template<class InputIterator>
       link:#unordered_multiset_iterator_range_constructor[unordered_multiset](InputIterator f, InputIterator l,
                          size_type n = <em>由实现定义</em>,
                          const hasher&amp; hf = hasher(),
@@ -55,35 +55,35 @@ namespace unordered {
                          const allocator_type&amp; a = allocator_type());
     link:#unordered_multiset_copy_constructor[unordered_multiset](const unordered_multiset&amp; other);
     link:#unordered_multiset_move_constructor[unordered_multiset](unordered_multiset&amp;&amp; other);
-    template&lt;class InputIterator&gt;
+    template<class InputIterator>
       link:#unordered_multiset_iterator_range_constructor_with_allocator[unordered_multiset](InputIterator f, InputIterator l, const allocator_type&amp; a);
     explicit link:#unordered_multiset_allocator_constructor[unordered_multiset](const Allocator&amp; a);
     link:#unordered_multiset_copy_constructor_with_allocator[unordered_multiset](const unordered_multiset&amp; other, const Allocator&amp; a);
     link:#unordered_multiset_move_constructor_with_allocator[unordered_multiset](unordered_multiset&amp;&amp; other, const Allocator&amp; a);
-    link:#unordered_multiset_initializer_list_constructor[unordered_multiset](std::initializer_list&lt;value_type&gt; il,
+    link:#unordered_multiset_initializer_list_constructor[unordered_multiset](std::initializer_list<value_type> il,
                        size_type n = <em>由实现定义</em>,
                        const hasher&amp; hf = hasher(),
                        const key_equal&amp; eql = key_equal(),
                        const allocator_type&amp; a = allocator_type());
     link:#unordered_multiset_bucket_count_constructor_with_allocator[unordered_multiset](size_type n, const allocator_type&amp; a);
     link:#unordered_multiset_bucket_count_constructor_with_hasher_and_allocator[unordered_multiset](size_type n, const hasher&amp; hf, const allocator_type&amp; a);
-    template&lt;class InputIterator&gt;
+    template<class InputIterator>
       link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_allocator[unordered_multiset](InputIterator f, InputIterator l, size_type n, const allocator_type&amp; a);
-    template&lt;class InputIterator&gt;
+    template<class InputIterator>
       link:#unordered_multiset_iterator_range_constructor_with_bucket_count_and_hasher[unordered_multiset](InputIterator f, InputIterator l, size_type n, const hasher&amp; hf,
                          const allocator_type&amp; a);
-    link:#unordered_multiset_initializer_list_constructor_with_allocator[unordered_multiset](std::initializer_list&lt;value_type&gt; il, const allocator_type&amp; a);
-    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_allocator[unordered_multiset](std::initializer_list&lt;value_type&gt; il, size_type n,
+    link:#unordered_multiset_initializer_list_constructor_with_allocator[unordered_multiset](std::initializer_list<value_type> il, const allocator_type&amp; a);
+    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_allocator[unordered_multiset](std::initializer_list<value_type> il, size_type n,
                        const allocator_type&amp; a)
-    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_multiset](std::initializer_list&lt;value_type&gt; il, size_type n, const hasher&amp; hf,
+    link:#unordered_multiset_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[unordered_multiset](std::initializer_list<value_type> il, size_type n, const hasher&amp; hf,
                        const allocator_type&amp; a);
     link:#unordered_multiset_destructor[~unordered_multiset()];
     unordered_multiset&amp; link:#unordered_multiset_copy_assignment[operator=](const unordered_multiset&amp; other);
     unordered_multiset&amp; link:#unordered_multiset_move_assignment[operator=](unordered_multiset&amp;&amp; other)
-      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value &amp;&amp;
-               boost::is_nothrow_move_assignable_v&lt;Hash&gt; &amp;&amp;
-               boost::is_nothrow_move_assignable_v&lt;Pred&gt;);
-    unordered_multiset&amp; link:#unordered_multiset_initializer_list_assignment[operator=](std::initializer_list&lt;value_type&gt; il);
+      noexcept(boost::allocator_traits<Allocator>::is_always_equal::value &amp;&amp;
+               boost::is_nothrow_move_assignable_v<Hash> &amp;&amp;
+               boost::is_nothrow_move_assignable_v<Pred>);
+    unordered_multiset&amp; link:#unordered_multiset_initializer_list_assignment[operator=](std::initializer_list<value_type> il);
     allocator_type link:#unordered_multiset_get_allocator[get_allocator]() const noexcept;
 
     // 迭代器
@@ -100,42 +100,42 @@ namespace unordered {
     size_type link:#unordered_multiset_max_size[max_size]() const noexcept;
 
     // 修改器
-    template&lt;class... Args&gt; iterator link:#unordered_multiset_emplace[emplace](Args&amp;&amp;... args);
-    template&lt;class... Args&gt; iterator link:#unordered_multiset_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
+    template<class... Args> iterator link:#unordered_multiset_emplace[emplace](Args&amp;&amp;... args);
+    template<class... Args> iterator link:#unordered_multiset_emplace_hint[emplace_hint](const_iterator position, Args&amp;&amp;... args);
     iterator link:#unordered_multiset_copy_insert[insert](const value_type&amp; obj);
     iterator link:#unordered_multiset_move_insert[insert](value_type&amp;&amp; obj);
     iterator link:#unordered_multiset_copy_insert_with_hint[insert](const_iterator hint, const value_type&amp; obj);
     iterator link:#unordered_multiset_move_insert_with_hint[insert](const_iterator hint, value_type&amp;&amp; obj);
-    template&lt;class InputIterator&gt; void link:#unordered_multiset_insert_iterator_range[insert](InputIterator first, InputIterator last);
-    void link:#unordered_multiset_insert_initializer_list[insert](std::initializer_list&lt;value_type&gt; il);
+    template<class InputIterator> void link:#unordered_multiset_insert_iterator_range[insert](InputIterator first, InputIterator last);
+    void link:#unordered_multiset_insert_initializer_list[insert](std::initializer_list<value_type> il);
 
     node_type link:#unordered_multiset_extract_by_iterator[extract](const_iterator position);
     node_type link:#unordered_multiset_extract_by_value[extract](const key_type&amp; k);
-    template&lt;class K&gt; node_type link:#unordered_multiset_extract_by_value[extract](K&amp;&amp; k);
+    template<class K> node_type link:#unordered_multiset_extract_by_value[extract](K&amp;&amp; k);
     iterator link:#unordered_multiset_insert_with_node_handle[insert](node_type&amp;&amp; nh);
     iterator link:#unordered_multiset_insert_with_hint_and_node_handle[insert](const_iterator hint, node_type&amp;&amp; nh);
 
     iterator  link:#unordered_multiset_erase_by_position[erase](iterator position);
     iterator  link:#unordered_multiset_erase_by_position[erase](const_iterator position);
     size_type link:#unordered_multiset_erase_by_value[erase](const key_type&amp; k);
-    template&lt;class K&gt; size_type link:#unordered_multiset_erase_by_value[erase](K&amp;&amp; x);
+    template<class K> size_type link:#unordered_multiset_erase_by_value[erase](K&amp;&amp; x);
     iterator  link:#unordered_multiset_erase_range[erase](const_iterator first, const_iterator last);
     void      link:#unordered_multiset_quick_erase[quick_erase](const_iterator position);
     void      link:#unordered_multiset_erase_return_void[erase_return_void](const_iterator position);
     void      link:#unordered_multiset_swap[swap](unordered_multiset&amp;)
-      noexcept(boost::allocator_traits&lt;Allocator&gt;::is_always_equal::value &amp;&amp;
-               boost::is_nothrow_swappable_v&lt;Hash&gt; &amp;&amp;
-               boost::is_nothrow_swappable_v&lt;Pred&gt;);
+      noexcept(boost::allocator_traits<Allocator>::is_always_equal::value &amp;&amp;
+               boost::is_nothrow_swappable_v<Hash> &amp;&amp;
+               boost::is_nothrow_swappable_v<Pred>);
     void      link:#unordered_multiset_clear[clear]() noexcept;
 
-    template&lt;class H2, class P2&gt;
-      void link:#unordered_multiset_merge[merge](unordered_multiset&lt;Key, H2, P2, Allocator&gt;&amp; source);
-    template&lt;class H2, class P2&gt;
-      void link:#unordered_multiset_merge[merge](unordered_multiset&lt;Key, H2, P2, Allocator&gt;&amp;&amp; source);
-    template&lt;class H2, class P2&gt;
-      void link:#unordered_multiset_merge[merge](unordered_set&lt;Key, H2, P2, Allocator&gt;&amp; source);
-    template&lt;class H2, class P2&gt;
-      void link:#unordered_multiset_merge[merge](unordered_set&lt;Key, H2, P2, Allocator&gt;&amp;&amp; source);
+    template<class H2, class P2>
+      void link:#unordered_multiset_merge[merge](unordered_multiset<Key, H2, P2, Allocator>&amp; source);
+    template<class H2, class P2>
+      void link:#unordered_multiset_merge[merge](unordered_multiset<Key, H2, P2, Allocator>&amp;&amp; source);
+    template<class H2, class P2>
+      void link:#unordered_multiset_merge[merge](unordered_set<Key, H2, P2, Allocator>&amp; source);
+    template<class H2, class P2>
+      void link:#unordered_multiset_merge[merge](unordered_set<Key, H2, P2, Allocator>&amp;&amp; source);
 
     // 观察器
     hasher link:#unordered_multiset_hash_function[hash_function]() const;
@@ -144,35 +144,35 @@ namespace unordered {
     // 集合操作
     iterator         link:#unordered_multiset_find[find](const key_type&amp; k);
     const_iterator   link:#unordered_multiset_find[find](const key_type&amp; k) const;
-    template&lt;class K&gt;
+    template<class K>
       iterator       link:#unordered_multiset_find[find](const K&amp; k);
-    template&lt;class K&gt;
+    template<class K>
       const_iterator link:#unordered_multiset_find[find](const K&amp; k) const;
-    template&lt;typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate&gt;
+    template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate>
       iterator       link:#unordered_multiset_find[find](CompatibleKey const&amp;, CompatibleHash const&amp;,
                           CompatiblePredicate const&amp;);
-    template&lt;typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate&gt;
+    template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate>
       const_iterator  link:#unordered_multiset_find[find](CompatibleKey const&amp;, CompatibleHash const&amp;,
                            CompatiblePredicate const&amp;) const;
     size_type        link:#unordered_multiset_count[count](const key_type&amp; k) const;
-    template&lt;class K&gt;
+    template<class K>
       size_type      link:#unordered_multiset_count[count](const K&amp; k) const;
     bool             link:#unordered_multiset_contains[contains](const key_type&amp; k) const;
-    template&lt;class K&gt;
+    template<class K>
       bool           link:#unordered_multiset_contains[contains](const K&amp; k) const;
-    std::pair&lt;iterator, iterator&gt;               link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k);
-    std::pair&lt;const_iterator, const_iterator&gt;   link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k) const;
-    template&lt;class K&gt;
-      std::pair&lt;iterator, iterator&gt;             link:#unordered_multiset_equal_range[equal_range](const K&amp; k);
-    template&lt;class K&gt;
-      std::pair&lt;const_iterator, const_iterator&gt; link:#unordered_multiset_equal_range[equal_range](const K&amp; k) const;
+    std::pair<iterator, iterator>               link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k);
+    std::pair<const_iterator, const_iterator>   link:#unordered_multiset_equal_range[equal_range](const key_type&amp; k) const;
+    template<class K>
+      std::pair<iterator, iterator>             link:#unordered_multiset_equal_range[equal_range](const K&amp; k);
+    template<class K>
+      std::pair<const_iterator, const_iterator> link:#unordered_multiset_equal_range[equal_range](const K&amp; k) const;
 
     // 桶接口
     size_type link:#unordered_multiset_bucket_count[bucket_count]() const noexcept;
     size_type link:#unordered_multiset_max_bucket_count[max_bucket_count]() const noexcept;
     size_type link:#unordered_multiset_bucket_size[bucket_size](size_type n) const;
     size_type link:#unordered_multiset_bucket[bucket](const key_type&amp; k) const;
-    template&lt;class K&gt; size_type link:#unordered_multiset_bucket[bucket](const K&amp; k) const;
+    template<class K> size_type link:#unordered_multiset_bucket[bucket](const K&amp; k) const;
     local_iterator link:#unordered_multiset_begin_2[begin](size_type n);
     const_local_iterator link:#unordered_multiset_begin_2[begin](size_type n) const;
     local_iterator link:#unordered_multiset_end_2[end](size_type n);
@@ -189,49 +189,49 @@ namespace unordered {
   };
 
   // 推导指引
-  template&lt;class InputIterator,
-           class Hash = boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
-           class Pred = std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
-           class Allocator = std::allocator&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;&gt;
+  template<class InputIterator,
+           class Hash = boost::hash<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
+           class Pred = std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
+           class Allocator = std::allocator<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>>
     unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;, Hash, Pred, Allocator&gt;;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>, Hash, Pred, Allocator>;
 
-  template&lt;class T, class Hash = boost::hash&lt;T&gt;, class Pred = std::equal_to&lt;T&gt;,
-           class Allocator = std::allocator&lt;T&gt;&gt;
-    unordered_multiset(std::initializer_list&lt;T&gt;, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
+  template<class T, class Hash = boost::hash<T>, class Pred = std::equal_to<T>,
+           class Allocator = std::allocator<T>>
+    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type = link:#unordered_multiset_deduction_guides[见下文],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -&gt; unordered_multiset&lt;T, Hash, Pred, Allocator&gt;;
+      -> unordered_multiset<T, Hash, Pred, Allocator>;
 
-  template&lt;class InputIterator, class Allocator&gt;
+  template<class InputIterator, class Allocator>
     unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;,
-                            boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
-                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>,
+                            boost::hash<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
+                            std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
 
-  template&lt;class InputIterator, class Allocator&gt;
+  template<class InputIterator, class Allocator>
     unordered_multiset(InputIterator, InputIterator, Allocator)
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;,
-                            boost::hash&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;,
-                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>,
+                            boost::hash<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>,
+                            std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
 
-  template&lt;class InputIterator, class Hash, class Allocator&gt;
+  template<class InputIterator, class Hash, class Allocator>
     unordered_multiset(InputIterator, InputIterator, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash,
                        Allocator)
-      -&gt; unordered_multiset&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;, Hash,
-                            std::equal_to&lt;link:#unordered_multiset_iter_value_type[迭代器值类型]&lt;InputIterator&gt;&gt;, Allocator&gt;;
+      -> unordered_multiset<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>, Hash,
+                            std::equal_to<link:#unordered_multiset_iter_value_type[迭代器值类型]<InputIterator>>, Allocator>;
 
-  template&lt;class T, class Allocator&gt;
-    unordered_multiset(std::initializer_list&lt;T&gt;, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
-      -&gt; unordered_multiset&lt;T, boost::hash&lt;T&gt;, std::equal_to&lt;T&gt;, Allocator&gt;;
+  template<class T, class Allocator>
+    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Allocator)
+      -> unordered_multiset<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
-  template&lt;class T, class Allocator&gt;
-    unordered_multiset(std::initializer_list&lt;T&gt;, Allocator)
-      -&gt; unordered_multiset&lt;T, boost::hash&lt;T&gt;, std::equal_to&lt;T&gt;, Allocator&gt;;
+  template<class T, class Allocator>
+    unordered_multiset(std::initializer_list<T>, Allocator)
+      -> unordered_multiset<T, boost::hash<T>, std::equal_to<T>, Allocator>;
 
-  template&lt;class T, class Hash, class Allocator&gt;
-    unordered_multiset(std::initializer_list&lt;T&gt;, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash, Allocator)
-      -&gt; unordered_multiset&lt;T, Hash, std::equal_to&lt;T&gt;, Allocator&gt;;
+  template<class T, class Hash, class Allocator>
+    unordered_multiset(std::initializer_list<T>, typename link:#unordered_multiset_deduction_guides[见下文]::size_type, Hash, Allocator)
+      -> unordered_multiset<T, Hash, std::equal_to<T>, Allocator>;
 
 } // namespace unordered
 } // namespace boost
@@ -246,7 +246,7 @@ namespace unordered {
 
 [width="100%",cols="50%,50%",]
 |===
-|_键_ |`Key` 需满足从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即 `allocator_traits` 能够销毁该对象）。
+|_键_ | `Key` 需满足从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]的要求（即 `allocator_traits` 能够销毁该对象）。
 |_Hash_ |一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个 `std::size_t` 类型的值。
 |_谓词_ |一种二元函数对象，用于在 `Key` 类型的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个布尔类型的值。
 |_分配器_ |一种分配器，其值类型与容器的值类型相同，是一种支持使用 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针]的分配器。
@@ -262,7 +262,7 @@ namespace unordered {
 [[unordered_multiset_boost_unordered_enable_serialization_compatibility_v0]]
 ===== `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
 
-全局定义此宏，以支持加载 Boost 1.84 之前版本保存到 Boost.Serialization 归档的 `unordered_multiset`。
+全局定义此宏，以支持加载 Boost 1.84 之前版本保存到 Boost.Serialization 归档的 `unordered_multiset` 。
 
 [[unordered_multiset_typedefs]]
 ==== 类型定义
@@ -272,11 +272,11 @@ namespace unordered {
 typedef implementation-defined iterator;
 ----
 
-一种常量迭代器，其值类型为 `value_type`。
+一种常量迭代器，其值类型为 `value_type` 。
 
 迭代器类别至少为前向迭代器。
 
-可转换为 `const_iterator`。
+可转换为 `const_iterator` 。
 
 '''''
 
@@ -285,7 +285,7 @@ typedef implementation-defined iterator;
 typedef implementation-defined const_iterator;
 ----
 
-一种常量迭代器，其值类型为 `value_type`。
+一种常量迭代器，其值类型为 `value_type` 。
 
 迭代器类别至少为前向迭代器。
 
@@ -333,12 +333,12 @@ typedef  实现定义  node_type;
 unordered_multiset();
 ----
 
-构造一个空容器，使用 `hasher()` 作为哈希函数、`key_equal()` 作为键相等性谓词、`allocator_type()` 作为分配器，并将最大负载因子设为 `1.0`。
+构造一个空容器，使用 `hasher()` 作为哈希函数、 `key_equal()` 作为键相等性谓词、 `allocator_type()` 作为分配器，并将最大负载因子设为 `1.0` 。
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|后置条件： | `size() == 0`
+|要求： |若使用默认值，则 `hasher` 、 `key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -354,12 +354,12 @@ explicit unordered_multiset(size_type n,
                             const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数，`eql` 作为键相等性谓词，`a` 作为分配器，并将最大负载因子设为 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数， `eql` 作为键相等性谓词， `a` 作为分配器，并将最大负载因子设为 `1.0` 。
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|后置条件： | `size() == 0`
+|要求： |若使用默认值，则 `hasher` 、 `key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -377,11 +377,11 @@ template<class InputIterator>
                      const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、`a` 作为分配器，将最大负载因子设为 `1.0`，并将区间 `[f, l)` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、 `eql` 作为键相等性谓词、 `a` 作为分配器，将最大负载因子设为 `1.0` ，并将区间 `[f, l)` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： |若使用默认值，则 `hasher` 、 `key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -400,7 +400,7 @@ unordered_multiset(const unordered_multiset& other);
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须可复制构造
+|要求： | `value_type` 必须可复制构造
 |===
 
 '''''
@@ -418,7 +418,7 @@ unordered_multiset(unordered_multiset&& other);
 [cols=",",]
 |===
 |注意： |此函数通过 Boost.Move 实现。
-|要求： |`value_type` 必须满足可移动构造的要求。
+|要求： | `value_type` 必须满足可移动构造的要求。
 |===
 
 '''''
@@ -432,11 +432,11 @@ template<class InputIterator>
   unordered_multiset(InputIterator f, InputIterator l, const allocator_type& a);
 ----
 
-构造一个空容器，使用 `a` 作为分配器、默认的哈希函数和键相等性谓词，并将最大负载因子设为 `1.0`，然后将 `[f, l)` 范围内的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器、默认的哈希函数和键相等性谓词，并将最大负载因子设为 `1.0` ，然后将 `[f, l)` 范围内的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： | `hasher` 、 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -461,7 +461,7 @@ explicit unordered_multiset(const Allocator& a);
 unordered_multiset(const unordered_multiset& other, const Allocator& a);
 ----
 
-构造一个容器，复制 `other` 中的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a`。
+构造一个容器，复制 `other` 中的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a` 。
 
 '''''
 
@@ -473,12 +473,12 @@ unordered_multiset(const unordered_multiset& other, const Allocator& a);
 unordered_multiset(unordered_multiset&& other, const Allocator& a);
 ----
 
-构造一个容器，移动 `other` 中所包含的元素，并获取其哈希函数、谓词及最大负载因子，但使用分配器 `a`。
+构造一个容器，移动 `other` 中所包含的元素，并获取其哈希函数、谓词及最大负载因子，但使用分配器 `a` 。
 
 [cols=",",]
 |===
 |注意： |此函数通过 Boost.Move 实现。
-|要求： |`value_type` 需满足可移动插入要求。
+|要求： | `value_type` 需满足可移动插入要求。
 |===
 
 '''''
@@ -495,11 +495,11 @@ unordered_multiset(std::initializer_list<value_type> il,
                    const allocator_type& a = allocator_type());
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`eql` 作为键相等性谓词、及`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将 `il` 中的元素插入该容器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、 `eql` 作为键相等性谓词、及 `a` 作为分配器，并设置最大负载因子为 `1.0` ，随后将 `il` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|要求： |若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： |若使用默认值，则 `hasher` 、 `key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -512,12 +512,12 @@ unordered_multiset(std::initializer_list<value_type> il,
 unordered_multiset(size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数（应为默认哈希函数）、默认的键相等性谓词、`a` 作为分配器，并设置最大负载因子为 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数（应为默认哈希函数）、默认的键相等性谓词、 `a` 作为分配器，并设置最大负载因子为 `1.0` 。
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`
-|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|后置条件： | `size() == 0`
+|要求： | `hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -530,12 +530,12 @@ unordered_multiset(size_type n, const allocator_type& a);
 unordered_multiset(size_type n, const hasher& hf, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、`a` 作为分配器，并设置最大负载因子为 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、 `a` 作为分配器，并设置最大负载因子为 `1.0` 。
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`
-|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|后置条件： | `size() == 0`
+|要求： | `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -549,11 +549,11 @@ template<class InputIterator>
   unordered_multiset(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器、默认的哈希函数和键相等性谓词，并设置最大负载因子为 `1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
+构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器、默认的哈希函数和键相等性谓词，并设置最大负载因子为 `1.0` ，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|要求： |`hasher`、`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： | `hasher` 、 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -568,11 +568,11 @@ template<class InputIterator>
                      const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、`a` 作为分配器，并设置最大负载因子为 `1.0`，随后将区间 `[f, l)` 中的元素插入该容器。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、 `a` 作为分配器，并设置最大负载因子为 `1.0` ，随后将区间 `[f, l)` 中的元素插入该容器。
 
 [cols=",",]
 |===
-|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： | `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -589,7 +589,7 @@ unordered_multiset(std::initializer_list<value_type> il, const allocator_type& a
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： | `hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -606,7 +606,7 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
 
 [cols=",",]
 |===
-|要求： |`hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： | `hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -620,11 +620,11 @@ unordered_multiset(std::initializer_list<value_type> il, size_type n, const allo
                        const allocator_type& a);
 ----
 
-构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、`a` 作为分配器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、 `a` 作为分配器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
 
 [cols=",",]
 |===
-|要求： |`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+|要求： | `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 |===
 
 '''''
@@ -657,11 +657,11 @@ unordered_multiset& operator=(const unordered_multiset& other);
 
 赋值运算符。该操作会复制容器内的元素、哈希函数、谓词及最大负载因子，但不会复制分配器。
 
-如果 `Alloc::propagate_on_container_copy_assignment` 存在且 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
+如果 `Alloc::propagate_on_container_copy_assignment` 存在且 `Alloc::propagate_on_container_copy_assignment::value` 为 `true` ，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须可复制构造
+|要求： | `value_type` 必须可复制构造
 |===
 
 '''''
@@ -679,11 +679,11 @@ unordered_multiset& operator=(unordered_multiset&& other)
 
 移动赋值运算符。
 
-如果 `Alloc::propagate_on_container_move_assignment` 存在且 `Alloc::propagate_on_container_move_assignment::value` 为 `true`，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
+如果 `Alloc::propagate_on_container_move_assignment` 存在且 `Alloc::propagate_on_container_move_assignment::value` 为 `true` ，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [cols=",",]
 |===
-|要求： |`value_type` 需满足可移动构造要求。
+|要求： | `value_type` 需满足可移动构造要求。
 |===
 
 '''''
@@ -700,7 +700,7 @@ unordered_multiset& operator=(std::initializer_list<value_type> il);
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须满足https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器以及 https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]的要求。
+|要求： | `value_type` 必须满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入]至容器以及 https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]的要求。
 |===
 
 '''''
@@ -750,7 +750,7 @@ const_iterator cbegin() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回一个指向容器第一个元素的 `const_iterator`（常量迭代器）；若容器为空，则返回容器的结束迭代器。
+|返回： |返回一个指向容器第一个元素的 `const_iterator` （常量迭代器）；若容器为空，则返回容器的结束迭代器。
 |===
 
 '''''
@@ -783,7 +783,7 @@ const_iterator cend() const noexcept;
 
 [cols=",",]
 |===
-|返回： |`size() == 0`
+|返回： | `size() == 0`
 |===
 
 '''''
@@ -798,7 +798,7 @@ size_type size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |`std::distance(begin(), end())`
+|返回： | `std::distance(begin(), end())`
 |===
 
 '''''
@@ -813,7 +813,7 @@ size_type max_size() const noexcept;
 
 [cols=",",]
 |===
-|返回： |返回该容器可能容纳的最大值 `size()`。
+|返回： |返回该容器可能容纳的最大值 `size()` 。
 |===
 
 '''''
@@ -833,7 +833,7 @@ template<class... Args> iterator emplace(Args&&... args);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足从 `args` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
+|要求： | `value_type` 需满足从 `args` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
 |返回： |返回一个指向插入元素的迭代器。
 |抛出： |若异常由调用 `hasher` 以外的操作引发异常，则该函数不产生任何效果。
 |注意： a|
@@ -859,7 +859,7 @@ template<class... Args> iterator emplace_hint(const_iterator position, Args&&...
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足从 `args` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
+|要求： | `value_type` 需满足从 `args` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
 |返回： |返回一个指向插入元素的迭代器。
 |抛出： |若异常由调用 `hasher` 以外的操作引发异常，则该函数不产生任何效果。
 |注意： a|
@@ -881,11 +881,11 @@ template<class... Args> iterator emplace_hint(const_iterator position, Args&&...
 iterator insert(const value_type& obj);
 ----
 
-向容器中插入 `obj`。
+向容器中插入 `obj` 。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
+|要求： | `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： |返回一个指向插入元素的迭代器。
 |抛出： |若异常由调用 `hasher` 以外的操作引发异常，则该函数不产生任何效果。
 |注意： a|
@@ -905,11 +905,11 @@ iterator insert(const value_type& obj);
 iterator insert(value_type&& obj);
 ----
 
-向容器中插入 `obj`。
+向容器中插入 `obj` 。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
+|要求： | `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： |返回一个指向插入元素的迭代器。
 |抛出： |若异常由调用 `hasher` 以外的操作引发异常，则该函数不产生任何效果。
 |注意： a|
@@ -929,13 +929,13 @@ iterator insert(value_type&& obj);
 iterator insert(const_iterator hint, const value_type& obj);
 ----
 
-向容器中插入 `obj`。
+向容器中插入 `obj` 。
 
 `hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
+|要求： | `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
 |返回： |返回一个指向插入元素的迭代器。
 |抛出： |若异常由调用 `hasher` 以外的操作引发异常，则该函数不产生任何效果。
 |注意： a|
@@ -957,13 +957,13 @@ iterator insert(const_iterator hint, const value_type& obj);
 iterator insert(const_iterator hint, value_type&& obj);
 ----
 
-向容器中插入 `obj`。
+向容器中插入 `obj` 。
 
 `hint` 是一个关于元素插入位置的提示。
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
+|要求： | `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
 |返回： |返回一个指向插入元素的迭代器。
 |抛出： |若异常由调用 `hasher` 以外的操作引发异常，则该函数不产生任何效果。
 |注意： a|
@@ -989,7 +989,7 @@ template<class InputIterator> void insert(InputIterator first, InputIterator las
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 必须能够通过 `*first`进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到 `X` 中。
+|要求： | `value_type` 必须能够通过 `*first` 进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造]到 `X` 中。
 |抛出： |插入单个元素时，若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 |注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
@@ -1012,7 +1012,7 @@ void insert(std::initializer_list<value_type> il);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 到容器中的要求。
+|要求： | `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 到容器中的要求。
 |抛出： |插入单个元素时，若异常由调用 `hasher` 以外的操作抛出，则此函数不产生任何效果。
 |注意： a|
 可能会导致迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
@@ -1035,7 +1035,7 @@ node_type extract(const_iterator position);
 
 [cols=",",]
 |===
-|返回： |返回一个拥有该元素的 `node_type`对象。
+|返回： |返回一个拥有该元素的 `node_type` 对象。
 |注意： |通过此方法提取的节点可被插入到兼容的 `unordered_set` 容器中。
 |===
 
@@ -1059,7 +1059,7 @@ template<class K> node_type extract(K&& k);
 |注意： a|
 通过此方法提取的节点可被插入到兼容的 `unordered_set` 容器中。 +
 
-仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时， `template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 
 |===
 
@@ -1079,9 +1079,9 @@ iterator insert(node_type&& nh);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`nh` 必须为空，或 `nh.get_allocator()` 必须等于容器的分配器。
+|要求： | `nh` 必须为空，或 `nh.get_allocator()` 必须等于容器的分配器。
 |返回： a|
-若 `nh` 为空，则返回 `end()`。 +
+若 `nh` 为空，则返回 `end()` 。 +
 
 否则，返回指向新插入元素的迭代器。
 
@@ -1113,9 +1113,9 @@ iterator insert(const_iterator hint, node_type&& nh);
 
 [width="100%",cols="50%,50%",]
 |===
-|要求： |`nh` 必须为空，或 `nh.get_allocator()` 必须等于容器的分配器。
+|要求： | `nh` 必须为空，或 `nh.get_allocator()` 必须等于容器的分配器。
 |返回： a|
-若 `nh` 为空，则返回 `end()`。 +
+若 `nh` 为空，则返回 `end()` 。 +
 
 否则，返回指向新插入元素的迭代器。
 
@@ -1168,7 +1168,7 @@ template<class K> size_type erase(K&& x);
 |===
 |返回： |被擦除的元素数量。
 |抛出： |仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。
-|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时， `template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1181,11 +1181,11 @@ template<class K> size_type erase(K&& x);
 iterator erase(const_iterator first, const_iterator last);
 ----
 
-擦除从 `first` 到 `last` 范围内（包含 `first`，不包含 `last`）的元素。
+擦除从 `first` 到 `last` 范围内（包含 `first` ，不包含 `last` ）的元素。
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |返回被擦除元素之后的迭代器——即 `last`。
+|返回： |返回被擦除元素之后的迭代器——即 `last` 。
 |抛出： a|
 仅当 `hasher` 或 `key_equal` 抛出异常时,才会抛出异常。 +
 
@@ -1252,7 +1252,7 @@ void swap(unordered_multiset&)
 
 交换容器与参数的内容。
 
-若 `Allocator::propagate_on_container_swap` 声明且 `Allocator::propagate_on_container_swap::value` 为 `true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
+若 `Allocator::propagate_on_container_swap` 声明且 `Allocator::propagate_on_container_swap::value` 为 `true` ，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
@@ -1274,7 +1274,7 @@ void clear() noexcept;
 
 [cols=",",]
 |===
-|后置条件： |`size() == 0`
+|后置条件： | `size() == 0`
 |抛出： |从不抛出任何异常。
 |===
 
@@ -1299,7 +1299,7 @@ template<class H2, class P2>
 
 由于 `source` 可以有不同的哈希函数和键相等性谓词，因此会使用 `this->hash_function()` 操作对 `source` 中每个节点的键进行重哈希，并在需要时使用 `this->key_eq()` 进行比较。
 
-如果 `this->get_allocator() != source.get_allocator()`，则此函数的行为未定义。
+如果 `this->get_allocator() != source.get_allocator()` ，则此函数的行为未定义。
 
 此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新定位到 `*this` 中。
 
@@ -1382,11 +1382,11 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 
 [width="100%",cols="50%,50%",]
 |===
-|返回： |返回一个指向键等价于 `k` 的元素的迭代器，若不存在这样的元素，则返回 `b.end()`。
+|返回： |返回一个指向键等价于 `k` 的元素的迭代器，若不存在这样的元素，则返回 `b.end()` 。
 |注意： a|
-包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate` 的模板化重载是非标准扩展，允许用户使用兼容的哈希函数和相等性谓词来处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应改用基于 `K` 的成员函数模板。 +
+包含 `CompatibleKey` 、 `CompatibleHash` 和 `CompatiblePredicate` 的模板化重载是非标准扩展，允许用户使用兼容的哈希函数和相等性谓词来处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应改用基于 `K` 的成员函数模板。 +
 
-仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时， `template<class K>` 重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 
 |===
 
@@ -1405,7 +1405,7 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回键等价于 `k` 的元素数量。
-|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时， `template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1423,7 +1423,7 @@ template<class K>
 [cols=",",]
 |===
 |返回： |返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
-|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时， `template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1443,8 +1443,8 @@ template<class K>
 
 [cols=",",]
 |===
-|返回： |返回包含所有键等价于 `k` 的元素的范围。若容器中不存在此类元素，则返回 `std::make_pair(b.end(), b.end())`。
-|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+|返回： |返回包含所有键等价于 `k` 的元素的范围。若容器中不存在此类元素，则返回 `std::make_pair(b.end(), b.end())` 。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时， `template<class K>` 重载才会参与重载决议。该库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1492,7 +1492,7 @@ size_type bucket_size(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n < bucket_count()`
+|要求： | `n < bucket_count()`
 |返回： |返回桶 `n` 中的元素数量。
 |===
 
@@ -1510,8 +1510,8 @@ template<class K> size_type bucket(const K& k) const;
 [cols=",",]
 |===
 |返回： |返回键为 `k` 的元素所在桶的索引。
-|后置条件： |返回值应小于 `bucket_count()`。
-|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时，`template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
+|后置条件： |返回值应小于 `bucket_count()` 。
+|注意： |仅当 `Hash::is_transparent` 与 `Pred::is_transparent` 均为有效的成员类型别名时， `template<class K>` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 为透明的。该机制支持异构查找，从而避免实例化 `Key` 类型对象所需的开销。
 |===
 
 '''''
@@ -1527,7 +1527,7 @@ const_local_iterator begin(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|要求： | `n` 应在范围 `[0, bucket_count())` 内。
 |返回： |返回指向索引为 `n` 的桶中第一个元素的局部迭代器。
 |===
 
@@ -1544,7 +1544,7 @@ const_local_iterator end(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|要求： | `n` 应在范围 `[0, bucket_count())` 内。
 |返回： |返回指向索引为 `n` 的桶中“末尾之后”元素的局部迭代器。
 |===
 
@@ -1560,7 +1560,7 @@ const_local_iterator cbegin(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|要求： | `n` 应在范围 `[0, bucket_count())` 内。
 |返回： |返回指向索引为 `n` 的桶中第一个元素的常量局部迭代器。
 |===
 
@@ -1576,7 +1576,7 @@ const_local_iterator cend(size_type n) const;
 
 [cols=",",]
 |===
-|要求： |`n` 应在范围 `[0, bucket_count())` 内。
+|要求： | `n` 应在范围 `[0, bucket_count())` 内。
 |返回： |返回指向索引为 `n` 的桶中“末尾之后”元素的常量局部迭代器。
 |===
 
@@ -1638,9 +1638,9 @@ void max_load_factor(float z);
 void rehash(size_type n);
 ----
 
-改变桶的数量，使其至少为 `n` 个，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器关联的 `bucket_count()`。
+改变桶的数量，使其至少为 `n` 个，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器关联的 `bucket_count()` 。
 
-当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
+当 `size() == 0` 时， `rehash(0)` 将释放底层桶数组。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不失效。
 
@@ -1659,7 +1659,7 @@ void rehash(size_type n);
 void reserve(size_type n);
 ----
 
-等价于 `a.rehash(ceil(n / a.max_load_factor()))`，若 `n > 0` 且 `a.max_load_factor() == std::numeric_limits<float>::infinity()`，则等价于 `a.rehash(1)`。
+等价于 `a.rehash(ceil(n / a.max_load_factor()))` ，若 `n > 0` 且 `a.max_load_factor() == std::numeric_limits<float>::infinity()` ，则等价于 `a.rehash(1)` 。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
@@ -1706,7 +1706,7 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const unordered_multiset<Key, Hash, Pred, Alloc>& y);
 ----
 
-若 `x.size() == y.size()` 且对于 `x` 中的每个元素，`y` 中均存在一个具有相同键和相等值（使用 `operator==` 比较值类型）的元素，则返回 `true`。
+若 `x.size() == y.size()` 且对于 `x` 中的每个元素， `y` 中均存在一个具有相同键和相等值（使用 `operator==` 比较值类型）的元素，则返回 `true` 。
 
 [cols=",",]
 |===
@@ -1725,7 +1725,7 @@ template<class Key, class Hash, class Pred, class Alloc>
                   const unordered_multiset<Key, Hash, Pred, Alloc>& y);
 ----
 
-如果 `x.size() == y.size()` ，且对于 `x` 中的每个元素，在 `y` 中均存在一个具有相同键且值相等的元素（使用 `operator==` 比较值类型），则返回 `false`。
+如果 `x.size() == y.size()` ，且对于 `x` 中的每个元素，在 `y` 中均存在一个具有相同键且值相等的元素（使用 `operator==` 比较值类型），则返回 `false` 。
 
 [cols=",",]
 |===
@@ -1747,11 +1747,11 @@ template<class Key, class Hash, class Pred, class Alloc>
 
 交换 `x` 与 `y` 的内容。
 
-若 `Allocator::propagate_on_container_swap` 声明且 `Allocator::propagate_on_container_swap::value` 为 `true`，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
+若 `Allocator::propagate_on_container_swap` 声明且 `Allocator::propagate_on_container_swap::value` 为 `true` ，则交换容器的分配器；否则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [cols=",",]
 |===
-|效果： |`x.swap(y)`
+|效果： | `x.swap(y)`
 |抛出： |除非异常由 `key_equal` 或 `hasher` 的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
 |注意： |异常规范与 C{plus}{plus}11 标准并不完全相同，因为相等性谓词和哈希函数是通过其复制构造函数进行交换的。
 |===
@@ -1799,11 +1799,11 @@ return original_size - c.size();
 [[unordered_multiset_saving_an_unordered_multiset_to_an_archive]]
 ===== 保存 unordered_multiset 到归档
 
-将 `unordered_multiset` `x` 的所有元素保存到归档（XML 归档）`ar`。
+将 `unordered_multiset` `x` 的所有元素保存到归档（XML 归档） `ar` 。
 
 [cols=",",]
 |===
-|要求： |`value_type` 必须可序列化（支持 XML 序列化），且需要支持 Boost.Serialization 的 `save_construct_data`/`load_construct_data` 协议（该协议自动支持满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
+|要求： | `value_type` 必须可序列化（支持 XML 序列化），且需要支持 Boost.Serialization 的 `save_construct_data` / `load_construct_data` 协议（该协议自动支持满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造]要求的类型）。
 |===
 
 '''''
@@ -1811,11 +1811,11 @@ return original_size - c.size();
 [[unordered_multiset_loading_an_unordered_multiset_from_an_archive]]
 ===== 从归档加载 unordered_multiset
 
-删除 `unordered_multiset` 容器 `x` 中所有已存在的元素，并从归档（XML 归档）`ar` 中插入原始 `unordered_multiset` 容器 `other` 的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
+删除 `unordered_multiset` 容器 `x` 中所有已存在的元素，并从归档（XML 归档） `ar` 中插入原始 `unordered_multiset` 容器 `other` 的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [cols=",",]
 |===
-|要求： |`value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求，且`x.key_equal()` 在功能上需等价于 `other.key_equal()`。
+|要求： | `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求，且 `x.key_equal()` 在功能上需等价于 `other.key_equal()` 。
 |注意： |若归档文件是使用 Boost 1.84 之前的版本保存的，则必须全局定义配置宏 `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0` 才能成功执行此操作；否则将抛出异常。
 |===
 
@@ -1824,11 +1824,11 @@ return original_size - c.size();
 [[unordered_multiset_saving_an_iteratorconst_iterator_to_an_archive]]
 ===== 将迭代器/常量迭代器保存到归档
 
-将`iterator`（`const_iterator`）常量迭代器 `it` 的位置信息保存到归档（XML 归档）`ar` 中。`it` 可以是 `end()` 迭代器。
+将 `iterator` （ `const_iterator` ）常量迭代器 `it` 的位置信息保存到归档（XML 归档） `ar` 中。 `it` 可以是 `end()` 迭代器。
 
 [cols=",",]
 |===
-|要求： |`it` 所指向的 `unordered_multiset` 容器 `x` 必须先前已保存至 `ar`，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
+|要求： | `it` 所指向的 `unordered_multiset` 容器 `x` 必须先前已保存至 `ar` ，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
 |===
 
 '''''
@@ -1836,7 +1836,7 @@ return original_size - c.size();
 [[unordered_multiset_loading_an_iteratorconst_iterator_from_an_archive]]
 ===== 从归档加载迭代器/常量迭代器
 
-使 `iterator`（`const_iterator`）`it` 指向原始 `iterator`（`const_iterator`）所恢复的位置。该原始迭代器已被保存到由归档（XML 归档）`ar` 读取的存储中。
+使 `iterator` （ `const_iterator` ） `it` 指向原始 `iterator` （ `const_iterator` ）所恢复的位置。该原始迭代器已被保存到由归档（XML 归档） `ar` 读取的存储中。
 
 [cols=",",]
 |===

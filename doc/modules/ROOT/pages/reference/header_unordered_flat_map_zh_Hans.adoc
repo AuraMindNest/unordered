@@ -20,23 +20,23 @@ namespace unordered {
 
   // 相等比较
   template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_operator_2[operator==](const unordered_flat_map<Key, T, Hash, Pred, Alloc>&amp; x,
-                    const unordered_flat_map<Key, T, Hash, Pred, Alloc>&amp; y);
+    bool link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_operator_2[operator==](const unordered_flat_map<Key, T, Hash, Pred, Alloc>& x,
+                    const unordered_flat_map<Key, T, Hash, Pred, Alloc>& y);
 
   template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_operator_3[operator!=](const unordered_flat_map<Key, T, Hash, Pred, Alloc>&amp; x,
-                    const unordered_flat_map<Key, T, Hash, Pred, Alloc>&amp; y);
+    bool link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_operator_3[operator!=](const unordered_flat_map<Key, T, Hash, Pred, Alloc>& x,
+                    const unordered_flat_map<Key, T, Hash, Pred, Alloc>& y);
 
   // 交换
   template<class Key, class T, class Hash, class Pred, class Alloc>
-    void link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_swap_2[swap](unordered_flat_map<Key, T, Hash, Pred, Alloc>&amp; x,
-              unordered_flat_map<Key, T, Hash, Pred, Alloc>&amp; y)
+    void link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_swap_2[swap](unordered_flat_map<Key, T, Hash, Pred, Alloc>& x,
+              unordered_flat_map<Key, T, Hash, Pred, Alloc>& y)
       noexcept(noexcept(x.swap(y)));
 
   // 擦除
   template<class K, class T, class H, class P, class A, class Predicate>
     typename unordered_flat_map<K, T, H, P, A>::size_type
-      link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_erase_if[erase_if](unordered_flat_map<K, T, H, P, A>&amp; c, Predicate pred);
+      link:reference/unordered_flat_map_zh_Hans.adoc#unordered_flat_map_erase_if[erase_if](unordered_flat_map<K, T, H, P, A>& c, Predicate pred);
 
   // Pmr 别名（C++17 及以上）
   namespace pmr {

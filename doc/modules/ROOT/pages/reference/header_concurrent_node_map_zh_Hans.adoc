@@ -49,9 +49,9 @@ namespace unordered {
         std::pmr::polymorphic_allocator<std::pair<const Key, T>>>;
   } // namespace pmr
 
-} // namespace unordered
+} // 命名空间 unordered
 
 using unordered::concurrent_node_map;
 
-} // namespace boost
+} // 命名空间 boost
 -----

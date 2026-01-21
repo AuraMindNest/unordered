@@ -1,9 +1,9 @@
 [#header_concurrent_node_map]
-== `<boost/unordered/concurrent_node_map.hpp>` Synopsis
+== `<boost/unordered/concurrent_node_map.hpp>` 概要
 
 :idprefix: header_concurrent_node_map_
 
-Defines `xref:reference/concurrent_node_map.adoc#concurrent_node_map[boost::concurrent_node_map]` and associated functions and alias templates.
+定义 `xref:reference/concurrent_node_map.adoc#concurrent_node_map[boost::concurrent_node_map]` 及相关函数和别名模板。
 
 [listing, subs="+macros,+quotes"]
 -----
@@ -18,27 +18,27 @@ namespace unordered {
            class Allocator = std::allocator<std::pair<const Key, T>>>
   class xref:reference/concurrent_node_map.adoc#concurrent_node_map[concurrent_node_map];
 
-  // Equality Comparisons
+  // 相等性比较
   template<class Key, class T, class Hash, class Pred, class Alloc>
-    bool xref:reference/concurrent_node_map.adoc#concurrent_node_map_operator[operator++==++](const concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
+    bool xref:reference/concurrent_node_map.adoc#concurrent_node_map_operator[operator==](const concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
                     const concurrent_node_map<Key, T, Hash, Pred, Alloc>& y);
 
   template<class Key, class T, class Hash, class Pred, class Alloc>
     bool xref:reference/concurrent_node_map.adoc#concurrent_node_map_operator_2[operator!=](const concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
                     const concurrent_node_map<Key, T, Hash, Pred, Alloc>& y);
 
-  // swap
+  // 交换
   template<class Key, class T, class Hash, class Pred, class Alloc>
     void xref:reference/concurrent_node_map.adoc#concurrent_node_map_swap_2[swap](concurrent_node_map<Key, T, Hash, Pred, Alloc>& x,
               concurrent_node_map<Key, T, Hash, Pred, Alloc>& y)
       noexcept(noexcept(x.swap(y)));
 
-  // Erasure
+  // 擦除
   template<class K, class T, class H, class P, class A, class Predicate>
     typename concurrent_node_map<K, T, H, P, A>::size_type
       xref:reference/concurrent_node_map.adoc#concurrent_node_map_erase_if[erase_if](concurrent_node_map<K, T, H, P, A>& c, Predicate pred);
 
-  // Pmr aliases (C++17 and up)
+  // Pmr 别名 (C++17 及以上)
   namespace pmr {
     template<class Key,
              class T,

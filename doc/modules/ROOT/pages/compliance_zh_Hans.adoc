@@ -9,7 +9,7 @@
 
 `boost::unordered_[multi]set` 和 `boost::unordered_[multi]map` 为符合 {cpp}11（或更高版本）标准的编译器提供了最新修订版 {cpp} 无序关联容器的标准实现，仅存在极少数已注明的细微偏差。这些容器完全满足 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知容器^] 要求，并支持 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针^]。
 
-=== 推导指引
+=== 推导指南
 
 https://en.cppreference.com/w/cpp/language/class_template_argument_deduction[类模板参数推导 (CTAD)^] 的推导指引仅在 {cpp}17（或更高版本）编译器中可用。
 
@@ -37,7 +37,7 @@ x.emplace(
 
 此特性为保持与 Boost.Unordered 先前版本的向后兼容性而保留：建议用户更新代码以使用 `std::piecewise_construct` 和 `std::tuple`。
 
-=== Swap
+=== 交换
 
 交换时，`Pred` 和 `Hash` 当前不通过调用 `swap` 进行交换，而是使用其拷贝构造函数。因此，交换时可能从其拷贝构造函数抛出异常。
 

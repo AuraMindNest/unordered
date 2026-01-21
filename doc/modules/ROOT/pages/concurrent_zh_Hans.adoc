@@ -220,7 +220,7 @@ map.visit(buffer.begin(), buffer.begin() + i, [](auto& x) { ++x.second; });
 
 由于开放寻址容器和并发容器基于相同的内部数据结构，它们可高效地通过移动构造从其非并发对应容器转换而来，反之亦然。
 
-[caption="，",  title='Table {counter:table-counter}. Concurrent/non-concurrent interoperatibility']
+[caption=",",  title='Table {counter:table-counter}. Concurrent/non-concurrent interoperatibility']
 [cols="1,1", frame=all,,  grid=all]
 |===
 ^|`boost::concurrent_node_set`

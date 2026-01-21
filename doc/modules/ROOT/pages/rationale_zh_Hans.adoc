@@ -4,7 +4,7 @@
 
 = 实现原理
 
-== 闭地址容器
+== 闭址式容器
 
 `boost::unordered_[multi]set` 和 `boost::unordered_[multi]map` 遵循无序关联容器的标准要求，因此接口是固定的。但仍有一些实现决策需要确定。首要考虑的是符合标准和可移植性。
 

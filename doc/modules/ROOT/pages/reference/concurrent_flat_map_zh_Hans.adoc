@@ -1,15 +1,15 @@
 [#concurrent_flat_map]
-== Class Template concurrent_flat_map
+== 类模板 concurrent_flat_map
 
 :idprefix: concurrent_flat_map_
 
-`boost::concurrent_flat_map` — A hash table that associates unique keys with another value and allows for concurrent element insertion, erasure, lookup and access without external synchronization mechanisms.
+`boost::concurrent_flat_map` —— 一种哈希表，将唯一键与另一个值关联，并允许在无外部同步机制的情况下并发执行元素插入、擦除、查找和访问操作。
 
-Even though it acts as a container, `boost::concurrent_flat_map` does not model the standard C++ https://en.cppreference.com/w/cpp/named_req/Container[Container^] concept. In particular, iterators and associated operations (`begin`, `end`, etc.) are not provided. Element access and modification are done through user-provided _visitation functions_ that are passed to `concurrent_flat_map` operations where they are executed internally in a controlled fashion. Such visitation-based API allows for low-contention concurrent usage scenarios.
+尽管 `boost::concurrent_flat_map` 充当容器，但它并不符合标准 C++ https://en.cppreference.com/w/cpp/named_req/Container[容器] 概念。特别地，它不提供迭代器及相关操作（如 `begin`、`end` 等）。元素的访问和修改通过用户提供的 _访问函数_ 完成，这些函数被传递给 `concurrent极_flat_map` 的操作，并在内部以受控方式执行。这种基于访问的 API 设计支持低争用的并发使用场景。
 
-The internal data structure of `boost::concurrent_flat_map` is similar to that of `boost::unordered_flat_map`. As a result of its using open-addressing techniques, `value_type` must be move-constructible and pointer stability is not kept under rehashing.
+`boost::concurrent_flat_map` 的内部数据结构类似于 `boost::unordered_flat_map`。由于采用开放寻址技术，`value_type` 必须支持移动构造，且在重哈希过程中不保证指针稳定性。
 
-=== Synopsis
+=== 概要
 
 [listing, subs="+macros,+quotes"]
 -----
@@ -25,7 +25,7 @@ namespace unordered {
            class Allocator = std::allocator<std::pair<const Key, T>>>
   class concurrent_flat_map {
   public:
-    // types
+    // 类型定义
     using key_type             = Key;
     using mapped_type          = T;
     using value_type           = std::pair<const Key, T>;
@@ -43,12 +43,12 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using stats                = xref:reference/stats.adoc#stats_stats_type[__stats-type__]; // if statistics are xref:concurrent_flat_map_boost_unordered_enable_stats[enabled]
+    using stats                = xref:reference/stats.adoc#stats_stats_type[__统计类型__]; // 若统计功能被 xref:concurrent_flat_map_boost_unordered_enable_stats[启用]
 
-    // constants
-    static constexpr size_type xref:#concurrent_flat_map_constants[bulk_visit_size] = _implementation-defined_;
+    // 常量
+    static constexpr size_type xref:#concurrent_flat_map_constants[bulk_visit_size] = _由实现定义_;
 
-    // construct/copy/destroy
+    // 构造/复制/销毁
     xref:#concurrent_flat_map_default_constructor[concurrent_flat_map]();
     explicit xref:#concurrent_flat_map_bucket_count_constructor[concurrent_flat_map](size_type n,
                                  const hasher& hf = hasher(),
@@ -56,8 +56,8 @@ namespace unordered {
                                  const allocator_type& a = allocator_type());
     template<class InputIterator>
       xref:#concurrent_flat_map_iterator_range_constructor[concurrent_flat_map](InputIterator f, InputIterator l,
-                          size_type n = _implementation-defined_,
-                          const hasher& hf = hasher(),
+                          size_type n = _由实现定义_,
+                          const hasher& h极 = hasher(),
                           const key_equal& eql = key_equal(),
                           const allocator_type& a = allocator_type());
     xref:#concurrent_flat_map_copy_constructor[concurrent_flat_map](const concurrent_flat_map& other);
@@ -69,7 +69,7 @@ namespace unordered {
     xref:#concurrent_flat_map_move_constructor_with_allocator[concurrent_flat_map](concurrent_flat_map&& other, const Allocator& a);
     xref:#concurrent_flat_map_move_constructor_from_unordered_flat_map[concurrent_flat_map](unordered_flat_map<Key, T, Hash, Pred, Allocator>&& other);
     xref:#concurrent_flat_map_initializer_list_constructor[concurrent_flat_map](std::initializer_list<value_type> il,
-                        size_type n = _implementation-defined_
+                        size_type n = _由实现定义_
                         const hasher& hf = hasher(),
                         const key_equal& eql = key_equal(),
                         const allocator_type& a = allocator_type());
@@ -87,16 +87,16 @@ namespace unordered {
     xref:#concurrent_flat_map_initializer_list_constructor_with_bucket_count_and_hasher_and_allocator[concurrent_flat_map](std::initializer_list<value_type> il, size_type n, const hasher& hf,
                         const allocator_type& a);
     xref:#concurrent_flat_map_destructor[~concurrent_flat_map]();
-    concurrent_flat_map& xref:#concurrent_flat_map_copy_assignment[operator++=++](const concurrent_flat_map& other);
-    concurrent_flat_map& xref:#concurrent_flat_map_move_assignment[operator++=++](concurrent_flat_map&& other) ++noexcept(
+    concurrent_flat_map& xref:#concurrent_flat_map_copy_assignment[operator=](const concurrent_flat_map& other);
+    concurrent_flat_map& xref:#concurrent_flat_map_move_assignment[operator=](concurrent_flat_map&& other) noexcept(
       (boost::allocator_traits<Allocator>::is_always_equal::value ||
        boost::allocator_traits<Allocator>::propagate_on_container_move_assignment::value) &&
-       std::is_same<pointer, value_type*>::value);++
-    concurrent_flat_map& xref:#concurrent_flat_map_initializer_list_assignment[operator++=++](std::initializer_list<value_type>);
+       std::is_same<pointer, value_type*>::value);
+    concurrent_flat_map& xref:#concurrent_flat_map_initializer_list_assignment[operator=](std::initializer_list<value_type>);
     allocator_type xref:#concurrent_flat_map_get_allocator[get_allocator]() const noexcept;
 
 
-    // visitation
+    // 访问
     template<class F> size_t xref:#concurrent_flat_map_cvisit[visit](const key_type& k, F f);
     template<class F> size_t xref:#concurrent_flat_map_cvisit[visit](const key_type& k, F f) const;
     template<class F> size_t xref:#concurrent_flat_map_cvisit[cvisit](const key_type& k, F f) const;
@@ -131,13 +131,13 @@ namespace unordered {
     template<class ExecutionPolicy, class F>
       bool xref:#concurrent_flat_map_parallel_cvisit_while[cvisit_while](ExecutionPolicy&& policy, F f) const;
 
-    // capacity
-    ++[[nodiscard]]++ bool xref:#concurrent_flat_map_empty[empty]() const noexcept;
+    // 容量
+    [[nodiscard]] bool xref:#concurrent_flat_map_empty[empty]() const noexcept;
     size_type xref:#concurrent_flat_map_size[size]() const noexcept;
     size_type xref:#concurrent_flat_map_max_size[max_size]() const noexcept;
 
-    // modifiers
-    template<class... Args> bool xref:#concurrent_flat_map_emplace[emplace](Args&&... args);
+    // 修改器
+    template<class... Args> bool xref:#concurrent_flat_map_emplace[emplace](Args&&... args);极
     bool xref:#concurrent_flat_map_copy_insert[insert](const value_type& obj);
     bool xref:#concurrent_flat_map_copy_insert[insert](const init_type& obj);
     bool xref:#concurrent_flat_map_move_insert[insert](value_type&& obj);
@@ -184,7 +184,7 @@ namespace unordered {
       size_type xref:#concurrent_flat_map_insert_initializer_list_and_visit[insert_and_cvisit](std::initializer_list<value_type> il, F1 f1, F2 f2);
 
     template<class... Args> bool xref:#concurrent_flat_map_try_emplace[try_emplace](const key_type& k, Args&&... args);
-    template<class... Args> bool xref:#concurrent_flat_map_try_emplace[try_emplace](key_type&& k, Args&&... args);
+    template<class... Args> bool xref:#concurrent_flat_map_try_极place[try_emplace](key_type&& k, Args&&... args);
     template<class K, class... Args> bool xref:#concurrent_flat_map_try_emplace[try_emplace](K&& k, Args&&... args);
 
     template<class... Args, class F>
@@ -223,7 +223,7 @@ namespace unordered {
     template<class F> size_type xref:#concurrent_flat_map_erase_if_by_key[erase_if](const key_type& k, F f);
     template<class K, class F> size_type xref:#concurrent_flat_map_erase_if_by_key[erase_if](const K& k, F f);
     template<class F> size_type xref:#concurrent_flat_map_erase_if[erase_if](F f);
-    template<class ExecutionPolicy, class  F> void xref:#concurrent_flat_map_parallel_erase_if[erase_if](ExecutionPolicy&& policy, F f);
+    template<class ExecutionPolicy, class F> void xref:#concurrent_flat_map_parallel_erase_if[erase_if](ExecutionPolicy&& policy, F f);
 
     void      xref:#concurrent_flat_map_swap[swap](concurrent_flat_map& other)
       noexcept(boost::allocator_traits<Allocator>::is_always_equal::value ||
@@ -235,11 +235,11 @@ namespace unordered {
     template<class H2, class P2>
       size_type xref:#concurrent_flat_map_merge[merge](concurrent_flat_map<Key, T, H2, P2, Allocator>&& source);
 
-    // observers
+    // 观察器
     hasher xref:#concurrent_flat_map_hash_function[hash_function]() const;
     key_equal xref:#concurrent_flat_map_key_eq[key_eq]() const;
 
-    // map operations
+    // 映射操作
     size_type        xref:#concurrent_flat_map_count[count](const key_type& k) const;
     template<class K>
       size_type      xref:#concurrent_flat_map_count[count](const K& k) const;
@@ -247,10 +247,10 @@ namespace unordered {
     template<class K>
       bool           xref:#concurrent_flat_map_contains[contains](const K& k) const;
 
-    // bucket interface
+    // 桶接口
     size_type xref:#concurrent_flat_map_bucket_count[bucket_count]() const noexcept;
 
-    // hash policy
+    // 哈希策略
     float xref:#concurrent_flat_map_load_factor[load_factor]() const noexcept;
     float xref:#concurrent_flat_map_max_load_factor[max_load_factor]() const noexcept;
     void xref:#concurrent_flat_map_set_max_load_factor[max_load_factor](float z);
@@ -258,58 +258,58 @@ namespace unordered {
     void xref:#concurrent_flat_map_rehash[rehash](size_type n);
     void xref:#concurrent_flat_map_reserve[reserve](size_type n);
 
-    // statistics (if xref:concurrent_flat_map_boost_unordered_enable_stats[enabled])
+    // 统计（若 xref:concurrent_flat_map_boost_unordered_enable_stats[启用]）
     stats xref:#concurrent_flat_map_get_stats[get_stats]() const;
     void xref:#concurrent_flat_map_reset_stats[reset_stats]() noexcept;
   };
 
-  // Deduction Guides
+  // 推导指南
   template<class InputIterator,
-           class Hash = boost::hash<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>,
-           class Pred = std::equal_to<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>,
-           class Allocator = std::allocator<xref:#concurrent_flat_map_iter_to_alloc_type[__iter-to-alloc-type__]<InputIterator>>>
-    concurrent_flat_map(InputIterator, InputIterator, typename xref:#concurrent_flat_map_deduction_guides[__see below__]::size_type = xref:#concurrent_flat_map_deduction_guides[__see below__],
+           class Hash = boost::hash<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>,
+           class Pred = std::equal_to<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>,
+           class Allocator = std::allocator<xref:#concurrent_flat_map_iter_to_alloc_type[__迭代器到分配类型__]<InputIterator>>>
+    concurrent_flat_map(InputIterator, InputIterator, typename xref:#concurrent_flat_map_deduction_guides[__见下文__]::size_type = xref:#concurrent_flat_map_deduction_guides[__见下文__],
                         Hash = Hash(), Pred = Pred(), Allocator = Allocator())
-      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__iter-mapped-type__]<InputIterator>, Hash,
+      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__迭代器映射类型__]<InputIterator>, Hash,
                              Pred, Allocator>;
 
   template<class Key, class T, class Hash = boost::hash<Key>,
            class Pred = std::equal_to<Key>,
            class Allocator = std::allocator<std::pair<const Key, T>>>
     concurrent_flat_map(std::initializer_list<std::pair<Key, T>>,
-                        typename xref:#concurrent_flat_map_deduction_guides[__see below__]::size_type = xref:#concurrent_flat_map_deduction_guides[__see below__], Hash = Hash(),
+                        typename xref:#concurrent_flat_map_deduction_guides[__见下文__]::size_type = xref:#concurrent_flat_map_deduction_guides[__见下文__], Hash = Hash(),
                         Pred = Pred(), Allocator = Allocator())
       -> concurrent_flat_map<Key, T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    concurrent_flat_map(InputIterator, InputIterator, typename xref:#concurrent_flat_map_deduction_guides[__see below__]::size_type, Allocator)
-      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__iter-mapped-type__]<InputIterator>,
-                             boost::hash<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>,
-                             std::equal_to<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>, Allocator>;
+    concurrent_flat_map(InputIterator, InputIterator, typename xref:#concurrent_flat_map_deduction_guides[__见下文__]::size_type, Allocator)
+      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__迭代器映射类型__]<InputIterator>,
+                             boost::hash<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>,
+                             std::equal_to<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Allocator>
     concurrent_flat_map(InputIterator, InputIterator, Allocator)
-      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__iter-mapped-type__]<InputIterator>,
-                             boost::hash<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>,
-                             std::equal_to<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>, Allocator>;
+      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__迭代器映射类型__]<InputIterator>,
+                             boost::hash<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>,
+                             std::equal_to<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    concurrent_flat_map(InputIterator, InputIterator, typename xref:#concurrent_flat_map_deduction_guides[__see below__]::size_type, Hash,
+    concurrent_flat_map(InputIterator, InputIterator, typename xref:#concurrent_flat_map_deduction_guides[__见下文__]::size_type, Hash,
                         Allocator)
-      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__iter-mapped-type__]<InputIterator>, Hash,
-                             std::equal_to<xref:#concurrent_flat_map_iter_key_type[__iter-key-type__]<InputIterator>>, Allocator>;
+      -> concurrent_flat_map<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>, xref:#concurrent_flat_map_iter_mapped_type[__迭代器映射类型__]<InputIterator>, Hash,
+                             std::equal_to<xref:#concurrent_flat_map_iter_key_type[__迭代器键类型__]<InputIterator>>, Allocator>;
 
-  template<class Key, class T, class Allocator>
-    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename xref:#concurrent_flat_map_deduction_guides[__see below__]::size_type,
+  template<class Key, class T, class All极ator>
+    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename xref:#concurrent_flat_map_deduction_guides[__见下文__]::size_type,
                         Allocator)
-      -> concurrent_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
+      -> concurrent_flat_map<Key, T, boost::hash<Key>, std::equal_to<极>, Allocator>;
 
   template<class Key, class T, class Allocator>
     concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, Allocator)
       -> concurrent_flat_map<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
   template<class Key, class T, class Hash, class Allocator>
-    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename xref:#concurrent_flat_map_deduction_guides[__see below__]::size_type,
+    concurrent_flat_map(std::initializer_list<std::pair<Key, T>>, typename xref:#concurrent_flat_map_deduction_guides[__见下文__]::size_type,
                         Hash, Allocator)
       -> concurrent_flat_map<Key, T, Hash, std::equal_to<Key>, Allocator>;
 
@@ -319,26 +319,24 @@ namespace unordered {
 
 ---
 
-=== Description
+=== 描述
 
-*Template Parameters*
+*模板参数*
 
 [cols="1,1"]
 |===
 
 |_Key_
-.2+|`Key` and `T` must be https://en.cppreference.com/w/cpp/named_req/MoveConstructible[MoveConstructible^].
-`std::pair<const Key, T>` must be https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[EmplaceConstructible^]
-into the table from any `std::pair` object convertible to it, and it also must be
-https://en.cppreference.com/w/cpp/named_req/Erasable[Erasable^] from the table.
+.2+|`Key` 和 `T` 必须满足 https://en.cppreference.com/w/cpp/named_req/MoveConstructible[可移动构造] 要求。
+`std::pair<const Key, T>` 必须能从任何可转换为它的 `std::pair` 对象 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 到表中，并且必须能从表中 https://en.cppreference.com/w/cpp/named_req/Erasable[擦除]。
 
 |_T_
 
 |_Hash_
-|A unary function object type that acts a hash function for a `Key`. It takes a single argument of type `Key` and returns a value of type `std::size_t`.
+|一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个类型为 `std::size_t` 的值。
 
 |_Pred_
-|A binary function object that induces an equivalence relation on values of type `Key`. It takes two arguments of type `Key` and returns a value of type `bool`.
+|一种二元函数对象，它在类型 `Key` 的值上引入等价关系。它接受两个类型为 `Key` 的参数，并返回一个类型为 `bool` 的值。
 
 |_Allocator_
 |An allocator whose value type is the same as the table's value type.

@@ -1,48 +1,48 @@
 [#buckets]
 :idprefix: buckets_
 
-= Basics of Hash Tables
+= 哈希表基础
 
-The containers are made up of a number of _buckets_, each of which can contain any number of elements. For example, the following diagram shows a `xref:reference/unordered_set.adoc#unordered_set[boost::unordered_set]` with 7 buckets containing 5 elements, `A`, `B`, `C`, `D` and `E` (this is just for illustration, containers will typically have more buckets).
+容器由多个 _桶_ 组成，每个桶可容纳任意数量的元素。例如，下图展示了一个包含 7 个桶的 `xref:reference/unordered_set.adoc#unordered_set[boost::unordered_set]`，其中容纳了 5 个元素 `A`、`B`、`C`、`D` 和 `E`（仅为示意图，实际容器通常具有更多桶）。
 
 image::buckets.png[]
 
-In order to decide which bucket to place an element in, the container applies the hash function, `Hash`, to the element's key (for sets the key is the whole element, but is referred to as the key so that the same terminology can be used for sets and maps). This returns a value of type `std::size_t`. `std::size_t` has a much greater range of values then the number of buckets, so the container applies another transformation to that value to choose a bucket to place the element in.
+为确定元素应放入哪个桶，容器首先对元素的键应用哈希函数 `Hash`（对于集合，键即元素本身，但为统一术语，集合和映射均使用“键”这一称谓）。该函数返回 `std::size_t` 类型的值。由于 `std::size_t` 的取值范围远大于桶的数量，容器会对此值进行二次转换以选定目标桶。
 
-Retrieving the elements for a given key is simple. The same process is applied to the key to find the correct bucket. Then the key is compared with the elements in the bucket to find any elements that match (using the equality predicate `Pred`). If the hash function has worked well the elements will be evenly distributed amongst the buckets so only a small number of elements will need to be examined.
+检索指定键的元素过程如下：对键执行相同处理以定位目标桶，随后在桶内通过相等谓词 `Pred` 将键与元素逐一比较以匹配结果。若哈希函数设计得当，元素将均匀分布于各桶中，此时仅需检查少量元素即可完成检索。
 
-There is xref:hash_equality.adoc#hash_equality[more information on hash functions and equality predicates in the next section].
+更多关于哈希函数与相等谓词的信息请参阅下一节的 xref:hash_equality.adoc#hash_equality[相关说明]。
 
-You can see in the diagram that `A` & `D` have been placed in the same bucket. When looking for elements in this bucket up to 2 comparisons are made, making the search slower. This is known as a *collision*. To keep things fast we try to keep collisions to a minimum.
+图中可见 `A` 与 `D` 被置于同一桶内。在此桶中查找元素时最多需进行 2 次比较，导致搜索效率降低。此现象称为 *碰撞*。为维持高效性，我们需尽可能减少碰撞发生。
 
-If instead of `boost::unordered_set` we had used `xref:reference/unordered_flat_set.adoc[boost::unordered_flat_set]`, the diagram would look as follows:
+若使用 `xref:reference/unordered_flat_set.adoc[boost::unordered_flat_set]` 替代 `boost::unordered_set`，示意图将呈现如下形态：
 
 image::buckets-oa.png[]
 
-In open-addressing containers, buckets can hold at most one element; if a collision happens (like is the case of `D` in the example), the element uses some other available bucket in the vicinity of the original position. Given this simpler scenario, Boost.Unordered open-addressing containers offer a very limited API for accessing buckets.
+在开地址容器中，每个桶最多容纳一个元素；若发生碰撞（如示例中的 `D`），元素将使用原始位置附近的其他可用桶。基于此简化机制，Boost.Unordered 开地址容器仅提供极其有限的桶访问 API。
 
-[caption=",",  title='Table {counter:table-counter}. Methods for Accessing Buckets']
+[caption="，",  title='Table {counter:table-counter}. Methods for Accessing Buckets']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
-2+^h| *All containers*
-h|*Method* h|*Description*
+2+^h| *所有容器*
+h|*方法* h|*描述*
 
 |`size_type bucket_count() const`
-|The number of buckets.
+|桶的数量。
 
-2+^h| *Closed-addressing containers only*
-h|*Method* h|*Description*
+2+^h| *仅限闭地址容器*
+h|*方法* h|*描述*
 
 |`size_type max_bucket_count() const`
-|An upper bound on the number of buckets.
+|桶数量的上限。
 |`size_type bucket_size(size_type n) const`
-|The number of elements in bucket `n`.
+|桶 `n` 中的元素数量。
 
 |`size_type bucket(key_type const& k) const`
-|Returns the index of the bucket which would contain `k`.
+|返回键 `k` 应存入的桶索引。
 
 |`local_iterator begin(size_type n)`
-1.6+|Return begin and end iterators for bucket `n`.
+1.6+|返回桶 `n` 的起始与结束迭代器。
 
 |`local_iterator end(size_type n)`
 
@@ -56,50 +56,50 @@ h|*Method* h|*Description*
 
 |===
 
-== Controlling the Number of Buckets
+== 桶数量控制
 
-As more elements are added to an unordered associative container, the number of collisions will increase causing performance to degrade. To combat this the containers increase the bucket count as elements are inserted. You can also tell the container to change the bucket count (if required) by calling `rehash`.
+随着无序关联容器中元素增加，碰撞概率上升将导致性能下降。为此，容器在插入元素时会自动增加桶数量。用户也可通过调用 `rehash` 主动调整桶数量（如有必要）。
 
-The standard leaves a lot of freedom to the implementer to decide how the number of buckets is chosen, but it does make some requirements based on the container's _load factor_, the number of elements divided by the number of buckets. Containers also have a _maximum load factor_ which they should try to keep the load factor below.
+标准虽未强制规定桶数量的确定方式，但基于容器的 _负载因子_（元素总数除以桶数量）提出了若干要求。容器需维持 _最大负载因子_，并确保实际负载因子低于该阈值。
 
-You can't control the bucket count directly but there are two ways to influence it:
+用户无法直接控制桶数量，但可通过两种方式间接影响：
 
-* Specify the minimum number of buckets when constructing a container or when calling `rehash`.
-* Suggest a maximum load factor by calling `max_load_factor`.
+* 在构造容器或调用 `rehash` 时指定最小桶数量。
+* 通过 `max_load_factor` 建议最大负载因子。
 
-`max_load_factor` doesn't let you set the maximum load factor yourself, it just lets you give a _hint_. And even then, the standard doesn't actually require the container to pay much attention to this value. The only time the load factor is _required_ to be less than the maximum is following a call to `rehash`. But most implementations will try to keep the number of elements below the max load factor, and set the maximum load factor to be the same as or close to the hint - unless your hint is unreasonably small or large.
+`max_load_factor` 并非由用户直接设定最大负载因子，而仅提供 _提示_。即使如此，标准也未强制要求容器严格遵循此值。唯一强制要求负载因子低于最大值的场景是在调用 `rehash` 后。但多数实现会尝试将元素数量控制在最大负载因子之下，并将最大负载因子设定为与提示值相同或接近——除非提示值严重偏离合理范围。
 
-[caption=",",  title='Table {counter:table-counter}. Methods for Controlling Bucket Size']
+[caption="，",  title='Table {counter:table-counter}. Methods for Controlling Bucket Size']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
-2+^h| *All containers*
-h|*Method* h|*Description*
+2+^h| *所有容器*
+h|*方法* h|*描述*
 
 |`X(size_type n)`
-|Construct an empty container with at least `n` buckets (`X` is the container type).
+|构造至少包含 `n` 个桶的空容器（`X` 为容器类型）。
 
 |`X(InputIterator i, InputIterator j, size_type n)`
-|Construct an empty container with at least `n` buckets and insert elements from the range `[i, j)` (`X` is the container type).
+|构造至少包含 `n` 个桶的空容器，并插入范围 `[i, j)` 的元素（`X` 为容器类型）。
 
 |`float load_factor() const`
-|The average number of elements per bucket.
+|每个桶的平均元素数量。
 
 |`float max_load_factor() const`
-|Returns the current maximum load factor.
+|返回当前最大负载因子。
 
 |`float max_load_factor(float z)`
-|Changes the container's maximum load factor, using `z` as a hint. +
-**Open-addressing and concurrent containers:** this function does nothing: users are not allowed to change the maximum load factor.
+|以 `z` 为提示值修改容器的最大负载因子。 +
+**开地址与并发容器：** 此函数无效（用户无权修改最大负载因子）。
 
 |`void rehash(size_type n)`
-|Changes the number of buckets so that there at least `n` buckets, and so that the load factor is less than the maximum load factor.
+|调整桶数量使其至少为 `n`，并确保负载因子低于最大值。
 
-2+^h| *Open-addressing and concurrent containers only*
-h|*Method* h|*Description*
+2+^h| *仅限开地址与并发容器*
+h|*方法* h|*描述*
 
 |`size_type max_load() const`
-|Returns the maximum number of allowed elements in the container before rehash.
+|返回容器在触发重哈希前允许容纳的最大元素数量。
 
 |===
 
-A note on `max_load` for open-addressing and concurrent containers: the maximum load will be (`max_load_factor() * bucket_count()`) right after `rehash` or on container creation, but may slightly decrease when erasing elements in high-load situations. For instance, if we have a `xref:reference/unordered_flat_map.adoc#unordered_flat_map[boost::unordered_flat_map]` with `size()` almost at `max_load()` level and then erase 1,000 elements, `max_load()` may decrease by around a few dozen elements. This is done internally by Boost.Unordered in order to keep its performance stable, and must be taken into account when planning for rehash-free insertions.
+关于开地址与并发容器的 `max_load` 说明：在 `rehash` 后或容器创建时，最大负载为 (`max_load_factor() * bucket_count()`)，但在高负载情况下删除元素时该值可能轻微下降。例如，若某 `xref:reference/unordered_flat_map.adoc#unordered_flat_map[boost::unordered_flat_map]` 的 `size()` 接近 `max_load()` 时删除 1,000 个元素，`max_load()` 可能减少约数十个元素。此行为由 Boost.Unordered 内部实现以维持性能稳定，在规划免重哈希插入操作时需予以考虑。

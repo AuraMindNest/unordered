@@ -9,7 +9,7 @@ Even though it acts as a container, `boost::concurrent_flat_set` does not model 
 
 The internal data structure of `boost::concurrent_flat_set` is similar to that of `boost::unordered_flat_set`. As a result of its using open-addressing techniques, `value_type` must be move-constructible and pointer stability is not kept under rehashing.
 
-=== Synopsis
+=== 概要
 
 [listing, subs="+macros,+quotes"]
 -----
@@ -269,9 +269,9 @@ namespace unordered {
 
 ---
 
-=== Description
+=== 描述
 
-*Template Parameters*
+*模板参数*
 
 [cols="1,1"]
 |===
@@ -281,10 +281,10 @@ namespace unordered {
 and https://en.cppreference.com/w/cpp/named_req/Erasable[Erasable^] from the container.
 
 |_Hash_
-|A unary function object type that acts a hash function for a `Key`. It takes a single argument of type `Key` and returns a value of type `std::size_t`.
+|一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个类型为 `std::size_t` 的值。
 
 |_Pred_
-|A binary function object that induces an equivalence relation on values of type `Key`. It takes two arguments of type `Key` and returns a value of type `bool`.
+|一种二元函数对象，它在类型 `Key` 的值上引入等价关系。它接受两个类型为 `Key` 的参数，并返回一个类型为 `bool` 的值。
 
 |_Allocator_
 |An allocator whose value type is the same as the table's value type.
@@ -293,38 +293,38 @@ must be convertible to/from `value_type*` and `const value_type*`, respectively.
 
 |===
 
-The elements of the table are held into an internal _bucket array_. An element is inserted into a bucket determined by its hash code, but if the bucket is already occupied (a _collision_), an available one in the vicinity of the original position is used.
+表的元素保存在内部的 _桶数组_ 中。元素根据其哈希码插入到确定的桶中，但如果桶已被占用（发生 _冲突_），则使用原始位置附近的可用桶。
 
-The size of the bucket array can be automatically increased by a call to `insert`/`emplace`, or as a result of calling `rehash`/`reserve`. The _load factor_ of the table (number of elements divided by number of buckets) is never greater than `max_load_factor()`, except possibly for small sizes where the implementation may decide to allow for higher loads.
+桶数组的大小可通过调用 `insert`/`emplace` 自动增加，或通过调用 `rehash`/`reserve` 增加。表的 _负载因子_（元素数量除以桶数量）永远不会大于 `max_load_factor()`，除非在小型表中实现可能允许更高的负载。
 
-If `link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[hash_is_avalanching]<Hash>::value` is `true`, the hash function is used as-is; otherwise, a bit-mixing post-processing stage is added to increase the quality of hashing at the expense of extra computational cost.
+若 `link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[hash_is_avalanching]<Hash>::value` 为 `true`，则直接使用哈希函数；否则会添加位混合后处理阶段以提高哈希质量，但会牺牲额外的计算成本。
 
 ---
 
-=== Concurrency Requirements and Guarantees
+=== 并发要求与保证
 
-Concurrent invocations of `operator()` on the same const instance of `Hash` or `Pred` are required to not introduce data races. For `Alloc` being either `Allocator` or any allocator type rebound from `Allocator`, concurrent invocations of the following operations on the same instance `al` of `Alloc` are required to not introduce data races:
+要求在同一个 `Hash` 或 `Pred` 的常量实例上并发调用 `operator()` 不会引入数据竞争。对于 `Alloc`（即 `Allocator` 或从 `Allocator` 重新绑定的任何分配器类型），要求在同一个 `Alloc` 实例 `al` 上并发调用以下操作不会引入数据竞争：
 
-* Copy construction from `al` of an allocator rebound from `Alloc`
+* 从 `al` 复制构造重新绑定的分配器
 * `std::allocator_traits<Alloc>::allocate`
-* `std::allocator_traits<Alloc>::deallocate`
+* `std极::allocator_traits<Alloc>::deallocate`
 * `std::allocator_traits<Alloc>::construct`
 * `std::allocator_traits<Alloc>::destroy`
 
-In general, these requirements on `Hash`, `Pred` and `Allocator` are met if these types are not stateful or if the operations only involve constant access to internal data members.
+通常，如果 `Hash`、`Pred` 和 `Allocator` 类型无状态或操作仅涉及对内部数据成员的常量访问，则满足这些要求。
 
 With the exception of destruction, concurrent invocations of any operation on the same instance of a `concurrent_flat_set` do not introduce data races — that is, they are thread-safe.
 
 If an operation *op* is explicitly designated as _blocking on_ `x`, where `x` is an instance of a `boost::concurrent_flat_set`, prior blocking operations on `x` synchronize with *op*. So, blocking operations on the same `concurrent_flat_set` execute sequentially in a multithreaded scenario.
 
-An operation is said to be _blocking on rehashing of_ ``__x__`` if it blocks on `x` only when an internal rehashing is issued.
+若操作仅在内部触发重哈希时阻塞于 `x`，则称该操作 _阻塞于_ ``__x__`` _的重哈希_。
 
 When executed internally by a `boost::concurrent_flat_set`, the following operations by a user-provided visitation function on the element passed do not introduce data races:
 
-* Read access to the element.
-* Non-mutable modification of the element.
-* Mutable modification of the element:
-  ** Within a container function accepting two visitation functions, always for the first function.
+* 对元素的读取访问。
+* 对元素的非可变修改。
+* 对元素的可变修改：
+  ** 在接收两个访问函数的容器函数中，始终针对第一个函数。
   ** Within a non-const container function whose name does not contain `cvisit`, for the last (or only) visitation function.
 
 Any `boost::concurrent_flat_set operation` that inserts or modifies an element `e` synchronizes with the internal invocation of a visitation function on `e`.

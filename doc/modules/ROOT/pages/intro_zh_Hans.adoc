@@ -10,7 +10,7 @@ link:https://en.wikipedia.org/wiki/Hash_table[哈希表^]是极其流行的计�
 
 Boost.Unordered提供了一系列符合不同标准、性能各异且适用于不同使用场景的哈希容器：
 
-[caption="，",  title='Table {counter:table-counter}. Boost.Unordered containers']
+[caption=",",  title='Table {counter:table-counter}. Boost.Unordered containers']
 [cols="1,1,.^1", frame=all,,  grid=all]
 |===
 ^h|

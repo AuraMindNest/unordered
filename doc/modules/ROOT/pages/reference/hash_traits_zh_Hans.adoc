@@ -14,8 +14,8 @@ namespace unordered {
 
 using boost::hash_is_avalanching;
 
-} // namespace unordered
-} // namespace boost
+} // 命名空间 unordered
+} // 命名空间 boost
 -----
 
 [horizontal]

@@ -5,7 +5,7 @@
 
 :cpp: C++
 
-== 闭地址容器
+== 闭址式容器
 
 `boost::unordered_[multi]set` 和 `boost::unordered_[multi]map` 为符合 {cpp}11（或更高版本）标准的编译器提供了最新修订版 {cpp} 无序关联容器的标准实现，仅存在极少数已注明的细微偏差。这些容器完全满足 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知容器^] 要求，并支持 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针^]。
 
@@ -41,7 +41,7 @@ x.emplace(
 
 交换时，`Pred` 和 `Hash` 当前不通过调用 `swap` 进行交换，而是使用其拷贝构造函数。因此，交换时可能从其拷贝构造函数抛出异常。
 
-== 开地址容器
+== 开址式容器
 
 当前 C++ 标准未提供任何开地址容器规范供遵循，因此 `boost::unordered_flat_set`/`unordered_node_set` 和 `boost::unordered_flat_map`/`unordered_node_map` 分别借鉴了 `std::unordered_set` 和 `std::unordered_map`，并在其内部数据结构（与标准规定的闭地址方式截然不同）允许或需要时调整了接口。
 

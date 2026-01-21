@@ -131,7 +131,7 @@ boost::unordered_multiset<point> points;
 
 有关如何执行此操作的更多详细信息，请参阅 link:../../../../container_hash/index.html[Boost.Hash 文档^]。请记住，它依赖于对标准的扩展——因此它不适用于无序关联容器的其他实现，您需要显式使用 Boost.Hash。
 
-[caption=",",  title='Table {counter:table-counter} Methods for accessing the hash and equality functions']
+[caption="，",  title='Table {counter:table-counter} Methods for accessing the hash and equality functions']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
 |方法 |描述

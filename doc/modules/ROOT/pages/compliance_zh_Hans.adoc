@@ -1,21 +1,21 @@
 [#compliance]
-= Standard Compliance
+= 标准符合性
 
 :idprefix: compliance_
 
 :cpp: C++
 
-== Closed-addressing Containers
+== 闭地址容器
 
-`boost::unordered_[multi]set` and `boost::unordered_[multi]map` provide a conformant implementation for {cpp}11 (or later) compilers of the latest standard revision of {cpp} unordered associative containers, with very minor deviations as noted. The containers are fully https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[AllocatorAware^] and support https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[fancy pointers^].
+`boost::unordered_[multi]set` 和 `boost::unordered_[multi]map` 为符合 {cpp}11（或更高版本）标准的编译器提供了最新修订版 {cpp} 无序关联容器的标准实现，仅存在极少数已注明的细微偏差。这些容器完全满足 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知容器^] 要求，并支持 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针^]。
 
-=== Deduction Guides
+=== 推导指引
 
-Deduction guides for https://en.cppreference.com/w/cpp/language/class_template_argument_deduction[class template argument deduction (CTAD)^] are only available on {cpp}17 (or later) compilers.
+https://en.cppreference.com/w/cpp/language/class_template_argument_deduction[类模板参数推导 (CTAD)^] 的推导指引仅在 {cpp}17（或更高版本）编译器中可用。
 
-=== Piecewise Pair Emplacement
+=== 分段构造对
 
-In accordance with the standard specification, `boost::unordered_[multi]map::emplace` supports piecewise pair construction:
+根据标准规范，`boost::unordered_[multi]map::emplace` 支持分段构造对：
 
 [source, c++]
 ----
@@ -26,7 +26,7 @@ x.emplace(
     std::make_tuple("key"), std::make_tuple(1, 2));
 ----
 
-Additionally, the same functionality is provided via non-standard `boost::unordered::piecewise_construct` and Boost.Tuple:
+此外，通过非标准的 `boost::unordered::piecewise_construct` 和 Boost.Tuple 也提供了相同的功能：
 
 [source, c++]
 ----
@@ -35,41 +35,41 @@ x.emplace(
     boost::make_tuple("key"), boost::make_tuple(1, 2));
 ----
 
-This feature has been retained for backwards compatibility with previous versions of Boost.Unordered: users are encouraged to update their code to use `std::piecewise_construct` and ``std::tuple``s instead.
+此特性为保持与 Boost.Unordered 先前版本的向后兼容性而保留：建议用户更新代码以使用 `std::piecewise_construct` 和 `std::tuple`。
 
-=== Swap
+=== 交换
 
-When swapping, `Pred` and `Hash` are not currently swapped by calling `swap`, their copy constructors are used. As a consequence, when swapping an exception may be thrown from their copy constructor.
+交换时，`Pred` 和 `Hash` 当前不通过调用 `swap` 进行交换，而是使用其拷贝构造函数。因此，交换时可能从其拷贝构造函数抛出异常。
 
-== Open-addressing Containers
+== 开地址容器
 
-The C++ standard does not currently provide any open-addressing container specification to adhere to, so `boost::unordered_flat_set`/`unordered_node_set` and `boost::unordered_flat_map`/`unordered_node_map` take inspiration from `std::unordered_set` and `std::unordered_map`, respectively, and depart from their interface where convenient or as dictated by their internal data structure, which is radically different from that imposed by the standard (closed addressing).
+当前 C++ 标准未提供任何开地址容器规范供遵循，因此 `boost::unordered_flat_set`/`unordered_node_set` 和 `boost::unordered_flat_map`/`unordered_node_map` 分别借鉴了 `std::unordered_set` 和 `std::unordered_map`，并在其内部数据结构（与标准规定的闭地址方式截然不同）允许或需要时调整了接口。
 
-Open-addressing containers provided by Boost.Unordered only work with reasonably compliant C++11 (or later) compilers. Language-level features such as move semantics and variadic template parameters are then not emulated. The containers are fully https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[AllocatorAware^] and support https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[fancy pointers^].
+Boost.Unordered 提供的开地址容器仅与基本符合 C++11（或更高版本）的编译器兼容。因此未模拟移动语义和可变参数模板等语言级特性。这些容器完全满足 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知容器^] 要求，并支持 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针^]。
 
 
-The main differences with C++ unordered associative containers are:
+与 C++ 无序关联容器的主要区别在于：
 
-* In general:
-  ** `begin()` is not constant-time.
-  ** `erase(iterator)` does not return an iterator to the following element, but a proxy object that converts to that iterator if requested; this avoids a potentially costly iterator increment operation when not needed.
-  ** There is no API for bucket handling (except `bucket_count`).
-  ** The maximum load factor of the container is managed internally and can't be set by the user. The maximum load, exposed through the public function `max_load`, may decrease on erasure under high-load conditions.
-* Flat containers (`boost::unordered_flat_set` and `boost::unordered_flat_map`):
-  ** `value_type` must be move-constructible.
-  ** Pointer stability is not kept under rehashing.
-  ** There is no API for node extraction/insertion.
+* 总体而言：
+  ** `begin()` 不是常数时间操作。
+  ** `erase(iterator)` 不返回指向后续元素的迭代器，而是返回一个代理对象，该对象可按需转换为相应迭代器；这避免了在不需要时执行可能代价高昂的迭代器递增操作。
+  ** 不提供桶处理 API（`bucket_count` 除外）。
+  ** 容器的最大负载因子由内部管理，用户无法设置。通过公开函数 `max_load` 暴露的最大负载在高负载条件下删除元素时可能降低。
+* 扁平容器（`boost::unordered_flat_set` 和 `boost::unordered_flat_map`）：
+  ** `value_type` 必须可移动构造。
+  ** 重新哈希时不保持指针稳定性。
+  ** 不提供节点提取/插入 API。
 
-== Concurrent Containers
+== 并发容器
 
-There is currently no specification in the C++ standard for this or any other type of concurrent data structure. The APIs of `boost::concurrent_flat_set`/`boost::concurrent_node_set` and `boost::concurrent_flat_map`/`boost::concurrent_node_map` are modelled after `std::unordered_flat_set` and `std::unordered_flat_map`, respectively, with the crucial difference that iterators are not provided due to their inherent problems in concurrent scenarios (high contention, prone to deadlocking): so, Boost.Unordered concurrent containers are technically not models of https://en.cppreference.com/w/cpp/named_req/Container[Container^], although they meet all the requirements of https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[AllocatorAware^] containers (including https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[fancy pointer^] support) except those implying iterators.
+当前 C++ 标准未对此类或任何其他类型的并发数据结构进行规范。`boost::concurrent_flat_set`/`boost::concurrent_node_set` 和 `boost::concurrent_flat_map`/`boost::concurrent_node_map` 的 API 分别仿照 `std::unordered_flat_set` 和 `std::unordered_flat_map` 设计，关键区别在于：由于迭代器在并发场景中固有的问题（高竞争性、易死锁），因此不提供迭代器。因此，Boost.Unordered 的并发容器在技术上不符合 https://en.cppreference.com/w/cpp/named_req/Container[容器^] 概念，但满足 https://en.cppreference.com/w/cpp/named_req/AllocatorAwareContainer[分配器感知容器^] 的所有要求（包括 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针^] 支持），仅不满足涉及迭代器的要求。
 
-In a non-concurrent unordered container, iterators serve two main purposes:
+在非并发无序容器中，迭代器主要有两个用途：
 
-* Access to an element previously located via lookup.
-* Container traversal.
+* 访问先前通过查找定位的元素。
+* 容器遍历。
 
-In place of iterators, Boost.Unordered concurrent containers use _internal visitation_ facilities as a thread-safe substitute. Classical operations returning an iterator to an element already existing in the container, like for instance:
+Boost.Unordered 并发容器使用 _内部访问_ 机制替代迭代器，作为线程安全的替代方案。经典操作（如返回容器中现有元素的迭代器）例如：
 
 [source, c++]
 ----
@@ -77,7 +77,7 @@ iterator find(const key_type& k);
 std::pair<iterator, bool> insert(const value_type& obj);
 ----
 
-are transformed to accept a _visitation function_ that is passed such element:
+被改造为接受一个 _访问函数_，该函数被传递给相应元素：
 
 [source, c++]
 ----
@@ -85,15 +85,15 @@ template<class F> size_t visit(const key_type& k, F f);
 template<class F> bool insert_or_visit(const value_type& obj, F f);
 ----
 
-(In the second case `f` is only invoked if there's an equivalent element to `obj` in the table, not if insertion is successful). Container traversal is served by:
+（第二种情况下，仅当表中存在与 `obj` 等价的元素时才会调用 `f`，若插入成功则不调用）。容器遍历通过以下函数实现：
 
 [source, c++]
 ----
 template<class F> size_t visit_all(F f);
 ----
 
-of which there are parallelized versions in C++17 compilers with parallel algorithm support. In general, the interface of concurrent containers is derived from that of their non-concurrent counterparts by a fairly straightforward process of replacing iterators with visitation where applicable. If for regular maps `iterator` and `const_iterator` provide mutable and const access to elements, respectively, here visitation is granted mutable or const access depending on the constness of the member function used (there are also `*cvisit` overloads for explicit const visitation); In the case of `boost::concurrent_flat_set`, visitation is always const.
+在支持并行算法的 C++17 编译器中，存在其并行化版本。总体而言，并发容器的接口通过将迭代器替换为访问机制（在适用处）的方式，从其非并发对应容器派生而来。对于常规映射，`iterator` 和 `const_iterator` 分别提供对元素的可变和常量访问；而此处，访问机制根据所用成员函数的常量性授予可变或常量访问权限（另有 `*cvisit` 重载用于显式常量访问）。对于 `boost::concurrent_flat_set`，访问始终为常量。
 
-One notable operation not provided by `boost::concurrent_flat_map`/`boost::concurrent_node_map` is `operator[]`/`at`, which can be replaced, if in a more convoluted manner, by `xref:reference/concurrent_flat_map.adoc#concurrent_flat_map_try_emplace_or_cvisit[try_emplace_or_visit]`.
+`boost::concurrent_flat_map`/`boost::concurrent_node_map` 未提供的一个显著操作是 `operator[]`/`at`，可通过 `xref:reference/concurrent_flat_map.adoc#concurrent_flat_map_try_emplace_or_cvisit[try_emplace_or_visit]` 以更复杂的方式替代。
 
 //-

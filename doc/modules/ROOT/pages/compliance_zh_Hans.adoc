@@ -37,7 +37,7 @@ x.emplace(
 
 此特性为保持与 Boost.Unordered 先前版本的向后兼容性而保留：建议用户更新代码以使用 `std::piecewise_construct` 和 `std::tuple`。
 
-=== Swap
+=== 交换
 
 交换时，`Pred` 和 `Hash` 当前不通过调用 `swap` 进行交换，而是使用其拷贝构造函数。因此，交换时可能从其拷贝构造函数抛出异常。
 

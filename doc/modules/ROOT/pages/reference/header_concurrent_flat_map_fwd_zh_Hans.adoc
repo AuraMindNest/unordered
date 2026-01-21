@@ -1,6 +1,6 @@
 [#header_concurrent_flat_map_fwd]
-== `<boost/unordered/concurrent_flat_map_fwd.hpp>` Synopsis
+== `<boost/unordered/concurrent_flat_map_fwd.hpp>` 概要
 
 :idprefix: header_concurrent_flat_map_fwd_
 
-Forward declares all the definitions in xref:reference/header_concurrent_flat_map.adoc[`<boost/unordered/concurrent_flat_map.hpp>`].
+前向声明了 xref:reference/header_concurrent_flat_map.adoc[`<boost/unordered/concurrent_flat_map.hpp>`] 中的所有定义。

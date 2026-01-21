@@ -1,5 +1,5 @@
 [#stats]
-== 统计
+== 统计信息
 
 :idprefix: stats_
 

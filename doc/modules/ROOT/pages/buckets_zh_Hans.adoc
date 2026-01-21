@@ -21,7 +21,7 @@ image::buckets-oa.png[]
 
 在开地址容器中，每个桶最多容纳一个元素；若发生碰撞（如示例中的 `D`），元素将使用原始位置附近的其他可用桶。基于此简化机制，Boost.Unordered 开地址容器仅提供极其有限的桶访问 API。
 
-[caption="，",  title='Table {counter:table-counter}. Methods for Accessing Buckets']
+[caption=",",  title='Table {counter:table-counter}. Methods for Accessing Buckets']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
 2+^h| *所有容器*
@@ -69,7 +69,7 @@ h|*方法* h|*描述*
 
 `max_load_factor` 并非由用户直接设定最大负载因子，而仅提供 _提示_。即使如此，标准也未强制要求容器严格遵循此值。唯一强制要求负载因子低于最大值的场景是在调用 `rehash` 后。但多数实现会尝试将元素数量控制在最大负载因子之下，并将最大负载因子设定为与提示值相同或接近——除非提示值严重偏离合理范围。
 
-[caption="，",  title='Table {counter:table-counter}. Methods for Controlling Bucket Size']
+[caption=",",  title='Table {counter:table-counter}. Methods for Controlling Bucket Size']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
 2+^h| *所有容器*

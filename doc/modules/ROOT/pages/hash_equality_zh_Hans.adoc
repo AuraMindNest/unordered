@@ -2,9 +2,9 @@
 
 :idprefix: hash_equality_
 
-= Equality Predicates and Hash Functions
+= 相等谓词与哈希函数
 
-While the associative containers use an ordering relation to specify how the elements are stored, the unordered associative containers use an equality predicate and a hash function. For example, `xref:reference/unordered_map.adoc[boost::unordered_map]` is declared as:
+关联容器使用排序关系来指定元素的存储方式，而无序关联容器则使用相等谓词和哈希函数。例如，`xref:reference/unordered_map.adoc[boost::unordered_map]` 的声明如下：
 
 ```cpp
 
@@ -17,7 +17,7 @@ class unordered_map;
 
 ```
 
-The hash function comes first as you might want to change the hash function but not the equality predicate. For example, if you wanted to use the https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a hash^] you could write:
+哈希函数排在前面，因为您可能希望更改哈希函数但不更改相等谓词。例如，如果您想使用 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a 哈希^]，可以这样写：
 
 ```cpp
 
@@ -26,9 +26,9 @@ boost::unordered_map<std::string, int, hash::fnv_1a>
 
 ```
 
-There is an link:../../../examples/fnv1.hpp[implementation of FNV-1a^] in the examples directory.
+示例目录中提供了 link:../../../examples/fnv1.hpp[FNV-1a 的实现^]。
 
-If you wish to use a different equality function, you will also need to use a matching hash function. For example, to implement a case insensitive dictionary you need to define a case insensitive equality predicate and hash function:
+如果希望使用不同的相等函数，则还需要使用匹配的哈希函数。例如，要实现不区分大小写的字典，需要定义不区分大小写的相等谓词和哈希函数：
 
 ```cpp
 
@@ -60,7 +60,7 @@ struct ihash
 
 ```
 
-Which you can then use in a case insensitive dictionary:
+然后可以在不区分大小写的字典中使用：
 ```cpp
 
 boost::unordered_map<std::string, int, ihash, iequal_to>
@@ -68,13 +68,13 @@ boost::unordered_map<std::string, int, ihash, iequal_to>
 
 ```
 
-This is a simplified version of the example at link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp^] which supports other locales and string types.
+这是 link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp^] 中示例的简化版本，支持其他区域设置和字符串类型。
 
-CAUTION: Be careful when using the equality (`==`) operator with custom equality predicates, especially if you're using a function pointer. If you compare two containers with different equality predicates then the result is undefined. For most stateless function objects this is impossible - since you can only compare objects with the same equality predicate you know the equality predicates must be equal. But if you're using function pointers or a stateful equality predicate (e.g. `boost::function`) then you can get into trouble.
+CAUTION: 使用相等运算符 (`==`) 与自定义相等谓词时要小心，尤其是在使用函数指针时。如果比较两个具有不同相等谓词的容器，结果是未定义的。对于大多数无状态函数对象，这不可能发生——因为只能使用相同相等谓词的对象进行比较，所以您知道相等谓词必须相同。但如果使用函数指针或有状态的相等谓词（例如 `boost::function`），则可能会遇到问题。
 
-== Custom Types
+== 自定义类型
 
-Similarly, a custom hash function can be used for custom types:
+同样，自定义哈希函数可用于自定义类型：
 
 ```cpp
 
@@ -103,7 +103,7 @@ boost::unordered_multiset<point, point_hash> points;
 
 ```
 
-Since the default hash function is link:../../../../container_hash/index.html[Boost.Hash^], we can extend it to support the type so that the hash function doesn't need to be explicitly given:
+由于默认哈希函数是 link:../../../../container_hash/index.html[Boost.Hash^]，我们可以扩展它以支持该类型，从而无需显式指定哈希函数：
 
 ```cpp
 
@@ -129,17 +129,17 @@ boost::unordered_multiset<point> points;
 
 ```
 
-See the link:../../../../container_hash/index.html[Boost.Hash documentation^] for more detail on how to do this. Remember that it relies on extensions to the standard - so it won't work for other implementations of the unordered associative containers, you'll need to explicitly use Boost.Hash.
+有关如何执行此操作的更多详细信息，请参阅 link:../../../../container_hash/index.html[Boost.Hash 文档^]。请记住，它依赖于对标准的扩展——因此它不适用于无序关联容器的其他实现，您需要显式使用 Boost.Hash。
 
 [caption=",",  title='Table {counter:table-counter} Methods for accessing the hash and equality functions']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
-|Method |Description
+|方法 |描述
 
 |`hasher hash_function() const`
-|Returns the container's hash function.
+|返回容器的哈希函数。
 
 |`key_equal key_eq() const`
-|Returns the container's key equality function..
+|返回容器的键相等函数。
 
 |===

@@ -21,7 +21,7 @@
 ** xref:reference/unordered_set.adoc[`unordered_set`]
 ** xref:reference/unordered_multiset.adoc[`unordered_multiset`]
 ** xref:reference/hash_traits.adoc[哈希特性]
-** xref:reference/stats.adoc[统计信息]
+** xref:reference/stats.adoc[统计]
 ** xref:reference/header_unordered_flat_map_fwd.adoc[`<boost/unordered/unordered_flat_map_fwd.hpp>`]
 ** xref:reference/header_unordered_flat_map.adoc[`<boost/unordered/unordered_flat_map.hpp>`]
 ** xref:reference/unordered_flat_map.adoc[`unordered_flat_map`]

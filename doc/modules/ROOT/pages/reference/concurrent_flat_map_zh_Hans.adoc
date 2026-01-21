@@ -333,7 +333,7 @@ namespace unordered {
 |_T_
 
 |_Hash_
-|一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个 `std::size_t` 类型的值。
+|一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key` 的参数，并返回一个类型为 `std::size_t` 的值。
 
 |_Pred_
 |二元函数对象，用于在类型为 `Key` 的值上建立等价关系。它接受两个类型为 `Key` 的参数，并返回一个 `bool` 类型的值。
@@ -473,7 +473,7 @@ concurrent_flat_map(concurrent_flat_map const& other);
 若 `Allocator::select_on_container_copy_construction` 存在且签名正确，则分配器将根据其结果构造。
 
 [horizontal]
-要求：;; `value_type` 可复制构造
+要求：;; `value_type` 需可复制构造
 并发性：;; 在 `other` 上阻塞。
 
 ---
@@ -608,7 +608,7 @@ concurrent_flat_map(size_type n, hasher const& hf, allocator_type const& a);
 
 ---
 
-==== 带桶数量和分配器的迭代器范围构造函数
+==== 带桶计数和分配器的迭代器范围构造函数
 [source, c++, subs="+quotes"]
 ----
 template<class InputIterator>
@@ -622,7 +622,7 @@ template<class InputIterator>
 
 ---
 
-==== 带桶数量和哈希函数的迭代器范围构造函数
+==== 带桶计数和哈希函数的迭代器范围构造函数
 [source, c++, subs="+quotes"]
 ----
     template<class InputIterator>
@@ -652,7 +652,7 @@ concurrent_flat_map(std::initializer_list<value_type> il, const allocator_type& 
 
 ---
 
-==== 带桶数量和分配器的初始化列表构造函数
+==== 带桶计数和分配器的初始化列表构造函数
 
 ```c++
 
@@ -667,7 +667,7 @@ concurrent_flat_map(std::initializer_list<value_type> il, size_type n, const all
 
 ---
 
-==== 带桶数量、哈希函数和分配器的初始化列表构造函数
+==== 带桶计数、哈希函数和分配器的初始化列表构造函数
 
 ```c++
 
@@ -692,7 +692,7 @@ concurrent_flat_map(std::initializer_list<value_type> il, size_type n, const has
 ```
 
 [horizontal]
-注意：;; 析构函数会应用于每个元素，并释放所有内存
+说明：;; 析构函数会应用于每个元素，并释放所有内存。
 
 ---
 
@@ -765,7 +765,7 @@ template<class F> size_t visit(const key_type& k, F f); template<class F> size_t
 
 [horizontal]
 返回：;; 被访问的元素数量（0 或 1）。
-注意：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K, class F>` 重载才会参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+说明：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K, class F>` 重载才会参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
 
 ---
 
@@ -819,7 +819,7 @@ template<class ExecutionPolicy, class F> void visit_all(ExecutionPolicy&& policy
 
 [horizontal]
 抛出：;; 根据所用执行策略的异常处理机制，如果在 `f` 内抛出异常，可能调用 `std::terminate`。
-注意：;; 仅在支持 C++17 并行算法的编译器中可用。+
+说明：;; 仅在支持 C++17 并行算法的编译器中可用。+
 +
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `true` 时，这些重载才会参与重载决议。+
 +
@@ -855,7 +855,7 @@ template<class ExecutionPolicy, class F> bool visit_while(ExecutionPolicy&& poli
 [horizontal]
 返回：;; 当且仅当 `f` 曾返回 `false` 时为 `false`。
 抛出：;; 根据所用执行策略的异常处理机制，如果在 `f` 内抛出异常，可能调用 `std::terminate`。
-注意：;; 仅在支持 C++17 并行算法的编译器中可用。+
+说明：;; 仅在支持 C++17 并行算法的编译器中可用。+
 +
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `true` 时，这些重载才会参与重载决议。+
 +
@@ -892,7 +892,7 @@ size_type size() const noexcept;
 返回：;; 表中的元素数量。
 
 [horizontal]
-注意：;; 在存在并发插入操作的情况下，返回值可能无法准确反映执行后表的实际大小。
+说明：;; 在存在并发插入操作的情况下，返回值可能无法准确反映执行后表的实际大小。
 
 ---
 
@@ -924,7 +924,7 @@ template<class... Args> bool emplace(Args&&... args);
 要求：;; `value_type` 可由 `args` 构造。
 返回：;; 若插入发生则为 `true`。
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 若 `args...` 的形式为 `k,v`，则仅使用 `k` 参数检查，延迟构造整个对象直到确定应插入元素。
 
@@ -943,7 +943,7 @@ bool insert(const value_type& obj); bool insert(const init_type& obj);
 要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入^]。
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 形式为 `insert(x)` 的调用（其中 `x` 可同等地转换为 `const value_type&` 和 `const init_type&`）不歧义，并选择 `init_type` 重载。
 
@@ -962,7 +962,7 @@ bool insert(value_type&& obj); bool insert(init_type&& obj);
 要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入^]。
 返回：;; 若插入发生则为 `true`。
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 形式为 `insert(x)` 的调用（其中 `x` 可同等地转换为 `value_type&&` 和 `init_type&&`）不歧义，并选择 `init_type` 重载。
 
@@ -1017,7 +1017,7 @@ template<class... Args, class F> bool emplace_or_visit(Args&&... args, F&& f); t
 要求：;; `value_type` 可由 `args` 构造。
 返回：;; 若插入发生则为 `true`。
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 此接口仅为说明性，因为 C++ 不允许在可变参数包后声明参数 `f`。
 
@@ -1036,7 +1036,7 @@ template<class F> bool insert_or_visit(const value_type& obj, F f); template<cla
 要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入^]。
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 在形式为 `insert_or_[c]visit(obj, f)` 的调用中，仅当 `std::remove_cv<std::remove_reference<decltype(obj)>::type>::type` 是 `value_type` 时，接受 `const value_type&` 参数的重载才会参与重载解析。
 
@@ -1055,7 +1055,7 @@ template<class F> bool insert_or_visit(value_type&& obj, F f); template<class F>
 要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入^]。
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 在形式为 `insert_or_[c]visit(obj, f)` 的调用中，仅当 `std::remove_reference<decltype(obj)>::type` 是 `value_type` 时，接受 `value_type&&` 参数的重载才会参与重载解析。
 
@@ -1116,7 +1116,7 @@ template<class... Args, class F1, class F2>
 要求：;; `value_type` 可由 `args` 构造。
 返回：;; 若插入发生则为 `true`。
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 此接口仅为说明性，因为 C++ 不允许在可变参数包后声明参数 `f1` 和 `f2`。
 
@@ -1135,7 +1135,7 @@ template<class F1, class F2> bool insert_and_visit(const value_type& obj, F1 f1,
 要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入^]。
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 在形式为 `insert_and_[c]visit(obj, f1, f2)` 的调用中，仅当 `std::remove_cv<std::remove_reference<decltype(obj)>::type>::type` 是 `value_type` 时，接受 `const value_type&` 参数的重载才会参与重载解析。
 
@@ -1154,7 +1154,7 @@ template<class F1, class F2> bool insert_and_visit(value_type&& obj, F1 f1, F2 f
 要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入^]。
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
 在形式为 `insert_and_[c]visit(obj, f1, f2)` 的调用中，仅当 `std::remove_reference<decltype(obj)>::type` 是 `value_type` 时，接受 `value_type&&` 参数的重载才会参与重载解析。
 
@@ -1214,7 +1214,7 @@ template<class... Args> bool try_emplace(const key_type& k, Args&&... args); tem
 [horizontal]
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 此函数与 xref:#concurrent_flat_map_emplace[emplace] 类似，区别在于若存在等价键元素则不构造 `value_type`；否则构造形式为：+
+说明：;; 此函数与 xref:#concurrent_flat_map_emplace[emplace] 类似，区别在于若存在等价键元素则不构造 `value_type`；否则构造形式为：+
 +
 --
 ```c++
@@ -1264,7 +1264,7 @@ template<class K, class... Args, class F>
 [horizontal]
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 如果存在键等价的元素，则不构造 `value_type`；否则，构造形式为：+
+说明：;; 如果存在键等价的元素，则不构造 `value_type`；否则，构造形式为：+
 +
 --
 ```c++
@@ -1314,7 +1314,7 @@ template<class K, class... Args, class F1, class F2>
 [horizontal]
 返回：;; 若插入发生则为 `true`。+
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 如果存在键等价的元素，则不构造 `value_type`；否则，构造形式为：+
+说明：;; 如果存在键等价的元素，则不构造 `value_type`；否则，构造形式为：+
 +
 --
 ```c++
@@ -1369,9 +1369,9 @@ value_type(std::piecewise_construct,
 [horizontal]
 返回：;; 若插入发生则为 `true`。
 并发性：;; 阻塞于 `*this` 的重哈希。
-注意：;; 若触发重哈希，则指向元素的指针和引用将失效。+
+说明：;; 若触发重哈希，则指向元素的指针和引用将失效。+
 +
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K, class M>` 才参与重载决议。库假定 `Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K, class M>` 才参与重载决议。库假定 `Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred` 是透明的。这启用了异构查找，避免了实例化 `Key` 类型的开销。
 
 ---
 
@@ -1387,7 +1387,7 @@ size_type erase(const key_type& k); template<class K> size_type erase(const K& k
 [horizontal]
 返回：;; 擦除的元素数量（0 或 1）。
 抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
-注意：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred` 是透明的。这启用了异构查找，避免了实例化 `Key` 类型的开销。
+说明：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时用 `K` 和 `Key` 调用，且 `Pred` 是透明的。这启用了异构查找，避免了实例化 `Key` 类型的开销。
 
 ---
 
@@ -1403,7 +1403,7 @@ template<class F> size_type erase_if(const key_type& k, F f); template<class K, 
 [horizontal]
 返回：;; 擦除的元素数量（0 或 1）。
 抛出：;; 仅当 `hasher`、`key_equal` 或 `f` 抛出异常时才抛出异常。
-注意：;; `f` 被传递一个对 `x` 的非常量引用。+
+说明：;; `f` 被传递一个对 `x` 的非常量引用。+
 +
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `false` 时，`template<class K, class F>` 重载才会参与重载决议。+
 +
@@ -1437,7 +1437,7 @@ template<class ExecutionPolicy, class F> void erase_if(ExecutionPolicy&& policy,
 
 [horizontal]
 抛出：;; 根据所用执行策略的异常处理机制，如果在 `f` 内抛出异常，可能调用 `std::terminate`。
-注意：;; 仅在支持 C++17 并行算法的编译器中可用。+
+说明：;; 仅在支持 C++17 并行算法的编译器中可用。+
 +
 仅当 `std::is_execution_policy_v<std::remove_cvref_t<ExecutionPolicy>>` 为 `true` 时，此重载才会参与重载决议。+
 +
@@ -1548,7 +1548,7 @@ template<class K>
 
 [horizontal]
 返回：;; 键等于 `k` 的元素数量（0 或 1）。
-注意：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。+
+说明：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。+
 +
 在存在并发插入操作的情况下，返回值可能无法准确反映执行后表的实际状态。
 
@@ -1565,7 +1565,7 @@ template<class K>
 
 [horizontal]
 返回：;; 布尔值，指示表中是否存在键等于 `k` 的元素。
-注意：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。+
+说明：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才会参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。+
 +
 在存在并发插入操作的情况下，返回值可能无法准确反映执行后表的实际状态。
 
@@ -1634,7 +1634,7 @@ size_type max_load() const noexcept;
 
 [horizontal]
 返回：;; 假设不再擦除元素，表在不重哈希的情况下可容纳的最大元素数量。
-注意：;; 构造、重哈希或清除后，表的最大负载至少为 `max_load_factor() * bucket_count()`。在高负载条件下擦除元素时，此数值可能减少。+
+说明：;; 构造、重哈希或清除后，表的最大负载至少为 `max_load_factor() * bucket_count()`。在高负载条件下擦除元素时，此数值可能减少。+
 +
 在存在并发插入操作的情况下，返回值可能无法准确反映执行后表的实际状态。
 
@@ -1688,7 +1688,7 @@ stats get_stats() const;
 
 [horizontal]
 返回：;; 对表迄今为止执行的插入和查找操作的统计描述。
-注意：;; 仅在 xref:reference/stats.adoc#stats[统计计算] 被 xref:concurrent_flat_map_boost_unordered_enable_stats[启用] 时可用。
+说明：;; 仅在 xref:reference/stats.adoc#stats[统计计算] 被 xref:concurrent_flat_map_boost_unordered_enable_stats[启用] 时可用。
 
 ---
 
@@ -1701,21 +1701,21 @@ void reset_stats() noexcept;
 
 [horizontal]
 效果：;; 将表维护的内部统计信息重置为零。
-注意：;; 仅在 xref:reference/stats.adoc#stats[统计计算] 被 xref:concurrent_flat_map_boost_unordered_enable_stats[启用] 时可用。
+说明：;; 仅在 xref:reference/stats.adoc#stats[统计计算] 被 xref:concurrent_flat_map_boost_unordered_enable_stats[启用] 时可用。
 
 ---
 
-=== 推导指引
-若以下任一条件成立，则推导指引不参与重载决议：
+=== 推导指南
+若以下任一条件为真，则推导指南不参与重载决议：
 
-  - 具有 `InputIterator` 模板参数，且为该参数推导的类型不符合输入迭代器要求。
-  - 具有 `Allocator` 模板参数，且为该参数推导的类型不符合分配器要求。
-  - 具有 `Hash` 模板参数，且为该参数推导的类型为整型或符合分配器要求。
-  - 具有 `Pred` 模板参数，且为该参数推导的类型符合分配器要求。
+  - 其具有 `InputIterator` 模板参数，且为该参数推导出的类型不符合输入迭代器要求。
+  - 其具有 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
+  - 其具有 `Hash` 模板参数，且为该参数推导出的类型为整数类型或符合分配器要求。
+  - 其具有 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
 推导指引中的 `size_­type` 参数类型引用由推导指引推导出的表类型的 `size_­type` 成员类型。其默认值与所选构造函数的默认值一致。
 
-==== __迭代器值类型__
+==== __iter-value-type__
 [listings, subs="+macros,+quotes"]
 -----
 template<class InputIterator>
@@ -1763,7 +1763,7 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 [horizontal]
 并发性：;; 阻塞于 `x` 和 `y`。
-注意：;; 若两个表不具有等效的相等谓词，则行为未定义。
+说明：;; 若两个表不具有等效的相等谓词，则行为未定义。
 
 ---
 
@@ -1780,11 +1780,11 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 [horizontal]
 并发性：;; 阻塞于 `x` 和 `y`。
-注意：;; 若两个表不具有等效的相等谓词，则行为未定义。
+说明：;; 若两个表不具有等效的相等谓词，则行为未定义。
 
 ---
 
-=== Swap
+=== 交换
 ```c++
 
 template<class Key, class T, class Hash, class Pred, class Alloc>
@@ -1826,7 +1826,7 @@ c.xref:#concurrent_flat_map_erase_if[erase_if](pred);
 将 `concurrent_flat_map` `x` 的所有元素保存到归档（XML 归档）`ar` 中。
 
 [horizontal]
-要求：;; `std::remove_const<key_type>::type` 和 `std::remove_const<mapped_type>::type` 必须是可序列化的（XML 可序列化），且支持 Boost.Serialization 的 `save_construct_data`/`load_construct_data` 协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造(DefaultConstructible)^] 类型自动支持）。
+要求：;; `std::remove_const<key_type>::type` 和 `std::remove_const<mapped_type>::type` 需可序列化（XML 可序列化），且支持 Boost.Serialization 的 `save_construct_data`/`load_construct_data` 协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造^] 类型自动支持）。
 并发性：;; 阻塞于 `x`。
 
 ---

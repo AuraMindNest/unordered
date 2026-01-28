@@ -2,72 +2,72 @@
 
 :idprefix: rationale_
 
-= 实现原理
+= 实现设计依据
 
-== 闭址式容器
+== 闭寻址容器
 
-`boost::unordered_[multi]set` 和 `boost::unordered_[multi]map` 遵循无序关联容器的标准要求，因此接口是固定的。但仍有一些实现决策需要确定。首要考虑的是符合标准和可移植性。
+`boost::unordered++_[++multi++]++set` 与 `boost::unordered++_[++multi++]++map` 遵循无序关联容器的标准规范，因此其接口是确定的。但在实现层面仍需做出一些决策，其首要考量是标准符合性与跨平台移植性。
 
-http://en.wikipedia.org/wiki/Hash_table[维基百科关于哈希表的文章^] 对哈希表的一般实现问题有很好的总结。
+关于哈希表的通用实现问题的详细综述，可参阅 http://en.wikipedia.org/wiki/Hash_table[维基百科哈希表条目] 。
 
 === 数据结构
 
-通过指定访问容器桶的接口，标准几乎要求哈希表使用闭地址法。
+通过制定用于访问容器桶的接口，该标准实质上要求哈希表必须采用闭寻址方案。
 
-编写使用其他方法的哈希表是可能的。例如，它可以使用开地址法，并利用查找链充当桶，但这样做存在一些严重问题：
+理论上完全可以设计采用其他实现方式的哈希表。例如，采用开放寻址法，利用查找链来模拟桶的行为，但这种做法会带来一些严重问题：
 
-* 标准要求指向元素的指针不能失效，因此元素不能存储在一个数组中，而是需要一层间接寻址——这会损失效率并丧失大部分内存优势，而这两者正是开地址法的主要优点。
-* 局部迭代器将非常低效，可能无法满足复杂度要求。
-* 还存在关于迭代器何时失效的限制。由于开地址法在碰撞次数高时性能会急剧下降，这些限制可能阻止在真正需要时进行重哈希。可以通过将最大负载因子设置为较低值来解决此问题——但标准要求其初始值设为1.0。
-* 而且由于标准是围绕闭地址法编写的，如果性能不符合预期，用户会感到意外。
+* 该标准要求指向元素的指针不得失效，因此元素不能存储在单一数组中，而需要增加一层间接寻址，这将导致效率下降并丧失开放寻址法最主要的优势：高效性和内存节省。
+* 局部迭代器的实现将极为低效，且可能无法满足复杂度要求。
+* 此外，标准对迭代器失效的时机也存在限制。由于开放寻址法在发生大量冲突时性能会急剧下降，这些限制可能会阻止必要的重新哈希操作。虽然可以通过设置较低的最大负载因子来规避此问题——但标准要求该值初始必须设为 1.0。
+* 由于该标准的制定主要着眼于闭寻址方案，若性能表现不符预期，将会引发用户的困惑。
 
-因此采用闭地址法。
+因此采用闭寻址方案。
 
-=== 桶的数量
+=== 桶数量
 
-选择哈希表桶的数量有两种常用方法：一种是使用质数数量的桶，另一种是使用2的幂。
+选择哈希表桶数量有两种主流方法：一种是采用质数作为桶的数量，另一种则是使用2的幂次方。
 
-使用质数数量的桶，并通过哈希函数结果取模来选择桶，通常能获得良好效果。缺点是所需的取模操作相当昂贵。这是容器在大多数情况下过去采用的方式。
+采用质数桶量并对哈希结果取模通常效果良好，这也是以往容器在大多数情况下的实现方式。这种方法的缺点在于取模运算开销较大。
 
-使用2的幂可以更快地选择桶，但代价是丢失哈希值的高位比特。对于某些专门设计的哈希函数，这样做仍能获得良好结果，但由于容器可接受任意哈希函数，因此不能依赖于此。
+使用2的幂次方可加快桶选择速度，但代价是牺牲哈希值的高位比特。对于一些特殊设计的哈希函数，这样做仍能获得良好效果，但由于容器需要兼容任意哈希函数，因此不能依赖这种方法。
 
-为避免此问题，可对哈希函数应用转换，例如参见 http://web.archive.org/web/20121102023700/http://www.concentric.net/~Ttwang/tech/inthash.htm[Thomas Wang关于整数哈希函数的文章^]。遗憾的是，类似Wang的转换需要知道哈希值的比特数，因此仅在`size_t`为64位时使用。
+为避免此问题，可对哈希函数施加转换操作（具体示例可参阅 http://web.archive.org/web/20121102023700/http://www.concentric.net/~Ttwang/tech/inthash.htm[Thomas Wang整数哈希函数文章]）。但此类变换需知晓哈希值比特数，故仅在 `size++_++t` 为64位时才会启用。
 
-自1.79.0版起，改用https://en.wikipedia.org/wiki/Hash_function#Fibonacci_hashing[斐波那契哈希]。在此实现中，桶号通过`(h * m) >> (w - k)`确定，其中`h`是哈希值，`m`是`2^w`除以黄金分割率，`w`是字长（32或64位），`2^k`是桶的数量。这在速度和分布之间提供了良好的折衷。
+自1.79.0版起，改用 https://en.wikipedia.org/wiki/Hash_function#Fibonacci_hashing[斐波那契哈希] 。在此实现中，桶编号通过公式 `(h ++*++ m) ++>>++ (w - k)` 确定：其中 `h` 为哈希值， `m` 为 `2^w` 除以黄金分割比的值， `w` 为字长（32位或64位）， `2^k` 表示桶的数量。此方法在速度和分布均匀性之间实现了较好的平衡。
 
-自1.80.0版起，选择质数作为桶的数量，并辅以复杂的模运算。这消除了1.79.0版中对用户哈希函数结果进行“混合”的需求。
+自1.80.0版起，结合精密取模运算选用质数桶量，无需1.79.0版所用的用户哈希函数结果"混合"处理。
 
 == 开地址容器
 
-C++标准对无序关联容器的规范对允许的实现施加了严格限制，最重要的是隐式假设了闭地址法。稍微放宽此规范为充分利用开地址技术提供容器变体开辟了可能性。
+C{plus}{plus} 标准对无序关联容器的实现规范施加了严格限制。最重要约束是隐式假设必须采用闭寻址方案。若适当放宽此规范，则能充分利用开放寻址技术优势，提供多样化的容器实现变体。
 
-`boost::unordered_flat_set`/`unordered_node_set`和`boost::unordered_flat_map`/`unordered_node_map`的设计遵循Peter Dimov的https://pdimov.github.io/articles/unordered_dev_plan.html[Boost.Unordered开发计划^]。我们在此讨论最相关的原则。
+`boost::unordered++_++flat++_++set` / `unordered++_++node++_++set` 及 `boost::unordered++_++flat++_++map` / `unordered++_++node++_++map` 的设计遵循Peter Dimov的 https://pdimov.github.io/articles/unordered_dev_plan.html[Boost.Unordered开发计划] 中提出的指导原则。下文将探讨其中最核心的设计理念。
 
 === 哈希函数
 
-鉴于其丰富的功能和跨平台互操作性，`boost::hash`仍是开地址容器的默认哈希函数。但`boost::hash`对于整型和其他基本类型不具备开地址法所需的统计特性；为此我们实现了一个后混合阶段：
+基于其丰富功能与跨平台互操作性， `boost::hash` 仍是开放寻址容器的默认哈希函数。但由于其对整型等基础类型实现的 boost::hash 缺乏开放寻址所需的统计特性，我们额外增加了后混合处理阶段：
 
 {nbsp}{nbsp}{nbsp}{nbsp} _a_ <- _h_ *mul* _C_, +
 {nbsp}{nbsp}{nbsp}{nbsp} _h_ <- *high*(_a_) *xor* *low*(_a_),
 
-其中*mul*是_扩展乘法_（64位架构中为128位，32位环境中为64位），*high*和*low*分别是扩展字的高半部和低半部。在64位架构中，_C_是2^64^&#8725;https://en.wikipedia.org/wiki/Golden_ratio[_&phi;_]的整数部分，而在32位中_C_ = 0xE817FB2Du（取自https://arxiv.org/abs/2001.05304[Steele和Vigna (2021)^]）。
+其中**mul**为__扩展乘法__（在 64 位架构中生成 128 位结果，在 32 位环境中生成 64 位结果），**high**和**low**分别表示扩展字的高位与低位部分。在 64 位架构中，__C__取值为2^64^∕https://en.wikipedia.org/wiki/Golden_ratio[_φ_] 的整数部分；而在32位中__C__ = 0xE817FB2Du源自 https://arxiv.org/abs/2001.05304[Steele与Vigna(2021)] 。
 
-当使用直接适用于开地址法的哈希函数时，可通过专用`link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[hash_is_avalanching]`特性选择退出后混合。字符串类型的`boost::hash`特化被标记为雪崩式。
+当所使用的哈希函数本身已适用于开放寻址时，可通过专用的 link:../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[`hash++_++is++_++avalanching`].
 
 === 平台互操作性
 
-只要不同编译器的``std::size_t``大小相同且用户提供的哈希函数和相等谓词也具有互操作性，`boost::unordered_flat_set`/`unordered_node_set`和`boost::unordered_flat_map`/`unordered_node_map`的可观察行为在不同编译器间是确定性相同的——这包括相同操作序列下元素的顺序完全一致。
+只要不同编译器的 `std::size++_++t` 具有相同位宽，且用户提供的哈希函数与相等性谓词具备跨平台一致性，那么 `boost::unordered++_++flat++_++set` / `unordered++_++node++_++set` 及 `boost::unordered++_++flat++_++map` / `unordered++_++node++_++map` 的可观测行为在不同编译器间将保持确定性一致——这包括在相同的操作序列下，元素在迭代时的出现顺序完全相同。
 
-尽管实现在内部使用了SIMD技术（如https://en.wikipedia.org/wiki/SSE2[SSE2^]和https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(NEON)[Neon^]），但这不影响互操作性。例如，在支持SSE2的x64模式Intel CPU上的Visual Studio与不支持任何SIMD技术的IBM s390x上的GCC行为相同。
+尽管实现在内部会适时运用 SIMD 技术（如 https://en.wikipedia.org/wiki/SSE2[SSE2] 与 https://en.wikipedia.org/wiki/ARM_architecture_family#Advanced_SIMD_(NEON)[Neon] 等)，但这并不会影响其跨平台互操作性。例如，在支持 SSE2 的 x64 架构 Intel CPU 上使用 Visual Studio 编译器，与在不支持任何 SIMD 技术的 IBM s390x 架构上使用 GCC 编译器，两者的容器行为表现完全一致。
 
 == 并发容器
 
-Boost.Unordered开地址容器使用的相同数据结构也被选作`boost::concurrent_flat_set`/`boost::concurrent_node_set`和`boost::concurrent_flat_map`/`boost::concurrent_node_map`的基础：
+Boost.Unordered开放寻址容器所采用的底层数据结构，同样被选作 `boost::concurrent++_++flat++_++set` / `boost::concurrent++_++node++_++set` 与 `boost::concurrent++_++flat++_++map` / `boost::concurrent++_++node++_++map` 的实现基础：
 
-* 开地址法在非并发和并发场景下都比闭地址法替代方案更快。
-* 开地址布局非常适合以最小锁实现并发访问和修改。特别是，元数据数组可用于实现查找操作，该操作在最终实际元素比较步骤之前是无锁的。
-* 与Boost.Unordered平面容器的布局兼容性允许在并发容器与其非并发对应容器之间xref:concurrent.adoc#concurrent_interoperability_with_non_concurrent_containers[快速转移]所有元素，反之亦然。
+* 无论在非并发还是并发场景下，开放寻址方案的性能均优于闭寻址方案。
+* 开放寻址的内存布局极其适合在最小化锁竞争的条件下进行并发访问与修改。具体而言，其元数据数组可实现无锁查找，直至最终执行实际元素比较的阶段。
+* 并发容器与 Boost.Unordered 扁平容器具有内存布局兼容性，支持其与非并发对应容器之间 xref:concurrent.adoc#concurrent_interoperability_with_non_concurrent_containers[快速双向传输] 所有元素。
 
 === 哈希函数与平台互操作性
 
-在xref:#rationale_hash_function[哈希函数默认设置]和xref:#rationale_platform_interoperability[平台互操作性]方面，并发容器做出与Boost.Unordered开地址容器相同的决策并提供相同的保证。
+在 xref:#rationale_hash_function[哈希函数默认设置] 和 xref:#rationale_platform_interoperability[平台互操作性] 方面，并发容器遵循与 Boost.Unordered 开放寻址容器相同的决策逻辑并提供同等保证。

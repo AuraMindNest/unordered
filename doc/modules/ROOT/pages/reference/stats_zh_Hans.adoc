@@ -1,5 +1,5 @@
 [#stats]
-== 统计
+== 统计信息
 
 :idprefix: stats_
 
@@ -9,54 +9,54 @@
 
 [listing, subs="+macros,+quotes"]
 -----
-struct xref:#stats_stats_summary_type[__统计摘要类型__]
+struct xref:#stats_stats_summary_type[__stats-summary-type__]
 {
-  double 平均值;
-  double 方差;
-  double 标准差;
+  double average;
+  double variance;
+  double deviation;
 };
 
-struct xref:#stats_insertion_stats_type[__插入统计类型__]
+struct xref:#stats_insertion_stats_type[__insertion-stats-type__]
 {
-  std::size_t        计数;
-  xref:#stats_stats_summary_type[__统计摘要类型__] 探测长度;
+  std::size_t        count;
+  xref:#stats_stats_summary_type[__stats-summary-type__] probe_length;
 };
 
-struct xref:stats_lookup_stats_type[__查找统计类型__]
+struct xref:stats_lookup_stats_type[__lookup-stats-type__]
 {
-  std::size_t        计数;
-  xref:#stats_stats_summary_type[__统计摘要类型__] 探测长度;
-  xref:#stats_stats_summary_type[__统计摘要类型__] 比较次数;
+  std::size_t        count;
+  xref:#stats_stats_summary_type[__stats-summary-type__] probe_length;
+  xref:#stats_stats_summary_type[__stats-summary-type__] num_comparisons;
 };
 
-struct xref:reference/stats.adoc#stats_stats_type[__统计类型__]
+struct xref:reference/stats.adoc#stats_stats_type[__stats-type__]
 {
-  xref:#stats_insertion_stats_type[__插入统计类型__] 插入;
-  xref:stats_lookup_stats_type[__查找统计类型__]    成功查找,
-                       失败查找;
+  xref:#stats_insertion_stats_type[__insertion-stats-type__] insertion;
+  xref:stats_lookup_stats_type[__lookup-stats-type__]    successful_lookup,
+                       unsuccessful_lookup;
 };
 -----
 
-==== __统计摘要类型__
+==== _统计摘要类型_
 
 提供数值序列的平均值、方差和标准差。
 
-==== __插入统计类型__
+==== _插入统计类型_
 
-提供容器执行的插入操作次数及相关__探测长度__的统计信息（每次操作访问的xref:structures.adoc#structures_open_addressing_containers[桶组]数量）。
+提供容器执行的插入操作次数及相关__探查长度__（每次操作访问的 xref:structures.adoc#structures_open_addressing_containers[桶组] 数量）的统计信息。
 
-==== __查找统计类型__
+==== _查找统计类型_
 
-对于成功（找到元素）或失败（未找到）的查找，提供容器执行的操作次数及相关__探测长度__（访问的xref:structures.adoc#structures_open_addressing_containers[桶组]数量）以及每次操作的元素比较次数的统计信息。
+对于成功（找到元素）或失败（未找到）查找操作，提供容器执行的操作次数及相关__探查长度__（访问的 xref:structures.adoc#structures_open_addressing_containers[桶组] 数量）和每次操作的元素比较次数的统计信息。
 
-==== __统计类型__
+==== _stats-type_
 
-提供容器执行的插入、成功及失败查找的统计信息。若提供的哈希函数质量良好，则：
+提供容器执行的插入操作、成功及失败查找操作的统计信息。若提供的哈希函数质量良好，则：
 
-* 平均探测长度应接近1.0。
-* 对于成功查找，平均元素比较次数应接近1.0。
-* 对于失败查找，平均元素比较次数应接近0.0。
+* 平均探查长度应接近1.0。
+* 对于成功查找，平均元素比较次数应接近 1.0。
+* 对于失败查找，平均元素比较次数应接近 0.0。
 
-这些统计信息可用于判断给定哈希函数是否可标记为link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[__雪崩式__]。
+这些统计信息可用于判断给定的哈希函数是否可被标记为 link:../../../../../container_hash/doc/html/hash.html#ref_hash_is_avalanchinghash[_雪崩效应_] 。
 
 ---

@@ -1,9 +1,9 @@
 [#header_unordered_set]
-== `<boost/unordered/unordered_set.hpp>` 概要
+== `++<++boost/unordered/unordered++_++set.hpp++>++` 概要
 
 :idprefix: header_unordered_set_
 
-定义 `xref:reference/unordered_set.adoc#unordered_set[boost::unordered_set]`、`xref:reference/unordered_multiset.adoc#unordered_multiset[boost::unordered_multiset]` 及相关函数和别名模板。
+定义 xref:reference/unordered_set.adoc#unordered_set[`boost::unordered++_++set`] 、 xref:reference/unordered_multiset.adoc#unordered_multiset[`boost::unordered++_++multiset`] 以及相关的函数和别名模板。
 
 [listing, subs="+macros,+quotes"]
 -----
@@ -63,7 +63,7 @@ namespace unordered {
     typename unordered_multiset<K, H, P, A>::size_type
       xref:reference/unordered_multiset.adoc#unordered_multiset_erase_if[erase_if](unordered_multiset<K, H, P, A>& c, Predicate pred);
 
-  // Pmr 别名（C++17 及以上）
+  // Pmr别名（C++17及以上）
   namespace pmr {
     template<class Key,
              class Hash = boost::hash<Key>,
@@ -78,12 +78,12 @@ namespace unordered {
     using unordered_multiset =
       boost::unordered::unordered_multiset<Key, Hash, Pred,
         std::pmr::polymorphic_allocator<Key>>;
-  } // namespace pmr
+  } // 命名空间 pmr
 
-} // namespace unordered
+} // 命名空间 unordered
 
 using unordered::unordered_set;
 using unordered::unordered_multiset;
 
-} // namespace boost
+} // 命名空间 boost
 -----

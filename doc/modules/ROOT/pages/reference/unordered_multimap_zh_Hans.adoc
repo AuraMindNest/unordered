@@ -1,9 +1,9 @@
 [#unordered_multimap]
-== 类模板 unordered_multimap
+== 类模板 unordered++_++multimap
 
 :idprefix: unordered_multimap_
 
-`boost::unordered_multimap` —— 一种无序关联容器，将键与另一个值关联。同一键可存储多次。
+`boost::unordered++_++multimap` —— 一种无序关联容器，用于将键与另一个值相关联。同一键可被存储多次。
 
 === 概要
 
@@ -21,7 +21,7 @@ namespace unordered {
            class Allocator = std::allocator<std::pair<const Key, T>>>
   class unordered_multimap {
   public:
-    // 类型定义
+    // types
     using key_type             = Key;
     using mapped_type          = T;
     using value_type           = std::pair<const Key, T>;
@@ -35,13 +35,13 @@ namespace unordered {
     using size_type            = std::size_t;
     using difference_type      = std::ptrdiff_t;
 
-    using iterator             = _由实现定义_;
-    using const_iterator       = _由实现定义_;
-    using local_iterator       = _由实现定义_;
-    using const_local_iterator = _由实现定义_;
-    using node_type            = _由实现定义_;
+    using iterator             = _implementation-defined_;
+    using const_iterator       = _implementation-defined_;
+    using local_iterator       = _implementation-defined_;
+    using const_local_iterator = _implementation-defined_;
+    using node_type            = _implementation-defined_;
 
-    // 构造/复制/销毁
+    // construct/copy/destroy
     xref:#unordered_multimap_default_constructor[unordered_multimap]();
     explicit xref:#unordered_multimap_bucket_count_constructor[unordered_multimap](size_type n,
                                 const hasher& hf = hasher(),
@@ -49,20 +49,20 @@ namespace unordered {
                                 const allocator_type& a = allocator_type());
     template<class InputIterator>
       xref:#unordered_multimap_iterator_range_constructor[unordered_multimap](InputIterator f, InputIterator l,
-                         size_type n = _由实现定义_,
+                         size_type n = _implementation-defined_,
                          const hasher& hf = hasher(),
                          const key_equal& eql = key_equal(),
                          const allocator_type& a = allocator_type());
     xref:#unordered_multimap_copy_constructor[unordered_multimap](const unordered_multimap& other);
-    xref:#unordered_multimap_move_constructor[unordered极map](unordered_multimap&& other);
+    xref:#unordered_multimap_move_constructor[unordered_multimap](unordered_multimap&& other);
     template<class InputIterator>
       xref:#unordered_multimap_iterator_range_constructor_with_allocator[unordered_multimap](InputIterator f, InputIterator l, const allocator_type& a);
     explicit xref:#unordered_multimap_allocator_constructor[unordered_multimap](const Allocator& a);
     xref:#unordered_multimap_copy_constructor_with_allocator[unordered_multimap](const unordered_multimap& other, const Allocator& a);
     xref:#unordered_multimap_move_constructor_with_allocator[unordered_multimap](unordered_multimap&& other, const Allocator& a);
     xref:#unordered_multimap_initializer_list_constructor[unordered_multimap](std::initializer_list<value_type> il,
-                       size_type n = _由实现定义_,
-                       const hasher& h极 = hasher(),
+                       size_type n = _implementation-defined_,
+                       const hasher& hf = hasher(),
                        const key_equal& eql = key_equal(),
                        const allocator_type& a = allocator_type());
     xref:#unordered_multimap_bucket_count_constructor_with_allocator[unordered_multimap](size_type n, const allocator_type& a);
@@ -86,7 +86,7 @@ namespace unordered {
     unordered_multimap& xref:#unordered_multimap_initializer_list_assignment[operator++=++](std::initializer_list<value_type> il);
     allocator_type xref:#unordered_multimap_get_allocator[get_allocator]() const noexcept;
 
-    // 迭代器
+    // iterators
     iterator       xref:#unordered_multimap_begin[begin]() noexcept;
     const_iterator xref:#unordered_multimap_begin[begin]() const noexcept;
     iterator       xref:#unordered_multimap_end[end]() noexcept;
@@ -94,12 +94,12 @@ namespace unordered {
     const_iterator xref:#unordered_multimap_cbegin[cbegin]() const noexcept;
     const_iterator xref:#unordered_multimap_cend[cend]() const noexcept;
 
-    // 容量
+    // capacity
     ++[[nodiscard]]++ bool xref:#unordered_multimap_empty[empty]() const noexcept;
     size_type xref:#unordered_multimap_size[size]() const noexcept;
     size_type xref:#unordered_multimap_max_size[max_size]() const noexcept;
 
-    // 修改器
+    // modifiers
     template<class... Args> iterator xref:#unordered_multimap_emplace[emplace](Args&&... args);
     template<class... Args> iterator xref:#unordered_multimap_emplace_hint[emplace_hint](const_iterator position, Args&&... args);
     iterator xref:#unordered_multimap_copy_insert[insert](const value_type& obj);
@@ -112,7 +112,7 @@ namespace unordered {
     void xref:#unordered_multimap_insert_initializer_list[insert](std::initializer_list<value_type> il);
 
     node_type xref:#unordered_multimap_extract_by_iterator[extract](const_iterator position);
-    node_type xref:#unordered_multimap_extract_by_key[极extract](const key_type& k);
+    node_type xref:#unordered_multimap_extract_by_key[extract](const key_type& k);
     template<class K> node_type xref:#unordered_multimap_extract_by_key[extract](K&& k);
     iterator xref:#unordered_multimap_insert_with_node_handle[insert](node_type&& nh);
     iterator xref:#unordered_multimap_insert_with_hint_and_node_handle[insert](const_iterator hint, node_type&& nh);
@@ -139,11 +139,11 @@ namespace unordered {
     template<class H2, class P2>
       void xref:#unordered_multimap_merge[merge](unordered_map<Key, T, H2, P2, Allocator>&& source);
 
-    // 观察器
+    // observers
     hasher xref:#unordered_multimap_hash_function[hash_function]() const;
     key_equal xref:#unordered_multimap_key_eq[key_eq]() const;
 
-    // 映射操作
+    // map operations
     iterator         xref:#unordered_multimap_find[find](const key_type& k);
     const_iterator   xref:#unordered_multimap_find[find](const key_type& k) const;
     template<class K>
@@ -165,11 +165,11 @@ namespace unordered {
     std::pair<iterator, iterator>               xref:#unordered_multimap_equal_range[equal_range](const key_type& k);
     std::pair<const_iterator, const_iterator>   xref:#unordered_multimap_equal_range[equal_range](const key_type& k) const;
     template<class K>
-      std::pair<iterator, iterator>             xref:#unordered_multimap_equal_range[equal_range](const K&极 k);
+      std::pair<iterator, iterator>             xref:#unordered_multimap_equal_range[equal_range](const K& k);
     template<class K>
       std::pair<const_iterator, const_iterator> xref:#unordered_multimap_equal_range[equal_range](const K& k) const;
 
-    // 桶接口
+    // bucket interface
     size_type xref:#unordered_multimap_bucket_count[bucket_count]() const noexcept;
     size_type xref:#unordered_multimap_max_bucket_count[max_bucket_count]() const noexcept;
     size_type xref:#unordered_multimap_bucket_size[bucket_size](size_type n) const;
@@ -182,7 +182,7 @@ namespace unordered {
     const_local_iterator xref:#unordered_multimap_cbegin_2[cbegin](size_type n) const;
     const_local_iterator xref:#unordered_multimap_cend_2[cend](size_type n) const;
 
-    // 哈希策略
+    // hash policy
     float xref:#unordered_multimap_load_factor[load_factor]() const noexcept;
     float xref:#unordered_multimap_max_load_factor[max_load_factor]() const noexcept;
     void xref:#unordered_multimap_max_load_factor[max_load_factor](float z);
@@ -190,12 +190,12 @@ namespace unordered {
     void xref:#unordered_multimap_reserve[reserve](size_type n);
   };
 
-  // 推导指引
+  // Deduction Guides
   template<class InputIterator,
            class Hash = boost::hash<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>>,
            class Pred = std::equal_to<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>>,
            class Allocator = std::allocator<xref:#unordered_multimap_iter_to_alloc_type[__iter-to-alloc-type__]<InputIterator>>>
-    unordered_multimap(InputIterator, InputIterator, typename xref:#unordered_multimap_deduction_guides[__见下文__]::size_type = xref:#unordered_multimap_deduction_guides[__见下文__],
+    unordered_multimap(InputIterator, InputIterator, typename xref:#unordered_multimap_deduction_guides[__see below__]::size_type = xref:#unordered_multimap_deduction_guides[__see below__],
                        Hash = Hash(), Pred = Pred(), Allocator = Allocator())
       -> unordered_multimap<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>, xref:#unordered_multimap_iter_mapped_type[__iter-mapped-type__]<InputIterator>, Hash,
                             Pred, Allocator>;
@@ -204,12 +204,12 @@ namespace unordered {
            class Pred = std::equal_to<Key>,
            class Allocator = std::allocator<std::pair<const Key, T>>>
     unordered_multimap(std::initializer_list<std::pair<Key, T>>,
-                       typename xref:#unordered_multimap_deduction_guides[__见下文__]::size_type = xref:#unordered_multimap_deduction_guides[__见下文__], Hash = Hash(),
+                       typename xref:#unordered_multimap_deduction_guides[__see below__]::size_type = xref:#unordered_multimap_deduction_guides[__see below__], Hash = Hash(),
                        Pred = Pred(), Allocator = Allocator())
       -> unordered_multimap<Key, T, Hash, Pred, Allocator>;
 
   template<class InputIterator, class Allocator>
-    unordered_multimap(InputIterator, InputIterator, typename xref:#unordered_multimap_deduction_guides[__见下文__]::size_type, Allocator)
+    unordered_multimap(InputIterator, InputIterator, typename xref:#unordered_multimap_deduction_guides[__see below__]::size_type, Allocator)
       -> unordered_multimap<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>, xref:#unordered_multimap_iter_mapped_type[__iter-mapped-type__]<InputIterator>,
                             boost::hash<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>>,
                             std::equal_to<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>>, Allocator>;
@@ -221,13 +221,13 @@ namespace unordered {
                             std::equal_to<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>>, Allocator>;
 
   template<class InputIterator, class Hash, class Allocator>
-    unordered_multimap(InputIterator, InputIterator, typename xref:#unordered_multimap_deduction_guides[__见下文__]::size_type, Hash,
+    unordered_multimap(InputIterator, InputIterator, typename xref:#unordered_multimap_deduction_guides[__see below__]::size_type, Hash,
                        Allocator)
       -> unordered_multimap<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>, xref:#unordered_multimap_iter_mapped_type[__iter-mapped-type__]<InputIterator>, Hash,
                             std::equal_to<xref:#unordered_multimap_iter_key_type[__iter-key-type__]<InputIterator>>, Allocator>;
 
   template<class Key, class T, class Allocator>
-    unordered_multimap(std::initializer_list<std::pair<Key, T>>, typename xref:#unordered_multimap_deduction_guides[__见下文__]::size_type,
+    unordered_multimap(std::initializer_list<std::pair<Key, T>>, typename xref:#unordered_multimap_deduction_guides[__see below__]::size_type,
                        Allocator)
       -> unordered_multimap<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
@@ -236,12 +236,12 @@ namespace unordered {
       -> unordered_multimap<Key, T, boost::hash<Key>, std::equal_to<Key>, Allocator>;
 
   template<class Key, class T, class Hash, class Allocator>
-    unordered_multimap(std::initializer_list<std::pair<Key, T>>, typename xref:#unordered_multimap_deduction_guides[__见下文__]::size_type,
+    unordered_multimap(std::initializer_list<std::pair<Key, T>>, typename xref:#unordered_multimap_deduction_guides[__see below__]::size_type,
                        Hash, Allocator)
       -> unordered_multimap<Key, T, Hash, std::equal_to<Key>, Allocator>;
 
-} // namespace unordered
-} // namespace boost
+} // 命名空间 unordered
+} // 命名空间 boost
 -----
 
 ---
@@ -253,55 +253,61 @@ namespace unordered {
 [cols="1,1"]
 |===
 
-|_Key_
-|`Key` 必须可从容器中擦除（即 `allocator_traits` 可销毁它）。
+|_键_
+|`Key`
+需满足从容器中 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除] 的要求（即
+`allocator++_++traits` 能够销毁该对象）。
 
 |_T_
-|`T` 必须可从容器中擦除（即 `allocator_traits` 可销毁它）。
+|`T`
+需满足从容器 https://en.cppreference.com/w/cpp/named_req/Erasable[可擦除]
+的要求（即 `allocator++_++traits` 能够销毁该对象）。
 
 |_Hash_
-|一种一元函数对象类型，用作 `Key` 的哈希函数。它接受一个 `Key` 类型的参数并返回一个 `std::size_t` 类型的值。
+|一元函数对象类型，用作 `Key` 的哈希函数。它接受一个类型为 `Key`
+的参数，并返回一个 `std::size++_++t` 类型的值。
 
-|_Pred_
-|一种二元函数对象，用于在 `Key` 类型的值上实现等价关系。它接受两个 `Key` 类型的参数并返回一个 bool 类型的值。
+|_谓词_
+|一种二元函数对象，用于在 `Key`
+类型的值上建立等价关系。它接受两个类型为 `Key`
+的参数，并返回一个布尔类型的值。
 
-|_Allocator_
-|一个分配器，其值类型与容器的值类型相同。
-支持使用花式指针的分配器。
+|_分配器_
+|一种分配器，其值类型与容器的值类型相同，是一种支持使用 https://en.cppreference.com/w/cpp/named_req/Allocator#Fancy_pointers[花式指针] 的分配器。
 
 |===
 
-元素被组织到桶中。具有相同哈希码的键存储在同一个桶中。
+元素被组织到多个桶中。具有相同哈希码的键存储在同一个桶内。
 
-桶的数量可以通过调用 insert 或调用 rehash 的结果自动增加。
+桶的数量可通过调用插入操作来自动增加，也可通过调用重哈希操作来调整。
 
 === 配置宏
 
-==== `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0`
+==== `BOOST++_++UNORDERED++_++ENABLE++_++SERIALIZATION++_++COMPATIBILITY++_++V0`
 
-全局定义此宏以支持加载保存到 Boost.Serialization 存档中的 ``unordered_multimap``，这些存档是用 Boost 1.84 之前的版本保存的。
+全局定义此宏以支持加载在 Boost 1.84 之前版本中保存到 Boost.Serialization 归档的 `unordered++_++multimap` 。
 
 === 类型定义
 
 [source, c++, subs=+quotes]
 ----
-typedef _由实现定义_ iterator;
+typedef _implementation-defined_ iterator;
 ----
 
-值类型为 `value_type` 的迭代器。
+一种迭代器，其值类型为 `value++_++type` 。
 
 迭代器类别至少为前向迭代器。
 
-可转换为 `const_iterator`。
+可转换为 `const++_++iterator` 。
 
 ---
 
 [source, c++, subs=+quotes]
 ----
-typedef _由实现定义_ const_iterator;
+typedef _implementation-defined_ const_iterator;
 ----
 
-一个值类型为 `value_type` 的常量迭代器。
+一个常量迭代器，其值类型为 `value++_++type` 。
 
 迭代器类别至少为前向迭代器。
 
@@ -309,32 +315,32 @@ typedef _由实现定义_ const_iterator;
 
 [source, c++, subs=+quotes]
 ----
-typedef _由实现定义_ local_iterator;
+typedef _implementation-defined_ local_iterator;
 ----
 
-一种迭代器，其值类型、差值类型、指针和引用类型与 iterator 相同。
+一种迭代器，其值类型、差值类型以及指针和引用类型均与 iterator 相同。
 
-`local_iterator` 对象可用于遍历单个桶。
+`local++_++iterator` 对象可用于遍历单个桶内的元素。
 
 ---
 
 [source, c++, subs=+quotes]
 ----
-typedef _由实现定义_ const_local_iterator;
+typedef _implementation-defined_ const_local_iterator;
 ----
 
-一种常量迭代器，其值类型、差值类型、指针和引用类型与 const_iterator 相同。
+一种常量迭代器，其值类型、差值类型以及指针和引用类型均与 const++_++iterator 相同。
 
-`const_local_iterator` 对象可用于遍历单个桶。
+const++_++local++_++iterator 对象可用于遍历单个桶内的元素。
 
 ---
 
 [source, c++, subs=+quotes]
 ----
-typedef _由实现定义_ node_type;
+typedef _implementation-defined_ node_type;
 ----
 
-详见 node_handle_map。
+有关详细信息，请参阅 node++_++handle++_++map。
 
 ---
 
@@ -347,15 +353,15 @@ unordered_multimap();
 
 ```
 
-构造一个空容器，使用 `hasher()` 作为哈希函数，`key_equal()` 作为键等价谓词，`allocator_type()` 作为分配器，最大负载因子为 `1.0`。
+构造一个空容器，使用 `hasher()` 作为哈希函数、 `key++_++equal()` 作为键相等性谓词、 `allocator++_++type()` 作为分配器，并将最大负载因子设为 `1.0` 。
 
 [horizontal]
-后置条件：;; `size() == 0`
-要求：;; 若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+后置条件;; `size() == 0`
+要求;; 若使用默认参数，则 `hasher` 、 `key++_++equal` 和 `allocator++_++type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
-==== 桶数量构造函数
+==== 桶数构造函数
 ```c++
 
 explicit unordered_multimap(size_type n,
@@ -365,11 +371,11 @@ explicit unordered_multimap(size_type n,
 
 ```
 
-构造一个空容器，至少包含 `n` 个桶，使用 `hf` 作为哈希函数，`eql` 作为键等价谓词，`a` 作为分配器，最大负载因子为 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数， `eql` 作为键相等性谓词， `a` 作为分配器，并将最大负载因子设为 `1.0` 。
 
 [horizontal]
-后置条件：;; `size() == 0`
-要求：;; 若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+后置条件;; `size() == 0`
+要求;; 若使用默认参数，则 `hasher` 、 `key++_++equal` 和 `allocator++_++type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
@@ -378,16 +384,16 @@ explicit unordered_multimap(size_type n,
 ----
 template<class InputIterator>
 unordered_multimap(InputIterator f, InputIterator l,
-                   size_type n = _由实现定义_,
+                   size_type n = _implementation-defined_,
                    const hasher& hf = hasher(),
                    const key_equal& eql = key_equal(),
                    const allocator_type& a = allocator_type());
 ----
 
-构造一个空容器，至少包含 `n` 个桶，使用 `hf` 作为哈希函数，`eql` 作为键等价谓词，`a` 作为分配器，最大负载因子为 `1.0`，并将 `[f, l)` 范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、 `eql` 作为键相等性谓词、 `a` 作为分配器，将最大负载因子设为 `1.0` ，并将区间 `++[++f, l)` 中的元素插入其中。
 
 [horizontal]
-要求：;; 若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; 若使用默认参数，则 `hasher` 、 `key++_++equal` 和 `allocator++_++type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
@@ -398,12 +404,12 @@ unordered_multimap(const unordered_multimap& other);
 
 ```
 
-复制构造函数。复制所包含的元素、哈希函数、谓词、最大负载因子和分配器。
+复制构造函数。复制其所含的元素、哈希函数、谓词、最大负载因子及分配器。
 
-若 `Allocator::select_on_container_copy_construction` 存在且签名正确，则分配器将根据其结果构造。
+若 `Allocator::select++_++on++_++container++_++copy++_++construction` 存在且签名正确，则将根据其结果来构造分配器。
 
 [horizontal]
-要求：;; `value_type` 需可复制构造
+要求;; `value++_++type` 可复制构造
 
 ---
 
@@ -417,8 +423,8 @@ unordered_multimap(unordered_multimap&& other);
 移动构造函数。
 
 [horizontal]
-备注：;; 此函数通过 Boost.Move 实现。
-要求：;; `value_type` 需可移动构造。
+备注;; 此函数通过 Boost.Move 实现。
+要求;; `value++_++type` 必须满足可移动构造的要求。
 
 ---
 
@@ -430,10 +436,10 @@ template<class InputIterator>
 
 ```
 
-构造一个空容器，使用 `a` 作为分配器，默认哈希函数和键等价谓词，最大负载因子为 `1.0`，并将 `[f, l)` 范围内的元素插入其中。
+构造一个空容器，使用 `a` 作为分配器、默认的哈希函数和键相等性谓词，并将最大负载因子设为 `1.0` ，然后将 `++[++f, l)` 范围内的元素插入其中。
 
 [horizontal]
-要求：;; `hasher`、`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; `hasher` 、 `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
@@ -444,7 +450,7 @@ explicit unordered_multimap(const Allocator& a);
 
 ```
 
-构造一个空容器，使用分配器 `a`。
+使用分配器 `a` 构造一个空容器。
 
 ---
 
@@ -455,7 +461,7 @@ unordered_multimap(const unordered_multimap& other, const Allocator& a);
 
 ```
 
-构造一个容器，复制 ``other`` 所包含的元素、哈希函数、谓词、最大负载因子，但使用分配器 `a`。
+构造一个容器，复制 `other` 中的元素、哈希函数、谓词及最大负载因子，但使用分配器 `a` 。
 
 ---
 
@@ -466,11 +472,11 @@ unordered_multimap(unordered_multimap&& other, const Allocator& a);
 
 ```
 
-构造一个容器，移动 ``other`` 所包含的元素，并继承其哈希函数、谓词和最大负载因子，但使用分配器 `a`。
+构造一个容器，移动 `other` 中所包含的元素，并获取其哈希函数、谓词及最大负载因子，但使用分配器 `a` 。
 
 [horizontal]
-备注：;; 此函数通过 Boost.Move 实现。
-要求：;; `value_type` 需可移动插入。
+备注;; 此函数通过 Boost.Move 实现。
+要求;; `value++_++type` 需满足可移动插入要求。
 
 ---
 
@@ -478,63 +484,63 @@ unordered_multimap(unordered_multimap&& other, const Allocator& a);
 [source, c++, subs="+quotes"]
 ----
 unordered_multimap(std::initializer_list<value_type> il,
-                   size_type n = _由实现定义_,
+                   size_type n = _implementation-defined_,
                    const hasher& hf = hasher(),
                    const key_equal& eql = key_equal(),
                    const allocator_type& a = allocator_type());
 ----
 
-构造一个空容器，至少包含 `n` 个桶，使用 `hf` 作为哈希函数，`eql` 作为键等价谓词，`a` 作为分配器，最大负载因子为 `1.0`，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、 `eql` 作为键相等性谓词、及 `a` 作为分配器，并设置最大负载因子为 `1.0` ，随后将 `il` 中的元素插入该容器。
 
 [horizontal]
-要求：;; 若使用默认值，则 `hasher`、`key_equal` 和 `allocator_type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; 若使用默认参数，则 `hasher` 、 `key++_++equal` 和 `allocator++_++type` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
-==== 带分配器的桶数量构造函数
+==== 带分配器的桶数构造函数
 ```c++
 
-unordered_multimap(size_type n, const allocator极_type& a);
+unordered_multimap(size_type n, const allocator_type& a);
 
 ```
 
-构造一个空容器，至少包含 `n` 个桶，使用默认哈希函数和键等价谓词，`a` 作为分配器，最大负载因子为 `极1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数（应为默认哈希函数）、默认的键相等性谓词、 `a` 作为分配器，并设置最大负载因子为 `1.0` 。
 
 [horizontal]
-后置条件：;; `size() == 0`
-要求：;; `hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+后置条件;; `size() == 0`
+要求;; `hasher` 与 `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
-==== 带哈希函数和分配器的桶数量构造函数
+==== 带哈希函数和分配器的桶数构造函数
 ```c++
 
 unordered_multimap(size_type n, const hasher& hf, const allocator_type& a);
 
 ```
 
-构造一个空容器，至少包含 `n` 个桶，使用 `hf` 作为哈希函数，默认键等价谓词，`a` 作为分配器，最大负载因子为 `1.0`。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、 `a` 作为分配器，并设置最大负载因子为 `1.0` 。
 
 [horizontal]
-后置条件：;; `size() == 0`
-要求：;; `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+后置条件;; `size() == 0`
+要求;; `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
-==== 带桶计数和分配器的迭代器范围构造函数
+==== 带桶数和分配器的迭代器范围构造函数
 [source, c++, subs="+quotes"]
 ----
 template<class InputIterator>
   unordered_multimap(InputIterator f, InputIterator l, size_type n, const allocator_type& a);
 ----
 
-构造一个空容器，至少包含 `n` 个桶，使用 `a` 作为分配器，默认哈希函数和键等价谓词，最大负载因子为 `1.0`，并将 `[f, l)` 范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器、默认的哈希函数和键相等性谓词，并设置最大负载因子为 `1.0` ，随后将区间 `++[++f, l)` 中的元素插入该容器。
 
 [horizontal]
-要求：;; `hasher`、`key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; `hasher` 、 `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
-==== 带桶计数和哈希函数的迭代器范围构造函数
+==== 带桶数和哈希函数的迭代器范围构造函数
 [source, c++, subs="+quotes"]
 ----
 template<class InputIterator>
@@ -542,10 +548,10 @@ template<class InputIterator>
                      const allocator_type& a);
 ----
 
-构造一个空容器，至少包含 `n` 个桶，使用 `hf` 作为哈希函数，`a` 作为分配器，默认键等价谓词，最大负载因子为 `1.0`，并将 `[f, l)` 范围内的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、默认的键相等性谓词、 `a` 作为分配器，并设置最大负载因子为 `1.0` ，随后将区间 `++[++f, l)` 中的元素插入该容器。
 
 [horizontal]
-要求：;; `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
@@ -557,14 +563,14 @@ unordered_multimap(std::initializer_list<value_type> il, const allocator_type& a
 
 ```
 
-构造一个空容器，使用 `a` 作为分配器，最大负载因子为 1.0，并将 `il` 中的元素插入其中。
+使用 `a` 作为分配器构造一个空容器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
 
 [horizontal]
-要求：;; `hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; `hasher` 与 `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
-==== 带桶计数和分配器的初始化列表构造函数
+==== 带桶数和分配器的初始化列表构造函数
 
 ```c++
 
@@ -572,14 +578,14 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const allo
 
 ```
 
-构造一个空容器，至少包含 `n` 个桶，使用 `a` 作为分配器，最大负载因子为 1.0，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `a` 作为分配器，并设置最大负载因子为 1.0，随后将 `il` 中的元素插入该容器。
 
 [horizontal]
-要求：;; `hasher` 和 `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; `hasher` 与 `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
-==== 带桶计数、哈希函数和分配器的初始化列表构造函数
+==== 带桶数、哈希函数和分配器的初始化列表构造函数
 
 ```c++
 
@@ -588,10 +594,10 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const hash
 
 ```
 
-构造一个空容器，至少包含 `n` 个桶，使用 `hf` 作为哈希函数，`a` 作为分配器，最大负载因子为 1.0，并将 `il` 中的元素插入其中。
+构造一个至少包含 `n` 个桶的空容器，使用 `hf` 作为哈希函数、 `a` 作为分配器，设置最大负载因子为 1.0，并将 `il` 中的元素插入其中。
 
 [horizontal]
-要求：;; `key_equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
+要求;; `key++_++equal` 需满足 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求。
 
 ---
 
@@ -604,11 +610,11 @@ unordered_multimap(std::initializer_list<value_type> il, size_type n, const hash
 ```
 
 [horizontal]
-注意：;; 析构函数会应用于每个元素，并释放所有内存。
+备注;; 析构函数会作用于每个元素，并释放所有内存
 
 ---
 
-=== 赋值
+=== 赋值操作
 
 ==== 复制赋值
 
@@ -618,12 +624,12 @@ unordered_multimap& operator=(const unordered_multimap& other);
 
 ```
 
-赋值运算符。复制所包含的元素、哈希函数、谓词和最大负载因子，但不复制分配器。
+赋值运算符。该操作会复制容器内的元素、哈希函数、谓词及最大负载因子，但不会复制分配器。
 
-若 `Alloc::propagate_on_container_copy_assignment` 存在且 `Alloc::propagate_on_container_copy_assignment::value` 为 `true`，则覆盖分配器；否则使用现有分配器创建复制元素。
+如果 `Alloc::propagate++_++on++_++container++_++copy++_++assignment` 存在且 `Alloc::propagate++_++on++_++container++_++copy++_++assignment::value` 为 `true` ，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [horizontal]
-要求：;; `value_type` 需可复制构造
+要求;; `value++_++type` 可复制构造
 
 ---
 
@@ -638,10 +644,10 @@ unordered_multimap& operator=(unordered_multimap&& other)
 ```
 移动赋值运算符。
 
-若 `Alloc::propagate_on_container_move_assignment` 存在且 `Alloc::propagate_on_container_move_assignment::value` 为 `true`，则覆盖分配器；否则使用现有分配器创建移动元素。
+如果 `Alloc::propagate++_++on++_++container++_++move++_++assignment` 存在且 `Alloc::propagate++_++on++_++container++_++move++_++assignment::value` 为 `true` ，则覆盖原分配器；否则将使用现有分配器创建被复制的元素。
 
 [horizontal]
-要求：;; `value_type` 需可移动构造。
+要求;; `value++_++type` 需满足可移动构造要求。
 
 ---
 
@@ -652,10 +658,10 @@ unordered_multimap& operator=(std::initializer_list<value_type> il);
 
 ```
 
-从初始化列表中的值进行赋值。所有现有元素将被新元素覆盖或销毁。
+将初始化列表中的值赋给容器。所有已存在的元素将被新元素覆盖或销毁。
 
 [horizontal]
-要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 到容器中且 https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值]。
+要求;; `value++_++type` 必须满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 至容器以及 https://en.cppreference.com/w/cpp/named_req/CopyAssignable[可复制赋值] 的要求。
 
 === 迭代器
 
@@ -667,7 +673,7 @@ iterator begin() noexcept; const_iterator begin() const noexcept;
 ```
 
 [horizontal]
-返回：;; 指向容器第一个元素的迭代器；若容器为空，则返回容器的尾后值。
+返回值;; 返回一个指向容器第一个元素的迭代器；若容器为空，则返回容器的结束迭代器。
 
 ---
 
@@ -679,7 +685,7 @@ iterator end() noexcept; const_iterator end() const noexcept;
 ```
 
 [horizontal]
-返回：;; 一个迭代器，指向容器的尾后值。
+返回值;; 返回指向容器结束位置的迭代器。
 
 ---
 
@@ -691,7 +697,7 @@ const_iterator cbegin() const noexcept;
 ```
 
 [horizontal]
-返回：;; 一个 `const_iterator`，指向容器的第一个元素；若容器为空，则指向容器的尾后值。
+返回值;; 返回一个指向容器第一个元素的 `const++_++iterator` （常量迭代器）；若容器为空，则返回容器的结束迭代器。
 
 ---
 
@@ -703,13 +709,13 @@ const_iterator cend() const noexcept;
 ```
 
 [horizontal]
-返回：;; 一个 `const_iterator`，指向容器的尾后值。
+返回值;; 返回一个指向容器结束位置的 `const++_++iterator` （常量迭代器）。
 
 ---
 
 === 大小与容量
 
-==== empty
+==== 空
 
 ```c++
 
@@ -718,11 +724,11 @@ const_iterator cend() const noexcept;
 ```
 
 [horizontal]
-返回：;; `size() == 0`
+返回值;; `size() == 0`
 
 ---
 
-==== size
+==== 大小
 
 ```c++
 
@@ -731,11 +737,11 @@ size_type size() const noexcept;
 ```
 
 [horizontal]
-返回：;; `std::distance(begin(), end())`
+返回值;; `std::distance(begin(), end())`
 
 ---
 
-==== max_size
+==== max++_++size
 
 ```c++
 
@@ -744,51 +750,51 @@ size_type max_size() const noexcept;
 ```
 
 [horizontal]
-返回：;; 最大可能容器的 `size()`。
+返回值;; 返回该容器可能容纳的最大值 `size()` 。
 
 ---
 
 === 修改器
 
-==== emplace
+==== 原地构造
 ```c++
 
 template<class... Args> iterator emplace(Args&&... args);
 
 ```
 
-插入一个由参数 `args` 构造的对象到容器中。
+向容器中插入一个由参数 `args` 构造的对象。
 
 [horizontal]
-要求：;; `value_type` 需满足从 `args` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
-返回：;; 指向插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+要求;; `value++_++type` 必须满足从 `args` 参数 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 到 `X` 容器的要求。
+返回值;; 返回一个指向插入元素的迭代器。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
-==== emplace_hint
+==== emplace++_++hint
 ```c++
 
 template<class... Args> iterator emplace_hint(const_iterator position, Args&&... args);
 
 ```
 
-在容器中构造并插入一个对象，使用参数 args 进行构造。
+向容器中插入一个由参数 args 构造的对象。
 
-`position` 是插入元素的建议位置。
+`position` 是一个关于插入元素位置的建议。
 
 [horizontal]
-要求：;; `value_type` 需满足从 `args` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
-返回：;; 指向插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered 唯一支持的方式）是指向具有相同键的现有元素。
+要求;; `value++_++type` 必须满足从 `args` 参数 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 到 `X` 容器的要求。
+返回值;; 返回一个指向插入元素的迭代器。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; C{plus}{plus}标准对提示参数含义的规定相当笼统。在实际使用中唯一有效的方式（也是Boost.Unordered唯一支持的用法）是指向具有相同键的现有元素。 +
 +
-可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
@@ -799,15 +805,15 @@ iterator insert(const value_type& obj);
 
 ```
 
-在容器中插入 `obj`。
+向容器中插入 `obj` 。
 
 [horizontal]
-要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
-返回：;; 指向插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+要求;; `value++_++type` 必须满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
+返回值;; 返回一个指向插入元素的迭代器。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
@@ -818,31 +824,31 @@ iterator insert(value_type&& obj);
 
 ```
 
-在容器中插入 `obj`。
+向容器中插入 `obj` 。
 
 [horizontal]
-要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
-返回：;; 指向插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+要求;; `value++_++type` 必须满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
+返回值;; 返回一个指向插入元素的迭代器。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
-==== 就地插入
+==== 原地插入
 ```c++
 
 template<class P> iterator insert(P&& obj);
 
 ```
 
-通过执行 `emplace(std::forward<P>(value))` 将元素插入容器。
+通过执行 `emplace(std::forward++<++P++>++(value))` 将元素插入容器。
 
-仅当 `std::is_constructible<value_type, P&&>::value` 为 `true` 时参与重载决议。
+仅当 `std::is++_++constructible++<++value++_++type, P&&++>++::value` 为 `true` 时，才会参与重载决议。
 
 [horizontal]
-返回：;; 指向插入元素的迭代器。
+返回值;; 返回一个指向插入元素的迭代器。
 
 ---
 
@@ -851,19 +857,19 @@ template<class P> iterator insert(P&& obj);
 
 iterator insert(const_iterator hint, const value_type& obj);
 
-``` 插入 `obj` 到容器中。
+``` 将 `obj` 插入容器中。
 
-`hint` 是插入元素的建议位置。
+`hint` 是插入元素位置的建议。
 
 [horizontal]
-要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
-返回：;; 指向插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered 唯一支持的方式）是指向具有相同键的现有元素。
+要求;; `value++_++type` 必须满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 要求。
+返回值;; 返回一个指向插入元素的迭代器。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; C{plus}{plus}标准对提示参数含义的规定相当笼统。在实际使用中唯一有效的方式（也是Boost.Unordered唯一支持的用法）是指向具有相同键的现有元素。 +
 +
-可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
@@ -874,78 +880,78 @@ iterator insert(const_iterator hint, value_type&& obj);
 
 ```
 
-在容器中插入 `obj`。
+向容器中插入 `obj` 。
 
-`hint` 是插入元素的建议位置。
+`hint` 是插入元素位置的建议。
 
 [horizontal]
-要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
-返回：;; 指向插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered 唯一支持的方式）是指向具有相同键的现有元素。
+要求;; `value++_++type` 必须满足 https://en.cppreference.com/w/cpp/named_req/MoveInsertable[可移动插入] 要求。
+返回值;; 返回一个指向插入元素的迭代器。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; C{plus}{plus}标准对提示参数含义的规定相当笼统。在实际使用中唯一有效的方式（也是Boost.Unordered唯一支持的用法）是指向具有相同键的现有元素。 +
 +
-可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
-==== 带提示的就地插入
+==== 带提示的原地插入
 ```c++
 
 template<class P> iterator insert(const_iterator hint, P&& obj);
 
 ```
 
-通过执行 `emplace_hint(hint, std::forward<P>(value))` 将元素插入容器。
+通过执行 `emplace++_++hint(hint, std::forward++<++P++>++(value))` 将元素插入容器。
 
-仅当 `std::is_constructible<value_type, P&&>::value` 为 `true` 时参与重载决议。
+仅当 `std::is++_++constructible++<++value++_++type, P&&++>++::value` 为 `true` 时，才会参与重载决议。
 
-`hint` 是插入元素的建议位置。
+`hint` 是插入元素位置的建议。
 
 [horizontal]
-返回：;; 指向插入元素的迭代器。
-备注：;; 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered 唯一支持的方式）是指向具有相同键的现有元素。
+返回值;; 返回一个指向插入元素的迭代器。
+备注;; C{plus}{plus}标准对提示参数含义的规定相当笼统。在实际使用中唯一有效的方式（也是Boost.Unordered唯一支持的用法）是指向具有相同键的现有元素。 +
 +
-可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
-==== 插入迭代器范围
+==== 迭代器范围插入
 ```c++
 
 template<class InputIterator> void insert(InputIterator first, InputIterator last);
 
 ```
 
-向容器中插入一个元素范围。
+将元素范围插入容器。
 
 [horizontal]
-要求：;; `value_type` 需满足从 `*first` 到 `X` 的 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原位构造] 要求。
-抛出：;; 插入单个元素时，若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+要求;; `value++_++type` 必须能够通过 `++*++first` 进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造] 到 `X` 中。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
-==== 插入初始化列表
+==== 初始化列表插入
 ```c++
 
 void insert(std::initializer_list<value_type> il);
 
 ```
 
-向容器中插入一个元素范围。
+将元素范围插入容器。
 
 [horizontal]
-要求：;; `value_type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 到容器中的要求。
-抛出：;; 插入单个元素时，若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+要求;; `value++_++type` 需满足 https://en.cppreference.com/w/cpp/named_req/CopyInsertable[可复制插入] 到容器中的要求。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。
 
 ---
 
@@ -956,15 +962,15 @@ node_type extract(const_iterator position);
 
 ```
 
-移除 `position` 指向的元素。
+移除由 `position` 指向的元素。
 
 [horizontal]
-返回：;; 一个拥有该元素的 `node_type`。
-备注：;; 使用此方法提取的节点可插入到兼容的 `unordered_map` 中。
+返回值;; 返回一个拥有该元素的 `node++_++type` 对象。
+备注;; 通过此方法提取的节点可被插入到兼容的 `unordered++_++map` 容器中。
 
 ---
 
-==== 按键提取
+==== 通过键提取
 ```c++
 
 node_type extract(const key_type& k); template<class K> node_type extract(K&& k);
@@ -974,65 +980,65 @@ node_type extract(const key_type& k); template<class K> node_type extract(K&& k)
 移除键等价于 `k` 的元素。
 
 [horizontal]
-返回：;; 若找到，则返回拥有该元素的 `node_type`；否则返回空的 `node_type`。
-抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
-备注：;; 使用此方法提取的节点可插入到兼容的 `unordered_map` 中。+
+返回值;; 如果找到，则返回一个拥有该元素的 `node++_++type` 对象；否则返回一个空的 `node++_++type` 对象。
+抛出;; 仅当 `hasher` 或 `key++_++equal` 抛出异常时，本函数才会抛出异常。
+备注;; 通过此方法提取的节点可被插入到兼容的 `unordered++_++map` 容器中。 +
 +
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名，且 `iterator` 和 `const++_++iterator` 均不能从 `K` 类型隐式转换时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
-==== 使用 `node_handle` 插入
+==== 通过 `node++_++handle` 插入
 ```c++
 
 iterator insert(node_type&& nh);
 
 ```
 
-若 `nh` 为空，则无任何效果。
+若 `nh` 为空节点，则此操作不产生任何效果。
 
 否则插入 `nh` 拥有的元素。
 
 [horizontal]
-要求：;; `nh` 为空或 `nh.get_allocator()` 等于容器的分配器。
-返回：;; 若 `nh` 为空，则返回 `end()`。
+要求;; `nh` 必须是空节点，或其分配器 `nh.get++_++allocator()` 需与容器的分配器相等。
+返回值;; 若 `nh` 为空，则返回 `end()` 。 +
 +
 否则，返回指向新插入元素的迭代器。
-抛出：;; 若异常由调用 `hasher` 之外的操作引发，则该函数无任何效果。
-备注：;; 可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+抛出;; 若异常由 `hasher` 调用之外的操作引发，则该函数不产生任何效果。
+备注;; 可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。 +
 +
-此方法可用于插入从兼容的 `unordered_map` 中提取的节点。
+此方法可用于插入从兼容的 `unordered++_++map` 容器中提取的节点。
 
 ---
 
-==== 带提示和 `node_handle` 的插入
+==== 带提示和 `node++_++handle` 的插入
 ```c++
 
 iterator insert(const_iterator hint, node_type&& nh);
 
 ```
 
-若 `nh` 为空，则无任何效果。
+若 `nh` 为空节点，则此操作不产生任何效果。
 
 否则插入 `nh` 拥有的元素。
 
-`hint` 是插入元素的建议位置。
+`hint` 是插入元素位置的建议。
 
 [horizontal]
-要求：;; `nh` 为空或 `nh.get_allocator()` 等于容器的分配器。
-返回：;; 若 `nh` 为空，则返回 `end()`。
+要求;; `nh` 必须是空节点，或其分配器 `nh.get++_++allocator()` 需与容器的分配器相等。
+返回值;; 若 `nh` 为空，则返回 `end()` 。 +
 +
 否则，返回指向新插入元素的迭代器。
-抛出：;; 若调用 hasher 以外的操作抛出异常，则该函数无效果。
-备注：;; 标准对提示的含义相当模糊。但唯一实用的使用方式（也是 Boost.Unordered 唯一支持的方式）是指向具有相同键的现有元素。
+抛出;; 若异常由调用 hasher 以外的操作抛出，则此函数不产生任何效果。
+备注;; C{plus}{plus}标准对提示参数含义的规定相当笼统。在实际使用中唯一有效的方式（也是Boost.Unordered唯一支持的用法）是指向具有相同键的现有元素。 +
 +
-可能使迭代器失效，但仅当插入导致负载因子大于或等于最大负载因子时发生。
+可能引发迭代器失效，但仅当插入操作导致负载因子大于或等于最大负载因子时才会发生。 +
 +
-指向元素的指针和引用永不失效。
+指向元素的指针和引用永远不会失效。 +
 +
-此方法可用于插入从兼容的 `unordered_map` 中提取的节点。
+此方法可用于插入从兼容的 `unordered++_++map` 容器中提取的节点。
 
 ---
 
@@ -1044,16 +1050,16 @@ iterator erase(iterator position); iterator erase(const_iterator position);
 
 ```
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [horizontal]
-返回：;; 擦除前 `position` 之后的下一个迭代器。
-抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
-备注：;; 在旧版本中，此操作可能效率低下，因为必须搜索多个桶以找到返回迭代器的位置。数据结构已更改，不再存在此问题，因此其他擦除方法已被弃用。
+返回值;; 返回擦除操作前紧接在 `position` 之后的迭代器。
+抛出;; 仅当 `hasher` 或 `key++_++equal` 抛出异常时，本函数才会抛出异常。
+备注;; 在旧版本中，此操作可能效率较低，因为需要遍历多个桶来定位返回迭代器的位置。但数据结构现已优化，不再存在此问题，因此其他擦除方法已被弃用。
 
 ---
 
-==== 按键擦除
+==== 通过键擦除
 ```c++
 
 size_type erase(const key_type& k); template<class K> size_type erase(K&& k);
@@ -1063,9 +1069,9 @@ size_type erase(const key_type& k); template<class K> size_type erase(K&& k);
 擦除所有键等价于 `k` 的元素。
 
 [horizontal]
-返回：;; 被擦除的元素数量。
-抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
-备注：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义，且 `iterator` 和 `const_iterator` 均不能从 `K` 隐式转换时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+返回值;; 被擦除的元素数量。
+抛出;; 仅当 `hasher` 或 `key++_++equal` 抛出异常时，本函数才会抛出异常。
+备注;; 仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名，且 `iterator` 和 `const++_++iterator` 均不能从 `K` 类型隐式转换时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
@@ -1077,71 +1083,71 @@ iterator erase(const_iterator first, const_iterator last);
 
 ```
 
-擦除从 `first` 到 `last` 范围内的元素。
+擦除从 `first` 到 `last` 范围内（包含 `first` ，不包含 `last` ）的元素。
 
 [horizontal]
-返回：;; 被擦除元素之后的迭代器——即 `last`。
-抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
+返回值;; 返回被擦除元素之后的迭代器——即 `last` 。
+抛出;; 仅当 `hasher` 或 `key++_++equal` 抛出异常时，本函数才会抛出异常。 +
 +
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
 
 ---
 
-==== quick_erase
+==== quick++_++erase
 ```c++
 
 void quick_erase(const_iterator position);
 
 ```
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [horizontal]
-抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
+抛出;; 仅当 `hasher` 或 `key++_++equal` 抛出异常时，本函数才会抛出异常。 +
 +
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
-备注：;; 此方法因从擦除操作返回下一个元素的迭代器代价高昂而实现，但容器已重新设计，不再存在此问题。因此该方法现已弃用。
+备注;; 此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器经过重新设计后该问题已得到解决，因此该方法现已被弃用。
 
 ---
 
-==== erase_return_void
+==== erase++_++return++_++void
 ```c++
 
 void erase_return_void(const_iterator position);
 
 ```
 
-擦除 `position` 指向的元素。
+擦除由 `position` 指向的元素。
 
 [horizontal]
-抛出：;; 仅当 `hasher` 或 `key_equal` 抛出异常时才会抛出异常。
+抛出;; 仅当 `hasher` 或 `key++_++equal` 抛出异常时，本函数才会抛出异常。 +
 +
 在此实现中，此重载不会调用任一函数对象的方法，因此不会抛出异常，但在其他实现中可能并非如此。
-备注：;; 此方法因从擦除操作返回下一个元素的迭代器代价高昂而实现，但容器已重新设计，不再存在此问题。因此该方法现已弃用。
+备注;; 此方法被实现是因为从擦除操作返回下一个元素的迭代器代价高昂，但容器经过重新设计后该问题已得到解决，因此该方法现已被弃用。
 
 ---
 
-==== swap
+==== 交换
 ```c++
 
 void swap(unordered_multimap& other)
   noexcept(boost::allocator_traits<Allocator>::is_always_equal::value &&
            boost::is_nothrow_swappable_v<Hash> &&
-           boost极::is_nothrow_swappable_v<Pred>);
+           boost::is_nothrow_swappable_v<Pred>);
 
 ```
 
-将容器的内容与参数交换。
+交换容器与参数的内容。
 
-若声明了 `Allocator::propagate_on_container_swap` 且 `Allocator::propagate_on_container_swap::value` 为 `true`，则交换容器的分配器。否则，与不等价分配器交换会导致未定义行为。
+如果声明了 `Allocator::propagate++_++on++_++container++_++swap` 且 `Allocator::propagate++_++on++_++container++_++swap::value` 为 `true` ，则交换容器的分配器。则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [horizontal]
-抛出：;; 除非异常由 `key_equal` 或 `hasher` 的复制构造函数或复制赋值运算符抛出，否则不会抛出异常。
-备注：;; 异常规范与 C++11 标准不完全相同，因为等价谓词和哈希函数是使用其复制构造函数交换的。
+抛出;; 除非异常由 `key++_++equal` 或 `hasher` 的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
+备注;; 此处的异常规范与 C{plus}{plus}11 标准不完全一致，因为相等性谓词和哈希函数是通过其复制构造函数完成交换的。
 
 ---
 
-==== clear
+==== 清空
 ```c++
 
 void clear() noexcept;
@@ -1151,12 +1157,12 @@ void clear() noexcept;
 擦除容器中的所有元素。
 
 [horizontal]
-后置条件：;; `size() == 0`
-抛出：;; 永不抛出异常。
+后置条件;; `size() == 0`
+抛出;; 从不抛出任何异常。
 
 ---
 
-==== merge
+==== 合并
 ```c++
 
 template<class H2, class P2>
@@ -1170,21 +1176,21 @@ template<class H2, class P2>
 
 ```
 
-尝试通过迭代 `source` 并提取其中所有节点插入到 `*this` 中来“合并”两个容器。
+通过遍历 `source` 容器，提取其中所有节点并将其插入到 `++*++this` 中，以此尝试将两个容器"合并"。
 
-由于 `source` 可具有不同的哈希函数和键等价谓词，`source` 中每个节点的键会使用 `this->hash_function()` 重新哈希，然后（如有必要）使用 `this->key_eq()` 进行比较。
+由于 `source` 可以有不同的哈希函数和键相等性谓词，因此会使用 `this-++>++hash++_++function()` 操作对 `source` 中每个节点的键进行重哈希，并在需要时使用 `this-++>++key++_++eq()` 进行比较。
 
-若 `this->get_allocator() != source.get_allocator()`，则此函数行为未定义。
+如果 `this-++>++get++_++allocator() != source.get++_++allocator()` ，则此函数的行为未定义。
 
-此函数不复制或移动任何元素，而是简单地将节点从 `source` 重新定位到 `*this` 中。
+此函数不会复制或移动任何元素，而是直接将节点从 `source` 重新定位到 `++*++this` 中。
 
 [horizontal]
-备注：;;
+备注;;
 +
 --
 * 指向被转移元素的指针和引用保持有效。
 * 使指向被转移元素的迭代器失效。
-* 使属于 `*this` 的迭代器失效。
+* 使属于 `++*++this` 的迭代器失效。
 * 指向 `source` 中未被转移元素的迭代器保持有效。
 --
 
@@ -1192,7 +1198,7 @@ template<class H2, class P2>
 
 === 观察器
 
-==== get_allocator
+==== get++_++allocator
 ```
 
 allocator_type get_allocator() const;
@@ -1201,7 +1207,7 @@ allocator_type get_allocator() const;
 
 ---
 
-==== hash_function
+==== 哈希函数
 ```
 
 hasher hash_function() const;
@@ -1209,11 +1215,11 @@ hasher hash_function() const;
 ```
 
 [horizontal]
-返回：;; 容器的哈希函数。
+返回值;; 容器的哈希函数。
 
 ---
 
-==== key_eq
+==== key++_++eq
 ```
 
 key_equal key_eq() const;
@@ -1221,7 +1227,7 @@ key_equal key_eq() const;
 ```
 
 [horizontal]
-返回：;; 容器的键等价谓词
+返回值;; 容器的键相等性谓词
 
 ---
 
@@ -1234,7 +1240,7 @@ iterator         find(const key_type& k);
 const_iterator   find(const key_type& k) const;
 template<class K>
   iterator       find(const K& k);
-template<class极 K>
+template<class K>
   const_iterator find(const K& k) const;
 template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePredicate>
   iterator       find(CompatibleKey const& k, CompatibleHash const& hash,
@@ -1246,10 +1252,10 @@ template<typename CompatibleKey, typename CompatibleHash, typename CompatiblePre
 ```
 
 [horizontal]
-返回：;; 指向键等价于 `k` 的元素的迭代器；若不存在此类元素，则为 `b.end()`。
-备注：;; 包含 `CompatibleKey`、`CompatibleHash` 和 `CompatiblePredicate` 的模板化重载是非标准扩展，允许使用兼容的哈希函数和等价谓词处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应使用 `K` 成员函数模板。
+返回值;; 返回一个指向键等价于 `k` 的元素的迭代器，若不存在这样的元素，则返回 `b.end()` 。
+备注;; 包含 `CompatibleKey` 、 `CompatibleHash` 和 `CompatiblePredicate` 的模板化重载是非标准扩展，允许用户使用兼容的哈希函数和相等性谓词来处理不同类型的键，以避免昂贵的类型转换。通常不鼓励使用此扩展，而应改用基于 `K` 的成员函数模板。 +
 +
-仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
@@ -1263,12 +1269,12 @@ template<class K>
 ```
 
 [horizontal]
-返回：;; 键等价于 `k` 的元素数量。
-备注：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+返回值;; 返回键等价于 `k` 的元素数量。
+备注;; 仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
-==== contains
+==== 包含
 ```c++
 
 bool             contains(const key_type& k) const;
@@ -1278,12 +1284,12 @@ template<class K>
 ```
 
 [horizontal]
-返回：;; 一个布尔值，指示容器中是否存在键等于 `key` 的元素
-备注：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+返回值;; 返回一个布尔值，来表示容器中是否存在键等于 `key` 的元素
+备注;; 仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
-==== equal_range
+==== equal++_++range
 ```c++
 
 std::pair<iterator, iterator>               equal_range(const key_type& k);
@@ -1296,14 +1302,14 @@ template<class K>
 ```
 
 [horizontal]
-返回：;; 一个包含所有键等价于 `k` 的元素的区间。若容器不包含任何此类元素，则返回 `std::make_pair(b.end(), b.end())`。
-备注：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+返回值;; 返回包含所有键等价于 `k`的元素的范围。若容器中不存在此类元素，则返回 `std::make++_++pair(b.end(), b.end())` 。
+备注;; 仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
 === 桶接口
 
-==== bucket_count
+==== bucket++_++count
 ```c++
 
 size_type bucket_count() const noexcept;
@@ -1311,11 +1317,11 @@ size_type bucket_count() const noexcept;
 ```
 
 [horizontal]
-返回：;; 桶的数量。
+返回值;; 桶的数量。
 
 ---
 
-==== max_bucket_count
+==== max++_++bucket++_++count
 ```c++
 
 size_type max_bucket_count() const noexcept;
@@ -1323,11 +1329,11 @@ size_type max_bucket_count() const noexcept;
 ```
 
 [horizontal]
-返回：;; 桶数量的上限。
+返回值;; 桶数量的上限。
 
 ---
 
-==== bucket_size
+==== 桶大小
 ```c++
 
 size_type bucket_size(size_type n) const;
@@ -1335,12 +1341,12 @@ size_type bucket_size(size_type n) const;
 ```
 
 [horizontal]
-要求：;; `n < bucket_count()`
-返回：;; 桶 `n` 中的元素数量。
+要求;; `n ++<++ bucket++_++count()`
+返回值;; 返回桶 `n` 中的元素数量。
 
 ---
 
-==== bucket
+==== 桶
 ```c++
 
 size_type bucket(const key_type& k) const; template<class K> size_type bucket(const K& k) const;
@@ -1348,9 +1354,9 @@ size_type bucket(const key_type& k) const; template<class K> size_type bucket(co
 ```
 
 [horizontal]
-返回：;; 将包含键为 `k` 的元素的桶的索引。
-后置条件：;; 返回值小于 `bucket_count()`。
-备注：;; 仅当 `Hash::is_transparent` 和 `Pred::is_transparent` 是有效的成员类型定义时，`template<class K>` 重载才参与重载决议。库假定 `Hash` 可同时被 `K` 和 `Key` 调用，且 `Pred` 是透明的。这支持异构查找，避免了实例化 `Key` 类型的开销。
+返回值;; 返回键为 `k` 的元素所在桶的索引。
+后置条件;; 返回值应小于 `bucket++_++count()` 。
+备注;; 仅当 `Hash::is++_++transparent` 与 `Pred::is++_++transparent` 均为有效的成员类型别名时， `template++<++class K++>++` 重载才会参与重载决议。标准库假定 `Hash` 可同时被 `K` 和 `Key` 类型调用，且 `Pred` 为透明谓词。该机制支持异构查找，从而避免实例化 `Key` 类型的开销。
 
 ---
 
@@ -1363,8 +1369,8 @@ local_iterator begin(size_type n); const_local_iterator begin(size_type n) const
 ```
 
 [horizontal]
-要求：;; `n` 应在 `[0, bucket_count())` 范围内。
-返回：;; 一个局部迭代器，指向索引为 `n` 的桶中的第一个元素。
+要求;; `n` 的取值范围应为 `++[++0, bucket++_++count())` 。
+返回值;; 返回指向索引为 `n` 的桶中第一个元素的局部迭代器。
 
 ---
 
@@ -1376,8 +1382,8 @@ local_iterator end(size_type n); const_local_iterator end(size_type n) const;
 ```
 
 [horizontal]
-要求：;; `n` 应在 `[0, bucket_count())` 范围内。
-返回：;; 一个局部迭代器，指向索引为 `n` 的桶中的尾后元素。
+要求;; `n` 的取值范围应为 `++[++0, bucket++_++count())` 。
+返回值;; 返回指向索引为 `n` 的桶中“末尾之后”元素的局部迭代器。
 
 ---
 
@@ -1389,8 +1395,8 @@ const_local_iterator cbegin(size_type n) const;
 ```
 
 [horizontal]
-要求：;; `n` 应在 `[0, bucket_count())` 范围内。
-返回：;; 一个常量局部迭代器，指向索引为 `n` 的桶中的第一个元素。
+要求;; `n` 的取值范围应为 `++[++0, bucket++_++count())` 。
+返回值;; 返回指向索引为 `n` 的桶中第一个元素的常量局部迭代器。
 
 ---
 
@@ -1402,14 +1408,14 @@ const_local_iterator cend(size_type n) const;
 ```
 
 [horizontal]
-要求：;; `n` 应在 `[0, bucket_count())` 范围内。
-返回：;; 一个常量局部迭代器，指向索引为 `n` 的桶中的尾后元素。
+要求;; `n` 的取值范围应为 `++[++0, bucket++_++count())` 。
+返回值;; 返回指向索引为 `n` 的桶中“末尾之后”元素的常量局部迭代器。
 
 ---
 
 === 哈希策略
 
-==== load_factor
+==== 负载因子
 ```c++
 
 float load_factor() const noexcept;
@@ -1417,11 +1423,11 @@ float load_factor() const noexcept;
 ```
 
 [horizontal]
-返回：;; 每个桶的平均元素数量。
+返回值;; 返回每个桶的平均元素数量。
 
 ---
 
-==== max_load_factor
+==== max++_++load++_++factor（最大负载因子）
 
 ```c++
 
@@ -1430,11 +1436,11 @@ float max_load_factor() const noexcept;
 ```
 
 [horizontal]
-返回：;; 返回当前最大负载因子。
+返回值;; 返回当前的最大负载因子。
 
 ---
 
-==== Set max_load_factor
+==== 设置最大负载因子
 ```c++
 
 void max_load_factor(float z);
@@ -1442,91 +1448,91 @@ void max_load_factor(float z);
 ```
 
 [horizontal]
-效果：;; 更改容器的最大负载因子，使用 `z` 作为提示。
+效果;; 使用 `z` 作为提示来更改容器的最大负载因子。
 
 ---
 
 
-==== rehash
+==== 重哈希
 ```c++
 
 void rehash(size_type n);
 
 ```
 
-更改桶的数量，使其至少为 `n` 个桶，且负载因子小于或等于最大负载因子。适用时，此操作将增加或减少与容器关联的 `bucket_count()`。
+改变桶的数量，使其至少为 `n` 个，并确保负载因子小于或等于最大负载因子。此操作将根据情况增加或减少容器关联的 `bucket++_++count()` 。
 
-当 `size() == 0` 时，`rehash(0)` 将释放底层桶数组。
+当 `size() == 0` 时， `rehash(0)` 将释放底层桶数组。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 
 [horizontal]
-抛出：;; 若抛出异常，则该函数无任何效果，除非异常由容器的哈希函数或比较函数抛出。
+抛出;; 若抛出异常（除非异常由容器的哈希函数或比较函数抛出），则该函数不产生任何效果。
 
 ---
 
-==== reserve
+==== 保留
 ```c++
 
 void reserve(size_type n);
 
 ```
 
-等效于 `a.rehash(ceil(n / a.max_load_factor()))`，或当 `n > 0` 且 `a.max_load_factor() == std::numeric_limits<float>::infinity()` 时等效于 `a.rehash(1)`。
+等价于 `a.rehash(ceil(n / a.max++_++load++_++factor()))` ，若 `n ++>++ 0` 且 `a.max++_++load++_++factor() == std::numeric++_++limits++<++float++>++::infinity()` ，则等价于 `a.rehash(1)` 。
 
 与 `rehash` 类似，此函数可用于增加或减少容器中的桶数量。
 
 使迭代器失效，并改变元素顺序。指向元素的指针和引用不会失效。
 
 [horizontal]
-抛出：;; 若抛出异常，则该函数无任何效果，除非异常由容器的哈希函数或比较函数抛出。
+抛出;; 若抛出异常（除非异常由容器的哈希函数或比较函数抛出），则该函数不产生任何效果。
 
 ---
 
 === 推导指引
-若以下任一条件为真，则推导指引不参与重载决议：
+如果以下任何一条件为真，则推导指引将不参与重载决议：
 
-  - 其具有一个 `InputIterator` 模板参数，且为该参数推导出的类型不符合输入迭代器要求。
-  - 其具有一个 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
-  - 其具有一个 `Hash` 模板参数，且为该参数推导出的类型为整数类型或符合分配器要求的类型。
-  - 其具有一个 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
+  - 该推导指引包含 `InputIterator` 模板参数，且为此参数推导出的类型不符合输入迭代器的要求。
+  - 该推导指引包含 `Allocator` 模板参数，且为该参数推导出的类型不符合分配器要求。
+  - 该推导指引包含 `Hash` 模板参数，且为该参数推导出的类型为整型或符合分配器要求。
+  - 该推导指引包含 `Pred` 模板参数，且为该参数推导出的类型符合分配器要求。
 
-推导指引中的 `size_type` 参数类型指向由推导指引推导出的容器类型的 `size_type` 成员类型。其默认值与所选构造函数的默认值一致。
+推导指引中的 `size++_++type` 参数类型，指向由该推导指引所推导容器类型的 `size++_++type` 成员类型。其默认值与所选构造函数的默认值一致。
 
-==== __迭代器值类型__
+==== _iter-value-type_
 [listings, subs="+macros,+quotes"]
 -----
 template<class InputIterator>
   using __iter-value-type__ =
-    typename std::iterator_traits<InputIterator>::value_type; // 仅用于说明
+    typename std::iterator_traits<InputIterator>::value_type; // exposition only
 -----
 
-==== __迭代器键类型__
+==== __iter-key-type__
 [listings, subs="+macros,+quotes"]
 -----
 template<class InputIterator>
   using __iter-key-type__ = std::remove_const_t<
-    std::tuple_element_t<0, xref:#unordered_multimap_iter_value_type[__iter-value-type__]<InputIterator>>>; // 仅用于说明
+    std::tuple_element_t<0, xref:#unordered_multimap_iter_value_type[__iter-value-type__]<InputIterator>>>; // exposition only
 -----
 
-==== __迭代器映射类型__
+==== __iter-mapped-type__
 [listings, subs="+macros,+quotes"]
 -----
 template<class InputIterator>
   using __iter-mapped-type__ =
-    std::tuple_element_t<1, xref:#unordered_multimap_iter_value极_type[__iter-value-type__]<InputIterator>>;  // 仅用于说明
+    std::tuple_element_t<1, xref:#unordered_multimap_iter_value_type[__iter-value-type__]<InputIterator>>;  // exposition only
 -----
 
-==== __迭代器到分配类型__
+==== __iter-to-alloc-type__
 [listings, subs="+macros,+quotes"]
 -----
 template<class InputIterator>
   using __iter-to-alloc-type__ = std::pair<
     std::add_const_t<std::tuple_element_t<0, xref:#unordered_multimap_iter_value_type[__iter-value-type__]<InputIterator>>>,
-    std::tuple_element_t<1, xref:#unordered_multimap_iter_value_type[__iter-value-type__]<InputIterator>>>; // 仅用于说明
+    std::tuple_element_t<1, xref:#unordered_multimap_iter_value_type[__iter-value-type__]<InputIterator>>>; // exposition only
 -----
 
-=== 相等比较
+=== 相等性比较
 
 ==== operator==
 ```c++
@@ -1537,10 +1543,10 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 ```
 
-若 `x.size() == y.size()` 且对于 `x` 中的每个等价键组，`y` 中都有相同键的组（使用 `operator==` 比较值类型）且该组是排列，则返回 `true`。
+若 `x.size() == y.size()` ，且对于 `x` 中的每个等效键组， `y` 中均存在一个对应相同键的组，且该组是原组的排列（使用 `operator==` 比较值类型），则返回 `true` 。
 
 [horizontal]
-备注：;; 若两个容器的等价谓词不等价，则行为未定义。
+备注;; 如果两个容器的相等性谓词不等价，则行为未定义。
 
 ---
 
@@ -1553,10 +1559,10 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 ```
 
-若 `x.size() == y.size()` 且对于 `x` 中的每个等价键组，`y` 中都有相同键的组（使用 `operator==` 比较值类型）且该组是排列，则返回 `false`。
+若 `x.size() != y.size()` ，或存在 `x` 中的某个等效键组，在 `y` 中不存在对应的相同键组，或该组不是原组的排列（使用 `operator==` 比较值类型），则返回 `false` 。
 
 [horizontal]
-备注：;; 若两个容器的等价谓词不等价，则行为未定义。
+备注;; 如果两个容器的相等性谓词不等价，则行为未定义。
 
 ---
 
@@ -1570,18 +1576,18 @@ template<class Key, class T, class Hash, class Pred, class Alloc>
 
 ```
 
-交换 `x` 和 `y` 的内容。
+交换 `x` 与 `y` 的内容。
 
-若声明了 `Allocator::propagate_on_container_swap` 且 `Allocator::propagate_on_container_swap::value` 为 `true`，则交换容器的分配器。否则，与不等价分配器交换会导致未定义行为。
+如果声明了 `Allocator::propagate++_++on++_++container++_++swap` 且 `Allocator::propagate++_++on++_++container++_++swap::value` 为 `true` ，则交换容器的分配器。则，在分配器不相等的情况下进行交换将导致未定义行为。
 
 [horizontal]
-效果：;; `x.swap(y)`
-抛出：;; 除非异常由 `key_equal` 或 `hasher` 的复制构造函数或复制赋值运算符抛出，否则不会抛出异常。
-备注：;; 异常规范与 C++11 标准不完全相同，因为等价谓词和哈希函数是使用其复制构造函数交换的。
+效果;; `x.swap(y)`
+抛出;; 除非异常由 `key++_++equal` 或 `hasher` 的复制构造函数或复制赋值运算符抛出，否则本操作不会抛出异常。
+备注;; 此处的异常规范与 C{plus}{plus}11 标准不完全一致，因为相等性谓词和哈希函数是通过其复制构造函数完成交换的。
 
 ---
 
-=== erase_if
+=== 条件擦除
 ```c++
 
 template<class K, class T, class H, class P, class A, class Predicate>
@@ -1590,11 +1596,11 @@ template<class K, class T, class H, class P, class A, class Predicate>
 
 ```
 
-遍历容器 `c` 并移除所有满足谓词 `pred` 返回 `true` 的元素。
+遍历容器 `c` ，并删除所有使提供的谓词返回 `true` 的元素。
 
 [horizontal]
-返回：;; 被擦除的元素数量。
-备注：;; 等效于：
+返回值;; 被擦除的元素数量。
+备注;; 等价于： +
 +
 ```c++
 
@@ -1610,43 +1616,43 @@ return original_size - c.size();
 
 ```
 +
-注意传递给 `pred` 的引用是非 const 的。
+请注意，传递给 `pred` 的引用是非常量的。
 
 === 序列化
 
-``unordered_multimap`` 可通过 link:../../../../../serialization/index.html[Boost.Serialization^] 使用本库提供的 API 进行归档/检索。支持常规归档和 XML 归档。
+`unordered++_++multimap` 可通过本库提供的 API，借助 link:../../../../../serialization/index.html[Boost.Serialization] 进行归档/检索。支持常规归档与 XML 归档两种格式。
 
-==== 将 unordered_multimap 保存到归档
+==== 将 unordered++_++multimap 保存到归档
 
-将 `unordered_multimap` `x` 的所有元素保存到归档（XML 归档）`ar` 中。
+将 `unordered++_++multimap` 容器 `x` 的所有元素保存到归档（XML 归档） `ar` 中。
 
 [horizontal]
-要求：;; `std::remove_const<key_type>::type` 和 `std::remove_const<mapped_type>::type` 可序列化（XML 可序列化），且支持 Boost.Serialization 的 `save_construct_data`/`load_construct_data` 协议（https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造^]类型自动支持）。
+要求;; `std::remove++_++const++<++key++_++type++>++::type` 和 `std::remove++_++const++<++mapped++_++type++>++::type` 必须满足可序列化要求（XML 可序列化），且需要支持 Boost.Serialization 的 `save++_++construct++_++data` / `load++_++construct++_++data` 协议（该协议自动支持 https://en.cppreference.com/w/cpp/named_req/DefaultConstructible[可默认构造] 要求）。
 
 ---
 
-==== 从归档加载 unordered_multimap
+==== 从归档加载 unordered++_++multimap
 
-删除 `unordered_multimap` `x` 的所有预先存在的元素，并从归档（XML 归档）`ar` 中插入原始 `unordered_multimap` `other` 保存到 `ar` 所读取存储中的元素的恢复副本。
+删除 `unordered++_++multimap` 容器 `x` 中的所有预先存在的元素，并从归档（XML 归档） `ar` 中插入原始 `unordered++_++multimap` 容器 `other` 的元素副本，这些副本是从 `ar` 所读取的存储中恢复的。
 
 [horizontal]
-要求：;; `value_type` 需满足从 `(std::remove_const<key_type>::type&&, std::remove_const<mapped_type>::type&&)` https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[就地构造^]。`x.key_equal()` 在功能上等价于 `other.key_equal()`。
-注意：;; 若归档使用 Boost 1.84 之前的版本保存，则必须全局定义配置宏 `BOOST_UNORDERED_ENABLE_SERIALIZATION_COMPATIBILITY_V0` 才能使此操作成功；否则将抛出异常。
+要求;; `value++_++type` 必须能够从 `(std::remove++_++const++<++key++_++type++>++::type&&, std::remove++_++const++<++mapped++_++type++>++::type&&)` 进行 https://en.cppreference.com/w/cpp/named_req/EmplaceConstructible[原地构造] ，且 `x.key++_++equal()` 需要在功能上等价于 `other.key++_++equal()` 。
+备注;; 若归档文件是使用 Boost 1.84 之前的版本保存的，则必须全局定义配置宏 `BOOST++_++UNORDERED++_++ENABLE++_++SERIALIZATION++_++COMPATIBILITY++_++V0` 才能成功执行此操作；否则将抛出异常。
 
 ---
 
 ==== 将迭代器/常量迭代器保存到归档
 
-将 `iterator`（`const_iterator`）`it` 的位置信息保存到归档（XML 归档）`ar` 中。`it` 可以是 `end()` 迭代器。
+将 `iterator` （ `const++_++iterator` ）常量迭代器 `it` 的位置信息保存到归档（XML 归档） `ar` 中。 `it` 可以是 `end()` 迭代器。
 
 [horizontal]
-要求：;; `it` 指向的 `unordered_multimap` `x` 先前已保存到 `ar`，且在保存 `x` 和保存 `it` 之间未对 `x` 发出修改操作。
+要求;; 由 `it` 所指向的 `unordered++_++multimap` `x` 必须先前已保存到 `ar` ，且在保存 `x` 与保存 `it` 期间不得对 `x` 执行任何修改操作。
 
 ---
 
 ==== 从归档加载迭代器/常量迭代器
 
-使 `iterator`（`const_iterator`）`it` 指向原始 `iterator`（`const_iterator`）的恢复位置（该位置已保存到 `ar` 读取的存储中）。
+使 `iterator` （ `const++_++iterator` ） `it` 指向原始 `iterator` （ `const++_++iterator` ）所恢复的位置。该原始迭代器已被保存到由归档（XML 归档） `ar` 读取的存储中。
 
 [horizontal]
-要求：;; 若 `x` 是 `it` 指向的 `unordered_multimap`，则在加载 `x` 和加载 `it` 之间未对 `x` 发出修改操作。
+要求;; 如果 `x` 是 `it` 所指向的 `unordered++_++multimap` 容器，则在加载 `x` 与加载 `it` 期间不得对 `x` 执行任何修改操作。

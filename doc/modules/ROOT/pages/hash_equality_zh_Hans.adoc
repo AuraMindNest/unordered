@@ -2,9 +2,9 @@
 
 :idprefix: hash_equality_
 
-= 相等谓词与哈希函数
+= 相等性谓词与哈希函数
 
-关联容器使用排序关系来指定元素的存储方式，而无序关联容器则使用相等谓词和哈希函数。例如，`xref:reference/unordered_map.adoc[boost::unordered_map]` 的声明如下：
+关联容器使用排序关系来规定元素的存储方式，而无序关联容器则依赖相等性谓词与哈希函数。例如， xref:reference/unordered_map.adoc[`boost::unordered++_++map`] 的声明如下：
 
 ```cpp
 
@@ -17,7 +17,7 @@ class unordered_map;
 
 ```
 
-哈希函数排在前面，因为您可能希望更改哈希函数但不更改相等谓词。例如，如果您想使用 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a 哈希^]，可以这样写：
+哈希函数之所以排在首位，是因为用户可能希望更改哈希函数而不改变相等性谓词。例如，若要使用 https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function#FNV-1a_hash[FNV-1a哈希] ，可以这样编写：
 
 ```cpp
 
@@ -26,9 +26,9 @@ boost::unordered_map<std::string, int, hash::fnv_1a>
 
 ```
 
-示例目录中提供了 link:../../../examples/fnv1.hpp[FNV-1a 的实现^]。
+示例目录中提供了 link:../../../examples/fnv1.hpp[FNV-1a的实现] 。
 
-如果希望使用不同的相等函数，则还需要使用匹配的哈希函数。例如，要实现不区分大小写的字典，需要定义不区分大小写的相等谓词和哈希函数：
+若需使用不同的相等性函数，则必须配套使用对应的哈希函数。例如，要实现不区分大小写的字典，就需要定义不区分大小写的相等性函数和配套的哈希函数：
 
 ```cpp
 
@@ -60,7 +60,7 @@ struct ihash
 
 ```
 
-然后可以在不区分大小写的字典中使用：
+随后可在不区分大小写的字典中使用它：
 ```cpp
 
 boost::unordered_map<std::string, int, ihash, iequal_to>
@@ -68,13 +68,13 @@ boost::unordered_map<std::string, int, ihash, iequal_to>
 
 ```
 
-这是 link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case_insensitive.hpp^] 中示例的简化版本，支持其他区域设置和字符串类型。
+这是位于 link:../../../examples/case_insensitive.hpp[/libs/unordered/examples/case++_++insensitive.hpp] 示例的简化版本，该版本支持其他区域设置和字符串类型。
 
-CAUTION: 使用相等运算符 (`==`) 与自定义相等谓词时要小心，尤其是在使用函数指针时。如果比较两个具有不同相等谓词的容器，结果是未定义的。对于大多数无状态函数对象，这不可能发生——因为只能使用相同相等谓词的对象进行比较，所以您知道相等谓词必须相同。但如果使用函数指针或有状态的相等谓词（例如 `boost::function`），则可能会遇到问题。
+CAUTION: 注意: 使用相等运算符（ `==` ）配合自定义相等性函数时需特别注意，尤其是在使用函数指针的情况下。若比较两个使用不同相等性函数的容器，将导致未定义行为。对于大多数无状态的函数对象而言，不可能发生这种结果——因为只有当两个容器使用相同的相等性函数时才能进行比较，此时可确保相等性函数是一致的。但若使用函数指针或带状态的相等性函数（例如 `boost::function` ），则可能引发问题。
 
 == 自定义类型
 
-同样，自定义哈希函数可用于自定义类型：
+类似地，自定义类型也可使用自定义哈希函数：
 
 ```cpp
 
@@ -103,7 +103,7 @@ boost::unordered_multiset<point, point_hash> points;
 
 ```
 
-由于默认哈希函数是 link:../../../../container_hash/index.html[Boost.Hash^]，我们可以扩展它以支持该类型，从而无需显式指定哈希函数：
+鉴于 link:../../../../container_hash/index.html[Boost.Hash] 是默认的哈希函数，我们只需让自定义类型兼容 Boost.Hash，即可免于显式指定哈希函数。
 
 ```cpp
 
@@ -129,17 +129,17 @@ boost::unordered_multiset<point> points;
 
 ```
 
-有关如何执行此操作的更多详细信息，请参阅 link:../../../../container_hash/index.html[Boost.Hash 文档^]。请记住，它依赖于对标准的扩展——因此它不适用于无序关联容器的其他实现，您需要显式使用 Boost.Hash。
+详见 link:../../../../container_hash/index.html[Boost.Hash 文档] 了解具体实现方式。请注意该实现依赖于对标准的扩展功能，因此不适用于其他版本的无序关联容器实现——您需要显式使用 Boost.Hash 才能获得此功能。
 
 [caption=",",  title='Table {counter:table-counter} Methods for accessing the hash and equality functions']
 [cols="1,.^1", frame=all,,  grid=rows]
 |===
 |方法 |描述
 
-|`hasher hash_function() const`
+|`hasher hash++_++function() const`
 |返回容器的哈希函数。
 
-|`key_equal key_eq() const`
-|返回容器的键相等函数。
+|`key++_++equal key++_++eq() const`
+|返回容器的键相等性函数。
 
 |===

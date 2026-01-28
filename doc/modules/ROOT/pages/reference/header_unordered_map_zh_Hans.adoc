@@ -1,9 +1,9 @@
 [#header_unordered_map]
-== `<boost/unordered/unordered_map.hpp>` 概要
+== `++<++boost/unordered/unordered++_++map.hpp++>++` 概要
 
 :idprefix: header_unordered_map_
 
-定义 `xref:reference/unordered_map.adoc#unordered_map[boost::unordered_map]`、`xref:reference/unordered_multimap.adoc#unordered_multimap[boost::unordered_multimap]` 以及相关函数和别名模板。
+定义 xref:reference/unordered_map.adoc#unordered_map[`boost::unordered++_++map`] 、 xref:reference/unordered_multimap.adoc#unordered_multimap[`boost::unordered++_++multimap`] 以及相关函数和别名模板。
 
 [listing, subs="+macros,+quotes"]
 -----
@@ -84,10 +84,10 @@ namespace unordered {
         std::pmr::polymorphic_allocator<std::pair<const Key, T>>>;
   } // 命名空间 pmr
 
-} // namespace unordered
+} // 命名空间 unordered
 
 using unordered::unordered_map;
 using unordered::unordered_multimap;
 
-} // namespace boost
+} // 命名空间 boost
 -----
